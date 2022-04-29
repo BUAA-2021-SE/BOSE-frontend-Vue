@@ -1,4 +1,4 @@
-# front_end
+# BOSE-frontend
 
 ## Project setup
 ```
