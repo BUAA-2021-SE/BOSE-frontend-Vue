@@ -17,3 +17,16 @@ pnpm run build
 
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
+
+
+
+**front end of BUAA-SE-2022 BOSE** 
+
+contributor：
+
+- [LLLeo Li](https://github.com/LLLeoLi)
+
+- [echo17666](https://github.com/echo17666)
+
+
+
