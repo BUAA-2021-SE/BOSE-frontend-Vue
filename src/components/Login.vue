@@ -9,7 +9,7 @@
 <script>
 import axios from "axios"
 import Alert from "./Alert.vue"
-import store from "store.js"
+import store from "../store.js"
 export default {
     name:'Login',
     components: {
