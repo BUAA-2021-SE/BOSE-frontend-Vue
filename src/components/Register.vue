@@ -2,22 +2,24 @@
   <div class="container">
     <h1>Register</h1>
     <div class="row">
+    <!-- 每行最多12列，栅格等级为中 -->
       <div class="col-md-4">
         <form @submit.prevent="onSubmit">
           <div class="form-group">
+          <!-- 指定所属表单 -->
             <label for="username">Username</label>
-            <input type="text" v-model="registerForm.username" class="form-control" v-bind:class="{'is-invalid': registerForm.usernameError}" id="username" placeholder="">
+            <input type="text" v-model="registerForm.username" class="form-control" :class="{'is-invalid': registerForm.usernameError}" id="username" placeholder="Username">
             <div v-show="registerForm.usernameError" class="invalid-feedback">{{ registerForm.usernameError }}</div>
           </div>
           <div class="form-group">
             <label for="email">Email address</label>
-            <input type="email" v-model="registerForm.email" class="form-control" v-bind:class="{'is-invalid': registerForm.emailError}" id="email" aria-describedby="emailHelp" placeholder="">
+            <input type="email" v-model="registerForm.email" class="form-control" :class="{'is-invalid': registerForm.emailError}" id="email" aria-describedby="emailHelp" placeholder="Email address">
             <small v-if="!registerForm.emailError" id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
             <div v-show="registerForm.emailError" class="invalid-feedback">{{ registerForm.emailError }}</div>
           </div>
           <div class="form-group">
             <label for="password">Password</label>
-            <input type="password" v-model="registerForm.password" class="form-control" v-bind:class="{'is-invalid': registerForm.passwordError}" id="password" placeholder="">
+            <input type="password" v-model="registerForm.password" class="form-control" :class="{'is-invalid': registerForm.passwordError}" id="password" placeholder="Password">
             <div v-show="registerForm.passwordError" class="invalid-feedback">{{ registerForm.passwordError }}</div>
           </div>
           <button type="submit" class="btn btn-primary">Register</button>
@@ -87,13 +89,14 @@ export default {
         password: this.registerForm.password
       }
       axios.post(path, payload)
-        .then((response) => {
+        .then((res) => {
+          console.log(res)
           // handle success
           this.$router.push('/login')
         })
         .catch((error) => {
           // handle error
-          for (var field in error.response.data.message) {
+          for (let field in error.response.data.message) {
             if (field == 'username') {
               this.registerForm.usernameError = error.response.data.message.username
             } else if (field == 'email') {
@@ -105,7 +108,7 @@ export default {
         })
     },
     validEmail: function (email) {
-      var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+      let re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
       return re.test(email);
     }
   }
