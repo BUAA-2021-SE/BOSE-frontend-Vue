@@ -33,13 +33,13 @@ const router = new VueRouter({
       component: Register
     },
     {
-      path: '/profile',
+      path: '/user/:id',
       name:'Profile',
       component: Profile,
       meta: {
         requiresAuth: true
       }
-    }
+    },
   ]
 })
 // https://router.vuejs.org/zh/guide/advanced/navigation-guards.html
