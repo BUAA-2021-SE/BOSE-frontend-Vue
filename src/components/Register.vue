@@ -50,7 +50,7 @@ export default {
     }
   },
   methods: {
-    onSubmit (e) {
+    onSubmit () {
       this.registerForm.submitted = true  // 先更新状态
       this.registerForm.errors = 0
 
@@ -83,7 +83,6 @@ export default {
         return false
       }
 
-      const path = 'http://43.138.58.36:8000/users/regester'
       const payload = new FormData();
       payload.append('user_name',this.registerForm.username);
       payload.append('password',this.registerForm.password);

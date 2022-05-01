@@ -23,6 +23,11 @@ export class Account {
             },
             responseType: 'json',
             data: data
+        },{
+            auth:{
+                username:data.get('username'),
+                password:data.get('password')
+            }
         })
     }
 }

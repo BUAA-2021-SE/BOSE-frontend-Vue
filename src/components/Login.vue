@@ -1,58 +1,34 @@
 <template>
   <div class="container">
-    <alert
+    <alert 
       v-if="sharedState.is_new"
-      :variant="alertVariant"
-      :message="alertMessage"
-    ></alert>
-    <h1>Sign in</h1>
+      v-bind:variant="alertVariant"
+      v-bind:message="alertMessage">
+    </alert>
+    <h1>Sign In</h1>
     <div class="row">
       <div class="col-md-4">
         <form @submit.prevent="onSubmit">
           <div class="form-group">
             <label for="username">Username</label>
-            <input
-              type="text"
-              v-model="loginForm.username"
-              class="form-control"
-              v-bind:class="{'is-invalid': loginForm.usernameError}"
-              id="username"
-              placeholder=""
-            >
-            <div
-              v-show="loginForm.usernameError"
-              class="invalid-feedback"
-            >{{ loginForm.usernameError }}</div>
+            <input type="text" v-model="loginForm.username" class="form-control" :class="{'is-invalid': loginForm.usernameError}" id="username" placeholder="">
+            <div v-show="loginForm.usernameError" class="invalid-feedback">{{ loginForm.usernameError }}</div>
           </div>
           <div class="form-group">
             <label for="password">Password</label>
-            <input
-              type="password"
-              v-model="loginForm.password"
-              class="form-control"
-              v-bind:class="{'is-invalid': loginForm.passwordError}"
-              id="password"
-              placeholder=""
-            >
-            <div
-              v-show="loginForm.passwordError"
-              class="invalid-feedback"
-            >{{ loginForm.passwordError }}</div>
+            <input type="password" v-model="loginForm.password" class="form-control" :class="{'is-invalid': loginForm.passwordError}" id="password" placeholder="">
+            <div v-show="loginForm.passwordError" class="invalid-feedback">{{ loginForm.passwordError }}</div>
           </div>
-          <button
-            type="submit"
-            class="btn btn-primary"
-          >Sign In</button>
+          <button type="submit" class="btn btn-primary">Sign In</button>
         </form>
       </div>
-      <br>
-      <p>New User? <router-link to="/register">Click to Register!</router-link>
-      </p>
-      <p>
+    </div>
+    <br>
+    <p>New User? <router-link to="/register">Click to Register!</router-link></p>
+    <p>
         Forgot Your Password?
         <a href="#">Click to Reset It</a>
-      </p>
-    </div>
+    </p>
   </div>
 </template>
 
@@ -60,6 +36,7 @@
 import axios from "axios";
 import Alert from "./Alert.vue";
 import store from "../store";
+import {Account} from "@/api/account.js"
 export default {
   name: "Login",
   components: {
@@ -81,7 +58,7 @@ export default {
     };
   },
   methods: {
-    onSubmit(e) {
+    onSubmit() {
       this.loginForm.submitted = true;
       if (!this.loginForm.username) {
         this.loginForm.errors++;
@@ -99,18 +76,11 @@ export default {
         // 表单验证没通过时，不继续往下执行，即不会通过 axios 调用后端API
         return false;
       }
-      const path = "http://localhost:5000/api/tokens";
       // axios 实现Basic Auth需要在config中设置 auth 这个属性即可
-      axios
-        .post(
-          path,{},
-          {
-            auth: {
-              username: this.loginForm.username,
-              password: this.loginForm.password,
-            },
-          }
-        )
+      const payload = new FormData(); 
+      payload.append('username',this.loginForm.username);
+      payload.append('password',this.loginForm.password);
+        Account.Login(payload)
         .then((response) => {
           // handle success
           window.localStorage.setItem("token", response.data.token);
@@ -124,7 +94,7 @@ export default {
         })
         .catch((error) => {
           // handle error
-          if (error.response.status == 401) {
+          if (error.response.status == 404|| error.response.status ==401) {
             this.loginForm.usernameError = "Invalid username or password.";
             this.loginForm.passwordError = "Invalid username or password.";
           } else {

@@ -1,53 +1,124 @@
 <template>
-  <nav class="navbar navbar-expand-lg navbar-light bg-light" style="margin-bottom: 20px;">
+  <nav
+    class="navbar navbar-expand-lg navbar-light bg-light"
+    style="margin-bottom: 20px;"
+  >
     <div class="container">
-    <!-- 用routerlink包裹实现路由跳转而非href -->
-      <router-link to="/" class="navbar-brand">
-        <img src="../assets/logo.png" width="30" height="30" class="d-inline-block align-top" alt="">
-          BOSE 
+      <!-- 用routerlink包裹实现路由跳转而非href -->
+      <router-link
+        to="/"
+        class="navbar-brand"
+      >
+        <img
+          src="../assets/logo.png"
+          width="30"
+          height="30"
+          class="d-inline-block align-top"
+          alt=""
+        >
+        BOSE
       </router-link>
       <!-- navbar-toggler是切换触发器，进行移动端适配 
       下面这个div里的内容都是#navbarSupportedContent-->
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-toggle="collapse"
+        data-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
         <span class="navbar-toggler-icon"></span>
       </button>
-  <!-- collapse作为折叠面板属性 -->
-  <div class="collapse navbar-collapse" id="navbarSupportedContent">
-  <!-- mr-auto 和 ml-auto 用于强制隔离两边的距离，实现类水平隔离效果 -->
-  <!-- 使用xs的{property}{sides}-{size} 和sm, md, lg,和 xl的 {property}{sides}-{breakpoint}-{size}格式命名 -->
-  <!-- mt-2:用于间距处理, margin-top设置为 $spacer * .5  -1 *.25 -3 *1 -4 * 1.5 -5 *3 -->
-  <!-- x - 对于同时设置*-left和*-right的类  y - 对于同时设置*-top和*-bottom的类 blank - 用于在元素的所有4个边上设置margin或padding的类-->
+      <!-- collapse作为折叠面板属性 -->
+      <div
+        class="collapse navbar-collapse"
+        id="navbarSupportedContent"
+      >
+        <!-- mr-auto 和 ml-auto 用于强制隔离两边的距离，实现类水平隔离效果 -->
+        <!-- 使用xs的{property}{sides}-{size} 和sm, md, lg,和 xl的 {property}{sides}-{breakpoint}-{size}格式命名 -->
+        <!-- mt-2:用于间距处理, margin-top设置为 $spacer * .5  -1 *.25 -3 *1 -4 * 1.5 -5 *3 -->
+        <!-- x - 对于同时设置*-left和*-right的类  y - 对于同时设置*-top和*-bottom的类 blank - 用于在元素的所有4个边上设置margin或padding的类-->
         <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
           <li class="nav-item active">
-            <router-link to="/" class="nav-link">Home <span class="sr-only">(current)</span></router-link>
+            <router-link
+              to="/"
+              class="nav-link"
+            >Home <span class="sr-only">(current)</span></router-link>
           </li>
           <li class="nav-item">
-            <a class="nav-link disabled" href="#">Explore</a>
+            <a
+              class="nav-link disabled"
+              href="#"
+            >Explore</a>
           </li>
         </ul>
-        <form class="form-inline navbar-left mr-auto">
-          <input class="form-control mr-sm-2" type="search" placeholder="Search">
+        <form v-if="sharedState.is_authenticated" class="form-inline navbar-left mr-auto">
+          <input
+            class="form-control mr-sm-2"
+            type="search"
+            placeholder="Search"
+          >
           <!-- 暂时先禁止提交，后续实现搜索再改回 type="submit" -->
-          <button class="btn btn-outline-success my-2 my-sm-0" type="button">Search</button>
+          <button
+            class="btn btn-outline-success my-2 my-sm-0"
+            type="button"
+          >Search</button>
         </form>
-        <ul class="nav navbar-nav navbar-right">          
+        <ul
+          v-if="sharedState.is_authenticated"
+          class="nav navbar-nav navbar-right"
+        >
           <li class="nav-item">
-            <a class="nav-link disabled" href="#">Messages</a>
+            <a
+              class="nav-link disabled"
+              href="#"
+            >Messages</a>
           </li>
           <li class="nav-item">
-            <router-link to="/profile" class="nav-link">Profile</router-link>
+            <router-link
+              to="/profile"
+              class="nav-link"
+            >Profile</router-link>
           </li>
           <li class="nav-item">
-            <router-link to="/login" class="nav-link">Login</router-link>
+            <a
+              @click="handlerLogout"
+              class="nav-link"
+              href="#"
+            >Logout</a>
+          </li>
+        </ul>
+        <ul
+          v-else
+          class="nav navbar-nav navbar-right"
+        >
+          <li class="nav-item">
+            <router-link
+              to="/login"
+              class="nav-link"
+            >Login</router-link>
           </li>
         </ul>
       </div>
     </div>
   </nav>
 </template>
-
 <script>
+import store from '../store.js'
 export default {
-  name: 'Navbar'  
-}
+  name: "Navbar",
+  data() {
+    return {
+      sharedState: store.state,
+    };
+  },
+  methods: {
+    handlerLogout() {
+      store.logoutAction();
+      this.$router.push("/login");
+    },
+  },
+};
 </script>
