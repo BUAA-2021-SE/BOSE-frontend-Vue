@@ -31,7 +31,8 @@
 
 <script>
 import axios from 'axios'
-
+import store from '../store'
+import {Account} from '@/api/account.js'
 export default {
   name: 'Register', //this is the name of the component
   data () {
@@ -82,29 +83,30 @@ export default {
         return false
       }
 
-      const path = 'http://localhost:5000/api/users'
-      const payload = {
-        username: this.registerForm.username,
-        email: this.registerForm.email,
-        password: this.registerForm.password
-      }
-      axios.post(path, payload)
+      const path = 'http://43.138.58.36:8000/users/regester'
+      const payload = new FormData();
+      payload.append('user_name',this.registerForm.username);
+      payload.append('password',this.registerForm.password);
+      payload.append('email',this.registerForm.email);
+      console.log(payload.get('email'));
+      Account.Register(payload)
         .then((res) => {
-          console.log(res)
-          // handle success
-          this.$router.push('/login')
+          console.log(res);
+          store.setNewAction();
+          this.$router.push('/login');
         })
         .catch((error) => {
           // handle error
-          for (let field in error.response.data.message) {
-            if (field == 'username') {
-              this.registerForm.usernameError = error.response.data.message.username
-            } else if (field == 'email') {
-              this.registerForm.emailError = error.response.data.message.email
-            } else if (field == 'password') {
-              this.registerForm.passwordError = error.response.data.message.password
-            }
-          }
+          // for (let field in error.response.data.message) {
+          //   if (field == 'username') {
+          //     this.registerForm.usernameError = error.response.data.message.username
+          //   } else if (field == 'email') {
+          //     this.registerForm.emailError = error.response.data.message.email
+          //   } else if (field == 'password') {
+          //     this.registerForm.passwordError = error.response.data.message.password
+          //   }
+          // }
+          console.log(error);
         })
     },
     validEmail: function (email) {
