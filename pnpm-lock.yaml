@@ -13,6 +13,7 @@ specifiers:
   vue: ^2.6.11
   vue-router: ^3.2.0
   vue-template-compiler: ^2.6.11
+  vue-toasted: ^1.1.28
   vuex: ^3.4.0
 
 dependencies:
@@ -21,6 +22,7 @@ dependencies:
   core-js: registry.npmmirror.com/core-js/3.22.3
   vue: registry.npmmirror.com/vue/2.6.14
   vue-router: registry.npmmirror.com/vue-router/3.5.3
+  vue-toasted: registry.npmmirror.com/vue-toasted/1.1.28
   vuex: registry.npmmirror.com/vuex/3.6.2_vue@2.6.14
 
 devDependencies:
@@ -10175,6 +10177,12 @@ packages:
     name: vue-template-es2015-compiler
     version: 1.9.1
     dev: true
+
+  registry.npmmirror.com/vue-toasted/1.1.28:
+    resolution: {integrity: sha512-UUzr5LX51UbbiROSGZ49GOgSzFxaMHK6L00JV8fir/CYNJCpIIvNZ5YmS4Qc8Y2+Z/4VVYRpeQL2UO0G800Raw==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/vue-toasted/-/vue-toasted-1.1.28.tgz}
+    name: vue-toasted
+    version: 1.1.28
+    dev: false
 
   registry.npmmirror.com/vue/2.6.14:
     resolution: {integrity: sha512-x2284lgYvjOMj3Za7kqzRcUSxBboHqtgRE2zlos1qWaOye5yUmHn42LB1250NJBLRwEcdrB0JRwyPTEPhfQjiQ==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/vue/-/vue-2.6.14.tgz}
