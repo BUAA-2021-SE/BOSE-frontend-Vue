@@ -82,13 +82,17 @@ export default {
         return false
       }
 
-      const path = 'http://localhost:5000/api/users'
+      const path = 'http://localhost:8000/users/regester'
       const payload = {
-        username: this.registerForm.username,
+        user_name: this.registerForm.username,
         email: this.registerForm.email,
         password: this.registerForm.password
       }
-      axios.post(path, payload)
+      let formdata = new FormData();
+      formdata.append('user_name', this.registerForm.username);
+      formdata.append('email', this.registerForm.email);
+      formdata.append('password', this.registerForm.password);
+      axios.post(path, formdata)
         .then((res) => {
           console.log(res)
           // handle success
@@ -96,15 +100,17 @@ export default {
         })
         .catch((error) => {
           // handle error
-          for (let field in error.response.data.message) {
-            if (field == 'username') {
-              this.registerForm.usernameError = error.response.data.message.username
-            } else if (field == 'email') {
-              this.registerForm.emailError = error.response.data.message.email
-            } else if (field == 'password') {
-              this.registerForm.passwordError = error.response.data.message.password
-            }
-          }
+          console.log("123")
+          console.log(error.detail)
+          // for (let field in error.response.data.message) {
+          //   if (field == 'username') {
+          //     this.registerForm.usernameError = error.response.data.message.username
+          //   } else if (field == 'email') {
+          //     this.registerForm.emailError = error.response.data.message.email
+          //   } else if (field == 'password') {
+          //     this.registerForm.passwordError = error.response.data.message.password
+          //   }
+          // }
         })
     },
     validEmail: function (email) {
