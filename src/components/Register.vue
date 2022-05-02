@@ -22,7 +22,15 @@
             <input type="password" v-model="registerForm.password" class="form-control" :class="{'is-invalid': registerForm.passwordError}" id="password" placeholder="Password">
             <div v-show="registerForm.passwordError" class="invalid-feedback">{{ registerForm.passwordError }}</div>
           </div>
-          <button type="submit" class="btn btn-primary">Register</button>
+          <button type="submit" class="btn btn-primary" v-show="!this.showIDCode">Get IDCode</button>
+
+           <div class="form-group" v-show="this.showIDCode">
+            <label for="text">IDCode</label>
+            <input type="text" v-model="registerForm.idcode" class="form-control" :class="{'is-invalid': registerForm.idcodeError}" id="idcode" placeholder="IDCode">
+            <div v-show="registerForm.idcodeError" class="invalid-feedback">{{ registerForm.idcodeError }}</div>
+          </div>
+          <button type="submit" class="btn btn-primary" v-show="this.showIDCode">Register</button>
+
         </form>
       </div>
     </div>
@@ -35,24 +43,29 @@ import {Account} from '@/api/account.js'
 export default {
   name: 'Register', //this is the name of the component
   data () {
+    
     return {
+      showIDCode:false,
       registerForm: {
         username: '',
         email: '',
         password: '',
+        idcode:'',
         submitted: false,  // 是否点击了 submit 按钮
         errors: 0,  // 表单是否在前端验证通过，0 表示没有错误，验证通过
         usernameError: null,
         emailError: null,
-        passwordError: null
-      }
+        passwordError: null,
+        idcodeError: null
+      },
+     
     }
   },
   methods: {
     onSubmit () {
       this.registerForm.submitted = true  // 先更新状态
       this.registerForm.errors = 0
-
+      
       if (!this.registerForm.username) {
         this.registerForm.errors++
         this.registerForm.usernameError = 'Username required.'
@@ -81,32 +94,61 @@ export default {
         // 表单验证没通过时，不继续往下执行，即不会通过 axios 调用后端API
         return false
       }
+      
 
       const payload = new FormData();
       payload.append('username',this.registerForm.username);
       payload.append('password',this.registerForm.password);
       payload.append('email',this.registerForm.email);
+      if(this.showIDCode == true) {
+        payload.append('idcode',this.registerForm.idcode);
+      }
       console.log(payload.get('email'));
+      if(this.showIDCode == true){
+        Account.RegisterCheck(payload)
+        .then((res) => {
+          console.log(res);
+          store.setNewAction();
+           this.$router.push('/login');
+          
+        })
+        .catch((error) => {
+          for (let field in error.response.data.message) {
+            if (field == 'username') {
+              this.registerForm.usernameError = error.response.data.message.username
+            } else if (field == 'email') {
+              this.registerForm.emailError = error.response.data.message.email
+            } else if (field == 'password') {
+              this.registerForm.passwordError = error.response.data.message.password
+            }
+          }
+          console.log(error);
+        })
+      }
+      else{
       Account.Register(payload)
         .then((res) => {
           console.log(res);
           store.setNewAction();
-          this.$router.push('/login');
+          // this.$router.push('/login');
+          this.showIDCode= true;
         })
         .catch((error) => {
-          // handle error
-          // for (let field in error.response.data.message) {
-          //   if (field == 'username') {
-          //     this.registerForm.usernameError = error.response.data.message.username
-          //   } else if (field == 'email') {
-          //     this.registerForm.emailError = error.response.data.message.email
-          //   } else if (field == 'password') {
-          //     this.registerForm.passwordError = error.response.data.message.password
-          //   }
-          // }
+          for (let field in error.response.data.message) {
+            if (field == 'username') {
+              this.registerForm.usernameError = error.response.data.message.username
+            } else if (field == 'email') {
+              this.registerForm.emailError = error.response.data.message.email
+            } else if (field == 'password') {
+              this.registerForm.passwordError = error.response.data.message.password
+            }
+          }
           console.log(error);
+          console.log(this.showIDCode);
         })
+      }
     },
+    
     validEmail: function (email) {
       let re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
       return re.test(email);
