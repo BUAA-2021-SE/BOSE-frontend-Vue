@@ -1,7 +1,8 @@
 import axios from 'axios'
 import store from '../store.js'
 const service = axios.create({
-    baseURL: 'http://43.138.58.36:8000/',
+    // baseURL: 'http://43.138.58.36:8000/',
+    baseURL: 'http://localhost:8000/',
     timeout: 5000
 });
 service.interceptors.request.use(function (config) {

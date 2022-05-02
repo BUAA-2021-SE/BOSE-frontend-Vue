@@ -83,7 +83,7 @@ export default {
       }
 
       const payload = new FormData();
-      payload.append('user_name',this.registerForm.username);
+      payload.append('username',this.registerForm.username);
       payload.append('password',this.registerForm.password);
       payload.append('email',this.registerForm.email);
       console.log(payload.get('email'));
