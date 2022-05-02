@@ -60,12 +60,13 @@
             type="search"
             placeholder="Search"
           >
-          <!-- 暂时先禁止提交，后续实现搜索再改回 type="submit" -->
+          <!-- 暂时先禁止提交，后续实现搜索再改回 type="submit"
           <button
             class="btn btn-outline-success my-2 my-sm-0"
             type="button"
-          >Search</button>
+          >Search</button> -->
         </form>
+        <!-- 已经通过身份认证了才能展示message和profile等信息,才可以logout -->
         <ul
           v-if="sharedState.is_authenticated"
           class="nav navbar-nav navbar-right"
