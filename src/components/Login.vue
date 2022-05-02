@@ -2,8 +2,8 @@
   <div class="container">
     <alert 
       v-if="sharedState.is_new"
-      v-bind:variant="alertVariant"
-      v-bind:message="alertMessage">
+      :variant="alertVariant"
+      :message="alertMessage">
     </alert>
     <h1>Sign In</h1>
     <div class="row">
@@ -95,6 +95,7 @@ export default {
         .catch((error) => {
           // handle error
           if (error.response.status ==401) {
+            console.log("test");
             this.loginForm.usernameError = "Invalid username or password.";
             this.loginForm.passwordError = "Invalid username or password.";
           } else {

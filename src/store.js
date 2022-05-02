@@ -3,7 +3,7 @@ export default {
     state: {
         is_new: false,
         is_authenticated: window.localStorage.getItem('token') ? true : false,
-        user_id: window.localStorage.getItem('token') ? JSON.parse(toString(window.localStorage.getItem('token').split('.')[1])).user_id : 0
+        user_id: window.localStorage.getItem('token') ? JSON.parse(window.localStorage.getItem('token').split('$$$')[1]) : 0
     },
     setNewAction() {
         if (this.debug) {
@@ -22,7 +22,7 @@ export default {
             console.log("loginAction triggered");
         }
         this.state.is_authenticated = true
-        this.state.user_id = JSON.parse(toString(window.localStorage.getItem('token').split('.')[1])).user_id
+        this.state.user_id = JSON.parse(window.localStorage.getItem('token').split('$$$')[1])
     },
     logoutAction() {
         if (this.debug) {

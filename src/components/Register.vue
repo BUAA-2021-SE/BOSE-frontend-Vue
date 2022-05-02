@@ -102,9 +102,6 @@ export default {
       payload.append('email',this.registerForm.email);
       if(this.showIDCode == true) {
         payload.append('idcode',this.registerForm.idcode);
-      }
-      // console.log(payload.get('email'));
-      if(this.showIDCode == true){
         Account.RegisterCheck(payload)
         .then((res) => {
           console.log(res);
