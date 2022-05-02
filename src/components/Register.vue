@@ -103,7 +103,7 @@ export default {
       if(this.showIDCode == true) {
         payload.append('idcode',this.registerForm.idcode);
       }
-      console.log(payload.get('email'));
+      // console.log(payload.get('email'));
       if(this.showIDCode == true){
         Account.RegisterCheck(payload)
         .then((res) => {
@@ -113,13 +113,17 @@ export default {
           
         })
         .catch((error) => {
-          for (let field in error.response.data.message) {
+          console.log(error.data);
+          for (let field in error.response.data.detail) {
             if (field == 'username') {
-              this.registerForm.usernameError = error.response.data.message.username
+              this.registerForm.usernameError = error.response.data.detail.username
             } else if (field == 'email') {
-              this.registerForm.emailError = error.response.data.message.email
+              this.registerForm.emailError = error.response.data.detail.email
             } else if (field == 'password') {
-              this.registerForm.passwordError = error.response.data.message.password
+              this.registerForm.passwordError = error.response.data.detail.password
+            }
+            else if (field == 'identifying_code') {
+              this.registerForm.idcodeError = error.response.data.detail.identifying_code
             }
           }
           console.log(error);
@@ -128,23 +132,23 @@ export default {
       else{
       Account.Register(payload)
         .then((res) => {
-          console.log(res);
+          console.log(res.detail,"111");
           store.setNewAction();
           // this.$router.push('/login');
           this.showIDCode= true;
         })
         .catch((error) => {
-          for (let field in error.response.data.message) {
+          for (let field in error.response.data.detail) {
             if (field == 'username') {
-              this.registerForm.usernameError = error.response.data.message.username
+              this.registerForm.usernameError = error.response.data.detail.username
             } else if (field == 'email') {
-              this.registerForm.emailError = error.response.data.message.email
+              this.registerForm.emailError = error.response.data.detail.email
             } else if (field == 'password') {
-              this.registerForm.passwordError = error.response.data.message.password
+              this.registerForm.passwordError = error.response.data.detail.password
             }
           }
           console.log(error);
-          console.log(this.showIDCode);
+          console.log(error.response.data,"123");
         })
       }
     },
