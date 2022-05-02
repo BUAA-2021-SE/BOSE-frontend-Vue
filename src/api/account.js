@@ -2,7 +2,7 @@ import service from '@/http/request.js'
 
 const url = {
     register:'/users/register',
-    login:'/users/tokens',
+    login:'/login',
     registercheck:'/users/register_check',
 }
 export class Account {
