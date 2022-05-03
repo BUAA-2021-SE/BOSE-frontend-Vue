@@ -54,7 +54,7 @@ export default {
                 console.error(err);
             })
         },
-        onSubmit(e){
+        onSubmit(){
             const formData = new FormData();
             formData.append('name',this.profileForm.name);
             formData.append('location',this.profileForm.location);
@@ -74,7 +74,8 @@ export default {
         },
     },
     created(){
-        this.getUserDetail(this.sharedState.user_id);
+      console.log(this.sharedState.user_id,"123")
+      this.getUserDetail(this.sharedState.user_id);
     }
 }
 </script>
