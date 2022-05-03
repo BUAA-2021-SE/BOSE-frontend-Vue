@@ -4,6 +4,7 @@ import router from './router'
 import store from './store'
 import VueToasted  from 'vue-toasted'
 import moment from 'moment'
+import * as echarts from 'echarts';
 import 'bootstrap/dist/css/bootstrap.css'
 import './assets/icon-line/css/simple-line-icons.css'
 import './assets/icon-material/material-icons.css'
@@ -11,6 +12,9 @@ import './assets/icon-material/material-icons.css'
 Vue.config.productionTip = false
 // 使用moment.js库将后端UTC时间格式化成本地时间
 Vue.prototype.$moment = moment
+
+Vue.prototype.$echarts = echarts
+
 Vue.use(VueToasted, {
   // 主题样式 primary/outline/bubble
   theme: 'outline',
