@@ -11,7 +11,7 @@
 
 <script>
 import Alert from './Alert'
-
+import store from '../store.js'
 export default {
   name: 'Home',  
   components: {
@@ -23,17 +23,17 @@ export default {
         {
           showAlert: true,
           alertVariant: 'danger',
-          alertMessage: 0
+          alertMessage: 'sign in 写完了'
         },
         {
           showAlert: true,
           alertVariant: 'info',
-          alertMessage: 1
+          alertMessage: 'register 也写完了'
         },
         {
           showAlert: true,
           alertVariant: 'dark',
-          alertMessage: 2
+          alertMessage: 'Profile初步完工'
         }
       ]
     }

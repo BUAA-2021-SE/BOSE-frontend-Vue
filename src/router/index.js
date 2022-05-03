@@ -5,6 +5,7 @@ import Login from '@/components/Login'
 import Register from '@/components/Register'
 import Profile from '@/components/Profile'
 import Ping from '@/components/Ping'
+import EditProfile from '@/components/EditProfile'
 Vue.use(VueRouter)
 const router = new VueRouter({
   routes:[
@@ -40,6 +41,14 @@ const router = new VueRouter({
         requiresAuth: true
       }
     },
+    {
+      path:'/user/:id/edit',
+      name:'EditProfile',
+      component:EditProfile,
+      meta: {
+        requiresAuth: true
+      }    
+    }
   ]
 })
 // https://router.vuejs.org/zh/guide/advanced/navigation-guards.html
