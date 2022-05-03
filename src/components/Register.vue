@@ -4,7 +4,7 @@
     <div class="row">
     <!-- 每行最多12列，栅格等级为中 -->
       <div class="col-md-4">
-        <form @submit.prevent="onSubmit">
+        <form >
           <div class="form-group">
           <!-- 指定所属表单 -->
             <label for="username">Username</label>
@@ -22,14 +22,14 @@
             <input type="password" v-model="registerForm.password" class="form-control" :class="{'is-invalid': registerForm.passwordError}" id="password" placeholder="Password">
             <div v-show="registerForm.passwordError" class="invalid-feedback">{{ registerForm.passwordError }}</div>
           </div>
-          <button type="submit" class="btn btn-primary" v-show="!this.showIDCode">Get IDCode</button>
+          <button class="btn btn-primary" @click="getIDCode">Get IDCode</button>
 
            <div class="form-group" v-show="this.showIDCode">
             <label for="text">IDCode</label>
             <input type="text" v-model="registerForm.idcode" class="form-control" :class="{'is-invalid': registerForm.idcodeError}" id="idcode" placeholder="IDCode">
             <div v-show="registerForm.idcodeError" class="invalid-feedback">{{ registerForm.idcodeError }}</div>
           </div>
-          <button type="submit" class="btn btn-primary" v-show="this.showIDCode">Register</button>
+          <button class="btn btn-primary" v-show="this.showIDCode" @click="register">Register</button>
 
         </form>
       </div>
@@ -62,7 +62,7 @@ export default {
     }
   },
   methods: {
-    onSubmit () {
+    register () {
       this.registerForm.submitted = true  // 先更新状态
       this.registerForm.errors = 0
       
@@ -100,13 +100,13 @@ export default {
       payload.append('username',this.registerForm.username);
       payload.append('password',this.registerForm.password);
       payload.append('email',this.registerForm.email);
-      if(this.showIDCode == true) {
+
         payload.append('idcode',this.registerForm.idcode);
         Account.RegisterCheck(payload)
         .then((res) => {
           console.log(res);
-          store.setNewAction();
            this.$router.push('/login');
+            store.setNewAction();
         })
         .catch((error) => {
           console.log(error.data);
@@ -124,11 +124,51 @@ export default {
           }
           console.log(error);
         })
+      
+      
+    },
+    getIDCode () {
+      this.registerForm.submitted = true  // 先更新状态
+      this.registerForm.errors = 0
+      
+      if (!this.registerForm.username) {
+        this.registerForm.errors++
+        this.registerForm.usernameError = 'Username required.'
+      } else {
+        this.registerForm.usernameError = null
       }
-      else{
+
+      if (!this.registerForm.email) {
+        this.registerForm.errors++
+        this.registerForm.emailError = 'Email required.'
+      } else if (!this.validEmail(this.registerForm.email)) {
+        this.registerForm.errors++
+        this.registerForm.emailError = 'Valid email required.'
+      } else {
+        this.registerForm.emailError = null
+      }
+
+      if (!this.registerForm.password) {
+        this.registerForm.errors++
+        this.registerForm.passwordError = 'Password required.'
+      } else {
+        this.registerForm.passwordError = null
+      }
+
+      if (this.registerForm.errors > 0) {
+        // 表单验证没通过时，不继续往下执行，即不会通过 axios 调用后端API
+        return false
+      }
+      
+
+      const payload = new FormData();
+      payload.append('username',this.registerForm.username);
+      payload.append('password',this.registerForm.password);
+      payload.append('email',this.registerForm.email);
+      
       Account.Register(payload)
         .then((res) => {
-          store.setNewAction();
+          console.log(res.detail,"111");
           // this.$router.push('/login');
           this.showIDCode= true;
         })
@@ -145,7 +185,7 @@ export default {
           console.log(error);
           console.log(error.response.data,"123");
         })
-      }
+      
     },
     
     validEmail: function (email) {
