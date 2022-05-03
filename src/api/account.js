@@ -4,7 +4,7 @@ const url = {
     register:'/users/register',
     login:'/login',
     registercheck:'/users/register_check',
-    getUser:`users/get_user_id/${store.state.user_id}`
+    getUser:`user/${store.state.user_id}`
 }
 export class Account {
     static async Register(data) {

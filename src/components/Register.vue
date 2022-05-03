@@ -128,7 +128,6 @@ export default {
       else{
       Account.Register(payload)
         .then((res) => {
-          console.log(res.detail,"111");
           store.setNewAction();
           // this.$router.push('/login');
           this.showIDCode= true;
