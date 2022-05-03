@@ -1,9 +1,10 @@
 import service from '@/http/request.js'
-
+import store from '../store.js'
 const url = {
     register:'/users/register',
     login:'/login',
     registercheck:'/users/register_check',
+    getUser:`users/get_user_id/${store.state.user_id}`
 }
 export class Account {
     static async Register(data) {
@@ -39,6 +40,16 @@ export class Account {
                 username:data.get('username'),
                 password:data.get('password')
             }
+        })
+    }
+    static async getUser(data){
+        return service(url.getUser,{
+            method: 'post',
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            },
+            responseType: 'json',
+            data: data
         })
     }
 }

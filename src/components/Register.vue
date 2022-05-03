@@ -107,7 +107,6 @@ export default {
           console.log(res);
           store.setNewAction();
            this.$router.push('/login');
-          
         })
         .catch((error) => {
           console.log(error.data);
