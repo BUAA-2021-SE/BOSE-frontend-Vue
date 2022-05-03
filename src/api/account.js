@@ -4,7 +4,8 @@ const url = {
     register:'/users/register',
     login:'/login',
     registercheck:'/users/register_check',
-    getUser:`user/${store.state.user_id}`
+    getUser:`user/${store.state.user_id}`,
+    editUser:`user/user_edit/${store.state.user_id}`
 }
 export class Account {
     static async Register(data) {
@@ -50,6 +51,16 @@ export class Account {
             },
             responseType: 'json',
             data: data
+        })
+    }
+    static async editUser(data){
+        return service(url.editUser,{
+            method: 'put',
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            },
+            responseType: 'json',
+            data: data        
         })
     }
 }
