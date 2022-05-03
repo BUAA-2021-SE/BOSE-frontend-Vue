@@ -9,13 +9,7 @@
         to="/"
         class="navbar-brand"
       >
-        <img
-          src="../assets/logo.png"
-          width="30"
-          height="30"
-          class="d-inline-block align-top"
-          alt=""
-        >
+       <div id="main"  :style="{width:'250px',height:'50px'}"></div>
       </router-link>
       <!-- navbar-toggler是切换触发器，进行移动端适配 
       下面这个div里的内容都是#navbarSupportedContent-->
@@ -120,7 +114,149 @@ export default {
       store.logoutAction();
       this.$router.push("/login");
     },
+    drawLogo(){
+      let myChart = this.$echarts.init(document.getElementById("main"))
+      let option = {
+  graphic: {
+    elements: [
+      {
+        type: 'text',
+        left: 'center',
+        top: 'center',
+        style: {
+          text: 'B   ',
+          fontSize: 60,
+          fontWeight: 'bold',
+          lineDash: [0, 200],
+          lineDashOffset: 0,
+          fill: 'transparent',
+          stroke: 'rgba(0,0,0,0.5)',
+          lineWidth: 1
+        },
+        keyframeAnimation: {
+          duration: 3000,
+          //loop: true,
+          keyframes: [
+            {
+              percent: 0.7,
+              style: {
+                fill: 'transparent',
+                lineDashOffset: 200,
+                lineDash: [200, 0],
+                color : '#000'
+              }
+            },
+            {
+              // Stop for a while.
+              percent: 0.8,
+              style: {
+                fill: 'transparent'
+              }
+            },
+            {
+              percent: 1,
+              style: {
+                fill: 'Black'
+              }
+            }
+          ]
+        }
+      },
+      {
+        type: 'text',
+        left: 'center',
+        top: 'center',
+        style: {
+          text: ' O  ',
+          fontSize: 60,
+          fontWeight: 'bold',
+          lineDash: [0, 200],
+          lineDashOffset: 0,
+          fill: 'transparent',
+          stroke: 'rgba(0,0,0,0.5)',
+          lineWidth: 1
+        },
+        keyframeAnimation: {
+          duration: 3000,
+          //loop: true,
+          keyframes: [
+            {
+              percent: 0.7,
+              style: {
+                fill: 'transparent',
+                lineDashOffset: 200,
+                lineDash: [200, 0]
+              }
+            },
+            {
+              // Stop for a while.
+              percent: 0.8,
+              style: {
+                fill: 'transparent'
+              }
+            },
+            {
+              percent: 1,
+              style: {
+                fill: 'Blue'
+              }
+            }
+          ]
+        }
+      },
+      {
+        type: 'text',
+        left: 'center',
+        top: 'center',
+        style: {
+          text: '  SE',
+          fontSize: 60,
+          fontWeight: 'bold',
+          lineDash: [0, 200],
+          lineDashOffset: 0,
+          fill: 'transparent',
+          stroke: 'rgba(0,0,0,0.5)',
+          lineWidth: 1
+        },
+        keyframeAnimation: {
+          duration: 3000,
+          //loop: true,
+          keyframes: [
+            {
+              percent: 0.7,
+              style: {
+                fill: 'transparent',
+                lineDashOffset: 200,
+                lineDash: [200, 0]
+              }
+            },
+            {
+              // Stop for a while.
+              percent: 0.8,
+              style: {
+                fill: 'transparent'
+              }
+            },
+            {
+              percent: 1,
+              style: {
+                fill: 'Orange'
+              }
+            }
+          ]
+        }
+      }
+    ]
   }
+};
+      myChart.setOption(option);
+    }
+  },
+   mounted(){
+    this.drawLogo();
+  }
+
+
 };
 
 

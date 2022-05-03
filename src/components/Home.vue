@@ -6,7 +6,7 @@
       :message="alert.alertMessage">
     </alert>
     <button type="button" class="btn btn-primary">HomePage</button>
-    <div id="main" :style="{width: '300px',height:'300px'}"></div>
+    <div id="a" :style="{width: '300px',height:'300px'}"></div>
   </div>
 </template>
 
@@ -49,7 +49,7 @@ export default {
   },
   methods:{
     drawLine(){
-      let myChart = echarts.init(document.getElementById("main"))
+      let myChart = this.$echarts.init(document.getElementById("a"))
       let options = {
         xAxis: {
           type: 'category',
