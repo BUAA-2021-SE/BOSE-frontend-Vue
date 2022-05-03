@@ -4,9 +4,9 @@
     <div class="row">
     <!-- 每行最多12列，栅格等级为中 -->
       <div class="col-md-4">
-        <form >
+        <!-- <form >
           <div class="form-group">
-          <!-- 指定所属表单 -->
+         
             <label for="username">Username</label>
             <input type="text" v-model="registerForm.username" class="form-control" :class="{'is-invalid': registerForm.usernameError}" id="username" placeholder="Username">
             <div v-show="registerForm.usernameError" class="invalid-feedback">{{ registerForm.usernameError }}</div>
@@ -31,7 +31,65 @@
           </div>
           <button class="btn btn-primary" v-show="this.showIDCode" @click="register">Register</button>
 
-        </form>
+        </form> -->
+        <v-form >
+      <v-text-field
+        v-model="registerForm.username"
+        label="Username"
+        required
+       :class="{'is-invalid': registerForm.usernameError}"  placeholder="Username"
+      ></v-text-field>
+      <v-alert dense type="info" v-show="registerForm.usernameError" >{{ registerForm.usernameError }}</v-alert>
+
+      <v-text-field
+        v-model="registerForm.email"
+        label="E-mail"
+        required
+       :class="{'is-invalid': registerForm.emailError}"  placeholder="Email address"
+      ></v-text-field>
+ <v-alert dense type="info" v-show="registerForm.emailError" >{{ registerForm.emailError }}</v-alert>
+      <v-text-field
+        v-model="registerForm.password"
+        label="Password"
+        required
+       :class="{'is-invalid': registerForm.passwordError}"  placeholder="Password"
+      ></v-text-field>
+ <v-alert dense type="info" v-show="registerForm.passwordError" >{{ registerForm.passwordError }}</v-alert>
+         <button class="btn btn-primary" @click="getIDCode">Get IDCode</button>
+
+       <v-text-field v-show="this.showIDCode"
+        v-model="registerForm.idcode"
+        label="IDCode"
+        required
+       :class="{'is-invalid': registerForm.idcodeError}"  placeholder="IDCode"
+      ></v-text-field>
+       <v-alert dense type="info" v-show="registerForm.idcodeError" >{{ registerForm.idcodeError }}</v-alert>
+    <button class="btn btn-primary" v-show="this.showIDCode" @click="register">Register</button>
+
+      <!-- <v-btn
+        :disabled="!valid"
+        color="success"
+        class="mr-4"
+        @click="validate"
+      >
+        Validate
+      </v-btn>
+
+      <v-btn
+        color="error"
+        class="mr-4"
+        @click="reset"
+      >
+        Reset Form
+      </v-btn>
+
+      <v-btn
+        color="warning"
+        @click="resetValidation"
+      >
+        Reset Validation
+      </v-btn> -->
+    </v-form> 
       </div>
     </div>
   </div>
@@ -63,6 +121,7 @@ export default {
   },
   methods: {
     register () {
+      console.log("bbb");
       this.registerForm.submitted = true  // 先更新状态
       this.registerForm.errors = 0
       
@@ -128,6 +187,7 @@ export default {
       
     },
     getIDCode () {
+      console.log("aaa");
       this.registerForm.submitted = true  // 先更新状态
       this.registerForm.errors = 0
       
