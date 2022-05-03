@@ -1,9 +1,10 @@
 <template>
   <div class="container">
-    <h1>Register</h1>
+    
     <div class="row">
     <!-- 每行最多12列，栅格等级为中 -->
-      <div class="col-md-4">
+      <div class="col-md-2"></div>
+        <div class="col-md-8">
         <!-- <form >
           <div class="form-group">
          
@@ -32,6 +33,13 @@
           <button class="btn btn-primary" v-show="this.showIDCode" @click="register">Register</button>
 
         </form> -->
+         <v-card
+    class="m-auto"
+    max-width="1400"
+  >
+  <v-card-text>
+  <h1>注册</h1>
+
         <v-form >
       <v-text-field
         v-model="registerForm.username"
@@ -39,7 +47,7 @@
         required
        :class="{'is-invalid': registerForm.usernameError}"  placeholder="Username"
       ></v-text-field>
-      <v-alert dense type="info" v-show="registerForm.usernameError" >{{ registerForm.usernameError }}</v-alert>
+      <v-alert dense type="error" v-show="registerForm.usernameError" >{{ registerForm.usernameError }}</v-alert>
 
       <v-text-field
         v-model="registerForm.email"
@@ -47,14 +55,14 @@
         required
        :class="{'is-invalid': registerForm.emailError}"  placeholder="Email address"
       ></v-text-field>
- <v-alert dense type="info" v-show="registerForm.emailError" >{{ registerForm.emailError }}</v-alert>
+ <v-alert dense type="error" v-show="registerForm.emailError" >{{ registerForm.emailError }}</v-alert>
       <v-text-field
         v-model="registerForm.password"
         label="Password"
         required
        :class="{'is-invalid': registerForm.passwordError}"  placeholder="Password"
       ></v-text-field>
- <v-alert dense type="info" v-show="registerForm.passwordError" >{{ registerForm.passwordError }}</v-alert>
+ <v-alert dense type="error" v-show="registerForm.passwordError" >{{ registerForm.passwordError }}</v-alert>
          <button class="btn btn-primary" @click="getIDCode">Get IDCode</button>
 
        <v-text-field v-show="this.showIDCode"
@@ -63,7 +71,7 @@
         required
        :class="{'is-invalid': registerForm.idcodeError}"  placeholder="IDCode"
       ></v-text-field>
-       <v-alert dense type="info" v-show="registerForm.idcodeError" >{{ registerForm.idcodeError }}</v-alert>
+       <v-alert dense type="error" v-show="registerForm.idcodeError" >{{ registerForm.idcodeError }}</v-alert>
     <button class="btn btn-primary" v-show="this.showIDCode" @click="register">Register</button>
 
       <!-- <v-btn
@@ -90,6 +98,8 @@
         Reset Validation
       </v-btn> -->
     </v-form> 
+  </v-card-text>
+         </v-card>
       </div>
     </div>
   </div>

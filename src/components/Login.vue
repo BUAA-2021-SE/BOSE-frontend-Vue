@@ -8,7 +8,7 @@
     <h1>Sign In</h1>
     <div class="row">
       <div class="col-md-4">
-        <form @submit.prevent="onSubmit">
+        <!-- <form @submit.prevent="onSubmit">
           <div class="form-group">
             <label for="username">Username</label>
             <input type="text" v-model="loginForm.username" class="form-control" :class="{'is-invalid': loginForm.usernameError}" id="username" placeholder="">
@@ -20,7 +20,24 @@
             <div v-show="loginForm.passwordError" class="invalid-feedback">{{ loginForm.passwordError }}</div>
           </div>
           <button type="submit" class="btn btn-primary">Sign In</button>
-        </form>
+        </form> -->
+        <v-form >
+      <v-text-field
+        v-model="loginForm.username"
+        label="Username"
+        required
+       :class="{'is-invalid': loginForm.usernameError}"  placeholder="Username"
+      ></v-text-field>
+      <v-alert dense type="info" v-show="loginForm.usernameError" >{{ loginForm.usernameError }}</v-alert>
+      <v-text-field
+        v-model="loginForm.password"
+        label="Password"
+        required
+       :class="{'is-invalid': loginForm.passwordError}"  placeholder="Username"
+      ></v-text-field>
+      <v-alert dense type="info" v-show="loginForm.passwordError" >{{ loginForm.passwordError }}</v-alert>
+        </v-form>
+        <button @click="onSubmit" class="btn btn-primary">Sign In</button>
       </div>
     </div>
     <br>
