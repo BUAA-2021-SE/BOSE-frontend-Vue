@@ -45,6 +45,7 @@ export default {
             formData.append("user_id", id);
             Account.getUser(formData)
             .then((res)=>{
+              console.log(res,"getUserDetail");
                 this.profileForm.name = res.data.name;
                 this.profileForm.location = res.data.location;
                 this.profileForm.about_me = res.data.about_me;
@@ -71,9 +72,9 @@ export default {
                 console.error(err);
             })
         },
-        created(){
-            this.getUser(this.sharedState.user_id);
-        }
+    },
+    created(){
+        this.getUserDetail(this.sharedState.user_id);
     }
 }
 </script>
