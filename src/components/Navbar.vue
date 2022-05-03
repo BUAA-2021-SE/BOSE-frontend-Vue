@@ -9,15 +9,13 @@
         to="/"
         class="navbar-brand"
       >
-        <!-- <img
+        <img
           src="../assets/logo.png"
           width="30"
           height="30"
           class="d-inline-block align-top"
           alt=""
-        > -->
-        <div id="main" 
-          ></div>
+        >
       </router-link>
       <!-- navbar-toggler是切换触发器，进行移动端适配 
       下面这个div里的内容都是#navbarSupportedContent-->
@@ -109,8 +107,6 @@
 </template>
 <script>
 import store from '../store.js'
-
-import * as echarts from "echarts"
 export default {
   
   name: "Navbar",
@@ -124,59 +120,6 @@ export default {
       store.logoutAction();
       this.$router.push("/login");
     },
-  },
-  mounted(){
-    let chartDom = document.getElementById('main');
-    let myChart = echarts.init(chartDom);
-    let option={
-    graphic: {
-      elements: [
-      {
-        type: 'text',
-        left: 'center',
-        top: 'center',
-        style: {
-          text: 'BOSE',
-          fontSize: 80,
-          fontWeight: 'bold',
-          lineDash: [0, 200],
-          lineDashOffset: 0,
-          fill: 'transparent',
-          stroke: '#000',
-          lineWidth: 1
-        },
-        keyframeAnimation: {
-          duration: 3000,
-          // loop: true,
-          keyframes: [
-            {
-              percent: 0.7,
-              style: {
-                fill: 'transparent',
-                lineDashOffset: 40,
-                lineDash: [200, 0]
-              }
-            },
-            {
-              // Stop for a while.
-              percent: 0.6,
-              style: {
-                fill: 'transparent'
-              }
-            },
-            {
-              percent: 1,
-              style: {
-                fill: 'Black'
-              }
-            }
-          ]
-        }
-      }
-    ]
-    }
-    }
-    myChart.setOption(option);
   }
 };
 
