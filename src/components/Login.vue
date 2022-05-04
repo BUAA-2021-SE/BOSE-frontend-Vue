@@ -5,7 +5,7 @@
       :variant="alertVariant"
       :message="alertMessage">
     </alert>
-    <h1>Sign In</h1>
+    <h1>登录</h1>
     <div class="row">
       <div class="col-md-4">
         <!-- <form @submit.prevent="onSubmit">
@@ -26,16 +26,20 @@
         v-model="loginForm.username"
         label="Username"
         required
+        clearable
+        filled
        :class="{'is-invalid': loginForm.usernameError}"  placeholder="Username"
       ></v-text-field>
-      <v-alert dense type="info" v-show="loginForm.usernameError" >{{ loginForm.usernameError }}</v-alert>
       <v-text-field
         v-model="loginForm.password"
         label="Password"
         required
+        filled
+        clearable
+        type="password"
        :class="{'is-invalid': loginForm.passwordError}"  placeholder="Username"
       ></v-text-field>
-      <v-alert dense type="info" v-show="loginForm.passwordError" >{{ loginForm.passwordError }}</v-alert>
+      <v-alert dense type="error" v-show="loginForm.passwordError" >{{ loginForm.passwordError }}</v-alert>
         </v-form>
         <button @click="onSubmit" class="btn btn-primary">Sign In</button>
       </div>
