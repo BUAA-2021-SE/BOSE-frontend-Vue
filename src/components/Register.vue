@@ -44,31 +44,51 @@
       <v-text-field
         v-model="registerForm.username"
         label="Username"
+        type="user"
         required
+        clearable
+        filled
        :class="{'is-invalid': registerForm.usernameError}"  placeholder="Username"
       ></v-text-field>
       <v-alert dense type="error" v-show="registerForm.usernameError" >{{ registerForm.usernameError }}</v-alert>
 
       <v-text-field
         v-model="registerForm.email"
-        label="E-mail"
+        label="Email address"
         required
+        clearable
+        filled
        :class="{'is-invalid': registerForm.emailError}"  placeholder="Email address"
       ></v-text-field>
  <v-alert dense type="error" v-show="registerForm.emailError" >{{ registerForm.emailError }}</v-alert>
       <v-text-field
         v-model="registerForm.password"
         label="Password"
+        filled
+        clearable
         required
+        type="password"
        :class="{'is-invalid': registerForm.passwordError}"  placeholder="Password"
       ></v-text-field>
  <v-alert dense type="error" v-show="registerForm.passwordError" >{{ registerForm.passwordError }}</v-alert>
+ <v-text-field
+        v-model="registerForm.password2"
+        label="Password Again"
+        filled
+        required
+        clearable
+        type="password"
+       :class="{'is-invalid': registerForm.password2Error}"  placeholder="Password Again"
+      ></v-text-field>
+ <v-alert dense type="error" v-show="registerForm.password2Error" >{{ registerForm.password2Error }}</v-alert>
          <button class="btn btn-primary" @click="getIDCode">Get IDCode</button>
 
        <v-text-field v-show="this.showIDCode"
         v-model="registerForm.idcode"
         label="IDCode"
         required
+        clearable
+        filled
        :class="{'is-invalid': registerForm.idcodeError}"  placeholder="IDCode"
       ></v-text-field>
        <v-alert dense type="error" v-show="registerForm.idcodeError" >{{ registerForm.idcodeError }}</v-alert>
@@ -118,12 +138,14 @@ export default {
         username: '',
         email: '',
         password: '',
+        password2: '',
         idcode:'',
         submitted: false,  // 是否点击了 submit 按钮
         errors: 0,  // 表单是否在前端验证通过，0 表示没有错误，验证通过
         usernameError: null,
         emailError: null,
         passwordError: null,
+        password2Error: null,
         idcodeError: null
       },
      
@@ -158,6 +180,13 @@ export default {
         this.registerForm.passwordError = null
       }
 
+      if (!this.registerForm.password2) {
+        this.registerForm.errors++
+        this.registerForm.password2Error = 'Password again.'
+      } else {
+        this.registerForm.password2Error = null
+      }
+
       if (this.registerForm.errors > 0) {
         // 表单验证没通过时，不继续往下执行，即不会通过 axios 调用后端API
         return false
@@ -167,6 +196,7 @@ export default {
       const payload = new FormData();
       payload.append('username',this.registerForm.username);
       payload.append('password',this.registerForm.password);
+      payload.append('password2',this.registerForm.password2);
       payload.append('email',this.registerForm.email);
 
         payload.append('idcode',this.registerForm.idcode);
@@ -185,6 +215,8 @@ export default {
               this.registerForm.emailError = error.response.data.detail.email
             } else if (field == 'password') {
               this.registerForm.passwordError = error.response.data.detail.password
+            }else if (field == 'password2') {
+              this.registerForm.password2Error = error.response.data.detail.password2
             }
             else if (field == 'identifying_code') {
               this.registerForm.idcodeError = error.response.data.detail.identifying_code
@@ -221,6 +253,12 @@ export default {
       } else {
         this.registerForm.passwordError = null
       }
+      if (!this.registerForm.password2) {
+        this.registerForm.errors++
+        this.registerForm.password2Error = 'Password again.'
+      } else {
+        this.registerForm.password2Error = null
+      }
 
       if (this.registerForm.errors > 0) {
         // 表单验证没通过时，不继续往下执行，即不会通过 axios 调用后端API
@@ -231,6 +269,7 @@ export default {
       const payload = new FormData();
       payload.append('username',this.registerForm.username);
       payload.append('password',this.registerForm.password);
+      payload.append('password2',this.registerForm.password2);
       payload.append('email',this.registerForm.email);
       
       Account.Register(payload)
@@ -247,6 +286,9 @@ export default {
               this.registerForm.emailError = error.response.data.detail.email
             } else if (field == 'password') {
               this.registerForm.passwordError = error.response.data.detail.password
+            }
+            else if (field == 'password2') {
+              this.registerForm.password2Error = error.response.data.detail.password2
             }
           }
           console.log(error);
