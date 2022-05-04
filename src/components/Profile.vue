@@ -123,10 +123,8 @@ export default {
     };
   },
   methods: {
-    getUserDetail(id) {
-      let formData = new FormData();
-      formData.append("user_id", id);
-      Account.getUser(formData)
+    getUserDetail() {
+      Account.getUser()
         .then((res) => {
           console.log(res.data);
           this.user.name = res.data.name;
@@ -147,7 +145,7 @@ export default {
     },
   },
   created() {
-    this.getUserDetail(store.state.user_id);
+    this.getUserDetail();
   },
 };
 </script>

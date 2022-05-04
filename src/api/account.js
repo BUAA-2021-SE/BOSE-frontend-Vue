@@ -43,14 +43,13 @@ export class Account {
             }
         })
     }
-    static async getUser(data){
+    static async getUser(){
         return service(url.getUser,{
             method: 'post',
             headers: {
                 'Content-Type': 'multipart/form-data'
             },
-            responseType: 'json',
-            data: data
+            responseType: 'json'
         })
     }
     static async editUser(data){

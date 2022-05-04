@@ -40,10 +40,8 @@ export default {
         }
     },
     methods:{
-        getUserDetail(id){
-            const formData = new FormData();
-            formData.append("user_id", id);
-            Account.getUser(formData)
+        getUserDetail(){
+            Account.getUser()
             .then((res)=>{
               console.log(res,"getUserDetail");
                 this.profileForm.name = res.data.name;
@@ -75,7 +73,7 @@ export default {
     },
     created(){
       console.log(this.sharedState.user_id,"123")
-      this.getUserDetail(this.sharedState.user_id);
+      this.getUserDetail();
     }
 }
 </script>
