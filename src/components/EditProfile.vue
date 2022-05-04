@@ -1,8 +1,11 @@
 <template>
   <div class="container">
-    <h1>Edit Your Profile</h1>
+    
     <div class="row">
-      <div class="col-md-4">
+      <div class="col-md-2"/>
+      
+      <div class="col-md-8">
+        <h1>Edit Your Profile</h1>
         <form @submit.prevent="onSubmit">
           <div class="form-group">
             <label for="name">Real Name</label>
@@ -14,7 +17,7 @@
           </div>
           <div class="form-group">
             <label for="about_me">About Me</label>
-            <textarea v-model="profileForm.about_me" class="form-control" id="about_me" rows="5" placeholder=""></textarea>
+            <mavon-editor v-model="profileForm.about_me"/>
           </div>
           <button type="submit" class="btn btn-primary">Submit</button>
         </form>
