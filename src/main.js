@@ -8,6 +8,12 @@ import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 import vuetify from "./plugins/vuetify";
 import * as echarts from 'echarts';
+import mavonEditor from 'mavon-editor'
+import 'mavon-editor/dist/css/index.css'
+import 'bootstrap/dist/css/bootstrap.min.css'
+import 'bootstrap'
+
+import './assets/icon-awesome/css/font-awesome.min.css'
 import 'bootstrap/dist/css/bootstrap.css'
 import './assets/icon-line/css/simple-line-icons.css'
 import './assets/icon-material/material-icons.css'
@@ -17,6 +23,7 @@ Vue.config.productionTip = false
 Vue.prototype.$moment = moment
 Vue.use(ElementUI);
 Vue.prototype.$echarts = echarts;
+Vue.use(mavonEditor);
 Vue.use(VueToasted, {
   // 主题样式 primary/outline/bubble
   theme: 'outline',

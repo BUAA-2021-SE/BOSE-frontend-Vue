@@ -5,15 +5,18 @@
       :variant="alert.alertVariant"
       :message="alert.alertMessage">
     </alert>
-    <button type="button" class="btn btn-primary">HomePage</button>
-    <div id="a" :style="{width: '300px',height:'300px'}"></div>
+    <mavon-editor v-model="value"/>
+    <button class="btn btn-primary" @click="getText">Submit</button>
   </div>
 </template>
+
 
 <script>
 import Alert from './Alert'
 import store from '../store.js'
 import * as echarts from 'echarts'
+import VueMarkdown from 'vue-markdown'
+
 export default {
   name: 'Home',  
   components: {
@@ -21,6 +24,8 @@ export default {
   },
   data () {
     return {
+      value: '',
+      sharedState: store.state,
       alerts: [
         {
           showAlert: true,
@@ -36,8 +41,30 @@ export default {
           showAlert: true,
           alertVariant: 'dark',
           alertMessage: 'Profile初步完工'
+        },
+        {
+          showAlert: true,
+          alertVariant: 'primary',
+          alertMessage: 'Markdown在线编辑器写完了'
         }
-      ]
+      ],
+      posts: '',
+      postForm: {
+        title: '',
+        summary: '',
+        body: '',
+        errors: 0,  // 表单是否在前端验证通过，0 表示没有错误，验证通过
+        titleError: false,
+        bodyError: false
+      },
+      editPostForm: {
+        title: '',
+        summary: '',
+        body: '',
+        errors: 0,  // 表单是否在前端验证通过，0 表示没有错误，验证通过
+        titleError: false,
+        bodyError: false
+      }
     }
   },
   computed:{
@@ -48,28 +75,34 @@ export default {
       }
   },
   methods:{
-    drawLine(){
-      let myChart = this.$echarts.init(document.getElementById("a"))
-      let options = {
-        xAxis: {
-          type: 'category',
-          data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
-        },
-        yAxis: {
-          type: 'value'
-        },
-        series: [
-          {
-            data: [150, 230, 224, 218, 135, 147, 260],
-            type: 'line'
-          }
-        ]
-      };
-      myChart.setOption(options);
-    }
+
+    getText(){
+      console.log(this.value)
+    },
+    // drawLine(){
+    //   let myChart = this.$echarts.init(document.getElementById("a"))
+    //   let options = {
+    //     xAxis: {
+    //       type: 'category',
+    //       data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+    //     },
+    //     yAxis: {
+    //       type: 'value'
+    //     },
+    //     series: [
+    //       {
+    //         data: [150, 230, 224, 218, 135, 147, 260],
+    //         type: 'line'
+    //       }
+    //     ]
+    //   };
+    //   myChart.setOption(options);
+    // },
+   
   },
   mounted(){
     this.drawLine();
-  }
+  },
+  
 }
 </script>
