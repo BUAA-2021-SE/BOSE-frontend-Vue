@@ -9,7 +9,7 @@
         to="/"
         class="navbar-brand"
       >
-       <div id="main"  :style="{width:'250px',height:'50px'}"></div>
+       <div id="main"  :style="{width:'250px',height:'40px'}"></div>
       </router-link>
       <!-- navbar-toggler是切换触发器，进行移动端适配 
       下面这个div里的内容都是#navbarSupportedContent-->
@@ -125,7 +125,7 @@ export default {
         top: 'center',
         style: {
           text: 'B   ',
-          fontSize: 60,
+          fontSize: 40,
           fontWeight: 'bold',
           lineDash: [0, 200],
           lineDashOffset: 0,
@@ -156,7 +156,7 @@ export default {
             {
               percent: 1,
               style: {
-                fill: 'Black'
+                fill: 'rgba(0,0,0,0.75)'
               }
             }
           ]
@@ -168,16 +168,16 @@ export default {
         top: 'center',
         style: {
           text: ' O  ',
-          fontSize: 60,
+          fontSize: 40,
           fontWeight: 'bold',
           lineDash: [0, 200],
           lineDashOffset: 0,
           fill: 'transparent',
-          stroke: 'rgba(0,0,0,0.5)',
+          stroke: 'rgba(0,0,0,0.3)',
           lineWidth: 1
         },
         keyframeAnimation: {
-          duration: 3000,
+          duration: 4000,
           //loop: true,
           keyframes: [
             {
@@ -198,7 +198,7 @@ export default {
             {
               percent: 1,
               style: {
-                fill: 'Blue'
+                fill: 'rgba(0,0,0,0.4)'
               }
             }
           ]
@@ -210,7 +210,7 @@ export default {
         top: 'center',
         style: {
           text: '  SE',
-          fontSize: 60,
+          fontSize: 40,
           fontWeight: 'bold',
           lineDash: [0, 200],
           lineDashOffset: 0,
@@ -219,7 +219,7 @@ export default {
           lineWidth: 1
         },
         keyframeAnimation: {
-          duration: 3000,
+          duration: 5000,
           //loop: true,
           keyframes: [
             {
@@ -240,7 +240,7 @@ export default {
             {
               percent: 1,
               style: {
-                fill: 'Orange'
+                fill: 'rgba(0,0,0,0.75)'
               }
             }
           ]
