@@ -5,7 +5,7 @@ const url = {
     login:'/login',
     registercheck:'/users/register_check',
     getUser:`user/${store.state.user_id}`,
-    editUser:`user/user_edit/${store.state.user_id}`
+    editUser:`user/user_edit`
 }
 export class Account {
     static async Register(data) {

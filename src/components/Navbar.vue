@@ -156,7 +156,7 @@ export default {
             {
               percent: 1,
               style: {
-                fill: 'rgba(0,0,0,0.75)'
+                fill: 'rgba(0,100,50,0.75)'
               }
             }
           ]
@@ -198,7 +198,7 @@ export default {
             {
               percent: 1,
               style: {
-                fill: 'rgba(0,0,0,0.4)'
+                fill: 'rgba(0,0,200,0.75)'
               }
             }
           ]
@@ -240,7 +240,7 @@ export default {
             {
               percent: 1,
               style: {
-                fill: 'rgba(0,0,0,0.75)'
+                fill: 'rgba(0,100,50,0.75)'
               }
             }
           ]
