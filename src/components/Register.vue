@@ -130,8 +130,7 @@ export default {
     }
   },
   methods: {
-    register () {
-      console.log("bbb");
+    register(){
       this.registerForm.submitted = true  // 先更新状态
       this.registerForm.errors = 0
       
@@ -174,8 +173,8 @@ export default {
         Account.RegisterCheck(payload)
         .then((res) => {
           console.log(res);
-           this.$router.push('/login');
-            store.setNewAction();
+          this.$router.push('/login');
+          store.setNewAction();
         })
         .catch((error) => {
           console.log(error.data);
@@ -193,8 +192,6 @@ export default {
           }
           console.log(error);
         })
-      
-      
     },
     getIDCode () {
       console.log("aaa");
