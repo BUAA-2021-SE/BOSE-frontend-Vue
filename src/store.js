@@ -3,6 +3,8 @@ export default {
     state: {
         // 是否为新注册用户
         is_new: false,
+        // 是否更改密码
+        is_reset: false,
         // 是否通过身份验证
         is_authenticated: window.localStorage.getItem('token') ? true : false,
         // 获取user对应的id，方便跳转到对应user_id的主页
@@ -13,6 +15,12 @@ export default {
             console.log("setNewAction triggered");
         }
         this.state.is_new = true;
+    },
+    setResetAction() {
+        if (this.debug) {
+            console.log("setResetAction triggered");
+        }
+        this.state.is_reset = true;
     },
     resetNotNewAction() {
         if (this.debug) {

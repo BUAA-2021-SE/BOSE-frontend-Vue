@@ -5,34 +5,6 @@
     <!-- 每行最多12列，栅格等级为中 -->
       <div class="col-md-2"></div>
         <div class="col-md-8">
-        <!-- <form >
-          <div class="form-group">
-         
-            <label for="username">Username</label>
-            <input type="text" v-model="registerForm.username" class="form-control" :class="{'is-invalid': registerForm.usernameError}" id="username" placeholder="Username">
-            <div v-show="registerForm.usernameError" class="invalid-feedback">{{ registerForm.usernameError }}</div>
-          </div>
-          <div class="form-group">
-            <label for="email">Email address</label>
-            <input type="email" v-model="registerForm.email" class="form-control" :class="{'is-invalid': registerForm.emailError}" id="email" aria-describedby="emailHelp" placeholder="Email address">
-            <small v-if="!registerForm.emailError" id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
-            <div v-show="registerForm.emailError" class="invalid-feedback">{{ registerForm.emailError }}</div>
-          </div>
-          <div class="form-group">
-            <label for="password">Password</label>
-            <input type="password" v-model="registerForm.password" class="form-control" :class="{'is-invalid': registerForm.passwordError}" id="password" placeholder="Password">
-            <div v-show="registerForm.passwordError" class="invalid-feedback">{{ registerForm.passwordError }}</div>
-          </div>
-          <button class="btn btn-primary" @click="getIDCode">Get IDCode</button>
-
-           <div class="form-group" v-show="this.showIDCode">
-            <label for="text">IDCode</label>
-            <input type="text" v-model="registerForm.idcode" class="form-control" :class="{'is-invalid': registerForm.idcodeError}" id="idcode" placeholder="IDCode">
-            <div v-show="registerForm.idcodeError" class="invalid-feedback">{{ registerForm.idcodeError }}</div>
-          </div>
-          <button class="btn btn-primary" v-show="this.showIDCode" @click="register">Register</button>
-
-        </form> -->
          <v-card
     class="m-auto"
     max-width="1400"
@@ -48,7 +20,7 @@
         required
         clearable
         filled
-        autocomplete="off"
+        :disabled="showIDCode"
        :class="{'is-invalid': registerForm.usernameError}"  placeholder="Username"
       ></v-text-field>
       <v-alert dense type="error" v-show="registerForm.usernameError" >{{ registerForm.usernameError }}</v-alert>
@@ -59,7 +31,7 @@
         required
         clearable
         filled
-        autocomplete="off"
+        :disabled="showIDCode"
        :class="{'is-invalid': registerForm.emailError}"  placeholder="Email address"
       ></v-text-field>
  <v-alert dense type="error" v-show="registerForm.emailError" >{{ registerForm.emailError }}</v-alert>
@@ -70,7 +42,8 @@
         clearable
         required
         type="password"
-        autocomplete="off"
+        autocomplete="new-password"
+        :disabled="showIDCode"
        :class="{'is-invalid': registerForm.passwordError}"  placeholder="Password"
       ></v-text-field>
  <v-alert dense type="error" v-show="registerForm.passwordError" >{{ registerForm.passwordError }}</v-alert>
@@ -81,6 +54,7 @@
         required
         clearable
         type="password"
+        :disabled="showIDCode"
        :class="{'is-invalid': registerForm.password2Error}"  placeholder="Password Again"
       ></v-text-field>
  <v-alert dense type="error" v-show="registerForm.password2Error" >{{ registerForm.password2Error }}</v-alert>
@@ -97,29 +71,7 @@
        <v-alert dense type="error" v-show="registerForm.idcodeError" >{{ registerForm.idcodeError }}</v-alert>
     <button class="btn btn-primary" v-show="this.showIDCode" @click="register">Register</button>
 
-      <!-- <v-btn
-        :disabled="!valid"
-        color="success"
-        class="mr-4"
-        @click="validate"
-      >
-        Validate
-      </v-btn>
 
-      <v-btn
-        color="error"
-        class="mr-4"
-        @click="reset"
-      >
-        Reset Form
-      </v-btn>
-
-      <v-btn
-        color="warning"
-        @click="resetValidation"
-      >
-        Reset Validation
-      </v-btn> -->
     </v-form> 
   </v-card-text>
          </v-card>
@@ -186,6 +138,13 @@ export default {
       if (!this.registerForm.password2) {
         this.registerForm.errors++
         this.registerForm.password2Error = 'Password again.'
+      } else {
+        this.registerForm.password2Error = null
+      }
+
+      if (!this.registerForm.idcode) {
+        this.registerForm.errors++
+        this.registerForm.password2Error = 'IDCode required.'
       } else {
         this.registerForm.password2Error = null
       }

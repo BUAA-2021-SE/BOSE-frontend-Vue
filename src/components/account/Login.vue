@@ -5,6 +5,11 @@
       :variant="alertVariant"
       :message="alertMessage">
     </alert>
+    <alert 
+      v-if="sharedState.is_reset"
+      :variant="alertVariant"
+      :message="alertMessageReset">
+    </alert>
     <h1>登录</h1>
     <div class="row">
       <div class="col-md-4">
@@ -37,7 +42,7 @@
         filled
         clearable
         type="password"
-       :class="{'is-invalid': loginForm.passwordError}"  placeholder="Username"
+       :class="{'is-invalid': loginForm.passwordError}"  placeholder="Password"
       ></v-text-field>
       <v-alert dense type="error" v-show="loginForm.passwordError" >{{ loginForm.passwordError }}</v-alert>
         </v-form>
@@ -67,6 +72,7 @@ export default {
       sharedState: store.state,
       alertVariant: "info",
       alertMessage: "You are now registered.",
+      alertMessageReset: "Password reset successfully.",
       loginForm: {
         username: "",
         password: "",
