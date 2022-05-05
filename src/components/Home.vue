@@ -5,10 +5,19 @@
       :variant="alert.alertVariant"
       :message="alert.alertMessage">
     </alert>
-    <mavon-editor v-model="value"/>
     <form v-if="sharedState.is_authenticated" @submit.prevent="onSubmit" class="g-mb-40">
     <div class="form-group" :class="{'u-has-error-v1': postForm.titleError}" >
+      <input type="text" v-model="postForm.title" class="form-control" id="post_title" placeholder="标题">
+      <small class="form-control-feedback" v-show="postForm.titleError">{{ postForm.titleError }}</small>
     </div>
+    <div class="form-group">
+      <input type="text" v-model="postForm.summary" class="form-control" id="post_summary" placeholder="摘要">
+    </div>
+    <div class="form-group">
+      <mavon-editor v-model="postForm.body"/>
+      <small class="form-control-feedback" v-show="postForm.bodyError">{{ postForm.bodyError }}</small>
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
     </form>
   </div>
 </template>
@@ -26,7 +35,6 @@ export default {
   },
   data () {
     return {
-      value: '',
       sharedState: store.state,
       alerts: [
         {

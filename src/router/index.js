@@ -8,6 +8,7 @@ import Register from '@/components/account/Register'
 import Profile from '@/components/account/Profile'
 import Ping from '@/components/Ping'
 import EditProfile from '@/components/account/EditProfile'
+import Post from '@/components/Post'
 Vue.use(VueRouter)
 Vue.use(mavonEditor)
 const router = new VueRouter({
@@ -16,10 +17,11 @@ const router = new VueRouter({
       path: '/',
       name: 'Home',
       component: Home,
-      // 添加了路由元信息，只有经过身份验证的用户才能进行操作
-      meta: {
-        requiresAuth: true
-      }
+    },
+    {
+      path: '/post/:id',
+      name: 'Post',
+      component: Post
     },
     {
       path: '/ping',
@@ -40,6 +42,7 @@ const router = new VueRouter({
       path: '/user/:id',
       name:'Profile',
       component: Profile,
+      // 添加了路由元信息，只有经过身份验证的用户才能进行操作
       meta: {
         requiresAuth: true
       }
