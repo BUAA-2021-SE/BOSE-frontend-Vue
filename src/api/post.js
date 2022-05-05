@@ -1,8 +1,10 @@
 import service from '@/http/request.js'
 import store from '../store.js'
 const url = {
-    getPost:'blog/posts',
-    editPost:'blog/posts'
+    getPost:'/blog/return_posts',
+    editPost:'blog/posts',
+    postBlog:'/blog/submit_posts'
+
 };
 export default class Post {
     static async getPost(id){
@@ -19,6 +21,16 @@ export default class Post {
             },
             responseType: 'json',
             data: data  
+        })
+    }
+    static async postBlog(data){
+        return service(url.postBlog,{
+            method: 'post',
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            },
+            responseType: 'json',
+            data: data
         })
     }
 }

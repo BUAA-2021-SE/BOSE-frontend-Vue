@@ -4,7 +4,7 @@ const url = {
     register:'/users/register',
     login:'/login',
     registercheck:'/users/register_check',
-    getUser:`user/${store.state.user_id}`,
+    getUser:`user/getuser/${store.state.user_id}`,
     editUser:`user/user_edit`,
     reset:`/user/reset/getcode`,
     resetcheck:'/user/reset/newpassword'

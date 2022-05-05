@@ -78,6 +78,7 @@
             <!-- vue-markdown 开始解析markdown，它是子组件，通过 props 给它传值即可
             要指定TOC的级数哦，如果要修改TOC的样式，要在toc-rendered指定的函数中操作，因为要等它把TOC给创建出来
              -->
+
             <vue-markdown
               :source="post.body"
               :toc="showToc"
@@ -92,7 +93,7 @@
           </div>
 
         </article>
-        
+         <button class="btn btn-primary" @click="onSubmitUpdate">Register</button>
       </div>
       <!-- End Articles Content -->
 
@@ -140,11 +141,16 @@ export default {
             ],
             sharedState: store.state,
             post:{
-                body:"# nihao\n**你好**:)",
-                author:{
-                    name:'LLLeo',
-                    id:'3'
-                }
+                // body:"# nihao\n**你好**:)",
+                // author:{
+                //     name:'LLLeo',
+                //     id:'3'
+                // }
+                // body:"",
+                // author:{
+                //     name:'',
+                //     id:''
+                // }
             },
             editForm:{
                 title: '',
@@ -162,6 +168,7 @@ export default {
             Post.getPost(id)
             .then((res)=>{
                 this.post = res.data;
+                console.log(this.post.body)
             })
             .catch((err)=>{
                 console.error(err);
@@ -269,7 +276,8 @@ export default {
         }
     },
     created(){
-        const postId = this.$route.params.id
+        // const postId = this.$route.params.id
+        const postId = 5
         this.getPost(postId);
         $(document).ready(function(){
             $("#sticker").sticky({ topSpacing: 10 });
@@ -282,7 +290,8 @@ export default {
         highlightCode()
     },
     beforeRouteUpdate(){
-    this.getPost(to.params.id)
+    let a=5;
+    this.getPost(a)
     next()
     }
 }

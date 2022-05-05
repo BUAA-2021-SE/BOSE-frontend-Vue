@@ -5,7 +5,7 @@
       :variant="alert.alertVariant"
       :message="alert.alertMessage">
     </alert>
-    <form v-if="sharedState.is_authenticated" @submit.prevent="onSubmit" class="g-mb-40">
+    <form v-if="sharedState.is_authenticated"  class="g-mb-40">
     <div class="form-group" :class="{'u-has-error-v1': postForm.titleError}" >
       <input type="text" v-model="postForm.title" class="form-control" id="post_title" placeholder="标题">
       <small class="form-control-feedback" v-show="postForm.titleError">{{ postForm.titleError }}</small>
@@ -17,7 +17,7 @@
       <mavon-editor v-model="postForm.body"/>
       <small class="form-control-feedback" v-show="postForm.bodyError">{{ postForm.bodyError }}</small>
     </div>
-    <button type="submit" class="btn btn-primary">Submit</button>
+    <button  class="btn btn-primary" @click="aaa">Submit</button>
     </form>
   </div>
 </template>
@@ -27,6 +27,7 @@
 import Alert from './base/Alert.vue'
 import store from '../store.js'
 import VueMarkdown from 'vue-markdown'
+import Post from '@/api/post'
 export default {
   name: 'Home',  
   components: {
@@ -93,21 +94,55 @@ export default {
     getPosts(){
       console.log("getPosts");
     },
-    onSubmitAdd(){
-      console.log("onSubmitAdd");
-    },
-    onEditPost(){
-      console.log("onEditPost");
-    },
-    onSubmitUpdate(){
-      console.log("onSubmitUpdate");
-    },
-    onResetUpdate(){
-      console.log("onResetUpdate");
-    },
-    onDeletePost(){
-      console.log("onDeletePost");
-    },
+    // onSubmitAdd(){
+    //   console.log("onSubmitAdd");
+    // },
+    // onEditPost(){
+    //   console.log("onEditPost");
+    // },
+    // onSubmitUpdate(){
+    //   console.log("onSubmitUpdate");
+    // },
+    // onResetUpdate(){
+    //   console.log("onResetUpdate");
+    // },
+    // onDeletePost(){
+    //   console.log("onDeletePost");
+    // },
+    aaa(){
+      const payload = new FormData();
+      payload.append('title',this.postForm.title);
+      payload.append('summary',this.postForm.summary);
+      payload.append('body',this.postForm.body);
+      Post.postBlog(payload)
+        .then((res) => {
+          console.log(res);
+          // this.$router.push('/login');
+          // store.setNewAction();
+          this.$router.push({
+                name: 'Profile',
+                params: { id: this.sharedState.user_id }                
+                });
+        })
+        .catch((error) => {
+          console.log(error.data);
+          // for (let field in error.response.data.detail) {
+          //   if (field == 'username') {
+          //     this.registerForm.usernameError = error.response.data.detail.username
+          //   } else if (field == 'email') {
+          //     this.registerForm.emailError = error.response.data.detail.email
+          //   } else if (field == 'password') {
+          //     this.registerForm.passwordError = error.response.data.detail.password
+          //   }else if (field == 'password2') {
+          //     this.registerForm.password2Error = error.response.data.detail.password2
+          //   }
+          //   else if (field == 'identifying_code') {
+          //     this.registerForm.idcodeError = error.response.data.detail.identifying_code
+          //   }
+          // }
+          console.log(error);
+        })
+    }
   },
   created(){
     this.getPosts()

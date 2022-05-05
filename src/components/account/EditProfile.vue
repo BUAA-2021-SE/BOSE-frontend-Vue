@@ -44,6 +44,7 @@ export default {
     },
     methods:{
         getUserDetail(){
+          console.log('getUserDetail',this.sharedState.user_id);
             Account.getUser()
             .then((res)=>{
               console.log(res,"getUserDetail");
