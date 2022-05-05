@@ -9,6 +9,11 @@ import 'element-ui/lib/theme-chalk/index.css'
 import vuetify from "./plugins/vuetify";
 import * as echarts from 'echarts';
 import mavonEditor from 'mavon-editor'
+import VueSweetalert2 from 'vue-sweetalert2'
+// 导入highlight.js的CSS文件
+import 'highlight.js/styles/atom-one-dark-reasonable.css'
+// 导入markdownCSS
+import './assets/markdown-styles/github-markdown.css'
 import 'mavon-editor/dist/css/index.css'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import './assets/icon-awesome/css/font-awesome.min.css'
@@ -22,6 +27,13 @@ Vue.prototype.$moment = moment
 Vue.use(ElementUI);
 Vue.prototype.$echarts = echarts;
 Vue.use(mavonEditor);
+Vue.use(VueSweetalert2)
+Vue.directive('highlight',function (el) {
+  let blocks = el.querySelectorAll('pre code');
+  blocks.forEach((block)=>{
+    hljs.highlightBlock(block)
+  })
+})
 Vue.use(VueToasted, {
   // 主题样式 primary/outline/bubble
   theme: 'outline',
