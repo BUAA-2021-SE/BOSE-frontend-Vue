@@ -3,11 +3,11 @@ import VueRouter from 'vue-router'
 import Home from '@/components/Home'
 import mavonEditor from 'mavon-editor'
 import 'mavon-editor/dist/css/index.css'
-import Login from '@/components/Login'
-import Register from '@/components/Register'
-import Profile from '@/components/Profile'
+import Login from '@/components/account/Login'
+import Register from '@/components/account/Register'
+import Profile from '@/components/account/Profile'
 import Ping from '@/components/Ping'
-import EditProfile from '@/components/EditProfile'
+import EditProfile from '@/components/account/EditProfile'
 Vue.use(VueRouter)
 Vue.use(mavonEditor)
 const router = new VueRouter({

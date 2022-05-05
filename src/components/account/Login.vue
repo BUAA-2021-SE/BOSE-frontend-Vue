@@ -54,10 +54,9 @@
 </template>
 
 <script>
-import axios from "axios";
-import Alert from "./Alert.vue";
-import store from "../store";
+import store from "../../store";
 import {Account} from "@/api/account.js"
+import Alert from "../base/Alert"
 export default {
   name: "Login",
   components: {

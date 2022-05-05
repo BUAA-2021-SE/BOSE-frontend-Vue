@@ -27,7 +27,7 @@
 </template>
 
 <script>
-import store from '../store.js'
+import store from '../../store.js'
 import { Account } from "@/api/account.js";
 export default {
     name:'EditProfile',
