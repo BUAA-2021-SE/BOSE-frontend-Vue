@@ -49,6 +49,11 @@ export default {
         },
         {
           showAlert: true,
+          alertVariant: 'success',
+          alertMessage: 'reset 又写完了'
+        },
+        {
+          showAlert: true,
           alertVariant: 'dark',
           alertMessage: 'Profile初步完工'
         },
@@ -56,7 +61,7 @@ export default {
           showAlert: true,
           alertVariant: 'primary',
           alertMessage: 'Markdown在线编辑器写完了'
-        }
+        },
       ],
       posts: '',
       postForm: {
