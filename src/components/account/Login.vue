@@ -48,7 +48,7 @@
     <p>New User? <router-link to="/register">Click to Register!</router-link></p>
     <p>
         Forgot Your Password?
-        <a href="#">Click to Reset It</a>
+         <router-link to="/reset">Click to Reset It</router-link>
     </p>
   </div>
 </template>

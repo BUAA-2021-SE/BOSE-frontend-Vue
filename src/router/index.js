@@ -5,6 +5,7 @@ import mavonEditor from 'mavon-editor'
 import 'mavon-editor/dist/css/index.css'
 import Login from '@/components/account/Login'
 import Register from '@/components/account/Register'
+import Reset from '@/components/account/Reset'
 import Profile from '@/components/account/Profile'
 import Ping from '@/components/Ping'
 import EditProfile from '@/components/account/EditProfile'
@@ -32,6 +33,11 @@ const router = new VueRouter({
       path: '/login',
       name:'Login',
       component: Login
+    },
+    {
+      path:'/reset',
+      name:'Reset',
+      component: Reset
     },
     {
       path: '/register',
