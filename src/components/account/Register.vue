@@ -126,7 +126,7 @@
 </template>
 
 <script>
-import store from '../store'
+import store from '../../store'
 import {Account} from '@/api/account.js'
 export default {
   name: 'Register', //this is the name of the component
