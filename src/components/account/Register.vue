@@ -42,7 +42,7 @@
         clearable
         required
         type="password"
-        
+        autocomplete="new-password"
         :disabled="showIDCode"
        :class="{'is-invalid': registerForm.passwordError}"  placeholder="Password"
       ></v-text-field>

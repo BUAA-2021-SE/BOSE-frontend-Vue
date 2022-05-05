@@ -29,7 +29,7 @@
         clearable
         required
         type="password"
-        
+        autocomplete="new-password"
        :class="{'is-invalid': resetForm.passwordError}"  placeholder="Password"
       ></v-text-field>
  <v-alert dense type="error" v-show="resetForm.passwordError" >{{ resetForm.passwordError }}</v-alert>
@@ -40,7 +40,7 @@
         required
         clearable
         type="password"
-       
+        autocomplete="new-password"
        :class="{'is-invalid': resetForm.password2Error}"  placeholder="Password Again"
       ></v-text-field>
  <v-alert dense type="error" v-show="resetForm.password2Error" >{{ resetForm.password2Error }}</v-alert>
