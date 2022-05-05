@@ -56,6 +56,7 @@
 <script>
 import store from "../../store";
 import {Account} from "@/api/account.js"
+import Alert from "../base/Alert"
 export default {
   name: "Login",
   components: {
