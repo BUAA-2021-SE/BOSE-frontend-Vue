@@ -142,6 +142,13 @@ export default {
         this.registerForm.password2Error = null
       }
 
+      if (!this.registerForm.idcode) {
+        this.registerForm.errors++
+        this.registerForm.password2Error = 'IDCode required.'
+      } else {
+        this.registerForm.password2Error = null
+      }
+
       if (this.registerForm.errors > 0) {
         // 表单验证没通过时，不继续往下执行，即不会通过 axios 调用后端API
         return false
