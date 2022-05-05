@@ -83,7 +83,8 @@
               :toc="showToc"
               :toc-first-level="1"
               :toc-last-level="3"
-              v-on:toc-rendered="tocAllRight"
+              @toc-rendered="tocAllRight"
+              :emoji="true"
               toc-id="toc"
               class="markdown-body">
             </vue-markdown>
@@ -139,7 +140,7 @@ export default {
             ],
             sharedState: store.state,
             post:{
-                body:"# nihao",
+                body:"# nihao\n**你好**:)",
                 author:{
                     name:'LLLeo',
                     id:'3'
