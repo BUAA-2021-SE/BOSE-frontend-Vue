@@ -6,21 +6,23 @@
       :message="alert.alertMessage">
     </alert>
     <mavon-editor v-model="value"/>
-    <button class="btn btn-primary" @click="getText">Submit</button>
+    <form v-if="sharedState.is_authenticated" @submit.prevent="onSubmit" class="g-mb-40">
+    <div class="form-group" :class="{'u-has-error-v1': postForm.titleError}" >
+    </div>
+    </form>
   </div>
 </template>
 
 
 <script>
-import Alert from './Alert'
+import Alert from './base/Alert.vue'
 import store from '../store.js'
-import * as echarts from 'echarts'
 import VueMarkdown from 'vue-markdown'
-
 export default {
   name: 'Home',  
   components: {
-    alert: Alert
+    alert: Alert,
+    VueMarkdown
   },
   data () {
     return {
@@ -75,10 +77,32 @@ export default {
       }
   },
   methods:{
-    getText(){
-      console.log(this.value)
+    getPosts(){
+      console.log("getPosts");
+    },
+    onSubmitAdd(){
+      console.log("onSubmitAdd");
+    },
+    onEditPost(){
+      console.log("onEditPost");
+    },
+    onSubmitUpdate(){
+      console.log("onSubmitUpdate");
+    },
+    onResetUpdate(){
+      console.log("onResetUpdate");
+    },
+    onDeletePost(){
+      console.log("onDeletePost");
     },
   },
-  
+  created(){
+    this.getPosts()
+  },
+  beforeRouteUpdate (to, from, next) {
+    // 注意：要先执行 next() 不然 this.$route.query 还是之前的
+    next()
+    this.getPosts()
+  }
 }
 </script>
