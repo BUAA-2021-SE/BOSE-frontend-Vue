@@ -5,7 +5,9 @@ const url = {
     login:'/login',
     registercheck:'/users/register_check',
     getUser:`user/${store.state.user_id}`,
-    editUser:`user/user_edit`
+    editUser:`user/user_edit`,
+    reset:`/user/reset/getcode`,
+    resetcheck:'/user/reset/newpassword'
 }
 export class Account {
     static async Register(data) {
@@ -20,6 +22,26 @@ export class Account {
     }
     static async RegisterCheck(data) {
         return service(url.registercheck,{
+            method: 'post',
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            },
+            responseType: 'json',
+            data: data
+        })
+    }
+    static async ResetCheck(data) {
+        return service(url.resetcheck,{
+            method: 'post',
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            },
+            responseType: 'json',
+            data: data
+        })
+    }
+    static async Reset(data) {
+        return service(url.reset,{
             method: 'post',
             headers: {
                 'Content-Type': 'multipart/form-data'
