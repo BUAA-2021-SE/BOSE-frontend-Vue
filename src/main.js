@@ -11,8 +11,6 @@ import * as echarts from 'echarts';
 import mavonEditor from 'mavon-editor'
 import 'mavon-editor/dist/css/index.css'
 import 'bootstrap/dist/css/bootstrap.min.css'
-import 'bootstrap'
-
 import './assets/icon-awesome/css/font-awesome.min.css'
 import 'bootstrap/dist/css/bootstrap.css'
 import './assets/icon-line/css/simple-line-icons.css'
