@@ -1,6 +1,17 @@
 <template>
   <section>
     <div class="container">
+      <div class="text-center">
+       <v-progress-circular
+       class="center"
+      indeterminate
+      color="primary"
+      :size="70"
+      :width="7"
+      v-show="this.loadingProfile"
+    ></v-progress-circular>
+    <h1 v-show="this.loadingProfile"> 努力加载中QAQ </h1>
+      </div>
       <div class="g-brd-around g-brd-gray-light-v4 g-pa-20 g-mb-40">
         <div class="row">
           <div class="col-sm-3 g-mb-40 g-mb-0--lg">
@@ -13,16 +24,19 @@
                 alt="Image Description"
               >
             </div>
-            <!-- User Image -->
-
-            <!-- Actions -->
+            <!--Change User Image-->
             <router-link
               v-if="$route.params.id == sharedState.user_id"
               :to="{ name: 'EditProfile' }"
               class="btn btn-block u-btn-outline-primary g-rounded-50 g-py-12 g-mb-10"
+               v-show="!this.loadingProfile"
             >
-              <i class="icon-user-follow g-pos-rel g-top-1 g-mr-5"></i> Edit Profile
+              <i class="icon-user-follow g-pos-rel g-top-1 g-mr-5"></i> Change Image(api is edit profile)
             </router-link>
+            <!-- User Image -->
+
+            <!-- Actions -->
+            
             <!-- End Actions -->
 
           </div>
@@ -38,7 +52,19 @@
                 v-else
                 class="g-font-weight-300 g-mr-10"
               >{{ user.username }}</h2>
+              <router-link v-show="!this.loadingProfile"
+              v-if="$route.params.id == sharedState.user_id"
+              :to="{ name: 'EditProfile' }"
+              class="btn btn-block u-btn-outline-primary g-rounded-50 g-py-12 g-mb-10"
+            >
+              <i class="icon-user-follow g-pos-rel g-top-1 g-mr-5"></i> Edit Profile
+            </router-link>
             </div>
+             <h4
+              class="h6 g-font-weight-300 g-mb-10"  v-show="!this.loadingProfile"
+            >
+            <i class="icon-check g-pos-rel g-top-1 g-color-gray-dark-v5 g-mr-5" v-show="!this.loadingProfile"></i> Verified User
+             </h4>
             <!-- End Username -->
 
             <!-- Member since -->
@@ -60,10 +86,7 @@
             <!-- End Last seen -->
 
             <!-- User Info -->
-            <ul class="list-inline g-font-weight-300">
-              <li class="list-inline-item g-mr-20">
-                <i class="icon-check g-pos-rel g-top-1 g-color-gray-dark-v5 g-mr-5"></i> Verified User
-              </li>
+            <ul class="list-inline g-font-weight-300" v-show="!this.loadingProfile">
               <li
                 v-if="user.email"
                 class="list-inline-item g-mr-20"
@@ -91,7 +114,7 @@
               </div>
               <p class="lead g-line-height-1_8">{{ user.about_me }}</p>
             </div>
-
+            
           </div>
         </div>
       </div>
@@ -107,6 +130,7 @@ export default {
   data() {
     return {
       sharedState: store.state,
+      loadingProfile: true,
       user: {
         username: "",
         name: "",
@@ -139,6 +163,7 @@ export default {
             fullWidth: true,
             position: "bottom-center",
           });
+          this.loadingProfile = false;
         })
         .catch((err) => {
           console.log((err, "getUserDetailError"));
