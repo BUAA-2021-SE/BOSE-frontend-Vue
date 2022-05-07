@@ -124,7 +124,7 @@ export default {
   },
   methods: {
     getUserDetail() {
-      Account.getUser()
+      Account.getUser(this.sharedState.user_id)
         .then((res) => {
           console.log(res.data);
           this.user.name = res.data.name;

@@ -4,7 +4,7 @@ const url = {
     register:'/users/register',
     login:'/login',
     registercheck:'/users/register_check',
-    getUser:`user/getuser/${store.state.user_id}`,
+    getUser:`user/getuser`,
     editUser:`user/user_edit`,
     reset:`/user/reset/getcode`,
     resetcheck:'/user/reset/newpassword'
@@ -65,8 +65,8 @@ export class Account {
             }
         })
     }
-    static async getUser(){
-        return service(url.getUser,{
+    static async getUser(id){
+        return service(`${url.getUser}${id}`,{
             method: 'post',
             headers: {
                 'Content-Type': 'multipart/form-data'
