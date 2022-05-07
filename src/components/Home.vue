@@ -24,7 +24,6 @@
     <div>
     <v-card
     class="mx-auto"
-    max-width="344"
     v-for="(post, index) in posts"
     :key="index"
     >
