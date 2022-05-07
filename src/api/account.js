@@ -66,7 +66,7 @@ export class Account {
         })
     }
     static async getUser(id){
-        return service(`${url.getUser}${id}`,{
+        return service(`${url.getUser}/${id}`,{
             method: 'post',
             headers: {
                 'Content-Type': 'multipart/form-data'
