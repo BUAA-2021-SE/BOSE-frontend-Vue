@@ -1,10 +1,12 @@
 <template>
   <div class="container">
+  <!-- 项目进度 -->
     <alert 
       v-for="(alert, index) in alertsFilter" :key="index"
       :variant="alert.alertVariant"
       :message="alert.alertMessage">
     </alert>
+    <!-- 用户博客添加 -->
     <form v-if="sharedState.is_authenticated"  class="g-mb-40">
     <div class="form-group" :class="{'u-has-error-v1': postForm.titleError}" >
       <input type="text" v-model="postForm.title" class="form-control" id="post_title" placeholder="标题">
@@ -17,8 +19,40 @@
       <mavon-editor v-model="postForm.body" :toolbars="tools" />
       <small class="form-control-feedback" v-show="postForm.bodyError">{{ postForm.bodyError }}</small>
     </div>
-    <button  class="btn btn-primary" @click="aaa">Submit</button>
+    <button  class="btn btn-primary" @click="onSubmitAdd">Submit</button>
     </form>
+    <!-- 用户博客编辑 -->
+      <!-- <div class="modal fade" id="updatePostModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="updatePostModalTitle">Update Post</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+              
+                <form @submit.prevent="onSubmitUpdate" @reset.prevent="onResetUpdate">
+                  <div class="form-group" v-bind:class="{'u-has-error-v1': editForm.titleError}">
+                    <input type="text" v-model="editForm.title" class="form-control" id="editform_title" placeholder="标题">
+                    <small class="form-control-feedback" v-show="editForm.titleError">{{ editForm.titleError }}</small>
+                  </div>
+                  <div class="form-group">
+                    <input type="text" v-model="editForm.summary" class="form-control" id="editform_summary" placeholder="摘要">
+                  </div>
+                  <div class="form-group">
+                    <textarea v-model="editForm.body" class="form-control" id="editform_body" rows="5" placeholder=" 内容"></textarea>
+                    <small class="form-control-feedback" v-show="editForm.bodyError">{{ editForm.bodyError }}</small>
+                  </div>
+                  <button type="reset" class="btn btn-secondary">Cancel</button>
+                  <button type="submit" class="btn btn-primary">Update</button>
+                </form>
+        
+              </div>
+            </div>
+          </div>
+        </div> -->
   </div>
 </template>
 
@@ -81,33 +115,33 @@ export default {
         titleError: false,
         bodyError: false
       },
-    tools: {
-    bold: true, // 粗体
-    italic: true, // 斜体
-    header: true, // 标题
-    underline: true, // 下划线
-    strikethrough: true, // 中划线
-    mark: true, // 标记
-    superscript: true, // 上角标
-    subscript: true, // 下角标
-    quote: true, // 引用
-    ol: true, // 有序列表
-    ul: true, // 无序列表
-    link: true, // 链接
-    imagelink: true, // 图片链接
-    code: true, // code
-    table: true, // 表格
-    fullscreen: true, // 全屏编辑
-    readmodel: true, // 沉浸式阅读
-    htmlcode: true, // 展示html源码
-    help: true, // 帮助
-    undo: true, // 上一步
-    redo: true, // 下一步
-    trash: true, // 清空
-    navigation: true, // 导航目录
-    subfield: true, // 单双栏模式
-    preview: true // 预览
-  },
+      tools: {
+        bold: true, // 粗体
+        italic: true, // 斜体
+        header: true, // 标题
+        underline: true, // 下划线
+        strikethrough: true, // 中划线
+        mark: true, // 标记
+        superscript: true, // 上角标
+        subscript: true, // 下角标
+        quote: true, // 引用
+        ol: true, // 有序列表
+        ul: true, // 无序列表
+        link: true, // 链接
+        imagelink: true, // 图片链接
+        code: true, // code
+        table: true, // 表格
+        fullscreen: true, // 全屏编辑
+        readmodel: true, // 沉浸式阅读
+        htmlcode: true, // 展示html源码
+        help: true, // 帮助
+        undo: true, // 上一步
+        redo: true, // 下一步
+        trash: true, // 清空
+        navigation: true, // 导航目录
+        subfield: true, // 单双栏模式
+        preview: true // 预览
+      },
     }
   },
   computed:{
@@ -121,31 +155,27 @@ export default {
     getPosts(){
       console.log("getPosts");
     },
-    // onSubmitAdd(){
-    //   console.log("onSubmitAdd");
-    // },
-    // onEditPost(){
-    //   console.log("onEditPost");
-    // },
-    // onSubmitUpdate(){
-    //   console.log("onSubmitUpdate");
-    // },
-    // onResetUpdate(){
-    //   console.log("onResetUpdate");
-    // },
-    // onDeletePost(){
-    //   console.log("onDeletePost");
-    // },
-    aaa(){
+    onEditPost(){
+      console.log("onEditPost");
+    },
+    onSubmitUpdate(){
+      console.log("onSubmitUpdate");
+    },
+    onResetUpdate(){
+      console.log("onResetUpdate");
+    },
+    onDeletePost(){
+      console.log("onDeletePost");
+    },
+    onSubmitAdd(){
       const payload = new FormData();
       payload.append('title',this.postForm.title);
       payload.append('summary',this.postForm.summary);
       payload.append('body',this.postForm.body);
+      console.log("onSubmitAdd");
       Post.postBlog(payload)
         .then((res) => {
           console.log(res);
-          // this.$router.push('/login');
-          // store.setNewAction();
           this.$router.push({
                 name: 'Profile',
                 params: { id: this.sharedState.user_id }                
@@ -153,20 +183,6 @@ export default {
         })
         .catch((error) => {
           console.log(error.data);
-          // for (let field in error.response.data.detail) {
-          //   if (field == 'username') {
-          //     this.registerForm.usernameError = error.response.data.detail.username
-          //   } else if (field == 'email') {
-          //     this.registerForm.emailError = error.response.data.detail.email
-          //   } else if (field == 'password') {
-          //     this.registerForm.passwordError = error.response.data.detail.password
-          //   }else if (field == 'password2') {
-          //     this.registerForm.password2Error = error.response.data.detail.password2
-          //   }
-          //   else if (field == 'identifying_code') {
-          //     this.registerForm.idcodeError = error.response.data.detail.identifying_code
-          //   }
-          // }
           console.log(error);
         })
     }

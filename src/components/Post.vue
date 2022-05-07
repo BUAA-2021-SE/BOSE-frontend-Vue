@@ -1,37 +1,39 @@
 <template>
   <div class="container">
     <!-- Modal: Edit Post -->
-    <div class="modal fade" id="updatePostModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-      <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="updatePostModalTitle">Update Post</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body">
-            <form @submit.prevent="onSubmitUpdate" @reset.prevent="onResetUpdate">
-              <div class="form-group" :class="{'u-has-error-v1': editForm.titleError}">
-                <input type="text" v-model="editForm.title" class="form-control" id="editform_title" placeholder="标题">
-                <small class="form-control-feedback" v-show="editForm.titleError">{{ editForm.titleError }}</small>
-              </div>
-              <div class="form-group">
-                <input type="text" v-model="editForm.summary" class="form-control" id="editform_summary" placeholder="摘要">
-              </div>
-              <div class="form-group">
-                <textarea v-model="editForm.body" class="form-control" id="editform_body" rows="5" placeholder=" 内容"></textarea>
-                <small class="form-control-feedback" v-show="editForm.bodyError">{{ editForm.bodyError }}</small>
-              </div>
-              <button type="reset" class="btn btn-secondary">Cancel</button>
-              <button type="submit" class="btn btn-primary">Update</button>
-            </form>
-          </div>
-        </div>
-      </div>
+    <v-dialog v-model="showEdit" fullscreen hide-overlay >
+    <form v-if="sharedState.is_authenticated"  class="g-mb-40">
+    <div class="form-group" :class="{'u-has-error-v1': editForm.titleError}" >
+      <input type="text" v-model="editForm.title" class="form-control" id="post_title" placeholder="标题">
+      <small class="form-control-feedback" v-show="editForm.titleError">{{ editForm.titleError }}</small>
     </div>
-    <!-- End Modal: Edit Post -->
-
+    <div class="form-group">
+      <input type="text" v-model="editForm.summary" class="form-control" id="post_summary" placeholder="摘要">
+    </div>
+    <div class="form-group">
+      <mavon-editor v-model="editForm.body" :toolbars="tools" />
+      <small class="form-control-feedback" v-show="editForm.bodyError">{{ editForm.bodyError }}</small>
+    </div>
+    <v-card-actions>
+      
+      <v-btn
+        color="blue darken-1"
+        text
+        @click="showEdit = false"
+      >
+        Close
+      </v-btn>
+      <v-spacer></v-spacer>
+      <v-btn
+        color="blue darken-1"
+        text
+        @click="onSubmitUpdate"
+      >
+        Submit
+      </v-btn>
+    </v-card-actions>
+    </form>
+    </v-dialog>
     <div class="row">
       <!-- Articles Content -->
       <div class="col-lg-9">
@@ -45,7 +47,7 @@
                 <button @click="onEditPost(post)" class="btn btn-xs u-btn-outline-purple g-mr-5" data-toggle="modal" data-target="#updatePostModal">编辑</button>
               </li>
               <li v-if="post.author && post.author.id == sharedState.user_id" class="list-inline-item">
-                <button @click="onDeletePost(post)" class="btn btn-xs u-btn-outline-red g-mr-5">删除</button>
+                <button @click="showDelete=true" class="btn btn-xs u-btn-outline-red g-mr-5">删除</button>
               </li>
               <li class="list-inline-item">
                 <span class="btn btn-xs u-btn-outline-aqua g-mr-10">评论</span>
@@ -74,8 +76,6 @@
           </header>
 
           <div id="postBody" class="g-font-size-16 g-line-height-1_8 g-mb-30">
-            
-
             <vue-markdown
               :source="post.body"
               :toc="showToc"
@@ -88,9 +88,7 @@
             </vue-markdown>
             
           </div>
-
         </article>
-         <button class="btn btn-primary" @click="onSubmitUpdate">Register</button>
       </div>
       <!-- End Articles Content -->
 
@@ -107,7 +105,31 @@
       </div>
       <!-- End Sidebar -->
     </div>
-
+    <v-dialog
+    v-model="showDelete">
+     <v-card>
+     <v-card-title>
+     Are you sure you want to delete?
+     </v-card-title>
+        <v-card-actions>
+          <v-btn
+          color="primary"
+          text
+          @click="showDelete= false"
+          >
+          Quit
+          </v-btn>
+          <v-spacer></v-spacer>
+          <v-btn
+            color="danger"
+            text
+            @click="onDeletePost"
+          >
+            Confirm
+          </v-btn>
+        </v-card-actions>
+     </v-card>
+    </v-dialog>
   </div>
 </template>
 
@@ -146,7 +168,36 @@ export default {
                 titleError: false,
                 bodyError: false
             },
-            showToc:true
+            showToc:true,
+            tools: {
+              bold: true, // 粗体
+              italic: true, // 斜体
+              header: true, // 标题
+              underline: true, // 下划线
+              strikethrough: true, // 中划线
+              mark: true, // 标记
+              superscript: true, // 上角标
+              subscript: true, // 下角标
+              quote: true, // 引用
+              ol: true, // 有序列表
+              ul: true, // 无序列表
+              link: true, // 链接
+              imagelink: true, // 图片链接
+              code: true, // code
+              table: true, // 表格
+              fullscreen: true, // 全屏编辑
+              readmodel: true, // 沉浸式阅读
+              htmlcode: true, // 展示html源码
+              help: true, // 帮助
+              undo: true, // 上一步
+              redo: true, // 下一步
+              trash: true, // 清空
+              navigation: true, // 导航目录
+              subfield: true, // 单双栏模式
+              preview: true // 预览
+            },
+            showEdit: false,
+            showDelete: false, 
         }
     },
     methods:{
@@ -154,7 +205,7 @@ export default {
             Post.getPost(id)
             .then((res)=>{
                 this.post = res.data;
-                console.log(this.post.body);
+                console.log(res.data,"res");
             })
             .catch((err)=>{
                 console.error(err);
@@ -162,39 +213,43 @@ export default {
         },
         onEditPost(){
             // 避免修改后显示未向后端提交的信息，不能使用对象引用赋值。
-            this.editForm = Object.assign({},post);
+            this.editForm = Object.assign({},this.post);
+            console.log(this.editForm,"editForm");
+            this.showEdit = true
         },
         onSubmitUpdate(){
+          this.showEdit = false;
             this.editForm.errors = 0;
-            $('.form-control-feedback').remove()
-            $('.form-group.u-has-error-v1').removeClass('u-has-error-v1')
+            // $('.form-control-feedback').remove()
+            // $('.form-group.u-has-error-v1').removeClass('u-has-error-v1')
             if (!this.editForm.title) {
                 this.editForm.errors++
                 this.editForm.titleError = 'Title is required.'
-                $('#editform_title').closest('.form-group').addClass('u-has-error-v1')  // Bootstrap 4
-                $('#editform_title').after('<small class="form-control-feedback">' + this.editForm.titleError + '</small>')
+                // $('#editform_title').closest('.form-group').addClass('u-has-error-v1')  // Bootstrap 4
+                // $('#editform_title').after('<small class="form-control-feedback">' + this.editForm.titleError + '</small>')
                 } else {
                     this.editForm.titleError = null
                 }
             if (!this.editForm.body) {
                 this.editForm.errors++
                 this.editForm.bodyError = 'Body is required.'
-                $('.md-editor').closest('.form-group').addClass('u-has-error-v1')  // Bootstrap 4
-                $('.md-editor').after('<small class="form-control-feedback">' + this.editForm.bodyError + '</small>')
+                // $('.md-editor').closest('.form-group').addClass('u-has-error-v1')  // Bootstrap 4
+                // $('.md-editor').after('<small class="form-control-feedback">' + this.editForm.bodyError + '</small>')
             } else {
                 this.editForm.bodyError = null
             }
             if (this.editForm.errors > 0) {
                 // 表单验证没通过时，不继续往下执行，即不会通过 axios 调用后端API
+                console.log("表单验证没通过")
                 return false
             }        
             // 先隐藏 Modal
-        $('#updatePostModal').modal('hide')
+        // $('#updatePostModal').modal('hide')
         const formData = new FormData();
         formData.append('title',this.editForm.title);
         formData.append('summary',this.editForm.summary);
         formData.append('body',this.editForm.body);
-        Post.editPost(id,formData)
+        Post.editPost(this.$route.params.id,formData)
         .then((res)=>{
             console.log(res);
             this.getPost(this.editForm.id);
@@ -205,6 +260,7 @@ export default {
         })
         .catch((err)=>{
             console.error(err);
+            this.$toasted.success('Successfully update the post.',{icon:'check'});
         })
         },
         onResetUpdate(){
@@ -213,38 +269,22 @@ export default {
             // this.getPosts()
             this.$toasted.info('Cancelled, the post is not update.', { icon: 'fingerprint' })
         },
-        onDeletePost(post){
-        this.$swal({
-            title: "Are you sure?",
-            text: "该操作将彻底删除 [ " + post.title + " ], 请慎重",
-            type: "warning",
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Yes, delete it!',
-            cancelButtonText: 'No, cancel!'
-        }).then((result) => {
-        if(result.value) {
-          const path = `/api/posts/${post.id}`
-          this.$axios.delete(path)
-            .then((res) => {
-              // handle success
-              this.$swal('Deleted', 'You successfully deleted this post', 'success')
-              if (typeof this.$route.query.redirect == 'undefined') {
-                this.$router.push('/')
-              } else {
-                this.$router.push(this.$route.query.redirect)
-              }
+        onDeletePost(){
+          Post.deleteBlog(this.$route.params.id)
+          .then((res)=>{
+            console.log(res);
+            this.showDelete=false;
+            this.$toasted.success(res.data,
+            {
+              icon:'check',
+              fullWidth: true,
+              position: "bottom-center"
             })
-            .catch((err) => {
-              // handle error
-              console.log(err)
-            })
-          
-        } else {
-          this.$swal('Cancelled', 'The post is safe :)', 'error')
-        }
-      })
+            this.$router.push('/')
+          })
+          .catch((err)=>{
+            console.error(err,"not deleted");
+          })
         },
         tocAllRight: function (tocHtmlStr) {
             // console.log("toc is parsed :", tocHtmlStr);

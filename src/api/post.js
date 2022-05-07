@@ -2,8 +2,9 @@ import service from '@/http/request.js'
 import store from '../store.js'
 const url = {
     getPost:'/blog/return_posts',
-    editPost:'blog/posts',
-    postBlog:'/blog/submit_posts'
+    editPost:'/blog/posts',
+    postBlog:'/blog/submit_posts',
+    deletePost:'/blog/delete'
 };
 export default class Post {
     static async getPost(id){
@@ -30,6 +31,15 @@ export default class Post {
             },
             responseType: 'json',
             data: data
+        })
+    }
+    static async deleteBlog(id){
+        return service(`${url.deletePost}/${id}`,{
+            method:'delete',
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            },
+            responseType: 'json'
         })
     }
 }

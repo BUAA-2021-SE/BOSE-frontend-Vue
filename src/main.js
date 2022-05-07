@@ -27,7 +27,7 @@ Vue.prototype.$moment = moment
 Vue.use(ElementUI);
 Vue.prototype.$echarts = echarts;
 Vue.use(mavonEditor);
-Vue.use(VueSweetalert2)
+Vue.use(VueSweetalert2);
 Vue.directive('highlight',function (el) {
   let blocks = el.querySelectorAll('pre code');
   blocks.forEach((block)=>{
