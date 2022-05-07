@@ -38,9 +38,11 @@
             <!-- Actions -->
             
             <!-- End Actions -->
+           
 
           </div>
 
+           <!-- v-divider vertical useless -->
           <div class="col-sm-9">
             <!-- Username -->
             <div class="d-flex align-items-center justify-content-sm-between g-mb-5">
@@ -86,17 +88,16 @@
             <!-- End Last seen -->
 
             <!-- User Info -->
-            <ul class="list-inline g-font-weight-300" v-show="!this.loadingProfile">
-              <li
-                v-if="user.email"
-                class="list-inline-item g-mr-20"
-              >
+            <h4
+               v-if="user.email"
+              class="h6 g-font-weight-300 g-mb-10"
+             v-show="!this.loadingProfile">
+             
                 <i class="icon-link g-pos-rel g-top-1 g-color-gray-dark-v5 g-mr-5"></i> <a
                   class="g-color-main g-color-primary--hover"
                   :href="'mailto:' + user.email"
                 >{{ user.email }}</a>
-              </li>
-            </ul>
+              </h4>
             <!-- End User Info -->
 
             <!-- Location -->
