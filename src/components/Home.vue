@@ -35,7 +35,8 @@
     </v-card-title>
     </router-link>
     <v-card-text>
-      <p>{{post.author.name || post.author.username}}</p>
+      <!-- <p>{{post.author.name || post.author.username}}</p> -->
+      <p>echo17666</p>
       <div class="text--primary">
         {{post.summary}}
       </div>
