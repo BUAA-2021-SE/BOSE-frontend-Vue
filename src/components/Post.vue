@@ -1,7 +1,22 @@
 <template>
   <div class="container">
     <!-- Modal: Edit Post -->
-    <v-dialog v-model="showEdit" fullscreen hide-overlay >
+    <v-dialog v-model="showEdit" >
+          <v-btn
+        color="blue darken-1"
+        text
+        @click="showEdit = false"
+      >
+        Close
+      </v-btn>
+      <v-spacer></v-spacer>
+      <v-btn
+        color="blue darken-1"
+        text
+        @click="onBlogUpdate"
+      >
+        Submit
+      </v-btn>
     <form v-if="sharedState.is_authenticated"  class="g-mb-40">
     <div class="form-group" :class="{'u-has-error-v1': editForm.titleError}" >
       <input type="text" v-model="editForm.title" class="form-control" id="post_title" placeholder="标题">
@@ -14,24 +29,6 @@
       <mavon-editor v-model="editForm.body" :toolbars="tools" />
       <small class="form-control-feedback" v-show="editForm.bodyError">{{ editForm.bodyError }}</small>
     </div>
-    <v-card-actions>
-      
-      <v-btn
-        color="blue darken-1"
-        text
-        @click="showEdit = false"
-      >
-        Close
-      </v-btn>
-      <v-spacer></v-spacer>
-      <v-btn
-        color="blue darken-1"
-        text
-        @click="onSubmitUpdate"
-      >
-        Submit
-      </v-btn>
-    </v-card-actions>
     </form>
     </v-dialog>
     <div class="row">
@@ -44,7 +41,7 @@
 
             <ul class="list-inline d-sm-flex g-color-gray-dark-v4 mb-0">
               <li v-if="post.author && post.author.id == sharedState.user_id" class="list-inline-item">
-                <button @click="onEditPost(post)" class="btn btn-xs u-btn-outline-purple g-mr-5" data-toggle="modal" data-target="#updatePostModal">编辑</button>
+                <button @click="onEditPost(post)" class="btn btn-xs u-btn-outline-purple g-mr-5" >编辑</button>
               </li>
               <li v-if="post.author && post.author.id == sharedState.user_id" class="list-inline-item">
                 <button @click="showDelete=true" class="btn btn-xs u-btn-outline-red g-mr-5">删除</button>
@@ -143,7 +140,7 @@ import $ from 'jquery'
 const highlightCode = () => {
   let blocks = document.querySelectorAll('pre code');
   blocks.forEach((block)=>{
-    hljs.highlightBlock(block)
+    hljs.highlightElement(block)
   })
 }
 export default {
@@ -217,8 +214,7 @@ export default {
             console.log(this.editForm,"editForm");
             this.showEdit = true
         },
-        onSubmitUpdate(){
-          this.showEdit = false;
+        onBlogUpdate(){
             this.editForm.errors = 0;
             // $('.form-control-feedback').remove()
             // $('.form-group.u-has-error-v1').removeClass('u-has-error-v1')
@@ -249,11 +245,12 @@ export default {
         formData.append('title',this.editForm.title);
         formData.append('summary',this.editForm.summary);
         formData.append('body',this.editForm.body);
-        Post.editPost(this.$route.params.id,formData)
+        Post.editBlog(this.$route.params.id,formData)
         .then((res)=>{
             console.log(res);
             this.getBlog(this.editForm.id);
             this.$toasted.success('Successfully update the post.',{icon:'check'});
+            this.showEdit = false;
             this.editForm.title=''
             this.editForm.summary=''
             this.editForm.body=''
