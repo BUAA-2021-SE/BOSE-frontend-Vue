@@ -126,6 +126,7 @@ export default {
     getUserDetail() {
       Account.getUser(this.sharedState.user_id)
         .then((res) => {
+          console.log(this.$route.params);
           console.log(res.data);
           this.user.name = res.data.name;
           this.user.about_me = res.data.about_me;

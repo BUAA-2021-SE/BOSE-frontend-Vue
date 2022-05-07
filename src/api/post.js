@@ -4,7 +4,6 @@ const url = {
     getPost:'/blog/return_posts',
     editPost:'blog/posts',
     postBlog:'/blog/submit_posts'
-
 };
 export default class Post {
     static async getPost(id){

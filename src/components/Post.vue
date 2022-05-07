@@ -75,9 +75,6 @@
 
           <div id="postBody" class="g-font-size-16 g-line-height-1_8 g-mb-30">
             
-            <!-- vue-markdown 开始解析markdown，它是子组件，通过 props 给它传值即可
-            要指定TOC的级数哦，如果要修改TOC的样式，要在toc-rendered指定的函数中操作，因为要等它把TOC给创建出来
-             -->
 
             <vue-markdown
               :source="post.body"
@@ -140,18 +137,7 @@ export default {
                 { title: 'Users', icon: 'mdi-account-group-outline' }
             ],
             sharedState: store.state,
-            post:{
-                // body:"# nihao\n**你好**:)",
-                // author:{
-                //     name:'LLLeo',
-                //     id:'3'
-                // }
-                // body:"",
-                // author:{
-                //     name:'',
-                //     id:''
-                // }
-            },
+            post:{},
             editForm:{
                 title: '',
                 summary: '',
@@ -168,7 +154,7 @@ export default {
             Post.getPost(id)
             .then((res)=>{
                 this.post = res.data;
-                console.log(this.post.body)
+                console.log(this.post.body);
             })
             .catch((err)=>{
                 console.error(err);
@@ -185,7 +171,6 @@ export default {
             if (!this.editForm.title) {
                 this.editForm.errors++
                 this.editForm.titleError = 'Title is required.'
-                // boostrap4 modal依赖jQuery，不兼容 vue.js 的双向绑定。所以要手动添加警示样式和错误提示
                 $('#editform_title').closest('.form-group').addClass('u-has-error-v1')  // Bootstrap 4
                 $('#editform_title').after('<small class="form-control-feedback">' + this.editForm.titleError + '</small>')
                 } else {
@@ -194,8 +179,6 @@ export default {
             if (!this.editForm.body) {
                 this.editForm.errors++
                 this.editForm.bodyError = 'Body is required.'
-                // boostrap4 modal依赖jQuery，不兼容 vue.js 的双向绑定。所以要手动添加警示样式和错误提示
-                // 给 bootstrap-markdown 编辑器内容添加警示样式，而不是添加到 #post_body 上
                 $('.md-editor').closest('.form-group').addClass('u-has-error-v1')  // Bootstrap 4
                 $('.md-editor').after('<small class="form-control-feedback">' + this.editForm.bodyError + '</small>')
             } else {
@@ -206,23 +189,23 @@ export default {
                 return false
             }        
             // 先隐藏 Modal
-      $('#updatePostModal').modal('hide')
-      const formData = new FormData();
-      formData.append('title',this.editForm.title);
-      formData.append('summary',this.editForm.summary);
-      formData.append('body',this.editForm.body);
-      Post.editPost(id,formData)
-      .then((res)=>{
-          console.log(res);
-          this.getPost(this.editForm.id);
-          this.$toasted.success('Successfully update the post.',{icon:'check'});
-          this.editForm.title=''
-          this.editForm.summary=''
-          this.editForm.body=''
-      })
-      .catch((err)=>{
-          console.error(err);
-      })
+        $('#updatePostModal').modal('hide')
+        const formData = new FormData();
+        formData.append('title',this.editForm.title);
+        formData.append('summary',this.editForm.summary);
+        formData.append('body',this.editForm.body);
+        Post.editPost(id,formData)
+        .then((res)=>{
+            console.log(res);
+            this.getPost(this.editForm.id);
+            this.$toasted.success('Successfully update the post.',{icon:'check'});
+            this.editForm.title=''
+            this.editForm.summary=''
+            this.editForm.body=''
+        })
+        .catch((err)=>{
+            console.error(err);
+        })
         },
         onResetUpdate(){
             // 先隐藏 Modal
@@ -276,8 +259,7 @@ export default {
         }
     },
     created(){
-        // const postId = this.$route.params.id
-        const postId = 5
+        const postId = this.$route.params.id
         this.getPost(postId);
         $(document).ready(function(){
             $("#sticker").sticky({ topSpacing: 10 });
@@ -289,9 +271,8 @@ export default {
     updated(){
         highlightCode()
     },
-    beforeRouteUpdate(){
-    let a=5;
-    this.getPost(a)
+    beforeRouteUpdate(to, from,next){
+    this.getPost(to.params.id);
     next()
     }
 }
