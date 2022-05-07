@@ -21,39 +21,37 @@
     </div>
     <button  class="btn btn-primary" @click="onSubmitAdd">Submit</button>
     </form>
-    <!-- 用户博客编辑 -->
-      <!-- <div class="modal fade" id="updatePostModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-          <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title" id="updatePostModalTitle">Update Post</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              <div class="modal-body">
-              
-                <form @submit.prevent="onSubmitUpdate" @reset.prevent="onResetUpdate">
-                  <div class="form-group" v-bind:class="{'u-has-error-v1': editForm.titleError}">
-                    <input type="text" v-model="editForm.title" class="form-control" id="editform_title" placeholder="标题">
-                    <small class="form-control-feedback" v-show="editForm.titleError">{{ editForm.titleError }}</small>
-                  </div>
-                  <div class="form-group">
-                    <input type="text" v-model="editForm.summary" class="form-control" id="editform_summary" placeholder="摘要">
-                  </div>
-                  <div class="form-group">
-                    <textarea v-model="editForm.body" class="form-control" id="editform_body" rows="5" placeholder=" 内容"></textarea>
-                    <small class="form-control-feedback" v-show="editForm.bodyError">{{ editForm.bodyError }}</small>
-                  </div>
-                  <button type="reset" class="btn btn-secondary">Cancel</button>
-                  <button type="submit" class="btn btn-primary">Update</button>
-                </form>
-        
-              </div>
-            </div>
-          </div>
-        </div> -->
-  </div>
+    <div>
+    <v-card
+    class="mx-auto"
+    max-width="344"
+    v-for="(post, index) in posts"
+    :key="index"
+    >
+    <router-link
+    :to = "{name:'Post',params:{id:post.id} }"
+    >
+    <v-card-title>
+    {{post.title}}
+    </v-card-title>
+    </router-link>
+    <v-card-text>
+      <p>{{post.author.name || post.author.username}}</p>
+      <div class="text--primary">
+        {{post.summary}}
+      </div>
+    </v-card-text>
+    <v-card-actions>
+      <v-btn
+        text
+        color="deep-purple accent-4"
+      >
+        Learn More
+      </v-btn>
+    </v-card-actions>
+    </v-card>
+    </div>
+    </div>
 </template>
 
 
@@ -153,7 +151,11 @@ export default {
   },
   methods:{
     getPosts(){
-      console.log("getPosts");
+      Post.getAllBlog(1,3)
+      .then((res)=>{
+        console.log(res.data.items,"getPosts");
+          this.posts = res.data.items;
+      })
     },
     onEditPost(){
       console.log("onEditPost");

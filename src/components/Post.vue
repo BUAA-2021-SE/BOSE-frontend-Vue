@@ -201,8 +201,8 @@ export default {
         }
     },
     methods:{
-        getPost(id){
-            Post.getPost(id)
+        getBlog(id){
+            Post.getBlog(id)
             .then((res)=>{
                 this.post = res.data;
                 console.log(res.data,"res");
@@ -252,7 +252,7 @@ export default {
         Post.editPost(this.$route.params.id,formData)
         .then((res)=>{
             console.log(res);
-            this.getPost(this.editForm.id);
+            this.getBlog(this.editForm.id);
             this.$toasted.success('Successfully update the post.',{icon:'check'});
             this.editForm.title=''
             this.editForm.summary=''
@@ -262,12 +262,6 @@ export default {
             console.error(err);
             this.$toasted.success('Successfully update the post.',{icon:'check'});
         })
-        },
-        onResetUpdate(){
-            // 先隐藏 Modal
-            $('#updatePostModal').modal('hide')
-            // this.getPosts()
-            this.$toasted.info('Cancelled, the post is not update.', { icon: 'fingerprint' })
         },
         onDeletePost(){
           Post.deleteBlog(this.$route.params.id)
@@ -300,7 +294,7 @@ export default {
     },
     created(){
         const postId = this.$route.params.id
-        this.getPost(postId);
+        this.getBlog(postId);
         $(document).ready(function(){
             $("#sticker").sticky({ topSpacing: 10 });
         })
@@ -312,7 +306,7 @@ export default {
         highlightCode()
     },
     beforeRouteUpdate(to, from,next){
-    this.getPost(to.params.id);
+    this.getBlog(to.params.id);
     next()
     }
 }

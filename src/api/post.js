@@ -1,20 +1,21 @@
 import service from '@/http/request.js'
 import store from '../store.js'
 const url = {
-    getPost:'/blog/return_posts',
-    editPost:'/blog/posts',
+    getBlog:'/blog/return_posts',
+    getAllBlog:'blog/get_all_posts',
+    editBlog:'/blog/posts',
     postBlog:'/blog/submit_posts',
     deletePost:'/blog/delete'
 };
 export default class Post {
-    static async getPost(id){
-        return service(`${url.getPost}/${id}`,{
+    static async getBlog(id){
+        return service(`${url.getBlog}/${id}`,{
             method: 'get',
             responseType: 'json',
         })
     }
-    static async editPost(id,data){
-        return service(`${url.editPost}/${id}`,{
+    static async editBlog(id,data){
+        return service(`${url.editBlog}/${id}`,{
             method: 'put',
             headers: {
                 'Content-Type': 'multipart/form-data'
@@ -36,6 +37,15 @@ export default class Post {
     static async deleteBlog(id){
         return service(`${url.deletePost}/${id}`,{
             method:'delete',
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            },
+            responseType: 'json'
+        })
+    }
+    static async getAllBlog(page,size){
+        return service(`${url.getAllBlog}?page=${page}&size=${size}`,{
+            method:'get',
             headers: {
                 'Content-Type': 'multipart/form-data'
             },
