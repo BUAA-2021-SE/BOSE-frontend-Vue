@@ -60,6 +60,8 @@
     >
       删除
     </v-btn>
+    <router-link
+    :to = "{name:'PostEdit',params:{id:post.id} }">
     <v-btn
     v-if="post.author.id==sharedState.user_id"
       text
@@ -67,6 +69,7 @@
     >
       编辑
     </v-btn>
+    </router-link>
     </v-card-actions>
     </v-card>
     <v-dialog

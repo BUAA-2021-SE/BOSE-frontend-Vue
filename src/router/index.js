@@ -9,8 +9,9 @@ import Reset from '@/components/account/Reset'
 import Profile from '@/components/account/Profile'
 import Ping from '@/components/Ping'
 import EditProfile from '@/components/account/EditProfile'
+import Post from '@/components/Blog/Blog'
+import PostEdit from '@/components/Blog/EditBlog'
 import ShowProfile from '@/components/account/ShowProfile'
-import Post from '@/components/Post'
 import Followers from '@/components/profile/Followers'
 import Following from '@/components/profile/Following'
 import Posts from '@/components/profile/Posts'
@@ -26,7 +27,11 @@ const router = new VueRouter({
     {
       path: '/post/:id',
       name: 'Post',
-      component: Post
+      component: Post,
+    },
+    { path: '/postedit/:id',
+      name: 'PostEdit',
+      component: PostEdit,
     },
     {
       path: '/ping',

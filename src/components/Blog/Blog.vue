@@ -1,36 +1,6 @@
 <template>
   <div class="container">
     <!-- Modal: Edit Post -->
-    <v-dialog v-model="showEdit" >
-          <v-btn
-        color="blue darken-1"
-        text
-        @click="showEdit = false"
-      >
-        Close
-      </v-btn>
-      <v-spacer></v-spacer>
-      <v-btn
-        color="blue darken-1"
-        text
-        @click="onBlogUpdate"
-      >
-        Submit
-      </v-btn>
-    <form v-if="sharedState.is_authenticated"  class="g-mb-40">
-    <div class="form-group" :class="{'u-has-error-v1': editForm.titleError}" >
-      <input type="text" v-model="editForm.title" class="form-control" id="post_title" placeholder="标题">
-      <small class="form-control-feedback" v-show="editForm.titleError">{{ editForm.titleError }}</small>
-    </div>
-    <div class="form-group">
-      <input type="text" v-model="editForm.summary" class="form-control" id="post_summary" placeholder="摘要">
-    </div>
-    <div class="form-group">
-      <mavon-editor v-model="editForm.body" :toolbars="tools" />
-      <small class="form-control-feedback" v-show="editForm.bodyError">{{ editForm.bodyError }}</small>
-    </div>
-    </form>
-    </v-dialog>
     <div class="row">
       <!-- Articles Content -->
       <div class="col-lg-9">
@@ -41,7 +11,11 @@
 
             <ul class="list-inline d-sm-flex g-color-gray-dark-v4 mb-0">
               <li v-if="post.author && post.author.id == sharedState.user_id" class="list-inline-item">
-                <button @click="onEditPost(post)" class="btn btn-xs u-btn-outline-purple g-mr-5" >编辑</button>
+              <router-link
+              :to="{name:'PostEdit',params:{id:post.id} }"
+              >
+              <button  class="btn btn-xs u-btn-outline-purple g-mr-5" >编辑</button>
+              </router-link>
               </li>
               <li v-if="post.author && post.author.id == sharedState.user_id" class="list-inline-item">
                 <button @click="showDelete=true" class="btn btn-xs u-btn-outline-red g-mr-5">删除</button>
@@ -134,7 +108,7 @@
 import store from '@/store.js'
 import VueMarkdown from 'vue-markdown'
 import hljs from 'highlight.js'
-import '../assets/jquery.sticky'
+import '@/assets/jquery.sticky'
 import Post from '@/api/post'
 import $ from 'jquery'
 const highlightCode = () => {
@@ -207,58 +181,6 @@ export default {
             .catch((err)=>{
                 console.error(err);
             })
-        },
-        onEditPost(){
-            // 避免修改后显示未向后端提交的信息，不能使用对象引用赋值。
-            this.editForm = Object.assign({},this.post);
-            console.log(this.editForm,"editForm");
-            this.showEdit = true
-        },
-        onBlogUpdate(){
-            this.editForm.errors = 0;
-            // $('.form-control-feedback').remove()
-            // $('.form-group.u-has-error-v1').removeClass('u-has-error-v1')
-            if (!this.editForm.title) {
-                this.editForm.errors++
-                this.editForm.titleError = 'Title is required.'
-                // $('#editform_title').closest('.form-group').addClass('u-has-error-v1')  // Bootstrap 4
-                // $('#editform_title').after('<small class="form-control-feedback">' + this.editForm.titleError + '</small>')
-                } else {
-                    this.editForm.titleError = null
-                }
-            if (!this.editForm.body) {
-                this.editForm.errors++
-                this.editForm.bodyError = 'Body is required.'
-                // $('.md-editor').closest('.form-group').addClass('u-has-error-v1')  // Bootstrap 4
-                // $('.md-editor').after('<small class="form-control-feedback">' + this.editForm.bodyError + '</small>')
-            } else {
-                this.editForm.bodyError = null
-            }
-            if (this.editForm.errors > 0) {
-                // 表单验证没通过时，不继续往下执行，即不会通过 axios 调用后端API
-                console.log("表单验证没通过")
-                return false
-            }        
-            // 先隐藏 Modal
-        // $('#updatePostModal').modal('hide')
-        const formData = new FormData();
-        formData.append('title',this.editForm.title);
-        formData.append('summary',this.editForm.summary);
-        formData.append('body',this.editForm.body);
-        Post.editBlog(this.$route.params.id,formData)
-        .then((res)=>{
-            console.log(res);
-            this.getBlog(this.editForm.id);
-            this.$toasted.success('Successfully update the post.',{icon:'check'});
-            this.showEdit = false;
-            this.editForm.title=''
-            this.editForm.summary=''
-            this.editForm.body=''
-        })
-        .catch((err)=>{
-            console.error(err);
-            this.$toasted.success('Successfully update the post.',{icon:'check'});
-        })
         },
         onDeletePost(){
           Post.deleteBlog(this.$route.params.id)
