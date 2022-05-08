@@ -7,20 +7,48 @@
       :message="alert.alertMessage">
     </alert>
     <!-- 用户博客添加 -->
-    <form v-if="sharedState.is_authenticated"  class="g-mb-40">
-    <div class="form-group" :class="{'u-has-error-v1': postForm.titleError}" >
+    <v-form v-if="sharedState.is_authenticated"  class="g-mb-40">
+    <!-- <div class="form-group" :class="{'u-has-error-v1': postForm.titleError}" >
       <input type="text" v-model="postForm.title" class="form-control" id="post_title" placeholder="标题">
       <small class="form-control-feedback" v-show="postForm.titleError">{{ postForm.titleError }}</small>
-    </div>
-    <div class="form-group">
+    </div> -->
+    <label >标题</label>
+    <v-text-field
+        v-model="postForm.title"
+       
+        outlined
+        dense
+        placeholder=""
+       :class="{'is-invalid': postForm.titleError}"
+      ></v-text-field>
+    <!-- <div class="form-group">
       <input type="text" v-model="postForm.summary" class="form-control" id="post_summary" placeholder="摘要">
-    </div>
-    <div class="form-group">
+    </div> -->
+    <label >摘要</label>
+    <v-text-field
+        v-model="postForm.summary"
+      
+        outlined
+        dense
+        placeholder=""
+       :class="{'is-invalid': postForm.summaryError}"
+      ></v-text-field>
+    <!-- <div class="form-group">
       <mavon-editor v-model="postForm.body" :toolbars="tools" />
       <small class="form-control-feedback" v-show="postForm.bodyError">{{ postForm.bodyError }}</small>
-    </div>
+    </div> -->
+    <label >正文</label>
+    <v-textarea
+        v-model="postForm.body"
+       
+        outlined
+        dense
+        placeholder=""
+       :class="{'is-invalid': postForm.bodyError}"
+      ></v-textarea>
+      <v-alert dense type="error" v-show="this.postForm.errors" >{{ postForm.titleError || postForm.summaryError || postForm.bodyError}}</v-alert>
     <button  class="btn btn-primary" @click="onSubmitAdd">Submit</button>
-    </form>
+    </v-form>
     <div>
     <v-card
     class="mx-auto"
@@ -150,7 +178,8 @@ export default {
         body: '',
         errors: 0,  // 表单是否在前端验证通过，0 表示没有错误，验证通过
         titleError: false,
-        bodyError: false
+        bodyError: false,
+        summaryError: false
       },
       showDelete: false,
       deleteId:0,
@@ -231,6 +260,33 @@ export default {
           })
     },
     onSubmitAdd(){
+      this.postForm.errors = 0;
+      this.postForm.title=this.postForm.title.trim()
+      this.postForm.summary=this.postForm.summary.trim()
+      this.postForm.body=this.postForm.body.trim()
+
+      if(this.postForm.title==""){
+          this.postForm.errors++;
+          console.log("aaa");
+          this.postForm.titleError="Please Enter Title"
+      }else{
+        this.postForm.titleError=null
+      }
+      if(this.postForm.summary==""){
+          this.postForm.errors++;
+          this.postForm.summaryError="Please Enter Summary"
+      }else{
+        this.postForm.summaryError=null
+      }
+      if(this.postForm.body==""){
+          this.postForm.errors++;
+          this.postForm.bodyError="You Should Write Something"
+      }else{
+        this.postForm.bodyError=null
+      }
+      if (this.postForm.errors>0) {
+        return false;
+      }
       const payload = new FormData();
       payload.append('title',this.postForm.title);
       payload.append('summary',this.postForm.summary);
@@ -248,6 +304,7 @@ export default {
           console.log(error.data);
           console.log(error);
         })
+    
     }
   },
   created(){

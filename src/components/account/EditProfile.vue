@@ -83,7 +83,6 @@ export default {
             name: "ShowProfile",
             params: { id: this.sharedState.user_id },
           });
-        
     },
     onSubmit() {
       const formData = new FormData();
