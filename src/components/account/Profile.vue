@@ -97,7 +97,10 @@ export default {
           this.user.last_seen = res.data.last_seen;
           this.user.location = res.data.location;
           this.user.username = res.data.username;
-          this.$toasted.success(`Welcome, ${this.user.name}`, {
+          let welcome = `Welcome back, ${this.user.name}`;
+          if(this.sharedState.user_id!=this.$route.params.id) 
+          welcome = `Welcome to ${this.user.name||this.username}'s profile.`;
+          this.$toasted.success(`${welcome}`, {
             icon: "check",
             fullWidth: true,
             position: "bottom-center",
