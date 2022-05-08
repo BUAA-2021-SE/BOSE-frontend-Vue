@@ -24,7 +24,7 @@
                 <span class="btn btn-xs u-btn-outline-aqua g-mr-10">评论</span>
               </li>
               <li v-if="post.author" class="list-inline-item">
-                <router-link :to="{ name: 'Profile', params: { id: post.author.id }}" class="u-link-v5 g-color-gray-dark-v4 g-color-primary--hover g-text-underline--none--hover">
+                <router-link :to="{ name: 'ShowProfile', params: { id: post.author.id }}" class="u-link-v5 g-color-gray-dark-v4 g-color-primary--hover g-text-underline--none--hover">
                 <span v-if="post.author.name">{{ post.author.name }}</span>
                 <span v-else>{{ post.author.username }}</span></router-link>
               </li>
@@ -92,7 +92,7 @@
           </v-btn>
           <v-spacer></v-spacer>
           <v-btn
-            color="danger"
+            color="error"
             text
             @click="onDeletePost"
           >
