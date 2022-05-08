@@ -16,7 +16,7 @@
     <v-text-field
         v-model="postForm.title"
        
-        outlined
+        solo
         dense
         placeholder=""
        :class="{'is-invalid': postForm.titleError}"
@@ -27,17 +27,16 @@
     <label >摘要</label>
     <v-text-field
         v-model="postForm.summary"
-      
-        outlined
+        solo
         dense
         placeholder=""
        :class="{'is-invalid': postForm.summaryError}"
       ></v-text-field>
-    <!-- <div class="form-group">
+      <label >正文</label>
+  
       <mavon-editor v-model="postForm.body" :toolbars="tools" />
-      <small class="form-control-feedback" v-show="postForm.bodyError">{{ postForm.bodyError }}</small>
-    </div> -->
-    <label >正文</label>
+   
+    <!-- 
     <v-textarea
         v-model="postForm.body"
        
@@ -45,7 +44,7 @@
         dense
         placeholder=""
        :class="{'is-invalid': postForm.bodyError}"
-      ></v-textarea>
+      ></v-textarea> -->
       <v-alert dense type="error" v-show="this.postForm.errors" >{{ postForm.titleError || postForm.summaryError || postForm.bodyError}}</v-alert>
     <button  class="btn btn-primary" @click="onSubmitAdd">Submit</button>
     </v-form>
