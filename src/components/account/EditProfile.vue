@@ -31,7 +31,12 @@
 
            
             <label for="about_me">About Me</label>
-            <mavon-editor v-model="profileForm.about_me" />
+            <v-textarea
+        v-model="profileForm.about_me"
+        outlined
+        dense
+        placeholder=""
+      ></v-textarea> 
           <br/>
           <v-row class="col-md-12">
             <v-col class="col-md-2 text-left">
