@@ -35,16 +35,7 @@
       <label >正文</label>
   
       <mavon-editor v-model="postForm.body" :toolbars="tools" />
-   
-    <!-- 
-    <v-textarea
-        v-model="postForm.body"
-       
-        outlined
-        dense
-        placeholder=""
-       :class="{'is-invalid': postForm.bodyError}"
-      ></v-textarea> -->
+  
       <v-alert dense type="error" v-show="this.postForm.errors" >{{ postForm.titleError || postForm.summaryError || postForm.bodyError}}</v-alert>
     <button  class="btn btn-primary" @click="onSubmitAdd">Submit</button>
     </v-form>
@@ -123,7 +114,7 @@
           </v-btn>
           <v-spacer></v-spacer>
           <v-btn
-            color="danger"
+            color="error"
             text
             @click="onDeletePost"
           >
