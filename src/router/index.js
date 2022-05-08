@@ -9,6 +9,7 @@ import Reset from '@/components/account/Reset'
 import Profile from '@/components/account/Profile'
 import Ping from '@/components/Ping'
 import EditProfile from '@/components/account/EditProfile'
+import ShowProfile from '@/components/account/ShowProfile'
 import Post from '@/components/Post'
 import Followers from '@/components/profile/Followers'
 import Following from '@/components/profile/Following'
@@ -49,20 +50,21 @@ const router = new VueRouter({
     },
     {
       path: '/user/:id',
-      // name:'Profile',
+      name:'Profile',
       component: Profile,
       // 添加了路由元信息，只有经过身份验证的用户才能进行操作
       meta: {
         requiresAuth: true
       },
       children:[
-        {path:'',component:Profile},
-        {path:'profile',name:'Profile',component:Profile},
-        {path:'followers',name:'UserFollowers',component:Followers},
-        {path:'following',name:'UserFollowing',component:Following},
+        {path:'',component:ShowProfile},
+        {path:'profile',name:'ShowProfile',component:ShowProfile},
+        {path:'followers',name:'Followers',component:Followers},
+        {path:'following',name:'Following',component:Following},
         {path:'posts',name:'UserPosts',component:Posts}
       ]
     },
+
     {
       path:'/user/:id/edit',
       name:'EditProfile',

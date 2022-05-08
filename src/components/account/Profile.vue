@@ -2,17 +2,17 @@
   <section>
     <div class="container">
       <div class="text-center">
-       <v-progress-circular
+      
+    <h1 v-show="this.loadingProfile"> 努力加载······ <v-progress-circular
        class="center"
       indeterminate
       color="primary"
       :size="70"
       :width="7"
       v-show="this.loadingProfile"
-    ></v-progress-circular>
-    <h1 v-show="this.loadingProfile"> 努力加载中QAQ </h1>
+    ></v-progress-circular></h1>
       </div>
-      <div class="g-brd-around g-brd-gray-light-v4 g-pa-20 g-mb-40">
+      <div class="g-brd-around g-brd-gray-light-v4 g-pa-20 g-mb-40" v-show="!this.loadingProfile">
         <div class="row">
           <div class="col-sm-3 g-mb-40 g-mb-0--lg">
             <!-- User Image -->
@@ -45,76 +45,14 @@
            <!-- v-divider vertical useless -->
           <div class="col-sm-9">
             <!-- Username -->
-            <div class="d-flex align-items-center justify-content-sm-between g-mb-5">
-              <h2
-                v-if="user.name"
-                class="g-font-weight-300 g-mr-10"
-              >{{ user.name }}</h2>
-              <h2
-                v-else
-                class="g-font-weight-300 g-mr-10"
-              >{{ user.username }}</h2>
-              <router-link v-show="!this.loadingProfile"
-              v-if="$route.params.id == sharedState.user_id"
-              :to="{ name: 'EditProfile' }"
-              class="btn btn-block u-btn-outline-primary g-rounded-50 g-py-12 g-mb-10"
-            >
-              <i class="icon-user-follow g-pos-rel g-top-1 g-mr-5"></i> Edit Profile
-            </router-link>
-            </div>
-             <h4
-              class="h6 g-font-weight-300 g-mb-10"  v-show="!this.loadingProfile"
-            >
-            <i class="icon-check g-pos-rel g-top-1 g-color-gray-dark-v5 g-mr-5" v-show="!this.loadingProfile"></i> Verified User
-             </h4>
-            <!-- End Username -->
-
-            <!-- Member since -->
-            <h4
-              v-if="user.member_since"
-              class="h6 g-font-weight-300 g-mb-10"
-            >
-              <i class="icon-badge g-pos-rel g-top-1 g-color-gray-dark-v5 g-mr-5"></i> Member since : {{ $moment(user.member_since).format('LLL') }}
-            </h4>
-            <!-- End Member since -->
-
-            <!-- Last seen -->
-            <h4
-              v-if="user.last_seen"
-              class="h6 g-font-weight-300 g-mb-10"
-            >
-              <i class="icon-eye g-pos-rel g-top-1 g-color-gray-dark-v5 g-mr-5"></i> Last seen : {{ $moment(user.last_seen).fromNow() }}
-            </h4>
-            <!-- End Last seen -->
-
-            <!-- User Info -->
-            <h4
-               v-if="user.email"
-              class="h6 g-font-weight-300 g-mb-10"
-             v-show="!this.loadingProfile">
-             
-                <i class="icon-link g-pos-rel g-top-1 g-color-gray-dark-v5 g-mr-5"></i> <a
-                  class="g-color-main g-color-primary--hover"
-                  :href="'mailto:' + user.email"
-                >{{ user.email }}</a>
-              </h4>
-            <!-- End User Info -->
-
-            <!-- Location -->
-            <h4
-              v-if="user.location"
-              class="h6 g-font-weight-300 g-mb-10"
-            >
-              <i class="icon-location-pin g-pos-rel g-top-1 g-color-gray-dark-v5 g-mr-5"></i> {{ user.location }}
-            </h4>
-            <!-- End Location -->
-
-            <div v-if="user.about_me">
-              <div class="u-divider u-divider-db-dashed u-divider-center g-brd-gray-light-v2 g-mt-50 g-mb-20">
-                <i class="u-divider__icon u-divider__icon--indented g-bg-gray-light-v4 g-color-gray-light-v1 rounded-circle">Me</i>
-              </div>
-              <p class="lead g-line-height-1_8">{{ user.about_me }}</p>
-            </div>
+          <v-tabs>
+          <v-tab  :to="{name: 'ShowProfile', params: {id: this.$route.params.id}}" >Profile</v-tab>
+          <v-tab :to="{name: 'Followers', params: {id: this.$route.params.id}}" > Followers</v-tab>
+          
+          <v-tab>Item Three</v-tab>
+          </v-tabs>
+          <router-view></router-view>
+            
             
           </div>
         </div>
@@ -148,6 +86,9 @@ export default {
     };
   },
   methods: {
+    test() {
+       this.$router.push("/user/2/profile/followers");
+    },
     getUserDetail() {
       Account.getUser(this.$route.params.id)
         .then((res) => {
@@ -177,5 +118,6 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
+
 </style>
