@@ -72,6 +72,14 @@
     </router-link>
     </v-card-actions>
     </v-card>
+    <span>共有博文{{total}}篇</span>
+    <v-pagination
+      v-model="page"
+      :length="pageTotal"
+      :total-visible="7"
+      circle
+    ></v-pagination>
+    <!-- 删除弹出框 -->
     <v-dialog
     v-model="showDelete">
      <v-card>
@@ -181,6 +189,15 @@ export default {
         subfield: true, // 单双栏模式
         preview: true // 预览
       },
+      total: 0, //总博文数
+      page:1, //第几页
+      size:5, //每页总数
+      pageTotal:1 //总页数
+    }
+  },
+  watch:{
+    page:function(newPage,oldPage){
+      this.getPosts(newPage)
     }
   },
   computed:{
@@ -191,11 +208,15 @@ export default {
       }
   },
   methods:{
-    getPosts(){
-      Post.getAllBlog(1,10)
+    getPosts(page){
+      Post.getAllBlog(page,this.size)
       .then((res)=>{
-        console.log(res.data.items,"getPosts");
+        console.log(res.data,"getPosts");
           this.posts = res.data.items;
+          this.total = res.data.total
+          this.page = res.data.page
+          this.size = res.data.size
+          this.pageTotal =Math.ceil(this.total/this.size)
       })
     },
     showDeleteDialog(id){
@@ -224,7 +245,7 @@ export default {
               fullWidth: true,
               position: "bottom-center"
             })
-            this.getPosts()
+            this.getPosts(1)
           })
           .catch((err)=>{
             console.error(err,"not deleted");
@@ -242,21 +263,21 @@ export default {
           this.postForm.title=''
           this.postForm.summary=''
           this.postForm.body=''
-          this.getPosts();
+          this.getPosts(1);
         })
         .catch((error) => {
           console.log(error.data);
           console.log(error);
         })
-    }
+    },
   },
   created(){
-    this.getPosts()
+    this.getPosts(1)
   },
   beforeRouteUpdate (to, from, next) {
     // 注意：要先执行 next() 不然 this.$route.query 还是之前的
     next()
-    this.getPosts()
+    this.getPosts(1)
   }
 }
 </script>
