@@ -14,7 +14,7 @@
     </div>
       <div class="g-brd-around g-brd-gray-light-v4 g-pa-20 g-mb-40" v-show="!this.loadingProfile">
         
-        <!-- <ul v-bind="this.followers">
+        <!-- <ul>
         <li v-for="follower in this.followers">
           {{ follower.message }}
         </li>

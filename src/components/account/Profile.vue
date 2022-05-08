@@ -34,14 +34,9 @@
               <i class="icon-user-follow g-pos-rel g-top-1 g-mr-5"></i> Change Image(api is edit profile)
             </router-link>
             <!-- User Image -->
-
             <!-- Actions -->
-            
             <!-- End Actions -->
-           
-
           </div>
-
            <!-- v-divider vertical useless -->
           <div class="col-sm-9">
             <!-- Username -->
