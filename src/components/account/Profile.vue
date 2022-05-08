@@ -149,7 +149,7 @@ export default {
   },
   methods: {
     getUserDetail() {
-      Account.getUser(this.sharedState.user_id)
+      Account.getUser(this.$route.params.id)
         .then((res) => {
           console.log(this.$route.params);
           console.log(res.data);
