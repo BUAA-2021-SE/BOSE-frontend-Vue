@@ -42,14 +42,58 @@
       </div>
     </v-card-text>
     <v-card-actions>
-      <v-btn
-        text
-        color="deep-purple accent-4"
-      >
-        Learn More
-      </v-btn>
+    <router-link
+    :to = "{name:'Post',params:{id:post.id} }"
+    >
+    <v-btn
+      text
+      color="deep-purple accent-4"
+    >
+      阅读全文
+    </v-btn>
+    </router-link>
+    <v-btn
+    v-if="post.author.id==sharedState.user_id"
+      text
+      color="deep-purple accent-4"
+      @click="showDeleteDialog(post.id)"
+    >
+      删除
+    </v-btn>
+    <v-btn
+    v-if="post.author.id==sharedState.user_id"
+      text
+      color="deep-purple accent-4"
+    >
+      编辑
+    </v-btn>
     </v-card-actions>
     </v-card>
+    <v-dialog
+    v-model="showDelete">
+     <v-card>
+     <v-card-title>
+     Are you sure you want to delete?
+     </v-card-title>
+        <v-card-actions>
+          <v-btn
+          color="primary"
+          text
+          @click="showDelete= false"
+          >
+          Quit
+          </v-btn>
+          <v-spacer></v-spacer>
+          <v-btn
+            color="danger"
+            text
+            @click="onDeletePost"
+          >
+            Confirm
+          </v-btn>
+        </v-card-actions>
+     </v-card>
+    </v-dialog>
     </div>
     </div>
 </template>
@@ -105,14 +149,8 @@ export default {
         titleError: false,
         bodyError: false
       },
-      editPostForm: {
-        title: '',
-        summary: '',
-        body: '',
-        errors: 0,  // 表单是否在前端验证通过，0 表示没有错误，验证通过
-        titleError: false,
-        bodyError: false
-      },
+      showDelete: false,
+      deleteId:0,
       tools: {
         bold: true, // 粗体
         italic: true, // 斜体
@@ -151,11 +189,15 @@ export default {
   },
   methods:{
     getPosts(){
-      Post.getAllBlog(1,3)
+      Post.getAllBlog(1,10)
       .then((res)=>{
         console.log(res.data.items,"getPosts");
           this.posts = res.data.items;
       })
+    },
+    showDeleteDialog(id){
+      this.deleteId = id;
+      this.showDelete = true;
     },
     onEditPost(){
       console.log("onEditPost");
@@ -167,7 +209,23 @@ export default {
       console.log("onResetUpdate");
     },
     onDeletePost(){
-      console.log("onDeletePost");
+      console.log("onDelete",this.deleteId);
+          Post.deleteBlog(this.deleteId)
+          .then((res)=>{
+            console.log(res);
+            this.deleteId = 0;
+            this.showDelete=false;
+            this.$toasted.success(res.data,
+            {
+              icon:'check',
+              fullWidth: true,
+              position: "bottom-center"
+            })
+            this.getPosts()
+          })
+          .catch((err)=>{
+            console.error(err,"not deleted");
+          })
     },
     onSubmitAdd(){
       const payload = new FormData();
@@ -178,10 +236,10 @@ export default {
       Post.postBlog(payload)
         .then((res) => {
           console.log(res);
-          this.$router.push({
-                name: 'Profile',
-                params: { id: this.sharedState.user_id }                
-                });
+          this.postForm.title=''
+          this.postForm.summary=''
+          this.postForm.body=''
+          this.getPosts();
         })
         .catch((error) => {
           console.log(error.data);
