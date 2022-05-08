@@ -146,17 +146,7 @@ export default {
         {
           showAlert: true,
           alertVariant: 'danger',
-          alertMessage: 'sign in 写完了'
-        },
-        {
-          showAlert: true,
-          alertVariant: 'info',
-          alertMessage: 'register 也写完了'
-        },
-        {
-          showAlert: true,
-          alertVariant: 'success',
-          alertMessage: 'reset 又写完了'
+          alertMessage: 'sign in 写完了，register 也写完了，reset 又写完了，Markdown在线写完了'
         },
         {
           showAlert: true,
@@ -166,7 +156,7 @@ export default {
         {
           showAlert: true,
           alertVariant: 'primary',
-          alertMessage: 'Markdown在线编辑器写完了'
+          alertMessage: 'Home初步构建完成'
         },
       ],
       posts: '',
@@ -306,10 +296,17 @@ export default {
       Post.postBlog(payload)
         .then((res) => {
           console.log(res);
+          this.$toasted.success(`${this.postForm.title} is submitted successfully!`,
+            {
+              icon:'check',
+              fullWidth: true,
+              position: "bottom-center"
+            })
           this.postForm.title=''
           this.postForm.summary=''
           this.postForm.body=''
           this.getPosts(1);
+          
         })
         .catch((error) => {
           console.log(error.data);
