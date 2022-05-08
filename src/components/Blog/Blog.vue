@@ -92,7 +92,7 @@
           </v-btn>
           <v-spacer></v-spacer>
           <v-btn
-            color="danger"
+            color="error"
             text
             @click="onDeletePost"
           >

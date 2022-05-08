@@ -1,5 +1,6 @@
 <template>
-  <form v-if="sharedState.is_authenticated"  class="g-mb-40">
+<div>
+  <v-card>
     <div class="form-group" :class="{'u-has-error-v1': editForm.titleError}" >
       <input type="text" v-model="editForm.title" class="form-control" id="post_title" placeholder="标题">
       <small class="form-control-feedback" v-show="editForm.titleError">{{ editForm.titleError }}</small>
@@ -11,13 +12,16 @@
       <mavon-editor v-model="editForm.body" :toolbars="tools" />
       <small class="form-control-feedback" v-show="editForm.bodyError">{{ editForm.bodyError }}</small>
     </div>
-    <button  class="btn btn-primary" @click="onSubmitAdd">Submit</button>
-    <v-spacer></v-spacer>
+    <v-card-actions>
     <router-link
     :to="{name:'Post',params : {id:post.id} }">
     <button  class="btn btn-primary">Quit</button>
-    </router-link>
-    </form>
+    </router-link> 
+    <v-spacer></v-spacer>
+    <button  class="btn btn-primary" @click="onSubmitAdd">Submit</button>
+    </v-card-actions>
+    </v-card>
+</div>
 </template>
 
 <script>
