@@ -67,7 +67,7 @@ export default {
   methods: {
     getUserDetail() {
       console.log("getUserDetail", this.sharedState.user_id);
-      Account.getUser()
+      Account.getUser(this.$route.params.id)
         .then((res) => {
           console.log(res, "getUserDetail");
           this.profileForm.name = res.data.name;
