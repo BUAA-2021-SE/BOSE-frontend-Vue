@@ -61,7 +61,7 @@ const router = new VueRouter({
         {path:'profile',name:'ShowProfile',component:ShowProfile},
         {path:'followers',name:'Followers',component:Followers},
         {path:'following',name:'Following',component:Following},
-        {path:'posts',name:'UserPosts',component:Posts}
+        {path:'posts',name:'Posts',component:Posts}
       ]
     },
 

@@ -72,7 +72,7 @@
           </li>
           <li class="nav-item">
             <router-link
-              :to="{name:'Profile',params:{id : sharedState.user_id}}"
+              :to="{name:'ShowProfile',params:{id : sharedState.user_id}}"
               class="nav-link"
             >Profile</router-link>
           </li>

@@ -45,11 +45,11 @@
            <!-- v-divider vertical useless -->
           <div class="col-sm-9">
             <!-- Username -->
-          <v-tabs>
-          <v-tab  :to="{name: 'ShowProfile', params: {id: this.$route.params.id}}" >Profile</v-tab>
+          <v-tabs  fixed-tabs>
+          <v-tab :to="{name: 'ShowProfile', params: {id: this.$route.params.id}}" >Profile</v-tab>
           <v-tab :to="{name: 'Followers', params: {id: this.$route.params.id}}" > Followers</v-tab>
-          
-          <v-tab>Item Three</v-tab>
+          <v-tab :to="{name: 'Following', params: {id: this.$route.params.id}}" > Following</v-tab>
+          <v-tab :to="{name: 'Posts', params: {id: this.$route.params.id}}"> Posts</v-tab>
           </v-tabs>
           <router-view></router-view>
             
@@ -86,9 +86,6 @@ export default {
     };
   },
   methods: {
-    test() {
-       this.$router.push("/user/2/profile/followers");
-    },
     getUserDetail() {
       Account.getUser(this.$route.params.id)
         .then((res) => {

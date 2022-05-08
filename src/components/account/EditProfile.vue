@@ -80,7 +80,7 @@ export default {
     },
     returnProfile() {
      this.$router.push({
-            name: "Profile",
+            name: "ShowProfile",
             params: { id: this.sharedState.user_id },
           });
         
@@ -97,7 +97,7 @@ export default {
             icon: "check",
           });
           this.$router.push({
-            name: "Profile",
+            name: "ShowProfile",
             params: { id: this.sharedState.user_id },
           });
         })
