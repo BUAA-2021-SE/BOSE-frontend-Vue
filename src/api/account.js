@@ -7,7 +7,8 @@ const url = {
     getUser:`user/getuser`,
     editUser:`user/user_edit`,
     reset:`/user/reset/getcode`,
-    resetcheck:'/user/reset/newpassword'
+    resetcheck:'/user/reset/newpassword',
+    getUserFollowers:'/user/followers'
 }
 export class Account {
     static async Register(data) {
@@ -82,6 +83,15 @@ export class Account {
             },
             responseType: 'json',
             data: data        
+        })
+    }
+    static async getUserFollowers(id){
+        return service(`${url.getUserFollowers}/${id}`,{
+            method: 'post',
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            },
+            responseType: 'json'
         })
     }
 }
