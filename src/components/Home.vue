@@ -146,17 +146,17 @@ export default {
         {
           showAlert: true,
           alertVariant: 'danger',
-          alertMessage: 'sign in 写完了，register 也写完了，reset 又写完了，Markdown在线写完了'
+          alertMessage: 'sign in, register, reset, Markdown写完了'
         },
         {
           showAlert: true,
           alertVariant: 'dark',
-          alertMessage: 'Profile初步完工'
+          alertMessage: 'Profile, Home初步完工'
         },
         {
           showAlert: true,
           alertVariant: 'primary',
-          alertMessage: 'Home初步构建完成'
+          alertMessage: '这周写follow相关组件'
         },
       ],
       posts: '',
