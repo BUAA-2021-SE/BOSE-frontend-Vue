@@ -25,12 +25,6 @@
               >
             </div>
             <!--Change User Image-->
-
-
-         
-
-        
-
             <!-- User Image -->
             <!-- Actions -->
             <!-- End Actions -->
@@ -139,6 +133,7 @@ export default {
 
   },
   created() {
+    // this.$router.push({name: 'ShowProfile', params: {id: this.$route.params.id}})
     this.getUserDetail();
     // this.pictureURL="http://43.138.58.36:8000/user/post_picture/"+this.$route.params.id;
   },

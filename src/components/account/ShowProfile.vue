@@ -9,13 +9,12 @@
             color="primary"
             :size="40"
             :width="3"
-            v-show="this.loadingProfile"
           ></v-progress-circular>
         </h3>
       </div>
-      <div class="g-brd-around g-brd-gray-light-v4 g-pa-20 g-mb-40">
+      <div class="g-brd-around g-brd-gray-light-v4 g-pa-20 g-mb-40"  v-show="!this.loadingProfile">
         <!-- v-divider vertical useless -->
-        <div class="col-sm-9">
+        <div class="col-sm-9" >
           <!-- Username -->
           <div
             class="d-flex align-items-center justify-content-sm-between g-mb-5"
@@ -138,15 +137,14 @@
 <script>
 import { Account } from "@/api/account.js";
 import store from "@/store.js";
-import axios from 'axios'
 export default {
   name: "ShowProfile",
   data() {
     return {
       sharedState: store.state,
       loadingProfile: true,
-       select_file_data: "",
-        target_url: 'http://43.138.58.36:8000/user/post_picture/'+ this.$route.params.id,
+      select_file_data: "",
+      target_url: 'http://43.138.58.36:8000/user/post_picture/'+ this.$route.params.id,
       user: {
         username: "",
         name: "",
@@ -164,24 +162,27 @@ export default {
   },
   methods: {
      addFile(){
-                this.$refs.upload_input.click () // 通过 ref 模拟点击
+                this.$refs.upload_input.click () 
             },
       select_file(file) {
             this.select_file_data = file.target.files
             console.log(this.select_file_data)
-            let uploads = new FormData () // 创建 FormData
-            let config = { headers: { "Content-Type": "multipart/form-data" } }
+            let uploads = new FormData ()
             if (this.select_file_data != "") {
-                uploads.append ("picture",this.select_file_data[0]) // 此处只展示上传单个文件
-                axios.post(this.target_url, uploads, config)
+              this.loadingProfile = true;
+              Account.getUser(this.$route.params.id)
+                uploads.append ("picture",this.select_file_data[0])
+                Account.postPicture(this.$route.params.id,uploads)
                 .then((res)=> {
                     console.log(res.data)
+                    this.loadingProfile = false;
+                    // this.$router.push({name: 'Profile', params: {id: this.$route.params.id}})
                 })
                 .catch((err)=> {
                     console.log(err)
                 })
             }
-            this.getUserDetail()
+            
     },
     getUserDetail() {
       Account.getUser(this.$route.params.id)
