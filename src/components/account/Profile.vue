@@ -28,6 +28,30 @@
             <!-- User Image -->
             <!-- Actions -->
             <!-- End Actions -->
+           <v-btn text>
+              <router-link
+                v-show="!this.loadingProfile"
+                v-if="$route.params.id == sharedState.user_id"
+                :to="{ name: 'EditProfile' }"
+                class="
+                  btn btn-block
+                  u-btn-outline-primary
+                  g-rounded-50 g-py-12 g-mb-10
+                "
+              >
+                <i class="icon-user-follow g-pos-rel g-top-1 g-mr-5"></i> Edit
+                Profile
+              </router-link>
+            </v-btn>
+             <v-btn 
+             v-if="$route.params.id == sharedState.user_id"
+             text @click="addFile">
+            
+              <i class="icon-user-follow g-pos-rel g-top-1 g-mr-5"></i> Change
+              Avatar
+         
+          </v-btn>
+          <input type="file" ref="upload_input" style="display: none;" @change="select_file" accept=".png,.jpg,.jpeg">
           </div>
            <!-- v-divider vertical useless -->
           <div class="col-sm-9">
@@ -39,8 +63,6 @@
           <v-tab :to="{name: 'Posts', params: {id: this.$route.params.id}}"> Posts</v-tab>
           </v-tabs>
           <router-view></router-view>
-            
-            
           </div>
         </div>
       </div>
@@ -52,16 +74,17 @@
 import { Account } from "@/api/account.js";
 import store from "@/store.js";
 import axios from 'axios'
+import { reject } from "q";
 export default {
   name: "Profile",
+  inject:['reload'],
   data() {
-    
     return {
       pictureURL:'',
-       imageUrl: '',
+      imageUrl: '',
       sharedState: store.state,
       loadingProfile: true,
-       
+      select_file_data: "",
       user: {
         username: "",
         name: "",
@@ -84,20 +107,23 @@ export default {
       select_file(file) {
             this.select_file_data = file.target.files
             console.log(this.select_file_data)
-            let uploads = new FormData () // 创建 FormData
-            let config = { headers: { "Content-Type": "multipart/form-data" } }
+            let uploads = new FormData ()
             if (this.select_file_data != "") {
-                uploads.append ("picture",this.select_file_data[0]) // 此处只展示上传单个文件
-                axios.post(this.target_url, uploads, config)
+              this.loadingProfile = true;
+                uploads.append ("picture",this.select_file_data[0])
+                Account.postPicture(this.$route.params.id,uploads)
                 .then((res)=> {
                     console.log(res.data)
+                    this.loadingProfile = true;
+                    this.getUserDetail().then(()=>{
+                      this.reload();
+                    })
                 })
                 .catch((err)=> {
                     console.log(err)
                 })
             }
-            this.getUserDetail()
-    },
+      },
     getUserDetail() {
       Account.getUser(this.$route.params.id)
         .then((res) => {
@@ -109,14 +135,14 @@ export default {
           this.user.last_seen = res.data.last_seen;
           this.user.location = res.data.location;
           this.user.username = res.data.username;
-          let welcome = `Welcome back, ${this.user.name}`;
-          if(this.sharedState.user_id!=this.$route.params.id) 
-          welcome = `Welcome to ${this.user.name||this.username}'s profile.`;
-          this.$toasted.success(`${welcome}`, {
-            icon: "check",
-            fullWidth: true,
-            position: "bottom-center",
-          });
+          // let welcome = `Welcome back, ${this.user.name}`;
+          // if(this.sharedState.user_id!=this.$route.params.id) 
+          // welcome = `Welcome to ${this.user.name||this.username}'s profile.`;
+          // this.$toasted.success(`${welcome}`, {
+          //   icon: "check",
+          //   fullWidth: true,
+          //   position: "bottom-center",
+          // });
           this.loadingProfile = false;
         })
         .catch((err) => {
@@ -137,6 +163,9 @@ export default {
     this.getUserDetail();
     // this.pictureURL="http://43.138.58.36:8000/user/post_picture/"+this.$route.params.id;
   },
+  beforeRouteUpdate(to,from,next){
+    this.getUserDetail();
+  }
 };
 </script>
 

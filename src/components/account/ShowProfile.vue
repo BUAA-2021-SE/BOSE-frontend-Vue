@@ -25,7 +25,7 @@
             <h2 v-else class="g-font-weight-300 g-mr-10">
               {{ user.username }}
             </h2>
-            <v-btn text>
+            <!-- <v-btn text>
               <router-link
                 v-show="!this.loadingProfile"
                 v-if="$route.params.id == sharedState.user_id"
@@ -48,7 +48,7 @@
               Avatar
          
           </v-btn>
-          <input type="file" ref="upload_input" style="display: none;" @change="select_file" accept=".png,.jpg,.jpeg">
+          <input type="file" ref="upload_input" style="display: none;" @change="select_file" accept=".png,.jpg,.jpeg"> -->
           </div>
         </div>
         <div
@@ -141,12 +141,12 @@ import { Account } from "@/api/account.js";
 import store from "@/store.js";
 export default {
   name: "ShowProfile",
+  inject:['reload'],
   data() {
     return {
       sharedState: store.state,
       loadingProfile: true,
       select_file_data: "",
-      target_url: 'http://43.138.58.36:8000/user/post_picture/'+ this.$route.params.id,
       user: {
         username: "",
         name: "",
@@ -163,28 +163,25 @@ export default {
     };
   },
   methods: {
-     addFile(){
+    addFile(){
                 this.$refs.upload_input.click () 
-            },
-      select_file(file) {
+      },
+    select_file(file) {
             this.select_file_data = file.target.files
             console.log(this.select_file_data)
             let uploads = new FormData ()
             if (this.select_file_data != "") {
               this.loadingProfile = true;
-              Account.getUser(this.$route.params.id)
                 uploads.append ("picture",this.select_file_data[0])
                 Account.postPicture(this.$route.params.id,uploads)
                 .then((res)=> {
                     console.log(res.data)
                     this.loadingProfile = false;
-                    // this.$router.push({name: 'Profile', params: {id: this.$route.params.id}})
                 })
                 .catch((err)=> {
                     console.log(err)
                 })
             }
-            
     },
     getUserDetail() {
       Account.getUser(this.$route.params.id)
@@ -197,7 +194,6 @@ export default {
           this.user.last_seen = res.data.last_seen;
           this.user.location = res.data.location;
           this.user.username = res.data.username;
-
           this.loadingProfile = false;
         })
         .catch((err) => {
@@ -208,6 +204,10 @@ export default {
   created() {
     this.getUserDetail();
   },
+  beforeRouteUpdate (to, from, next) {
+    next()
+    this.getUser(to.params.id)
+  }
 };
 </script>
 

@@ -55,7 +55,7 @@ const router = new VueRouter({
     },
     {
       path: '/user/:id',
-      name:'Profile',
+      // name:'Profile',
       component: Profile,
       // 添加了路由元信息，只有经过身份验证的用户才能进行操作
       meta: {

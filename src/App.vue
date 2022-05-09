@@ -1,16 +1,9 @@
 <template>
-  <!-- <v-app>
-  <navbar></navbar>
-  <router-view/>
-  </v-app> -->
 <v-app>
-     <navbar style="z-index:2000"></navbar>
-    
-        <br/>
-        <br/>
-        
-        <router-view/>
-   
+  <navbar style="z-index:2000"></navbar>
+    <br/>
+    <br/>
+  <router-view/>
 </v-app>
 </template>
 
@@ -20,6 +13,24 @@ export default {
   name:'App',
   components:{
     navbar:Navbar
+  },
+  provide(){
+    return {
+      reload: this.reload
+    }
+  },
+  data() {
+    return{
+      isRouterAlive: true
+    }
+  },
+  methods:{
+    reload(){
+      this.isRouterAlive = false;
+      this.$$nextTick(function(){
+        this.isRouterAlive = true;
+      })
+    }
   }
 }
 </script>
