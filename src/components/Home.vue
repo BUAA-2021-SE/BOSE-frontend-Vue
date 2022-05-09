@@ -33,9 +33,9 @@
        :class="{'is-invalid': postForm.summaryError}"
       ></v-text-field>
       <label >正文</label>
-  
-      <mavon-editor v-model="postForm.body" :toolbars="tools" />
-  
+      <div style="z-index:-10">
+      <mavon-editor style="position：absolute" v-model="postForm.body" :toolbars="tools" />
+      </div>
       <v-alert dense type="error" v-show="this.postForm.errors" >{{ postForm.titleError || postForm.summaryError || postForm.bodyError}}</v-alert>
     <button  class="btn btn-primary" @click="onSubmitAdd">Submit</button>
     </v-form>
@@ -98,7 +98,7 @@
       circle
     ></v-pagination>
     <!-- 删除弹出框 -->
-    <v-dialog
+    <v-dialog style="z-index:2000"
     v-model="showDelete">
      <v-card>
      <v-card-title>
@@ -316,11 +316,13 @@ export default {
   },
   created(){
     this.getPosts(1)
+    console.log(this.editor)
   },
   beforeRouteUpdate (to, from, next) {
     // 注意：要先执行 next() 不然 this.$route.query 还是之前的
     next()
     this.getPosts(1)
+
   }
 }
 </script>

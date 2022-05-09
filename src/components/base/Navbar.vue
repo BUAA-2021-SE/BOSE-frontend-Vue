@@ -1,18 +1,18 @@
 <template>
-  <nav
+  <!-- <nav
     class="navbar navbar-expand-lg navbar-light bg-light"
     style="margin-bottom: 20px;"
   >
     <div class="container">
-      <!-- 用routerlink包裹实现路由跳转而非href -->
+       用routerlink包裹实现路由跳转而非href 
       <router-link
         to="/"
         class="navbar-brand"
       >
        <div id="main"  :style="{width:'250px',height:'40px'}"></div>
       </router-link>
-      <!-- navbar-toggler是切换触发器，进行移动端适配 
-      下面这个div里的内容都是#navbarSupportedContent-->
+      navbar-toggler是切换触发器，进行移动端适配 
+      下面这个div里的内容都是#navbarSupportedContent
       <button
         class="navbar-toggler"
         type="button"
@@ -24,15 +24,15 @@
       >
         <span class="navbar-toggler-icon"></span>
       </button>
-      <!-- collapse作为折叠面板属性 -->
+       collapse作为折叠面板属性
       <div
         class="collapse navbar-collapse"
         id="navbarSupportedContent"
       >
-        <!-- mr-auto 和 ml-auto 用于强制隔离两边的距离，实现类水平隔离效果 -->
-        <!-- 使用xs的{property}{sides}-{size} 和sm, md, lg,和 xl的 {property}{sides}-{breakpoint}-{size}格式命名 -->
-        <!-- mt-2:用于间距处理, margin-top设置为 $spacer * .5  -1 *.25 -3 *1 -4 * 1.5 -5 *3 -->
-        <!-- x - 对于同时设置*-left和*-right的类  y - 对于同时设置*-top和*-bottom的类 blank - 用于在元素的所有4个边上设置margin或padding的类-->
+         mr-auto 和 ml-auto 用于强制隔离两边的距离，实现类水平隔离效果
+         使用xs的{property}{sides}-{size} 和sm, md, lg,和 xl的 {property}{sides}-{breakpoint}-{size}格式命名 
+         mt-2:用于间距处理, margin-top设置为 $spacer * .5  -1 *.25 -3 *1 -4 * 1.5 -5 *3 
+         x - 对于同时设置*-left和*-right的类  y - 对于同时设置*-top和*-bottom的类 blank - 用于在元素的所有4个边上设置margin或padding的类
         <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
           <li class="nav-item active">
             <router-link
@@ -53,13 +53,13 @@
             type="search"
             placeholder="Search"
           >
-          <!-- 暂时先禁止提交，后续实现搜索再改回 type="submit"
+          暂时先禁止提交，后续实现搜索再改回 type="submit"
           <button
             class="btn btn-outline-success my-2 my-sm-0"
             type="button"
-          >Search</button> -->
+          >Search</button> 
         </form>
-        <!-- 已经通过身份认证了才能展示message和profile等信息,才可以logout -->
+        已经通过身份认证了才能展示message和profile等信息,才可以logout
         <ul
           v-if="sharedState.is_authenticated"
           class="nav navbar-nav navbar-right"
@@ -97,7 +97,124 @@
         </ul>
       </div>
     </div>
-  </nav>
+  </nav> -->
+  <!-- <div >
+    <v-toolbar
+      
+     
+      
+    >
+     <router-link
+        to="/"
+      >
+       <div id="main"  :style="{width:'250px',height:'40px'}"></div>
+      </router-link>
+
+      <router-link
+              to="/"
+             
+            >Home <span class="sr-only">(current)</span></router-link>
+
+             <a
+             
+              href="#"
+            >Explore</a>
+      <v-spacer></v-spacer>
+        <el-input placeholder="Search" v-model="search" >
+  </el-input>
+           <el-button>Search</el-button>
+          
+           <v-spacer></v-spacer>
+           <v-spacer></v-spacer>
+           <v-toolbar-items class="hidden-sm-and-down" v-if="sharedState.is_authenticated">
+      <v-btn text href="#">
+       Messages
+      </v-btn>
+
+      <v-divider vertical></v-divider>
+
+      <v-btn text :to="{name:'ShowProfile',params:{id : sharedState.user_id}}"
+            >Profile
+      </v-btn>
+
+      <v-divider vertical></v-divider>
+
+      <v-btn text 
+              @click="handlerLogout"
+              href="#">
+            Logout
+        
+      </v-btn>
+
+  
+    </v-toolbar-items>
+     <v-toolbar-items class="hidden-sm-and-down" v-else>
+      <v-btn text href="/#/login">
+       Login
+      </v-btn>
+
+     
+
+    
+    </v-toolbar-items>
+
+
+           
+    </v-toolbar>
+  </div> -->
+  <v-app-bar app
+      
+      dense
+     
+    >
+     <router-link
+        to="/"
+      >
+       <div id="main"  :style="{width:'250px',height:'40px'}"></div>
+      </router-link>
+
+      <router-link
+              to="/"
+             
+            >Home <span class="sr-only">(current)</span></router-link>
+
+             <a
+             
+              href="#"
+            >Explore</a>
+            <v-spacer></v-spacer>
+            <v-spacer></v-spacer>
+            <v-spacer></v-spacer>
+            <v-spacer></v-spacer>
+      <v-spacer></v-spacer>
+        <el-input placeholder="Search" v-model="search" >
+  </el-input>
+           <el-button>Search</el-button>
+          
+           <v-spacer></v-spacer>
+           
+           
+      <v-btn text href="#">
+       Messages
+      </v-btn>
+
+      <v-divider vertical></v-divider>
+
+      <v-btn text :to="{name:'ShowProfile',params:{id : sharedState.user_id}}"
+            >Profile
+      </v-btn>
+
+      <v-divider vertical></v-divider>
+
+      <v-btn text 
+              @click="handlerLogout"
+              href="#">
+            Logout
+        
+      </v-btn>
+
+  
+    </v-app-bar>
 </template>
 <script>
 import store from '../../store.js'
@@ -106,6 +223,7 @@ export default {
   name: "Navbar",
   data() {
     return {
+      search:'',
       sharedState: store.state
     };
   },

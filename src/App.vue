@@ -1,8 +1,17 @@
 <template>
-  <v-app>
-  <navbar/>
+  <!-- <v-app>
+  <navbar></navbar>
   <router-view/>
-  </v-app>
+  </v-app> -->
+<v-app>
+     <navbar style="z-index:2000"></navbar>
+    
+        <br/>
+        <br/>
+        
+        <router-view/>
+   
+</v-app>
 </template>
 
 <script>

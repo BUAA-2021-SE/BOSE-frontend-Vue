@@ -27,16 +27,9 @@
             <!--Change User Image-->
 
 
-           <el-upload
-  class="avatar-uploader"
-  action="http://43.138.58.36:8000/user/post_picture/2"
-  :show-file-list="false"
-  :on-success="handleAvatarSuccess">
-  <img v-if="imageUrl" :src="imageUrl" class="avatar">
-  <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-</el-upload>
+         
 
-
+        
 
             <!-- User Image -->
             <!-- Actions -->
@@ -64,6 +57,7 @@
 <script>
 import { Account } from "@/api/account.js";
 import store from "@/store.js";
+import axios from 'axios'
 export default {
   name: "Profile",
   data() {
@@ -73,6 +67,7 @@ export default {
        imageUrl: '',
       sharedState: store.state,
       loadingProfile: true,
+       
       user: {
         username: "",
         name: "",
@@ -89,12 +84,26 @@ export default {
     };
   },
   methods: {
-
-
-       handleAvatarSuccess(res, file) {
-        this.imageUrl = URL.createObjectURL(file.raw);
-        console.log(this.imageUrl);
-      },
+      addFile(){
+                this.$refs.upload_input.click () // 通过 ref 模拟点击
+            },
+      select_file(file) {
+            this.select_file_data = file.target.files
+            console.log(this.select_file_data)
+            let uploads = new FormData () // 创建 FormData
+            let config = { headers: { "Content-Type": "multipart/form-data" } }
+            if (this.select_file_data != "") {
+                uploads.append ("picture",this.select_file_data[0]) // 此处只展示上传单个文件
+                axios.post(this.target_url, uploads, config)
+                .then((res)=> {
+                    console.log(res.data)
+                })
+                .catch((err)=> {
+                    console.log(err)
+                })
+            }
+            this.getUserDetail()
+    },
     getUserDetail() {
       Account.getUser(this.$route.params.id)
         .then((res) => {
