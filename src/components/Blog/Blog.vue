@@ -47,6 +47,16 @@
           </header>
 
           <div id="postBody" class="g-font-size-16 g-line-height-1_8 g-mb-30">
+            <div class="text-center">
+            <h3 v-show="this.loadingProfile"> 博客加载中······<v-progress-circular
+       class="center"
+      indeterminate
+      color="primary"
+      :size="40"
+      :width="3"
+      v-show="this.loadingProfile"
+    ></v-progress-circular></h3>
+            </div>
             <vue-markdown
               :source="post.body"
               :toc="showToc"
@@ -64,13 +74,13 @@
       <!-- End Articles Content -->
 
       <!-- Sidebar -->
-      <div class="col-lg-3 g-pt-80">
+      <div class="col-lg-3 g-pt-80" >
 
         <div id="sticker" class="g-mb-50">
           <div id="tocHeader" class="u-heading-v3-1 g-mb-15">
               <h2 class="h5 u-heading-v3__title g-color-primary text-uppercase g-brd-primary">文章目录</h2>
           </div>
-          <div id="toc" class="toc"></div>
+          <div id="toc" class="toc" v-show="!this.loadingProfile"></div>
         </div>
         
       </div>
@@ -124,6 +134,7 @@ export default {
     },
     data(){
         return{
+          loadingProfile:true,
             items: [
                 { title: 'Home', icon: 'mdi-home-city' },
                 { title: 'My Account', icon: 'mdi-account' },
@@ -177,6 +188,7 @@ export default {
             .then((res)=>{
                 this.post = res.data;
                 console.log(res.data,"res");
+                this.loadingProfile = false;
             })
             .catch((err)=>{
                 console.error(err);
