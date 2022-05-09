@@ -25,14 +25,19 @@
               >
             </div>
             <!--Change User Image-->
-            <router-link
-              v-if="$route.params.id == sharedState.user_id"
-              :to="{ name: 'EditProfile' }"
-              class="btn btn-block u-btn-outline-primary g-rounded-50 g-py-12 g-mb-10"
-               v-show="!this.loadingProfile"
-            >
-              <i class="icon-user-follow g-pos-rel g-top-1 g-mr-5"></i> Change Image(api is edit profile)
-            </router-link>
+
+
+           <el-upload
+  class="avatar-uploader"
+  action="http://43.138.58.36:8000/user/post_picture/2"
+  :show-file-list="false"
+  :on-success="handleAvatarSuccess">
+  <img v-if="imageUrl" :src="imageUrl" class="avatar">
+  <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+</el-upload>
+
+
+
             <!-- User Image -->
             <!-- Actions -->
             <!-- End Actions -->
@@ -62,7 +67,10 @@ import store from "@/store.js";
 export default {
   name: "Profile",
   data() {
+    
     return {
+      pictureURL:'',
+       imageUrl: '',
       sharedState: store.state,
       loadingProfile: true,
       user: {
@@ -81,6 +89,12 @@ export default {
     };
   },
   methods: {
+
+
+       handleAvatarSuccess(res, file) {
+        this.imageUrl = URL.createObjectURL(file.raw);
+        console.log(this.imageUrl);
+      },
     getUserDetail() {
       Account.getUser(this.$route.params.id)
         .then((res) => {
@@ -106,9 +120,18 @@ export default {
           console.log((err, "getUserDetailError"));
         });
     },
+
+
+    //  handleelchange(file) {
+    //    Account.postPicture(this.$route.params.id,file)
+    //    .then(res => { console.log(res) })
+    // },
+
+
   },
   created() {
     this.getUserDetail();
+    // this.pictureURL="http://43.138.58.36:8000/user/post_picture/"+this.$route.params.id;
   },
 };
 </script>

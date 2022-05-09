@@ -8,7 +8,8 @@ const url = {
     editUser:`user/user_edit`,
     reset:`/user/reset/getcode`,
     resetcheck:'/user/reset/newpassword',
-    getUserFollowers:'/user/followers'
+    getUserFollowers:'/user/followers',
+    postPicture:'/user/post_picture',
 }
 export class Account {
     static async Register(data) {
@@ -92,6 +93,16 @@ export class Account {
                 'Content-Type': 'multipart/form-data'
             },
             responseType: 'json'
+        })
+    }
+    static async postPicture(id,data){
+        return service(`${url.postPicture}/${id}`,{
+            method: 'post',
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            },
+            responseType: 'json',
+            data: data
         })
     }
 }

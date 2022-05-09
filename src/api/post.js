@@ -52,4 +52,5 @@ export default class Post {
             responseType: 'json'
         })
     }
+    
 }
