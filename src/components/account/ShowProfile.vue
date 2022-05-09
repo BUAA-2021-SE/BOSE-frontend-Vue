@@ -46,7 +46,7 @@
               Avatar
          
           </v-btn>
-          <input type="file" ref="upload_input" style="display: none;" @change="select_file">
+          <input type="file" ref="upload_input" style="display: none;" @change="select_file" accept=".png,.jpg,.jpeg">
           </div>
         </div>
         <div
