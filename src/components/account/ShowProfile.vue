@@ -40,7 +40,9 @@
                 Profile
               </router-link>
             </v-btn>
-             <v-btn text @click="addFile">
+             <v-btn 
+             v-if="$route.params.id == sharedState.user_id"
+             text @click="addFile">
             
               <i class="icon-user-follow g-pos-rel g-top-1 g-mr-5"></i> Change
               Avatar
