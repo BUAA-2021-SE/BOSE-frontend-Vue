@@ -62,7 +62,7 @@
           <v-tab :to="{name: 'Following', params: {id: this.$route.params.id}}" > Following</v-tab>
           <v-tab :to="{name: 'Posts', params: {id: this.$route.params.id}}"> Posts</v-tab>
           </v-tabs>
-          <router-view></router-view>
+          <router-view/>
           </div>
         </div>
       </div>
@@ -115,7 +115,7 @@ export default {
                 .then((res)=> {
                     console.log(res.data)
                     this.loadingProfile = true;
-                    this.getUserDetail().then(()=>{
+                    this.getUserDetail(this.sharedState.user_id).then(()=>{
                       this.reload();
                     })
                 })
@@ -124,8 +124,8 @@ export default {
                 })
             }
       },
-    getUserDetail() {
-      Account.getUser(this.$route.params.id)
+    getUserDetail(id) {
+      Account.getUser(id)
         .then((res) => {
           console.log(this.$route.params);
           console.log(res.data);
@@ -135,14 +135,6 @@ export default {
           this.user.last_seen = res.data.last_seen;
           this.user.location = res.data.location;
           this.user.username = res.data.username;
-          // let welcome = `Welcome back, ${this.user.name}`;
-          // if(this.sharedState.user_id!=this.$route.params.id) 
-          // welcome = `Welcome to ${this.user.name||this.username}'s profile.`;
-          // this.$toasted.success(`${welcome}`, {
-          //   icon: "check",
-          //   fullWidth: true,
-          //   position: "bottom-center",
-          // });
           this.loadingProfile = false;
         })
         .catch((err) => {
@@ -160,12 +152,13 @@ export default {
   },
   created() {
     // this.$router.push({name: 'ShowProfile', params: {id: this.$route.params.id}})
-    this.getUserDetail();
-    // this.pictureURL="http://43.138.58.36:8000/user/post_picture/"+this.$route.params.id;
+    this.getUserDetail(this.$route.params.id);
   },
-  beforeRouteUpdate(to,from,next){
-    this.getUserDetail();
-  }
+  beforeRouteUpdate (to, from, next) {
+    next();
+    this.getUserDetail(to.params.id)
+    this.reload();
+  },
 };
 </script>
 

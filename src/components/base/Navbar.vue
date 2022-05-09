@@ -29,7 +29,7 @@
     <v-divider vertical></v-divider>
     <v-btn
       text
-      :to="{ path: `/user/${sharedState.user_id}` }"
+      :to="{ name: 'ShowProfile', params: { id: sharedState.user_id } }"
       >Profile
     </v-btn>
     
