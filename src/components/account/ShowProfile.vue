@@ -136,6 +136,7 @@ export default {
           avatar: "",
         },
       },
+      currentId:this.$route.params.id
     };
   },
   methods: {
@@ -158,9 +159,13 @@ export default {
         });
     },
   },
+  watch:{
+    currentId(newId,oldId){
+      this.getUserDetail(newId)
+    }
+  },
   created() {
-    const user_id = this.$route.params.id
-    this.getUserDetail(user_id);
+    this.getUserDetail(this.currentId);
   },
   beforeRouteUpdate (to, from, next) {
     next()
