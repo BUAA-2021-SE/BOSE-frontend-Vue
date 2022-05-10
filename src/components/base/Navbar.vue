@@ -1,5 +1,5 @@
 <template>
-  <v-app-bar app dense>
+  <v-app-bar app dense  elevate-on-scroll>
     <router-link to="/">
       <div id="main" :style="{ width: '250px', height: '40px' }"></div>
     </router-link>
@@ -19,6 +19,8 @@
     </v-btn>
      </v-toolbar-items>
     <v-spacer></v-spacer>
+
+
     <v-toolbar-items>
     <el-input placeholder="Search" v-model="search"> </el-input>
     <el-button small>Search</el-button>
