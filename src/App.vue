@@ -3,6 +3,7 @@
   <navbar style="z-index:2000"></navbar>
     <br/>
     <br/>
+    <br/>
   <router-view/>
 </v-app>
 </template>

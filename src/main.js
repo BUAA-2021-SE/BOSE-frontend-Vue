@@ -18,6 +18,7 @@ import './assets/icon-awesome/css/font-awesome.min.css'
 import 'bootstrap/dist/css/bootstrap.css'
 import './assets/icon-line/css/simple-line-icons.css'
 import './assets/icon-material/material-icons.css'
+// import './plugins/base'
 // 导入markdownCSS
 import './assets/markdown-styles/github-markdown.css'
 import vuetify from "./plugins/vuetify";
