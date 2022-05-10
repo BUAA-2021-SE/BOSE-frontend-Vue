@@ -3,30 +3,31 @@
     <router-link to="/">
       <div id="main" :style="{ width: '250px', height: '40px' }"></div>
     </router-link>
-
+<v-divider vertical inset></v-divider>
+<v-toolbar-items>
  <v-btn
       text
       :to="{ name: 'Home' }"
       >Home
     </v-btn>
-    <v-divider vertical></v-divider>
+
 
     <v-btn
       text
        :to="{ name: 'ShowProfile', params: { id: sharedState.user_id } }"
       >Explore
     </v-btn>
-   
+     </v-toolbar-items>
     <v-spacer></v-spacer>
     <v-toolbar-items>
     <el-input placeholder="Search" v-model="search"> </el-input>
     <el-button small>Search</el-button>
   </v-toolbar-items>
     <v-spacer></v-spacer>
-
+  <v-toolbar-items  v-if="sharedState.is_authenticated">
     <v-btn text href="#"> Messages </v-btn>
 
-    <v-divider vertical></v-divider>
+
     <v-btn
       text
       :to="{ name: 'ShowProfile', params: { id: sharedState.user_id } }"
@@ -34,9 +35,17 @@
     </v-btn>
     
 
-    <v-divider vertical></v-divider>
+    
 
     <v-btn text @click="handlerLogout" href="#"> Logout </v-btn>
+    </v-toolbar-items>
+    <v-toolbar-items v-else>
+        <v-btn
+      text
+      :to="{ name: 'Login'}"
+      >Login
+    </v-btn>
+    </v-toolbar-items>
   </v-app-bar>
 </template>
 <script>
