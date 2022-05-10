@@ -34,7 +34,7 @@
       ></v-text-field>
       <label >正文</label>
       <div style="z-index:-10">
-      <mavon-editor style="position：absolute" v-model="postForm.body" :toolbars="tools" />
+      <mavon-editor v-model="postForm.body" :toolbars="tools" />
       </div>
       <v-alert dense type="error" v-show="this.postForm.errors" >{{ postForm.titleError || postForm.summaryError || postForm.bodyError}}</v-alert>
     <button  class="btn btn-primary" @click="onSubmitAdd">Submit</button>
@@ -316,13 +316,11 @@ export default {
   },
   created(){
     this.getPosts(1)
-    console.log(this.editor)
   },
   beforeRouteUpdate (to, from, next) {
-    // 注意：要先执行 next() 不然 this.$route.query 还是之前的
+    //要先执行 next() 不然 this.$route.query 还是之前的
     next()
     this.getPosts(1)
-
   }
 }
 </script>
