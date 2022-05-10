@@ -135,15 +135,13 @@ export default {
         _links: {
           avatar: "",
         },
-      },
-      currentId:this.$route.params.id
+      }
     };
   },
   methods: {
     getUserDetail(id) {
       Account.getUser(id)
         .then((res) => {
-          console.log(this.$route.params);
           console.log(res.data);
           this.user.name = res.data.name;
           this.user.about_me = res.data.about_me;
@@ -159,15 +157,12 @@ export default {
         });
     },
   },
-  watch:{
-    currentId(newId,oldId){
-      this.getUserDetail(newId)
-    }
-  },
   created() {
-    this.getUserDetail(this.currentId);
+    this.getUserDetail(this.$route.params.id);
+    console.log("created");
   },
   beforeRouteUpdate (to, from, next) {
+    console.log("routerUpdate");
     next()
     this.getUserDetail(to.params.id)
   }
