@@ -39,9 +39,10 @@
         v-model="registerForm.password"
         label="Password"
         filled
-        clearable
+        :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
+        :type="showPassword ? 'text' : 'password'"
+        @click:append="showPassword = !showPassword"
         required
-        type="password"
         autocomplete="new-password"
         :disabled="showIDCode"
        :class="{'is-invalid': registerForm.passwordError}"  placeholder="Password"
@@ -52,8 +53,9 @@
         label="Password Again"
         filled
         required
-        clearable
-        type="password"
+        :append-icon="showPassword2 ? 'mdi-eye' : 'mdi-eye-off'"
+        :type="showPassword2 ? 'text' : 'password'"
+        @click:append="showPassword2 = !showPassword2"
         :disabled="showIDCode"
        :class="{'is-invalid': registerForm.password2Error}"  placeholder="Password Again"
       ></v-text-field>
@@ -88,6 +90,8 @@ export default {
   data () {
     
     return {
+      showPassword: false,
+      showPassword2: false,
       showIDCode:false,
       registerForm: {
         username: '',

@@ -6,7 +6,7 @@ import VueToasted  from 'vue-toasted'
 import moment from 'moment'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
-
+import '@mdi/font/css/materialdesignicons.css'
 import * as echarts from 'echarts';
 import mavonEditor from 'mavon-editor'
 import VueSweetalert2 from 'vue-sweetalert2'

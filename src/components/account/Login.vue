@@ -37,14 +37,18 @@
       ></v-text-field>
       <v-text-field
         v-model="loginForm.password"
+        :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
+        :type="showPassword ? 'text' : 'password'"
+        @click:append="showPassword = !showPassword"
+         required
         label="Password"
-        required
         filled
-        clearable
-        type="password"
        :class="{'is-invalid': loginForm.passwordError}"  placeholder="Password"
       ></v-text-field>
       <v-alert dense type="error" v-show="loginForm.passwordError" >{{ loginForm.passwordError }}</v-alert>
+
+
+
         </v-form>
         <button @click="onSubmit" class="btn btn-primary">Sign In</button>
       </div>
@@ -69,6 +73,7 @@ export default {
   },
   data() {
     return {
+      showPassword:false,
       sharedState: store.state,
       alertVariant: "info",
       alertMessage: "You are now registered.",
