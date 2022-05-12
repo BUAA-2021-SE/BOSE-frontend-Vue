@@ -1,74 +1,35 @@
 <template>
-  <!-- <v-app-bar app dense  elevate-on-scroll>
-    <router-link to="/">
-      <div id="main" :style="{ width: '250px', height: '40px' }"></div>
-    </router-link>
-<v-divider vertical inset></v-divider>
-<v-toolbar-items>
- <v-btn
-      text
-      :to="{ name: 'Home' }"
-      >Home
-    </v-btn>
-
-
-    <v-btn
-      text
-       :to="{ name: 'ShowProfile', params: { id: sharedState.user_id } }"
-      >Explore
-    </v-btn>
-     </v-toolbar-items>
-    <v-spacer></v-spacer>
-
-
-    <v-toolbar-items>
-    <el-input placeholder="Search" v-model="search"> </el-input>
-    <el-button small>Search</el-button>
-  </v-toolbar-items>
-    <v-spacer></v-spacer>
-  <v-toolbar-items  v-if="sharedState.is_authenticated">
-    <v-btn text href="#"> Messages </v-btn>
-
-
-    <v-btn
-      text
-      :to="{ name: 'ShowProfile', params: { id: sharedState.user_id } }"
-      >Profile
-    </v-btn>
+ 
+   <v-app-bar
+    app
     
+    elevate-on-scroll
+  >
+   <v-spacer/>
 
-    
-
-    <v-btn text @click="handlerLogout" href="#"> Logout </v-btn>
-    </v-toolbar-items>
-    <v-toolbar-items v-else>
-        <v-btn
-      text
-      :to="{ name: 'Login'}"
-      >Login
-    </v-btn>
-    </v-toolbar-items>
-  </v-app-bar> -->
-
-  <v-app-bar app elevate-on-scroll>
-    <v-spacer :style="{width: '10vw'}"/>
     <router-link   to="/home">
       <div id="main" :style="{ width: '250px', height: '40px' }"></div>
     </router-link>
-    <v-container class="mx-auto">
-      <v-row align="center" class=" col-12">
-       <v-col class="col-2">
-        <v-btn
+     
+        <v-img
+          :src="require('@/assets/logo.png')"
+          class="mr-5"
+          contain
+          height="48"
+          width="48"
+          max-width="48"
+          @click="$vuetify.goTo(0)"
+        /> 
+
+          <v-btn
           text
-          fab
-          :style="{ borderRadius: '10px', marginTop: '-12px', width: '100px' }"
           :to="{ name: 'Home' }"
         >
           Home
         </v-btn>
-</v-col>
- <v-col class="col-4">
-        <v-text-field
+         
+<v-spacer/>
+       <v-text-field
           append-icon="mdi-magnify"
           @click:append="searchBlog"
           flat
@@ -76,29 +37,27 @@
           solo
           v-model="search"
           style="max-width: 300px"
-          :style="{ marginTop: '-12px' }"
+          
         />
-       </v-col>
-        <v-btn
+
+        <v-spacer/>
+       <v-btn 
           text
-          fab
-          :style="{ borderRadius: '10px', marginTop: '-12px', width: '100px' }"
+         
           :to="{ name: 'ShowProfile', params: { id: sharedState.user_id } }"
           v-show="sharedState.is_authenticated"
         >
           Profile
         </v-btn>
-        <v-btn text href="#" v-show="sharedState.is_authenticated" fab
-          :style="{borderRadius:'10px',marginTop:'-12px',width:'100px'}">
+        <v-btn text href="#" v-show="sharedState.is_authenticated" 
+         >
           Messages
         </v-btn>
 
         <v-btn
           text
           @click="handlerLogout"
-          fab
-          :style="{ borderRadius: '10px', marginTop: '-12px', width: '100px' }"
-          href="#"
+         
           v-show="sharedState.is_authenticated"
         >
           Logout
@@ -107,15 +66,14 @@
         <v-btn
           text
           :to="{ name: 'Login' }"
-          fab
-          :style="{ borderRadius: '10px', marginTop: '-12px', width: '100px' }"
+         
           v-show="!sharedState.is_authenticated"
           >Login
         </v-btn>
-        
-      </v-row>
-    </v-container>
-  </v-app-bar>
+        <v-spacer/>
+      
+
+    </v-app-bar>
 </template>
  <script>
 import store from "../../store.js";
