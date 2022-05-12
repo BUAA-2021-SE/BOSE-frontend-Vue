@@ -20,7 +20,7 @@ Vue.use(mavonEditor)
 const router = new VueRouter({
   routes:[
     {
-      path: '/home',
+      path: '/',
       name: 'Home',
       component: Home,
     },

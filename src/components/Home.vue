@@ -99,12 +99,14 @@
     ></v-pagination>
     <!-- 删除弹出框 -->
     <v-dialog style="z-index:2000"
-    v-model="showDelete">
-     <v-card>
-     <v-card-title>
+    v-model="showDelete"
+   width="25vw"
+   height="20vh">
+     <v-card :style="{width:'25vw', height:'20vh'}" class="d-flex align-content-end flex-wrap" >
+     <v-card-title class="mx-auto">
      Are you sure you want to delete?
      </v-card-title>
-        <v-card-actions>
+        <v-card >
           <v-btn
           color="primary"
           text
@@ -116,11 +118,13 @@
           <v-btn
             color="error"
             text
+           
             @click="onDeletePost"
           >
             Confirm
           </v-btn>
-        </v-card-actions>
+        </v-card>
+       
      </v-card>
     </v-dialog>
     </div>

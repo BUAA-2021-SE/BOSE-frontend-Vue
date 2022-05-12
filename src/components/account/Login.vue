@@ -118,7 +118,7 @@ export default {
           store.resetNotNewAction();
           store.loginAction();
           if (typeof this.$route.query.redirect == "undefined") {
-            this.$router.push("/home");
+            this.$router.push("/");
           } else {
             this.$router.push(this.$route.query.redirect);
           }

@@ -7,7 +7,7 @@
   >
    <v-spacer/>
 
-    <router-link   to="/home">
+    <router-link   to="/">
       <div id="main" :style="{ width: '250px', height: '40px' }"></div>
     </router-link>
      
@@ -23,6 +23,7 @@
 
           <v-btn
           text
+          
           :to="{ name: 'Home' }"
         >
           Home
@@ -43,7 +44,7 @@
         <v-spacer/>
        <v-btn 
           text
-         
+          
           :to="{ name: 'ShowProfile', params: { id: sharedState.user_id } }"
           v-show="sharedState.is_authenticated"
         >
