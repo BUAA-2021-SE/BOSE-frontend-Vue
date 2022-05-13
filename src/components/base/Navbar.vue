@@ -20,15 +20,16 @@
           max-width="48"
           @click="$vuetify.goTo(0)"
         /> 
-
+      <router-link :to="{ name: 'Home', }">
           <v-btn
           text
           
-          :to="{ name: 'Home' }"
+          @click="router.push({name})"
+        
         >
           Home
         </v-btn>
-         
+      </router-link>
 <v-spacer/>
        <v-text-field
           append-icon="mdi-magnify"
@@ -42,18 +43,24 @@
         />
 
         <v-spacer/>
+        <router-link  :to="{ name: 'ShowProfile', params: { id: sharedState.user_id } }">
        <v-btn 
           text
           
-          :to="{ name: 'ShowProfile', params: { id: sharedState.user_id } }"
+         
           v-show="sharedState.is_authenticated"
         >
           Profile
+          
         </v-btn>
+         </router-link>
+
+         <router-link :to="{ name: 'Home', }">
         <v-btn text href="#" v-show="sharedState.is_authenticated" 
          >
           Messages
         </v-btn>
+ </router-link>
 
         <v-btn
           text
@@ -64,13 +71,15 @@
           Logout
         </v-btn>
 
+ <router-link :to="{ name: 'Login', }">
         <v-btn
           text
-          :to="{ name: 'Login' }"
+          
          
           v-show="!sharedState.is_authenticated"
           >Login
         </v-btn>
+         </router-link>
         <v-spacer/>
       
 
@@ -235,5 +244,18 @@ export default {
   mounted() {
     this.drawLogo();
   },
+  active() {
+    return this.$route.path === this.path
+  }
 };
 </script>
+<style scoped>
+.router-link-active {
+  text-decoration: none;
+  color: yellow;
+}
+a{
+  text-decoration: none;
+  color: rgb(255, 255, 255)
+}
+</style>
