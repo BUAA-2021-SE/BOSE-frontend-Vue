@@ -163,5 +163,7 @@ export default {
 </script>
 
 <style scoped>
-
+.v-tab {
+    text-transform: none;
+  }
 </style>

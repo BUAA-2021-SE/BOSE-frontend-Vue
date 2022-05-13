@@ -16,6 +16,7 @@ specifiers:
   jquery: ^3.6.0
   less: ^3.0.4
   less-loader: ^5.0.0
+  material-design-icons-iconfont: ^6.7.0
   material-icons: ^1.10.9
   mavon-editor: ^2.10.4
   moment: ^2.29.3
@@ -60,6 +61,7 @@ devDependencies:
   '@vue/cli-service': registry.npmmirror.com/@vue/cli-service/4.5.17_aa125e4015f17d2f713c6d0b2cf8929b
   less: registry.npmmirror.com/less/3.13.1
   less-loader: registry.npmmirror.com/less-loader/5.0.0_less@3.13.1
+  material-design-icons-iconfont: registry.npmmirror.com/material-design-icons-iconfont/6.7.0
   sass: registry.npmmirror.com/sass/1.32.13
   sass-loader: registry.npmmirror.com/sass-loader/10.2.1_sass@1.32.13
   vue-cli-plugin-vuetify: registry.npmmirror.com/vue-cli-plugin-vuetify/2.4.8_6897eeb2050c991929b0b03fafab8d99
@@ -7069,6 +7071,12 @@ packages:
     name: match-at
     version: 0.1.1
     dev: false
+
+  registry.npmmirror.com/material-design-icons-iconfont/6.7.0:
+    resolution: {integrity: sha512-lSj71DgVv20kO0kGbs42icDzbRot61gEDBLQACzkUuznRQBUYmbxzEkGU6dNBb5fRWHMaScYlAXX96HQ4/cJWA==, registry: http://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/material-design-icons-iconfont/-/material-design-icons-iconfont-6.7.0.tgz}
+    name: material-design-icons-iconfont
+    version: 6.7.0
+    dev: true
 
   registry.npmmirror.com/material-icons/1.10.9:
     resolution: {integrity: sha512-bix9hlteHhaO/I2mfLjs5XeJG31E72p+gTj8BXt/1bwRnry8FCot5CVeHBhnkgGEBdiI+DphRYxB3uTDxZ9stg==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/material-icons/-/material-icons-1.10.9.tgz}
