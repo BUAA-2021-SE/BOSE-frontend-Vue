@@ -1,77 +1,82 @@
 <template>
-  <div class="container my-auto" height="80vh">
-    <alert 
+  <div class="container my-auto" height="50vh">
+    <alert
       v-if="sharedState.is_new"
       :variant="alertVariant"
-      :message="alertMessage">
+      :message="alertMessage"
+    >
     </alert>
-    <alert 
+    <alert
       v-if="sharedState.is_reset"
       :variant="alertVariant"
-      :message="alertMessageReset">
+      :message="alertMessageReset"
+    >
     </alert>
-     <div
-    class="my-auto"
-    width="80vw"
-    height="50vh"
-    
-  >
-  
-  <div class="cardTitle"><h1 class="midText">登录</h1></div>
- 
-  <div>
-    
+    <div class="my-auto" width="80vw" height="50vh">
+      <div>
+        <div class="cardTitle"><h1 class="midText">登录</h1></div>
 
-    <div class="row col-md-12 m-auto">
-      <div class="col-md-5 ">
-        <v-form >
-      <v-text-field
-        v-model="loginForm.username"
-        label="Username"
-        required
-        clearable
-        filled
-       :class="{'is-invalid': loginForm.usernameError}"  placeholder="Username"
-      ></v-text-field>
-      <v-text-field
-        v-model="loginForm.password"
-        :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
-        :type="showPassword ? 'text' : 'password'"
-        @click:append="showPassword = !showPassword"
-         required
-        label="Password"
-        filled
-       :class="{'is-invalid': loginForm.passwordError}"  placeholder="Password"
-      ></v-text-field>
-      <v-alert dense type="error" v-show="loginForm.passwordError" >{{ loginForm.passwordError }}</v-alert>
-        </v-form>
-        <button @click="onSubmit" class="btn btn-primary">Sign In</button>
-      
-    <br/>
-    <br/>
+        <div>
+          <div class="row col-md-12 m-auto">
+            <div class="col-md-5">
+              <v-form>
+                <v-text-field
+                  v-model="loginForm.username"
+                  label="Username"
+                  required
+                  clearable
+                  filled
+                  :class="{ 'is-invalid': loginForm.usernameError }"
+                  placeholder="Username"
+                ></v-text-field>
+                <v-text-field
+                  v-model="loginForm.password"
+                  :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
+                  :type="showPassword ? 'text' : 'password'"
+                  @click:append="showPassword = !showPassword"
+                  required
+                  label="Password"
+                  filled
+                  :class="{ 'is-invalid': loginForm.passwordError }"
+                  placeholder="Password"
+                ></v-text-field>
+                <v-alert dense type="error" v-show="loginForm.passwordError">{{
+                  loginForm.passwordError
+                }}</v-alert>
+              </v-form>
+              <button @click="onSubmit" class="btn btn-primary">Sign In</button>
 
-    <p>New User? <router-link to="/register">Click to Register!</router-link></p>
-    <p>
-        Forgot Your Password?
-         <router-link to="/reset">Click to Reset It</router-link>
-    </p>
-    </div>
-     <div class="col-md-2">
-     <div class="midLine"></div>
-     </div>
-    <div class="col-md-5 ">
-        <v-img
-          :src="require('@/assets/logo.png')"
-          class="mr-5"
-          contain
-          
-          @click="$vuetify.goTo(0)"
-        /> 
+              <br />
+              <br />
+
+              <p>
+                New User?
+                <router-link to="/register">Click to Register!</router-link>
+              </p>
+              <p>
+                Forgot Your Password?
+                <router-link to="/reset">Click to Reset It</router-link>
+              </p>
+            </div>
+            <div class="col-md-2">
+              <div class="midLine"></div>
+            </div>
+            <div class="col-md-5">
+              <v-img
+                :src="require('@/assets/logo.png')"
+                class="mr-5"
+                contain
+                @click="$vuetify.goTo(0)"
+              />
+            </div>
+          </div>
+        </div>
+        <div class="cardTitle"></div>
       </div>
     </div>
-    </div>
-    <div class="cardTitle"></div>
-         </div>
+  <div >
+
+  </div>
   </div>
 </template>
 
