@@ -1,90 +1,81 @@
 <template>
- 
-   <v-app-bar
-    app
-    color="primary"
-    elevate-on-scroll
-  >
-
-  
-
-    <router-link   to="/">
+  <v-app-bar app color="#4cabeb" elevate-on-scroll>
+    <router-link to="/">
       <div id="main" :style="{ width: '150px', height: '40px' }"></div>
     </router-link>
 
-        <v-img
-          :src="require('@/assets/logo.png')"
-          class="mr-5"
-          contain
-          height="48"
-          width="48"
-          max-width="48"
-          @click="$vuetify.goTo(0)"
-        /> 
-        <v-divider vertical  class="md-4"/>
-      <router-link :to="{ name: 'Home', }">
-          <v-btn
-          text
-          class="white--text"
-          @click="router.push({name})"
-        
-        >
-          Home
-        </v-btn>
-      </router-link>
-      <v-spacer/>
-       <v-text-field
-          append-icon="mdi-magnify"
-          @click:append="searchBlog"
-          flat
-          hide-details
-          solo
-          v-model="search"
-          style="max-width: 300px"
-          :style="{ borderRadius: '300px' }"
-        />
-        
-        
-        <router-link  :to="{ name: 'ShowProfile', params: { id: sharedState.user_id } }">
-       <v-btn 
-          text
-          class="white--text"
-         
-          v-show="sharedState.is_authenticated"
-        >
-          Profile
-          
-        </v-btn>
-         </router-link>
-      <v-divider vertical v-show="sharedState.is_authenticated" class="md-4"/>
-         <router-link :to="{ name: 'Home', }">
-        <v-btn text href="#" v-show="sharedState.is_authenticated" class="white--text"
-         >
-          Messages
-        </v-btn>
- </router-link>
-<v-divider vertical  v-show="sharedState.is_authenticated" class="md-4"/>
-        <v-btn
-          text
-          @click="handlerLogout"
-          class="white--text"
-          v-show="sharedState.is_authenticated"
-        >
-          Logout
-        </v-btn>
+    <v-img
+      :src="require('@/assets/logo.png')"
+      class="mr-5"
+      contain
+      height="48"
+      width="48"
+      max-width="48"
+      @click="$vuetify.goTo(0)"
+    />
+   
+    <router-link :to="{ name: 'Home' }">
+      <v-btn text class="white--text" @click="router.push({ name })">
+        Home
+      </v-btn>
+    </router-link>
+    <v-spacer />
+    <v-text-field
+      append-icon="mdi-magnify"
+      @click:append="searchBlog"
+      flat
+      hide-details
+      solo
+      v-model="search"
+      style="max-width: 300px"
+      :style="{ borderRadius: '300px' }"
+    />
 
- <router-link :to="{ name: 'Login', }">
-        <v-btn
-          text
-          class="white--text"
-         
-          v-show="!sharedState.is_authenticated"
-          >Login
-        </v-btn>
-         </router-link>
-        
+    <v-spacer />
+    <router-link
+      v-if="sharedState.is_authenticated"
+      :to="{ name: 'ShowProfile', params: { id: sharedState.user_id } }"
+    >
+      <v-btn text class="white--text"> Profile </v-btn>
+    </router-link>
+    <router-link v-else :to="{ name: 'Login' }">
+      <v-btn text class="white--text"> Profile </v-btn>
+    </router-link>
+ 
+    <router-link v-if="sharedState.is_authenticated" :to="{ name: 'Home' }">
+      <v-btn text class="white--text"> Messages </v-btn>
+    </router-link>
+    <router-link v-else :to="{ name: 'Login' }">
+      <v-btn text class="white--text"> Messages </v-btn>
+    </router-link>
 
-    </v-app-bar>
+
+    <router-link
+      v-if="sharedState.is_authenticated"
+      :to="{ name: 'PostEdit', params: { id: sharedState.user_id } }"
+    >
+      <v-btn text class="white--text"> New Blog </v-btn>
+    </router-link>
+    <router-link v-else :to="{ name: 'Login' }">
+      <v-btn text class="white--text"> New Blog </v-btn>
+    </router-link>
+
+  
+    <v-btn
+      text
+      @click="handlerLogout"
+      class="white--text"
+      v-show="sharedState.is_authenticated"
+    >
+      Logout
+    </v-btn>
+
+    <router-link :to="{ name: 'Login' }">
+      <v-btn text class="white--text" v-show="!sharedState.is_authenticated"
+        >Login
+      </v-btn>
+    </router-link>
+  </v-app-bar>
 </template>
  <script>
 import store from "../../store.js";
@@ -101,7 +92,7 @@ export default {
       store.logoutAction();
       this.$router.push("/login");
     },
-    searchBlog(){
+    searchBlog() {
       console.log(this.search);
     },
     drawLogo() {
@@ -146,7 +137,7 @@ export default {
                   {
                     percent: 1,
                     style: {
-                      fill: "rgba(255,255,255,0.75)",
+                      fill: "rgba(255,255,255,1)",
                     },
                   },
                 ],
@@ -244,7 +235,7 @@ export default {
   },
   mounted() {
     this.drawLogo();
-    console.log(this.path)
+    console.log(this.path);
   },
 };
 </script>
@@ -252,14 +243,15 @@ export default {
 .router-link-active {
   text-decoration: none;
   color: yellow;
+  color: #4cabeb;
 }
-a{
+a {
   text-decoration: none;
-  color: rgb(255, 255, 255)
+  color: rgb(255, 255, 255);
 }
 .v-btn {
-    text-transform: none;
-    font-weight:bold;
-    font-size: 20;
+  text-transform: none;
+  font-weight: bold;
+  font-size: 20;
 }
 </style>
