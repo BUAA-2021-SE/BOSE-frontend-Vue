@@ -86,15 +86,6 @@ export class Account {
             data: data        
         })
     }
-    static async getUserFollowers(id){
-        return service(`${url.getUserFollowers}/${id}`,{
-            method: 'post',
-            headers: {
-                'Content-Type': 'multipart/form-data'
-            },
-            responseType: 'json'
-        })
-    }
     static async postPicture(id,data){
         return service(`${url.postPicture}/${id}`,{
             method: 'post',

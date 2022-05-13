@@ -23,6 +23,7 @@
                 :src="user._links.avatar"
                 alt="Image Description"
               >
+              <button></button>
             </div>
             <!--Change User Image-->
             <!-- User Image -->
@@ -43,15 +44,19 @@
                 Profile
               </router-link>
             </v-btn>
-             <v-btn 
+            <v-btn 
              v-if="$route.params.id == sharedState.user_id"
              text @click="addFile">
-            
               <i class="icon-user-follow g-pos-rel g-top-1 g-mr-5"></i> Change
               Avatar
-         
-          </v-btn>
+            </v-btn>
           <input type="file" ref="upload_input" style="display: none;" @change="select_file" accept=".png,.jpg,.jpeg">
+          <v-btn v-if="!ifFollow && $route.params.id != sharedState.user_id" @click="onFollowUser()">
+          <i class="icon-user-follow g-pos-rel g-top-1 g-mr-5"></i> Follow
+          </v-btn>
+          <v-btn v-if="ifFollow && $route.params.id != sharedState.user_id" @click="onUnFollowUser()">
+          <i class="icon-user-unfollow g-pos-rel g-top-1 g-mr-5"></i> Unfollow
+          </v-btn>
           </div>
            <!-- v-divider vertical useless -->
           <div class="col-sm-9">
@@ -72,9 +77,10 @@
 
 <script>
 import { Account } from "@/api/account.js";
+import  Followers  from "@/api/follower.js";
 import store from "@/store.js";
 import axios from 'axios'
-import { reject } from "q";
+import router from "../../router";
 export default {
   name: "Profile",
   inject:['reload'],
@@ -98,32 +104,33 @@ export default {
           avatar: "",
         },
       },
+      ifFollow : true
     };
   },
   methods: {
-      addFile(){
-                this.$refs.upload_input.click () // 通过 ref 模拟点击
-            },
-      select_file(file) {
-            this.select_file_data = file.target.files
-            console.log(this.select_file_data)
-            let uploads = new FormData ()
-            if (this.select_file_data != "") {
-              this.loadingProfile = true;
-                uploads.append ("picture",this.select_file_data[0])
-                Account.postPicture(this.$route.params.id,uploads)
-                .then((res)=> {
-                    console.log(res.data)
-                    this.loadingProfile = true;
-                    this.getUserDetail(this.sharedState.user_id).then(()=>{
-                      this.reload();
-                    })
-                })
-                .catch((err)=> {
-                    console.log(err)
-                })
-            }
-      },
+    addFile(){
+              this.$refs.upload_input.click () // 通过 ref 模拟点击
+          },
+    select_file(file) {
+          this.select_file_data = file.target.files
+          console.log(this.select_file_data)
+          let uploads = new FormData ()
+          if (this.select_file_data != "") {
+            this.loadingProfile = true;
+              uploads.append ("picture",this.select_file_data[0])
+              Account.postPicture(this.$route.params.id,uploads)
+              .then((res)=> {
+                  console.log(res.data)
+                  this.loadingProfile = true;
+                  this.getUserDetail(this.sharedState.user_id).then(()=>{
+                    this.reload();
+                  })
+              })
+              .catch((err)=> {
+                  console.log(err)
+              })
+          }
+    },
     getUserDetail(id) {
       Account.getUser(id)
         .then((res) => {
@@ -141,21 +148,50 @@ export default {
           console.log((err, "getUserDetailError"));
         });
     },
-
-
-    //  handleelchange(file) {
-    //    Account.postPicture(this.$route.params.id,file)
-    //    .then(res => { console.log(res) })
-    // },
-
-
+    getIfFollow(id){
+      Followers.isFollow(id)
+      .then((res)=>{
+        console.log(res.data);
+        this.ifFollow = res.data;
+        console.log(res,"getIfFollow");
+      })
+      .catch((err) => {
+        console.error(err);
+      })
+    },
+    onFollowUser(){
+      const formData = new FormData();
+      formData.append("current_user",this.sharedState.user_id)
+      Followers.follow(this.$route.params.id,formData)
+      .then((res)=>{
+        console.log(res,"followUser");
+        this.ifFollow = true
+        this.$router.push({name: 'ShowProfile', params: { id: this.$route.params.id }})
+      })
+      .catch((err) => {
+        console.error(err);
+      })
+    },
+    onUnFollowUser(){
+      const formData = new FormData();
+      formData.append("current_user",this.sharedState.user_id)
+      Followers.unFollow(this.$route.params.id,formData)
+      .then((res)=>{
+        console.log(res,"unfollowUser");
+        this.ifFollow = false;
+        this.$router.push({name: 'ShowProfile', params: { id: this.$route.params.id }})
+      })
+      .catch((err) => {
+        console.error(err);
+      })
+    }
   },
   created() {
-    // this.$router.push({name: 'ShowProfile', params: {id: this.$route.params.id}})
     this.getUserDetail(this.$route.params.id);
+    this.getIfFollow(this.$route.params.id)
   },
   beforeRouteUpdate (to, from, next) {
-    next();
+    next()
     this.getUserDetail(to.params.id)
     this.reload();
   },

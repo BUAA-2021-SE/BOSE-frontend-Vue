@@ -240,8 +240,7 @@ export default {
       
       Account.Register(payload)
         .then((res) => {
-          console.log(res.detail,"111");
-          // this.$router.push('/login');
+          console.log(res,"111");
           this.showIDCode= true;
         })
         .catch((error) => {
@@ -260,7 +259,6 @@ export default {
           console.log(error);
           console.log(error.response.data,"123");
         })
-      
     },
     
     validEmail: function (email) {

@@ -46,8 +46,6 @@
         <router-link  :to="{ name: 'ShowProfile', params: { id: sharedState.user_id } }">
        <v-btn 
           text
-          
-         
           v-show="sharedState.is_authenticated"
         >
           Profile
