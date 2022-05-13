@@ -15,7 +15,7 @@
     />
    
     <router-link :to="{ name: 'Home' }">
-      <v-btn text class="white--text" @click="router.push({ name })">
+      <v-btn text class="white--text">
         Home
       </v-btn>
     </router-link>
