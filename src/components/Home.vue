@@ -69,11 +69,11 @@
     v-model="showDelete"
    width="25vw"
    height="20vh">
-     <v-card :style="{width:'25vw', height:'20vh'}" class="d-flex align-content-end flex-wrap" >
+     <v-card :style="{width:'25vw', height:'12vh'}" class="d-flex align-content-end flex-wrap" >
      <v-card-title class="mx-auto">
      Are you sure you want to delete?
      </v-card-title>
-        <v-card >
+        <v-card-actions>
           <v-btn
           color="primary"
           text
@@ -85,12 +85,11 @@
           <v-btn
             color="error"
             text
-           
             @click="onDeletePost"
           >
             Confirm
           </v-btn>
-        </v-card>
+        </v-card-actions>
        
      </v-card>
     </v-dialog>
