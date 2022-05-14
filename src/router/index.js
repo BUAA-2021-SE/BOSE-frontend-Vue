@@ -15,6 +15,7 @@ import ShowProfile from '@/components/account/ShowProfile'
 import Followers from '@/components/profile/Followers'
 import Following from '@/components/profile/Following'
 import Posts from '@/components/profile/Posts'
+import PostAdd from '@/components/Blog/AddBlog'
 Vue.use(VueRouter)
 Vue.use(mavonEditor)
 const router = new VueRouter({
@@ -32,6 +33,11 @@ const router = new VueRouter({
     { path: '/postedit/:id',
       name: 'PostEdit',
       component: PostEdit,
+    },
+    {
+      path:'/postadd/:id',
+      name:'PostAdd',
+      component: PostAdd
     },
     {
       path: '/ping',
