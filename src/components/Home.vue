@@ -6,39 +6,6 @@
       :variant="alert.alertVariant"
       :message="alert.alertMessage">
     </alert>
-    <!-- 用户博客添加 -->
-    <v-form v-if="sharedState.is_authenticated"  class="g-mb-40">
-    <!-- <div class="form-group" :class="{'u-has-error-v1': postForm.titleError}" >
-      <input type="text" v-model="postForm.title" class="form-control" id="post_title" placeholder="标题">
-      <small class="form-control-feedback" v-show="postForm.titleError">{{ postForm.titleError }}</small>
-    </div> -->
-    <label >标题</label>
-    <v-text-field
-        v-model="postForm.title"
-       
-        solo
-        dense
-        placeholder=""
-       :class="{'is-invalid': postForm.titleError}"
-      ></v-text-field>
-    <!-- <div class="form-group">
-      <input type="text" v-model="postForm.summary" class="form-control" id="post_summary" placeholder="摘要">
-    </div> -->
-    <label >摘要</label>
-    <v-text-field
-        v-model="postForm.summary"
-        solo
-        dense
-        placeholder=""
-       :class="{'is-invalid': postForm.summaryError}"
-      ></v-text-field>
-      <label >正文</label>
-      <div style="z-index:-10">
-      <mavon-editor v-model="postForm.body" :toolbars="tools" />
-      </div>
-      <v-alert dense type="error" v-show="this.postForm.errors" >{{ postForm.titleError || postForm.summaryError || postForm.bodyError}}</v-alert>
-    <button  class="btn btn-primary" @click="onSubmitAdd">Submit</button>
-    </v-form>
     <div>
     <v-card
     class="mx-auto"
@@ -164,15 +131,6 @@ export default {
         },
       ],
       posts: '',
-      postForm: {
-        title: '',
-        summary: '',
-        body: '',
-        errors: 0,  // 表单是否在前端验证通过，0 表示没有错误，验证通过
-        titleError: false,
-        bodyError: false,
-        summaryError: false
-      },
       showDelete: false,
       deleteId:0,
       tools: {
@@ -263,60 +221,7 @@ export default {
           .catch((err)=>{
             console.error(err,"not deleted");
           })
-    },
-    onSubmitAdd(){
-      this.postForm.errors = 0;
-      this.postForm.title=this.postForm.title.trim()
-      this.postForm.summary=this.postForm.summary.trim()
-      this.postForm.body=this.postForm.body.trim()
-
-      if(this.postForm.title==""){
-          this.postForm.errors++;
-          console.log("aaa");
-          this.postForm.titleError="Please Enter Title"
-      }else{
-        this.postForm.titleError=null
-      }
-      if(this.postForm.summary==""){
-          this.postForm.errors++;
-          this.postForm.summaryError="Please Enter Summary"
-      }else{
-        this.postForm.summaryError=null
-      }
-      if(this.postForm.body==""){
-          this.postForm.errors++;
-          this.postForm.bodyError="You Should Write Something"
-      }else{
-        this.postForm.bodyError=null
-      }
-      if (this.postForm.errors>0) {
-        return false;
-      }
-      const payload = new FormData();
-      payload.append('title',this.postForm.title);
-      payload.append('summary',this.postForm.summary);
-      payload.append('body',this.postForm.body);
-      console.log("onSubmitAdd");
-      Post.postBlog(payload)
-        .then((res) => {
-          console.log(res);
-          this.$toasted.success(`${this.postForm.title} is submitted successfully!`,
-            {
-              icon:'check',
-              fullWidth: true,
-              position: "bottom-center"
-            })
-          this.postForm.title=''
-          this.postForm.summary=''
-          this.postForm.body=''
-          this.getPosts(1);
-          
-        })
-        .catch((error) => {
-          console.log(error.data);
-          console.log(error);
-        })
-    },
+    }
   },
   created(){
     this.getPosts(1)

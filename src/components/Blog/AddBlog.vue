@@ -1,24 +1,33 @@
 <template>
 <div>
-  <v-card>
-    <div class="form-group" :class="{'u-has-error-v1': editForm.titleError}" >
-      <input type="text" v-model="editForm.title" class="form-control" id="post_title" placeholder="标题">
-      <small class="form-control-feedback" v-show="editForm.titleError">{{ editForm.titleError }}</small>
-    </div>
-    <div class="form-group">
-      <input type="text" v-model="editForm.summary" class="form-control" id="post_summary" placeholder="摘要">
-    </div>
-    <div class="form-group">
-      <mavon-editor v-model="editForm.body" :toolbars="tools" />
-      <small class="form-control-feedback" v-show="editForm.bodyError">{{ editForm.bodyError }}</small>
-    </div>
+    <v-card v-if="sharedState.is_authenticated"  class="g-mb-40">
+    <label >标题</label>
+    <v-text-field
+        v-model="postForm.title"
+        solo
+        dense
+        placeholder=""
+       :class="{'is-invalid': postForm.titleError}"
+      ></v-text-field>
+    <label >摘要</label>
+    <v-text-field
+        v-model="postForm.summary"
+        solo
+        dense
+        placeholder=""
+       :class="{'is-invalid': postForm.summaryError}"
+      ></v-text-field>
+      <label >正文</label>
+      <div style="z-index:-10">
+      <mavon-editor v-model="postForm.body" :toolbars="tools" />
+      </div>
+      <v-alert dense type="error" v-show="this.postForm.errors" >{{ postForm.titleError || postForm.summaryError || postForm.bodyError}}</v-alert>
     <v-card-actions>
-    <router-link
-    :to="{name:'Home'}">
-    <button  class="btn btn-primary">Quit</button>
-    </router-link> 
-    <v-spacer></v-spacer>
-    <button  class="btn btn-primary" @click="onSubmitAdd">Submit</button>
+    <router-link :to="{name: 'Home'}">
+    <v-btn >Quit</v-btn>
+    </router-link>
+        <v-spacer></v-spacer>
+    <v-btn  @click="onSubmitAdd">Submit</v-btn>
     </v-card-actions>
     </v-card>
 </div>
@@ -38,14 +47,14 @@ export default {
     data(){
         return{
             sharedState: store.state,
-            post:{},
-            editForm:{
+            postForm: {
                 title: '',
                 summary: '',
                 body: '',
                 errors: 0,  // 表单是否在前端验证通过，0 表示没有错误，验证通过
                 titleError: false,
-                bodyError: false
+                bodyError: false,
+                summaryError: false
             },
             tools: {
                 bold: true, // 粗体
@@ -78,43 +87,57 @@ export default {
     },
     methods: {
         onSubmitAdd(){
-            if (!this.editForm.title) {
-                this.editForm.errors++
-                this.editForm.titleError = 'Title is required.'
-                } else {
-                    this.editForm.titleError = null
-                }
-            if (!this.editForm.body) {
-                this.editForm.errors++
-                this.editForm.bodyError = 'Body is required.'
-            } else {
-                this.editForm.bodyError = null
-            }
-            if (this.editForm.errors > 0) {
-                // 表单验证没通过时，不继续往下执行，即不会通过 axios 调用后端API
-                console.log("表单验证没通过")
-                return false
-            }
-            const formData = new FormData();
-            formData.append('title',this.editForm.title);
-            formData.append('summary',this.editForm.summary);
-            formData.append('body',this.editForm.body);
-            Post.editBlog(this.$route.params.id,formData)
-            .then((res)=>{
-                console.log(res);
-                this.getBlog(this.editForm.id);
-                this.$toasted.success('Successfully update the post.',{icon:'check'});
-                this.showEdit = false;
-                this.editForm.title=''
-                this.editForm.summary=''
-                this.editForm.body=''
-                this.$router.push(`/post/${this.editForm.id}`)
-            })
-            .catch((err)=>{
-                console.error(err);
-                this.$toasted.error('Something error.',{icon:'check'});
-            })
+        this.postForm.errors = 0;
+        this.postForm.title=this.postForm.title.trim()
+        this.postForm.summary=this.postForm.summary.trim()
+        this.postForm.body=this.postForm.body.trim()
+
+        if(this.postForm.title==""){
+            this.postForm.errors++;
+            console.log("aaa");
+            this.postForm.titleError="Please Enter Title"
+        }else{
+            this.postForm.titleError=null
         }
+        if(this.postForm.summary==""){
+            this.postForm.errors++;
+            this.postForm.summaryError="Please Enter Summary"
+        }else{
+            this.postForm.summaryError=null
+        }
+        if(this.postForm.body==""){
+            this.postForm.errors++;
+            this.postForm.bodyError="You Should Write Something"
+        }else{
+            this.postForm.bodyError=null
+        }
+        if (this.postForm.errors>0) {
+            return false;
+        }
+        const payload = new FormData();
+        payload.append('title',this.postForm.title);
+        payload.append('summary',this.postForm.summary);
+        payload.append('body',this.postForm.body);
+        console.log("onSubmitAdd");
+        Post.postBlog(payload)
+            .then((res) => {
+            console.log(res);
+            this.$toasted.success(`${this.postForm.title} is submitted successfully!`,
+                {
+                icon:'check',
+                fullWidth: true,
+                position: "bottom-center"
+                })
+            this.postForm.title=''
+            this.postForm.summary=''
+            this.postForm.body=''
+            this.$router.push('/')
+            })
+            .catch((error) => {
+            console.log(error.data);
+            console.log(error);
+            })
+    },
     },
     mounted(){
         highlightCode()
