@@ -71,7 +71,7 @@
                 height="20vh">
         <v-card :style="{width:'25vw', height:'12vh'}" class="d-flex align-content-end flex-wrap">
           <v-card-title class="mx-auto">
-            Are you sure you want to delete?
+            确定删除？
           </v-card-title>
           <v-card-actions>
             <v-btn
@@ -79,7 +79,7 @@
                 text
                 @click="showDelete= false"
             >
-              Quit
+              退出
             </v-btn>
             <v-spacer></v-spacer>
             <v-btn
@@ -87,7 +87,7 @@
                 text
                 @click="onDeletePost"
             >
-              Confirm
+              确认
             </v-btn>
           </v-card-actions>
 
