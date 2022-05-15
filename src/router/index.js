@@ -16,11 +16,16 @@ import Followers from '@/components/profile/Followers'
 import Following from '@/components/profile/Following'
 import Posts from '@/components/profile/Posts'
 import PostAdd from '@/components/Blog/AddBlog'
-
+import NotFound from '@/components/base/NotFound'
 Vue.use(VueRouter)
 Vue.use(mavonEditor)
 const router = new VueRouter({
     routes: [
+        { 
+            path: '/:pathMatch(.*)*', 
+            name: 'NotFound', 
+            component: NotFound 
+        },
         {
             path: '/',
             name: 'Home',

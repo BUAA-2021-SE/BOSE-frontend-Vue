@@ -1,6 +1,6 @@
 <template>
   <v-app-bar app color="#4cabeb" elevate-on-scroll>
-    <router-link to="/">
+    <router-link :to="{ name: 'Home' }">
       <div id="main" :style="{ width: '150px', height: '40px' }"></div>
     </router-link>
 
@@ -183,7 +183,7 @@ export default {
 
     handlerLogout() {
       store.logoutAction();
-      this.$router.push("/login");
+      this.$router.push({ name: 'Home' });
     },
     searchBlog() {
       console.log(this.search);
