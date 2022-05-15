@@ -85,7 +85,7 @@
 
  <v-card
     max-width="350"
-    
+    v-show="sharedState.is_hover && sharedState.is_authenticated"
         @mouseenter="enter"
         @mouseleave="leave"
   ><v-card-title>
@@ -121,25 +121,39 @@
             </h3>
         </v-col>   
       </v-row>
+     
      <router-link :to="{ name: 'ShowProfile', params: { id: sharedState.user_id } }">
-      <v-btn class="">
-        $ • Italian, Cafe
+      <v-btn text  :style="{width:'100%','text-align': 'left'}" class="mx-auto" @click="sharedState.is_hover=false">
+       ShowProfile
       </v-btn>
      </router-link>
-      <div>Small plates, salads & sandwiches - an intimate setting with 12 indoor seats plus patio seating.</div>
+       <router-link :to="{ name: 'Followers', params: { id: sharedState.user_id } }">
+      <v-btn text  :style="{width:'100%' ,'text-align': 'left'}" class="mx-auto" @click="sharedState.is_hover=false">
+       Followers
+      </v-btn>
+     </router-link>
+    <router-link :to="{ name: 'Home', }">
+      <v-btn text  :style="{width:'100%','text-align':'left'}" class="mx-auto" @click="sharedState.is_hover=false">
+       Home
+      </v-btn>
+     </router-link>
+      
     </v-card-text>
 
     <v-divider class="mx-4"></v-divider>
 
-    <v-card-title>Tonight's availability</v-card-title>
+    
 
     <v-card-text>
      
+      <v-btn text  :style="{width:'100%','text-align': 'left'}" class="mx-auto " @click=" handlerLogout" 
+      v-show="sharedState.is_authenticated">
+       Logout
+      </v-btn>
+ 
     </v-card-text>
 
-    <v-card-actions>
-      
-    </v-card-actions>
+    
   </v-card>
 
 
