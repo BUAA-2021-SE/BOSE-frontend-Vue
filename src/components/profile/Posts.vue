@@ -58,6 +58,7 @@ export default {
     getUserPosts(page) {
       Post.getUserPosts(this.$route.params.id, page, this.size)
           .then((res) => {
+            console.log(res.data, "getUserPosts");
             this.posts = res.data.items;
             this.total = res.data.total
             this.page = res.data.page
@@ -76,8 +77,8 @@ export default {
     this.getUserPosts(1);
   },
   beforeRouteUpdate(to, from, next) {
-    next();
-    this.getUserPosts(1);
+    next()
+    this.getUserPosts(1)
   },
 }
 </script>
