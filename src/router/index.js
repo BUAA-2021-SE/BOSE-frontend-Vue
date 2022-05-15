@@ -16,75 +16,77 @@ import Followers from '@/components/profile/Followers'
 import Following from '@/components/profile/Following'
 import Posts from '@/components/profile/Posts'
 import PostAdd from '@/components/Blog/AddBlog'
+
 Vue.use(VueRouter)
 Vue.use(mavonEditor)
 const router = new VueRouter({
-  routes:[
-    {
-      path: '/',
-      name: 'Home',
-      component: Home,
-    },
-    {
-      path: '/post/:id',
-      name: 'Post',
-      component: Post,
-    },
-    { path: '/postedit/:id',
-      name: 'PostEdit',
-      component: PostEdit,
-    },
-    {
-      path:'/postadd/:id',
-      name:'PostAdd',
-      component: PostAdd
-    },
-    {
-      path: '/ping',
-      name:'Ping',
-      component: Ping
-    },
-    {
-      path: '/login',
-      name:'Login',
-      component: Login
-    },
-    {
-      path:'/reset',
-      name:'Reset',
-      component: Reset
-    },
-    {
-      path: '/register',
-      name:'Register',
-      component: Register
-    },
-    {
-      path: '/user/:id',
-      // name:'Profile',
-      component: Profile,
-      // 添加了路由元信息，只有经过身份验证的用户才能进行操作
-      meta: {
-        requiresAuth: true
-      },
-      children:[
-        {path:'',component:ShowProfile},
-        {path:'profile',name:'ShowProfile',component:ShowProfile},
-        {path:'followers',name:'Followers',component:Followers},
-        {path:'following',name:'Following',component:Following},
-        {path:'posts',name:'Posts',component:Posts}
-      ]
-    },
+    routes: [
+        {
+            path: '/',
+            name: 'Home',
+            component: Home,
+        },
+        {
+            path: '/post/:id',
+            name: 'Post',
+            component: Post,
+        },
+        {
+            path: '/postedit/:id',
+            name: 'PostEdit',
+            component: PostEdit,
+        },
+        {
+            path: '/postadd/:id',
+            name: 'PostAdd',
+            component: PostAdd
+        },
+        {
+            path: '/ping',
+            name: 'Ping',
+            component: Ping
+        },
+        {
+            path: '/login',
+            name: 'Login',
+            component: Login
+        },
+        {
+            path: '/reset',
+            name: 'Reset',
+            component: Reset
+        },
+        {
+            path: '/register',
+            name: 'Register',
+            component: Register
+        },
+        {
+            path: '/user/:id',
+            // name:'Profile',
+            component: Profile,
+            // 添加了路由元信息，只有经过身份验证的用户才能进行操作
+            meta: {
+                requiresAuth: true
+            },
+            children: [
+                {path: '', component: ShowProfile},
+                {path: 'profile', name: 'ShowProfile', component: ShowProfile},
+                {path: 'followers', name: 'Followers', component: Followers},
+                {path: 'following', name: 'Following', component: Following},
+                {path: 'posts', name: 'Posts', component: Posts}
+            ]
+        },
 
-    {
-      path:'/user/:id/edit',
-      name:'EditProfile',
-      component:EditProfile,
-      meta: {
-        requiresAuth: true
-      }    
-    }
-  ]
+        {
+            path: '/user/:id/edit',
+            name: 'EditProfile',
+            component: EditProfile,
+            meta: {
+                requiresAuth: true
+            }
+        }
+    ]
 })
 // https://router.vuejs.org/zh/guide/advanced/navigation-guards.html
 // https://router.vuejs.org/zh/guide/advanced/meta.html
@@ -102,24 +104,24 @@ const router = new VueRouter({
 *信息片段 fragment（字符串，锚点）
 */
 // query从URL的search部分提取的已解码查询参数的字典
-router.beforeEach((to,from,next)=>{
-  const token = window.localStorage.getItem('token');
-  // 有权限且未登录
-  if(to.matched.some(record=>record.meta.requiresAuth)&&(!token || token === null)){
-    next({
-      path:'/login',
-      query:{redirect:to.fullPath}
-    });
-  }
-  // 已登录后不能重复登录
-  else if(token && to.name == 'Login'){
-    next({
-      path: from.fullPath
-    });
-  }
-  // 无操作
-  else{
-    next();
-  }
+router.beforeEach((to, from, next) => {
+    const token = window.localStorage.getItem('token');
+    // 有权限且未登录
+    if (to.matched.some(record => record.meta.requiresAuth) && (!token || token === null)) {
+        next({
+            path: '/login',
+            query: {redirect: to.fullPath}
+        });
+    }
+    // 已登录后不能重复登录
+    else if (token && to.name == 'Login') {
+        next({
+            path: from.fullPath
+        });
+    }
+    // 无操作
+    else {
+        next();
+    }
 })
 export default router

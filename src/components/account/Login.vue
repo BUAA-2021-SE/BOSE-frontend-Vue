@@ -1,15 +1,15 @@
 <template>
   <div class="container my-auto" height="50vh">
     <alert
-      v-if="sharedState.is_new"
-      :variant="alertVariant"
-      :message="alertMessage"
+        v-if="sharedState.is_new"
+        :variant="alertVariant"
+        :message="alertMessage"
     >
     </alert>
     <alert
-      v-if="sharedState.is_reset"
-      :variant="alertVariant"
-      :message="alertMessageReset"
+        v-if="sharedState.is_reset"
+        :variant="alertVariant"
+        :message="alertMessageReset"
     >
     </alert>
     <div class="my-auto" width="80vw" height="50vh">
@@ -21,33 +21,34 @@
             <div class="col-md-5">
               <v-form>
                 <v-text-field
-                  v-model="loginForm.username"
-                  label="Username"
-                  required
-                  clearable
-                  filled
-                  :class="{ 'is-invalid': loginForm.usernameError }"
-                  placeholder="Username"
+                    v-model="loginForm.username"
+                    label="Username"
+                    required
+                    clearable
+                    filled
+                    :class="{ 'is-invalid': loginForm.usernameError }"
+                    placeholder="Username"
                 ></v-text-field>
                 <v-text-field
-                  v-model="loginForm.password"
-                  :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
-                  :type="showPassword ? 'text' : 'password'"
-                  @click:append="showPassword = !showPassword"
-                  required
-                  label="Password"
-                  filled
-                  :class="{ 'is-invalid': loginForm.passwordError }"
-                  placeholder="Password"
+                    v-model="loginForm.password"
+                    :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
+                    :type="showPassword ? 'text' : 'password'"
+                    @click:append="showPassword = !showPassword"
+                    required
+                    label="Password"
+                    filled
+                    :class="{ 'is-invalid': loginForm.passwordError }"
+                    placeholder="Password"
                 ></v-text-field>
                 <v-alert dense type="error" v-show="loginForm.passwordError">{{
-                  loginForm.passwordError
-                }}</v-alert>
+                    loginForm.passwordError
+                  }}
+                </v-alert>
               </v-form>
               <button @click="onSubmit" class="btn btn-primary">Sign In</button>
 
-              <br />
-              <br />
+              <br/>
+              <br/>
 
               <p>
                 New User?
@@ -63,10 +64,10 @@
             </div>
             <div class="col-md-5">
               <v-img
-                :src="require('@/assets/logo.png')"
-                class="mr-5"
-                contain
-                @click="$vuetify.goTo(0)"
+                  :src="require('@/assets/logo.png')"
+                  class="mr-5"
+                  contain
+                  @click="$vuetify.goTo(0)"
               />
             </div>
           </div>
@@ -74,16 +75,17 @@
         <div class="cardTitle"></div>
       </div>
     </div>
-  <div >
+    <div>
 
-  </div>
+    </div>
   </div>
 </template>
 
 <script>
 import store from "../../store";
-import { Account } from "@/api/account.js";
+import {Account} from "@/api/account.js";
 import Alert from "../base/Alert";
+
 export default {
   name: "Login",
   components: {
@@ -130,27 +132,27 @@ export default {
       payload.append("username", this.loginForm.username);
       payload.append("password", this.loginForm.password);
       Account.Login(payload)
-        .then((response) => {
-          // handle success
-          window.localStorage.setItem("token", response.data.token);
-          store.resetNotNewAction();
-          store.loginAction();
-          if (typeof this.$route.query.redirect == "undefined") {
-            this.$router.push("/");
-          } else {
-            this.$router.push(this.$route.query.redirect);
-          }
-        })
-        .catch((error) => {
-          // handle error
-          if (error.response.status == 401) {
-            console.log("test");
-            this.loginForm.usernameError = "Invalid username or password.";
-            this.loginForm.passwordError = "Invalid username or password.";
-          } else {
-            console.log(error.response);
-          }
-        });
+          .then((response) => {
+            // handle success
+            window.localStorage.setItem("token", response.data.token);
+            store.resetNotNewAction();
+            store.loginAction();
+            if (typeof this.$route.query.redirect == "undefined") {
+              this.$router.push("/");
+            } else {
+              this.$router.push(this.$route.query.redirect);
+            }
+          })
+          .catch((error) => {
+            // handle error
+            if (error.response.status == 401) {
+              console.log("test");
+              this.loginForm.usernameError = "Invalid username or password.";
+              this.loginForm.passwordError = "Invalid username or password.";
+            } else {
+              console.log(error.response);
+            }
+          });
     },
   },
 };
@@ -166,9 +168,11 @@ select:-webkit-autofill {
   background-image: none;
   transition: background-color 50000s ease-in-out 0s;
 }
+
 input {
   background-color: transparent;
 }
+
 .cardTitle {
   position: relative;
   margin: 0 auto;
@@ -179,6 +183,7 @@ input {
   font-size: 16px;
   color: rgb(101, 173, 240);
 }
+
 .midText {
   position: absolute;
   left: 50%;
@@ -186,6 +191,7 @@ input {
   padding: 0 15px;
   transform: translateX(-50%) translateY(-50%);
 }
+
 .midLine {
   position: relative;
   margin: 0 auto;

@@ -6,6 +6,7 @@
 
 <script>
 import axios from "axios"
+
 export default {
   name: 'Ping',
   data() {
@@ -13,19 +14,19 @@ export default {
       msg: ''
     }
   },
-  methods:{
-    getMessage(){
+  methods: {
+    getMessage() {
       const path = 'http://localhost:5000/api/ping';
       axios.get(path)
-        .then((res)=>{
-          this.msg = res.data;
-        })
-        .catch((err)=>{
-          console.error(err);
-        })
+          .then((res) => {
+            this.msg = res.data;
+          })
+          .catch((err) => {
+            console.error(err);
+          })
     }
   },
-  created(){
+  created() {
     this.getMessage();
   }
 }

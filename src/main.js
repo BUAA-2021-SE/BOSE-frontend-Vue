@@ -2,7 +2,7 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 import store from './store'
-import VueToasted  from 'vue-toasted'
+import VueToasted from 'vue-toasted'
 import moment from 'moment'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
@@ -30,32 +30,32 @@ Vue.use(ElementUI);
 Vue.prototype.$echarts = echarts;
 Vue.use(mavonEditor);
 Vue.use(VueSweetalert2);
-Vue.directive('highlight',function (el) {
-  let blocks = el.querySelectorAll('pre code');
-  blocks.forEach((block)=>{
-    hljs.highlightBlock(block)
-  })
+Vue.directive('highlight', function (el) {
+    let blocks = el.querySelectorAll('pre code');
+    blocks.forEach((block) => {
+        hljs.highlightBlock(block)
+    })
 })
 Vue.use(VueToasted, {
-  // 主题样式 primary/outline/bubble
-  theme: 'outline',
-  // 显示在页面哪个位置
-  position: 'top-center',
-  // 显示多久时间（毫秒）
-  duration: 15000,
-  // 支持哪个图标集合
-  iconPack : 'material', // set your iconPack, defaults to material. material|fontawesome|custom-class
-  // 可以执行哪些动作
-  action: {
-    text: 'Cancel',
-    onClick: (e, toastObject) => {
-      toastObject.goAway(0)
-    }
-  },
+    // 主题样式 primary/outline/bubble
+    theme: 'outline',
+    // 显示在页面哪个位置
+    position: 'top-center',
+    // 显示多久时间（毫秒）
+    duration: 15000,
+    // 支持哪个图标集合
+    iconPack: 'material', // set your iconPack, defaults to material. material|fontawesome|custom-class
+    // 可以执行哪些动作
+    action: {
+        text: 'Cancel',
+        onClick: (e, toastObject) => {
+            toastObject.goAway(0)
+        }
+    },
 });
 new Vue({
-  router,
-  store,
-  vuetify,
-  render: h => h(App)
+    router,
+    store,
+    vuetify,
+    render: h => h(App)
 }).$mount('#app')

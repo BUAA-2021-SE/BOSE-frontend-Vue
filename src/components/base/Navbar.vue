@@ -5,80 +5,81 @@
     </router-link>
 
     <v-img
-      :src="require('@/assets/logo.png')"
-      class="mr-5"
-      contain
-      height="48"
-      width="48"
-      max-width="48"
-      @click="$vuetify.goTo(0)"
+        :src="require('@/assets/logo.png')"
+        class="mr-5"
+        contain
+        height="48"
+        width="48"
+        max-width="48"
+        @click="$vuetify.goTo(0)"
     />
-   
+
     <router-link :to="{ name: 'Home' }">
       <v-btn text class="white--text">
         Home
       </v-btn>
     </router-link>
-    <v-spacer />
+    <v-spacer/>
     <v-text-field
-      append-icon="mdi-magnify"
-      @click:append="searchBlog"
-      flat
-      hide-details
-      solo
-      v-model="search"
-      style="max-width: 300px"
-      :style="{ borderRadius: '300px' }"
+        append-icon="mdi-magnify"
+        @click:append="searchBlog"
+        flat
+        hide-details
+        solo
+        v-model="search"
+        style="max-width: 300px"
+        :style="{ borderRadius: '300px' }"
     />
 
-    <v-spacer />
+    <v-spacer/>
     <router-link
-      v-if="sharedState.is_authenticated"
-      :to="{ name: 'ShowProfile', params: { id: sharedState.user_id } }"
+        v-if="sharedState.is_authenticated"
+        :to="{ name: 'ShowProfile', params: { id: sharedState.user_id } }"
     >
-      <v-btn text class="white--text"> Profile </v-btn>
+      <v-btn text class="white--text"> Profile</v-btn>
     </router-link>
     <router-link v-else :to="{ name: 'Login' }">
-      <v-btn text class="white--text"> Profile </v-btn>
+      <v-btn text class="white--text"> Profile</v-btn>
     </router-link>
- 
+
     <router-link v-if="sharedState.is_authenticated" :to="{ name: 'Home' }">
-      <v-btn text class="white--text"> Messages </v-btn>
+      <v-btn text class="white--text"> Messages</v-btn>
     </router-link>
     <router-link v-else :to="{ name: 'Login' }">
-      <v-btn text class="white--text"> Messages </v-btn>
+      <v-btn text class="white--text"> Messages</v-btn>
     </router-link>
 
 
     <router-link
-      v-if="sharedState.is_authenticated"
-      :to="{ name: 'PostAdd', params: { id: sharedState.user_id } }"
+        v-if="sharedState.is_authenticated"
+        :to="{ name: 'PostAdd', params: { id: sharedState.user_id } }"
     >
-      <v-btn text class="white--text"> New Blog </v-btn>
+      <v-btn text class="white--text"> New Blog</v-btn>
     </router-link>
     <router-link v-else :to="{ name: 'Login' }">
-      <v-btn text class="white--text"> New Blog </v-btn>
+      <v-btn text class="white--text"> New Blog</v-btn>
     </router-link>
 
-  
+
     <v-btn
-      text
-      @click="handlerLogout"
-      class="white--text"
-      v-show="sharedState.is_authenticated"
+        text
+        @click="handlerLogout"
+        class="white--text"
+        v-show="sharedState.is_authenticated"
     >
       Logout
     </v-btn>
 
     <router-link :to="{ name: 'Login' }">
       <v-btn text class="white--text" v-show="!sharedState.is_authenticated"
-        >Login
+      >Login
       </v-btn>
     </router-link>
   </v-app-bar>
 </template>
- <script>
+<script>
 import store from "../../store.js";
+
 export default {
   name: "Navbar",
   data() {
@@ -143,7 +144,7 @@ export default {
                 ],
               },
             },
-          
+
           ],
         },
       };
@@ -162,10 +163,12 @@ export default {
   color: yellow;
   color: #4cabeb;
 }
+
 a {
   text-decoration: none;
   color: rgb(255, 255, 255);
 }
+
 .v-btn {
   text-transform: none;
   font-weight: bold;
