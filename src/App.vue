@@ -1,6 +1,7 @@
 <template>
   <v-app>
     <navbar style="z-index:2000"></navbar>
+    <!-- <profilecard style="z-index:2000" position="fixed"></profilecard> -->
     <br/>
     <br/>
     <br/>
@@ -10,11 +11,12 @@
 
 <script>
 import Navbar from './components/base/Navbar.vue'
-
+import ProfileCard from './components/base/ProfileCard.vue'
 export default {
   name: 'App',
   components: {
-    navbar: Navbar
+    navbar: Navbar,
+    profilecard:ProfileCard
   },
   provide() {
     return {
