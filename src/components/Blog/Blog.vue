@@ -229,5 +229,7 @@ export default {
     margin-top: -80px !important;
     padding-top:80px;
 }
-
+.markdown-body{
+    margin-top: -80px !important;
+}
 </style>
