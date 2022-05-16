@@ -12,10 +12,14 @@ const url = {
 
 };
 export default class Post {
-    static async getBlog(id) {
+    static async getBlog(id,data) {
         return service(`${url.getBlog}/${id}`, {
-            method: 'get',
+            method: 'put',
             responseType: 'json',
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            },
+            data:data
         })
     }
 

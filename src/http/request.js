@@ -4,7 +4,7 @@ import store from '../store.js'
 const service = axios.create({
     baseURL: 'http://43.138.58.36:8000/',//服务器
     // baseURL: 'http://localhost:8000/',//本地
-    timeout: 5000 //超时时间
+    timeout: 10000 //超时时间
 });
 service.interceptors.request.use(function (config) {
     // Do something before request is sent

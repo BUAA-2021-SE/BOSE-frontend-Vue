@@ -134,7 +134,7 @@ export default {
             this.postForm.title = ''
             this.postForm.summary = ''
             this.postForm.body = ''
-            this.$router.push('/')
+            this.$router.push({name:'Home'})
           })
           .catch((error) => {
             console.log(error.data);
