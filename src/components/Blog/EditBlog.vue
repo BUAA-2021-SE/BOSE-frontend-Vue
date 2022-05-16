@@ -79,7 +79,9 @@ export default {
   },
   methods: {
     getBlog(id) {
-      Post.getBlog(id)
+      const formData = new FormData();
+      formData.append('view_id',0);
+      Post.getBlog(id,formData)
           .then((res) => {
             this.post = res.data;
             console.log(res.data, "res");
