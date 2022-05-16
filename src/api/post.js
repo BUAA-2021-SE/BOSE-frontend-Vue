@@ -8,6 +8,8 @@ const url = {
     postBlog: '/blog/submit_posts',
     deletePost: '/blog/delete',
     getUserPosts: '/blog/get_user_posts',
+    titleSearch:'/blog/search'
+
 };
 export default class Post {
     static async getBlog(id) {
@@ -61,6 +63,15 @@ export default class Post {
 
     static async getUserPosts(id, page, size) {
         return service(`${url.getUserPosts}/${id}?page=${page}&size=${size}`, {
+            method: 'get',
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            },
+            responseType: 'json'
+        })
+    }
+    static async titleSearch(title_keyword) {
+        return service(`${url.titleSearch}/${title_keyword}`, {
             method: 'get',
             headers: {
                 'Content-Type': 'multipart/form-data'

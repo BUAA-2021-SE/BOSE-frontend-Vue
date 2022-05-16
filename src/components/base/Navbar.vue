@@ -123,17 +123,17 @@
       </v-row>
      
      <router-link :to="{ name: 'ShowProfile', params: { id: sharedState.user_id } }">
-      <v-btn text  :style="{width:'100%','text-align': 'left'}" class="mx-auto" @click="sharedState.is_hover=false">
+      <v-btn text  :style="{width:'100%',}" class="mx-auto" @click="sharedState.is_hover=false">
        ShowProfile
       </v-btn>
      </router-link>
        <router-link :to="{ name: 'Followers', params: { id: sharedState.user_id } }">
-      <v-btn text  :style="{width:'100%' ,'text-align': 'left'}" class="mx-auto" @click="sharedState.is_hover=false">
+      <v-btn text  :style="{width:'100%' ,}" class="mx-auto" @click="sharedState.is_hover=false">
        Followers
       </v-btn>
      </router-link>
     <router-link :to="{ name: 'Home', }">
-      <v-btn text  :style="{width:'100%','text-align':'left'}" class="mx-auto" @click="sharedState.is_hover=false">
+      <v-btn text  :style="{width:'100%'}" class="mx-auto" @click="sharedState.is_hover=false">
        Home
       </v-btn>
      </router-link>
@@ -146,7 +146,7 @@
 
     <v-card-text>
      
-      <v-btn text  :style="{width:'100%','text-align': 'left'}" class="mx-auto " @click=" handlerLogout" 
+      <v-btn text  :style="{width:'100%',}" class="mx-auto " @click=" handlerLogout" 
       v-show="sharedState.is_authenticated">
        Logout
       </v-btn>
@@ -164,6 +164,7 @@
 </template>
 <script>
 import store from "../../store.js";
+import Post from "@/api/post.js";
 export default {
   
   name: "Navbar",
@@ -183,10 +184,17 @@ export default {
 
     handlerLogout() {
       store.logoutAction();
-      this.$router.push({ name: 'Home' });
+      this.$router.push("/login");
     },
     searchBlog() {
-      console.log(this.search);
+      Post.titleSearch(this.search)
+          .then((res) => {
+            console.log(res.data);
+          })
+          .catch((err) => {
+          console.log(err.data);
+          });
+    
     },
     drawLogo() {
       let myChart = this.$echarts.init(document.getElementById("main"));
