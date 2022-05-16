@@ -3,7 +3,7 @@
     <!-- Modal: Edit Post -->
     <div class="row">
       <!-- Articles Content -->
-      <div class="col-lg-9">
+      <div class="col-lg-9" >
 
         <article class="g-mb-60 g-pt-15 g-pb-50">
           <header class="g-mb-30">
@@ -48,8 +48,8 @@
             <hr class="g-brd-gray-light-v4 g-my-15">
           </header>
 
-          <div id="postBody" class="g-font-size-16 g-line-height-1_8 g-mb-30">
-            <div class="text-center">
+          <div id="postBody" class="g-font-size-16 g-line-height-1_8 g-mb-30" >
+            <div class="text-center"  >
               <h3 v-show="this.loadingProfile"> 博客加载中······
                 <v-progress-circular
                     class="center"
@@ -62,6 +62,7 @@
               </h3>
             </div>
             <vue-markdown
+               
                 :source="post.body"
                 :toc="showToc"
                 :toc-first-level="1"
@@ -224,5 +225,9 @@ export default {
 </script>
 
 <style>
+.markdown-body h1, .markdown-body h2, .markdown-body h3, .markdown-body h4, .markdown-body h5, .markdown-body h6 {
+    margin-top: -80px !important;
+    padding-top:80px;
+}
 
 </style>
