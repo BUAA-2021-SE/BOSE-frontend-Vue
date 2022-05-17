@@ -104,21 +104,22 @@
           <div v-if="comments" class="card-block g-pa-0" >
           
             <!-- 一级评论，按时间倒序排列 -->
-            <v-card v-for="(comment, index) in comments" v-bind:key="index">
-              <div v-bind:id="'c' + comment.id" class="comment-item media g-brd-around g-brd-gray-light-v4 g-pa-30 g-mb-20">
+            <div v-for="(comment, index) in comments" v-bind:key="index">
+              <v-card :id="'c' + comment.id">
                 <router-link :to="{ path: `/user/${comment.author.id}` }">  
                 <v-avatar size="60">
-                <img :src="comment.author.headshot" :alt="comment.author.name || comment.author.username"/>
+                <v-img :src="comment.author.headshot" alt="comment.author.name || comment.author.username"/>
                 </v-avatar>
                 </router-link>
+                <span v-if="comment.author.id == post.author.id"><router-link v-bind:to="{ path: `/user/${comment.author.id}` }">{{ comment.author.name || comment.author.username }}</router-link> <v-btn x-small color="error">博文作者</v-btn></span>
+                <span v-else><router-link :to="{ path: `/user/${comment.author.id}` }">{{ comment.author.name || comment.author.username }}</router-link></span>
+
                 <div class="media-body">
                   <div class="g-mb-15">
-                    <h5 v-if="comment.author.id == post.author_id" class="h5 g-color-gray-dark-v1 mb-0"><router-link v-bind:to="{ path: `/user/${comment.author.id}` }" class="comment-author g-text-underline--none--hover">{{ comment.author.name || comment.author.username }}</router-link> <button class="btn btn-xs u-btn-inset u-btn-outline-red g-mr-5">博文作者</button></h5>
-                    <h5 v-else class="h5 g-color-gray-dark-v1 mb-0"><router-link v-bind:to="{ path: `/user/${comment.author.id}` }" class="comment-author g-text-underline--none--hover">{{ comment.author.name || comment.author.username }}</router-link></h5>
-                    <span class="g-color-gray-dark-v4 g-font-size-12">{{ $moment(comment.timestamp).format('YYYY年MM月DD日 HH:mm:ss') }}</span>
+                    <span>{{ $moment(comment.timestamp).format('YYYY年MM月DD日 HH:mm:ss') }}</span>
                   </div>
 
-                  <div v-if="comment.disabled" class="g-color-red g-mb-15">此评论包含不良信息，已被禁止显示.</div>
+                  <div v-if="comment.disabled">此评论包含不良信息，已被禁止显示.</div>
                   <div v-else>
                     <!-- vue-markdown 开始解析markdown，它是子组件，通过 props 给它传值即可
                     v-highlight 是自定义指令，用 highlight.js 语法高亮 -->
@@ -131,47 +132,47 @@
 
                   <ul class="list-inline d-sm-flex my-0">
                     <li v-if="!comment.disabled" class="list-inline-item g-mr-20">
-                      <a v-on:click="onLikeOrUnlikeComment(comment)" class="u-link-v5 g-color-gray-dark-v4 g-color-primary--hover" href="javascript:;">
-                        <!-- <i v-bind:class="{ 'g-color-red': comment.likers_id.indexOf(sharedState.user_id) != -1 }" class="icon-like g-pos-rel g-top-1 g-mr-3"></i>
+                      <v-btn @click="onLikeOrUnlikeComment(comment)" color="red">
+                        <i v-bind:class="{ 'g-color-red': comment.likers_id.indexOf(sharedState.user_id) != -1 }" class="icon-like g-pos-rel g-top-1 g-mr-3"></i>
                         <span v-if="comment.likers_id.length > 0"> {{ comment.likers_id.length }} 人赞</span>
-                        <span v-else>赞</span> -->
-                      </a>
+                        <span v-else>赞</span>
+                      </v-btn>
                     </li>
                     <li v-if="!comment.disabled" class="list-inline-item g-mr-20">
-                      <a v-on:click="onClickReply(comment)" class="comment-reply-link u-link-v5 g-color-gray-dark-v4 g-color-primary--hover" href="javascript:;">
+                      <v-btn @click="onClickReply(comment)" >
                         <i class="icon-note g-pos-rel g-top-1 g-mr-3"></i>
                         回复
-                      </a>
+                      </v-btn>
                     </li>
                     <ul class="list-inline mb-0 ml-auto">
                       <li style="display: none;" class="list-inline-item g-mr-5">
-                        <button v-on:click="onEditComment(comment)" class="btn btn-xs u-btn-outline-purple" data-toggle="modal" data-target="#editCommentModal">编辑</button>
+                        <v-btn @click="onEditComment(comment)" color="purple" data-toggle="modal" data-target="#editCommentModal">编辑</v-btn>
                       </li>
                       <li v-if="!comment.disabled && post.author.id == sharedState.user_id" class="list-inline-item">
-                        <button v-on:click="onDisabledComment(comment)" class="btn btn-xs u-btn-outline-purple">屏蔽</button>
+                        <v-btn @click="onDisabledComment(comment)" small color="blue-grey">屏蔽</v-btn>
                       </li>
                       <li v-if="comment.disabled && post.author.id == sharedState.user_id" class="list-inline-item">
-                        <button v-on:click="onEnabledComment(comment)" class="btn btn-xs u-btn-outline-aqua">恢复</button>
+                        <v-btn @click="onEnabledComment(comment)" small color="teal">恢复</v-btn>
                       </li>
                       <li v-if="comment.author.id == sharedState.user_id || post.author.id == sharedState.user_id" class="list-inline-item">
-                        <button v-on:click="onDeleteComment(comment)" class="btn btn-xs u-btn-outline-red">删除</button>
+                        <v-btn @click="onDeleteComment(comment)" small color="red">删除</v-btn>
                       </li>
                     </ul>
                   </ul>
                 </div>
-              </div>
+              </v-card>
 
               <!-- 子级评论，按时间正序排列 -->
-              <div class="g-ml-40 comment-item media g-brd-around g-brd-gray-light-v4 g-pa-30 g-mb-20"
+              <v-card 
                   v-if="comment.descendants"
                   v-for="(child, cindex) in comment.descendants" v-bind:key="cindex"
-                  v-bind:id="'c' + child.id">
+                  :id="'c' + child.id">
                 <router-link v-bind:to="{ path: `/user/${child.author.id}` }">  
                   <img class="d-flex g-width-50 g-height-50 rounded-circle g-brd-around g-brd-gray-light-v4 g-pa-2 g-mt-3 g-mr-15" v-bind:src="child.author.headshot" v-bind:alt="child.author.name || child.author.username">
                 </router-link>
                 <div class="media-body">
                   <div class="g-mb-15">
-                    <h5 v-if="child.author.id == post.author_id" class="h5 g-color-gray-dark-v1 mb-0"><router-link v-bind:to="{ path: `/user/${child.author.id}` }" class="comment-author g-text-underline--none--hover">{{ child.author.name || child.author.username }}</router-link> <button class="btn btn-xs u-btn-inset u-btn-outline-red g-mr-5">博文作者</button></h5>
+                    <h5 v-if="child.author.id == post.author.id" class="h5 g-color-gray-dark-v1 mb-0"><router-link v-bind:to="{ path: `/user/${child.author.id}` }" class="comment-author g-text-underline--none--hover">{{ child.author.name || child.author.username }}</router-link> <v-btn color="error">博文作者</v-btn></h5>
                     <h5 v-else class="h5 g-color-gray-dark-v1 mb-0"><router-link v-bind:to="{ path: `/user/${child.author.id}` }" class="comment-author g-text-underline--none--hover">{{ child.author.name || child.author.username }}</router-link></h5>
                     <span class="g-color-gray-dark-v4 g-font-size-12">{{ $moment(child.timestamp).format('YYYY年MM月DD日 HH:mm:ss') }}</span>
                   </div>
@@ -189,36 +190,36 @@
 
                   <ul class="list-inline d-sm-flex my-0">
                     <li v-if="!child.disabled" class="list-inline-item g-mr-20">
-                      <a v-on:click="onLikeOrUnlikeComment(child)" class="u-link-v5 g-color-gray-dark-v4 g-color-primary--hover" href="javascript:;">
-                        <!-- <i v-bind:class="{ 'g-color-red': child.likers_id.indexOf(sharedState.user_id) != -1 }" class="icon-like g-pos-rel g-top-1 g-mr-3"></i>
+                      <v-btn @click="onLikeOrUnlikeComment(child)" class="u-link-v5 g-color-gray-dark-v4 g-color-primary--hover" href="javascript:;">
+                        <i v-bind:class="{ 'g-color-red': child.likers_id.indexOf(sharedState.user_id) != -1 }" class="icon-like g-pos-rel g-top-1 g-mr-3"></i>
                         <span v-if="child.likers_id.length > 0"> {{ child.likers_id.length }} 人赞</span>
-                        <span v-else>赞</span> -->
-                      </a>
+                        <span v-else>赞</span>
+                      </v-btn>
                     </li>
                     <li v-if="!child.disabled" class="list-inline-item g-mr-20">
-                      <a v-on:click="onClickReply(child)" class="comment-reply-link u-link-v5 g-color-gray-dark-v4 g-color-primary--hover" href="javascript:;">
+                      <a @click="onClickReply(child)" class="comment-reply-link u-link-v5 g-color-gray-dark-v4 g-color-primary--hover" href="javascript:;">
                         <i class="icon-note g-pos-rel g-top-1 g-mr-3"></i>
                         回复
                       </a>
                     </li>
                     <ul class="list-inline mb-0 ml-auto">
                       <li style="display: none;" class="list-inline-item g-mr-5">
-                        <button v-on:click="onEditComment(child)" class="btn btn-xs u-btn-outline-purple" data-toggle="modal" data-target="#editCommentModal">编辑</button>
+                        <button @click="onEditComment(child)" class="btn btn-xs u-btn-outline-purple" data-toggle="modal" data-target="#editCommentModal">编辑</button>
                       </li>
                       <li v-if="!child.disabled && post.author.id == sharedState.user_id" class="list-inline-item">
-                        <button v-on:click="onDisabledComment(child)" class="btn btn-xs u-btn-outline-purple">屏蔽</button>
+                        <button @click="onDisabledComment(child)" class="btn btn-xs u-btn-outline-purple">屏蔽</button>
                       </li>
                       <li v-if="child.disabled && post.author.id == sharedState.user_id" class="list-inline-item">
-                        <button v-on:click="onEnabledComment(child)" class="btn btn-xs u-btn-outline-aqua">恢复</button>
+                        <button @click="onEnabledComment(child)" class="btn btn-xs u-btn-outline-aqua">恢复</button>
                       </li>
                       <li v-if="child.author.id == sharedState.user_id || post.author.id == sharedState.user_id" class="list-inline-item">
-                        <button v-on:click="onDeleteComment(child)" class="btn btn-xs u-btn-outline-red">删除</button>
+                        <button @click="onDeleteComment(child)" class="btn btn-xs u-btn-outline-red">删除</button>
                       </li>
                     </ul>
                   </ul>
                 </div>
-              </div>
-            </v-card>
+              </v-card>
+            </div>
 
           </div>
           <!-- End Panel Body -->
@@ -312,12 +313,14 @@ export default {
         body:'asd',
         timestamp:"2022-05-18T00:43:46",
         author:{
-          id: 1,
-          username: "echo17666",
-          name: "echo17666",
-          headshot: "http://43.138.58.36:8000/static/User/1/Images/tmpclrsjus8.jpg"
+          id: 3,
+          username: "LLLeo",
+          name: "LLLeo",
+          headshot: "http://43.138.58.36:8000/static/User/3/Images/tmpj0y5cc29.jpg"
         },
-        disabled:false
+        disabled:false,
+        descendants:[],
+        likers_id:[]
       }],
       commentForm:{
         body: '',
@@ -366,6 +369,7 @@ export default {
           .then((res) => {
             this.post = res.data;
             console.log(res.data, "res");
+            console.log(this.post.author.id);
             this.loadingProfile = false;
           })
           .catch((err) => {
