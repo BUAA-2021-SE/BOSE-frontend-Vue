@@ -430,14 +430,19 @@ export default {
 </script>
 
 <style>
-.markdown-body h1, .markdown-body h2, .markdown-body h3, .markdown-body h4, .markdown-body h5, .markdown-body h6 {
+.markdown-body h1, .markdown-body h2 , .markdown-body h3 {
     margin-top: -80px !important;
-    padding-top:80px;
+    padding-top:80px !important;
+}
+.markdown-body h1:first-child, .markdown-body h2:first-child , .markdown-body h3:first-child {
+    margin-top: -80px !important;
+    padding-top:80px !important;
 }
 </style>
 
 <style scoped>
-.markdown-body{
-  margin-top:-80px !important;
+.markdown-body:first-child {
+  margin-top:0px !important;
+  padding-top:0px !important;
 }
 </style>
