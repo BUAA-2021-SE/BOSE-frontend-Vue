@@ -106,14 +106,15 @@
             <!-- 一级评论，按时间倒序排列 -->
             <div v-for="(comment, index) in comments" v-bind:key="index">
               <v-card :id="'c' + comment.id">
+              <v-card-title>
                 <router-link :to="{ path: `/user/${comment.author.id}` }">  
                 <v-avatar size="60">
                 <v-img :src="comment.author.headshot" alt="comment.author.name || comment.author.username"/>
                 </v-avatar>
                 </router-link>
-                <span v-if="comment.author.id == post.author.id"><router-link v-bind:to="{ path: `/user/${comment.author.id}` }">{{ comment.author.name || comment.author.username }}</router-link> <v-btn x-small color="error">博文作者</v-btn></span>
-                <span v-else><router-link :to="{ path: `/user/${comment.author.id}` }">{{ comment.author.name || comment.author.username }}</router-link></span>
-
+                <v-spacer></v-spacer>
+                <span> <v-btn v-if="comment.author.id == post.author.id" x-small color="error">博文作者</v-btn><router-link v-bind:to="{ path: `/user/${comment.author.id}` }">{{ comment.author.name || comment.author.username }}</router-link></span>
+              </v-card-title>
                 <div class="media-body">
                   <div class="g-mb-15">
                     <span>{{ $moment(comment.timestamp).format('YYYY年MM月DD日 HH:mm:ss') }}</span>
