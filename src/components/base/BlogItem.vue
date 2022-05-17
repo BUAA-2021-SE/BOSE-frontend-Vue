@@ -80,7 +80,6 @@ import store from '@/store.js'
 import Post from '@/api/post.js'
 export default {
     props:['post'],
-    inject: ['reload'],
     data(){
         return {
             sharedState: store.state,
