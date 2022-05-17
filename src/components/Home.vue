@@ -8,7 +8,8 @@
     </alert>
     <div>
       <blog v-for="(post,index) in posts" :key="index"
-      :post = "post">
+      :post = "post"
+      @delete="getPosts(1)">
       </blog>
       <span>共有博文{{ total }}篇</span>
       <v-pagination

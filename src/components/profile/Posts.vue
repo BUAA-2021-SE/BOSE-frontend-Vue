@@ -16,7 +16,8 @@
     </div>
     <div class="g-brd-around g-brd-gray-light-v4 g-pa-20 g-mb-40" v-show="!this.loadingProfile">
       <blog v-for="(post,index) in posts" :key="index"
-      :post = "post">
+      :post = "post"
+      @delete="getUserPosts(1)">
       </blog>
       <div>
         <span>共有博文{{ total }}篇</span>

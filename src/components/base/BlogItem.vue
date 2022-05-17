@@ -77,8 +77,10 @@
 
 <script>
 import store from '@/store.js'
+import Post from '@/api/post.js'
 export default {
     props:['post'],
+    inject: ['reload'],
     data(){
         return {
             sharedState: store.state,
@@ -96,6 +98,7 @@ export default {
         Post.deleteBlog(this.deleteId)
             .then((res) => {
               console.log(res);
+              this.$emit('delete');
               this.deleteId = 0;
               this.showDelete = false;
               this.$toasted.success(res.data,
@@ -104,7 +107,6 @@ export default {
                     fullWidth: true,
                     position: "bottom-center"
                   })
-              this.getPosts(1)
             })
             .catch((err) => {
               console.error(err, "not deleted");
