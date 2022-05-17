@@ -52,11 +52,11 @@
 
               <p>
                 New User?
-                <router-link to="/register">Click to Register!</router-link>
+                <router-link :to="{name:'Register'}">Click to Register!</router-link>
               </p>
               <p>
                 Forgot Your Password?
-                <router-link to="/reset">Click to Reset It</router-link>
+                <router-link :to="{name:'Reset'}">Click to Reset It</router-link>
               </p>
             </div>
             <div class="col-md-2">

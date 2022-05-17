@@ -1,9 +1,10 @@
 <template>
   <v-app>
     <navbar style="z-index:2000 "></navbar>
-
-
-    <router-view style="margin-top:100px"/>
+<br/>
+<br/>
+<br/>
+    <router-view />
   </v-app>
 </template>
 

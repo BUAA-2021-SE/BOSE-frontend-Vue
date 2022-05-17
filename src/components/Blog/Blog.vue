@@ -434,7 +434,10 @@ export default {
     margin-top: -80px !important;
     padding-top:80px;
 }
+</style>
+
+<style scoped>
 .markdown-body{
-    margin-top: -80px !important;
+  margin-top:-80px !important;
 }
 </style>

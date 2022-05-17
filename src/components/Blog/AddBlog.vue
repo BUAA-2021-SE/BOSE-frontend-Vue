@@ -1,6 +1,7 @@
 <template>
-  <div>
-    <v-card v-if="sharedState.is_authenticated" class="g-mb-40">
+  <div class=" my-auto container" >
+    <v-form v-if="sharedState.is_authenticated" class="mx-auto" width="80vw">
+      
       <label>标题</label>
       <v-text-field
           v-model="postForm.title"
@@ -18,9 +19,9 @@
           :class="{'is-invalid': postForm.summaryError}"
       ></v-text-field>
       <label>正文</label>
-      <div style="z-index:-10">
+  <div style="z-index:-10">
         <mavon-editor v-model="postForm.body" :toolbars="tools"/>
-      </div>
+  </div>
       <v-alert dense type="error" v-show="this.postForm.errors">
         {{ postForm.titleError || postForm.summaryError || postForm.bodyError }}
       </v-alert>
@@ -31,7 +32,9 @@
         <v-spacer></v-spacer>
         <v-btn @click="onSubmitAdd">Submit</v-btn>
       </v-card-actions>
-    </v-card>
+     
+     
+    </v-form>
   </div>
 </template>
 
@@ -152,5 +155,4 @@ export default {
 </script>
 
 <style>
-
 </style>

@@ -12,7 +12,7 @@
           <v-card-text>
             <h1>注册</h1>
 
-            <v-form>
+           
               <v-text-field
                   v-model="registerForm.username"
                   label="Username"
@@ -63,8 +63,9 @@
                   registerForm.password2Error
                 }}
               </v-alert>
-              <button class="btn btn-primary" @click="getIDCode">Get IDCode</button>
-
+              <v-card-actions>
+              <v-btn class="info" @click="getIDCode">Get IDCode</v-btn>
+              </v-card-actions>
               <v-text-field v-show="this.showIDCode"
                             v-model="registerForm.idcode"
                             label="IDCode"
@@ -74,10 +75,11 @@
                             :class="{'is-invalid': registerForm.idcodeError}" placeholder="IDCode"
               ></v-text-field>
               <v-alert dense type="error" v-show="registerForm.idcodeError">{{ registerForm.idcodeError }}</v-alert>
-              <button class="btn btn-primary" v-show="this.showIDCode" @click="register">Register</button>
+              <v-card-actions>
+              <v-btn class="info" v-show="this.showIDCode" @click="register">Register</v-btn>
+              </v-card-actions>
 
-
-            </v-form>
+        
           </v-card-text>
         </v-card>
       </div>
@@ -173,7 +175,7 @@ export default {
       Account.RegisterCheck(payload)
           .then((res) => {
             console.log(res);
-            this.$router.push('/login');
+            this.$router.push({name:'Login'});
             store.setNewAction();
           })
           .catch((error) => {
