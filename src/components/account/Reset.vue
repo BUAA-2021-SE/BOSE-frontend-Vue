@@ -1,15 +1,12 @@
 <template>
-  <div class="container">
-    <div class="row">
-      <!-- 每行最多12列，栅格等级为中 -->
-      <div class="col-md-2"></div>
-      <div class="col-md-8">
-        <v-card
-            class="m-auto"
-            max-width="1400"
-        >
-          <v-card-text>
-            <h1>重置密码</h1>
+  <div class="container my-auto" height="50vh">
+     <div class="my-auto" width="80vw" height="50vh">
+      <div>
+        <div class="cardTitle"><h1 class="midText">重置密码</h1></div>
+
+        <div>
+          <div class="row col-md-12 m-auto">
+            <div class="col-md-5">
             <v-form>
               <v-text-field
                   v-model="resetForm.email"
@@ -20,8 +17,8 @@
                   :disabled="showIDCode"
                   :class="{'is-invalid': resetForm.emailError}" placeholder="Email address"
               ></v-text-field>
-              <v-alert dense type="error" v-show="resetForm.emailError">{{ resetForm.emailError }}</v-alert>
-              <button class="btn btn-primary" @click="getIDCode">Get IDCode</button>
+              <v-alert dense type="error" v-show="resetForm.emailError">{{  }}</v-alert>
+              <v-btn class="info" v-show="!this.showIDCode" @click="getIDCode">Get IDCode</v-btn>
               <v-text-field v-show="this.showIDCode"
                             v-model="resetForm.password"
                             label="Password"
@@ -52,11 +49,24 @@
                             filled
                             :class="{'is-invalid': resetForm.idcodeError}" placeholder="IDCode"
               ></v-text-field>
-              <v-alert dense type="error" v-show="resetForm.idcodeError">{{ resetForm.idcodeError }}</v-alert>
-              <button class="btn btn-primary" v-show="this.showIDCode" @click="reset">Reset</button>
+              <v-alert dense type="error" v-show="resetForm.errors">{{ resetForm.emailError||resetForm.passwordError||resetForm.password2Error||resetForm.idcodeError }}</v-alert>
+              <v-btn class="info" v-show="this.showIDCode" @click="reset">Reset</v-btn>
             </v-form>
-          </v-card-text>
-        </v-card>
+         </div>
+            <div class="col-md-2">
+              <div class="midLine"></div>
+            </div>
+            <div class="col-md-5">
+              <v-img
+                  :src="require('@/assets/logo.png')"
+                  class="mr-5"
+                  contain
+                  @click="$vuetify.goTo(0)"
+              />
+            </div>
+          </div>
+        </div>
+        <div class="cardTitle"></div>
       </div>
     </div>
   </div>

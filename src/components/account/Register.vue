@@ -1,6 +1,6 @@
 <template>
-  <div class="container my-auto" min-height="90vh">
-    <div class="my-auto" width="80vw" min-height="90vh">
+  <div class="container my-auto" >
+    <div class="my-auto" width="80vw">
       <div>
         <div class="cardTitle"><h1 class="midText">注册</h1></div>
 
@@ -304,4 +304,12 @@ select:-webkit-autofill {
 input {
   background-color: transparent;
 }
+</style>
+<style scoped>
+/* .v-messages.theme--light{
+    min-height:0px !important;
+}
+.v-text-field__details{
+    min-height:0px !important;
+} */
 </style>

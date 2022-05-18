@@ -12,6 +12,8 @@
         :message="alertMessageReset"
     >
     </alert>
+    <br/>
+    <br/>
     <div class="my-auto" width="80vw" height="50vh">
       <div>
         <div class="cardTitle"><h1 class="midText">登录</h1></div>
