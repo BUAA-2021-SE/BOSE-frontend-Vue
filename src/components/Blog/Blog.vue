@@ -1,7 +1,44 @@
 <template>
-  <div class="container">
-    
-    <div class="row">
+  <div class="mx-5">
+  <v-container grid-list-xl>
+  <v-dialog
+        v-model="showDelete">
+      <v-card>
+        <v-card-title>
+          Are you sure you want to delete?
+        </v-card-title>
+        <v-card-actions>
+          <v-btn
+              color="primary"
+              text
+              @click="showDelete= false"
+          >
+            Quit
+          </v-btn>
+          <v-spacer></v-spacer>
+          <v-btn
+              color="error"
+              text
+              @click="onDeletePost"
+          >
+            Confirm
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+  <!-- 目录 -->
+    <!-- Sidebar -->
+    <v-row>
+      <v-col cols="12" md="3" class="link">
+        <div id="sticker" class="g-mb-50">
+          <div id="tocHeader" class="u-heading-v3-1 g-mb-15">
+              <h2 class="h5 u-heading-v3__title g-color-primary text-uppercase g-brd-primary">文章目录</h2>
+          </div>
+          <div id="toc" class="toc"></div>
+        </div>
+      </v-col>
+  <!-- End Sidebar -->
+    <v-col cols="12" md="9">
       <!-- 博文内容 -->
       <!-- Articles Content -->
       <div class="col-lg-9" >
@@ -64,11 +101,29 @@
                 :toc-last-level="3"
                 @toc-rendered="tocAllRight"
                 :emoji="true"
-                toc-id="toc"
-                class="markdown-body">
+                toc-id="toc">
             </vue-markdown>
 
           </div>
+          <!-- <div id="like-post" class="row">
+            <div class="col-lg-3">
+              <button v-on:click="onLikeOrUnlikePost(post)" v-bind:class="btnOutlineColor" class="btn btn-block g-rounded-50 g-py-12 g-mb-10">
+                <i class="icon-heart g-pos-rel g-top-1 g-mr-5"></i> 喜欢<span v-if="post.likers_id && post.likers_id.length > 0"> | {{ post.likers_id.length }}</span>
+              </button>
+            </div>
+            <div class="col-lg-9">
+              <ul v-if="post.likers" class="list-inline mb-0">
+                <li class="list-inline-item"
+                  v-for="(liker, index) in post.likers" v-bind:key="index">
+                  <router-link
+                    v-bind:to="{ path: `/user/${liker.id}` }"
+                    v-bind:title="liker.name || liker.username">
+                    <img class="g-brd-around g-brd-gray-light-v3 g-pa-2 g-width-40 g-height-40 rounded-circle rounded mCS_img_loaded g-mt-3" v-bind:src="liker.avatar" v-bind:alt="liker.name || liker.username">
+                  </router-link>
+                </li>
+              </ul>
+            </div>
+          </div> -->
         </article>
       
       <v-divider></v-divider>
@@ -99,41 +154,49 @@
               发表评论前，请先登录 ...
             </v-btn>
           </div>
-
+          <v-divider></v-divider>
           <!-- Panel Body -->
           <div v-if="comments" class="card-block g-pa-0" >
           
             <!-- 一级评论，按时间倒序排列 -->
             <div v-for="(comment, index) in comments" v-bind:key="index">
-              <v-card :id="'c' + comment.id">
+              <v-card :id="'c' + comment.id"
+                elevation="5"
+                outlined
+              >
               <v-card-title>
                 <router-link :to="{ path: `/user/${comment.author.id}` }">  
                 <v-avatar size="60">
                 <v-img :src="comment.author.headshot" alt="comment.author.name || comment.author.username"/>
                 </v-avatar>
                 </router-link>
-                <v-spacer></v-spacer>
-                <span> <v-btn v-if="comment.author.id == post.author.id" x-small color="error">博文作者</v-btn><router-link v-bind:to="{ path: `/user/${comment.author.id}` }">{{ comment.author.name || comment.author.username }}</router-link></span>
+                <p class="ml-3"> 
+                <router-link style="text-decoration:none" :to="{ path: `/user/${comment.author.id}` }">
+                {{ comment.author.name || comment.author.username }}
+                </router-link>
+                <v-btn v-if="comment.author.id == post.author.id" 
+                x-small color="purple">
+                博文作者
+                </v-btn>
+                </p>
               </v-card-title>
-                <div class="media-body">
-                  <div class="g-mb-15">
-                    <span>{{ $moment(comment.timestamp).format('YYYY年MM月DD日 HH:mm:ss') }}</span>
-                  </div>
-
-                  <div v-if="comment.disabled">此评论包含不良信息，已被禁止显示.</div>
-                  <div v-else>
+                <v-card-subtitle>{{ $moment(comment.timestamp).format('YYYY年MM月DD日 HH:mm:ss') }}</v-card-subtitle>
+                  <v-card-text>
+                <div v-if="comment.disabled">此评论包含不良信息，已被禁止显示.</div>
+                <div v-else>
                     <!-- vue-markdown 开始解析markdown，它是子组件，通过 props 给它传值即可
                     v-highlight 是自定义指令，用 highlight.js 语法高亮 -->
                     <vue-markdown
                       :source="comment.body"
-                      class="markdown-body g-mb-15"
                       v-highlight>
                     </vue-markdown>
-                  </div>
-
+                </div>
+                  </v-card-text>
+                  <v-card-actions>
+                  </v-card-actions>
                   <ul class="list-inline d-sm-flex my-0">
                     <li v-if="!comment.disabled" class="list-inline-item g-mr-20">
-                      <v-btn @click="onLikeOrUnlikeComment(comment)" color="red">
+                      <v-btn @click="onLikeOrUnlikeComment(comment)">
                         <i v-bind:class="{ 'g-color-red': comment.likers_id.indexOf(sharedState.user_id) != -1 }" class="icon-like g-pos-rel g-top-1 g-mr-3"></i>
                         <span v-if="comment.likers_id.length > 0"> {{ comment.likers_id.length }} 人赞</span>
                         <span v-else>赞</span>
@@ -160,35 +223,49 @@
                       </li>
                     </ul>
                   </ul>
-                </div>
+                
               </v-card>
 
               <!-- 子级评论，按时间正序排列 -->
-              <v-card 
+              <v-card
+                  max-width="50vw"
                   v-if="comment.descendants"
                   v-for="(child, cindex) in comment.descendants" v-bind:key="cindex"
                   :id="'c' + child.id">
-                <router-link v-bind:to="{ path: `/user/${child.author.id}` }">  
-                  <img class="d-flex g-width-50 g-height-50 rounded-circle g-brd-around g-brd-gray-light-v4 g-pa-2 g-mt-3 g-mr-15" v-bind:src="child.author.headshot" v-bind:alt="child.author.name || child.author.username">
+                <v-card-title>
+                <router-link :to="{ path: `/user/${child.author.id}` }">
+                <v-avatar size="60"> 
+                  <v-img :src="child.author.headshot" alt="child.author.name || child.author.username"/>
+                  </v-avatar> 
                 </router-link>
-                <div class="media-body">
-                  <div class="g-mb-15">
-                    <h5 v-if="child.author.id == post.author.id" class="h5 g-color-gray-dark-v1 mb-0"><router-link v-bind:to="{ path: `/user/${child.author.id}` }" class="comment-author g-text-underline--none--hover">{{ child.author.name || child.author.username }}</router-link> <v-btn color="error">博文作者</v-btn></h5>
-                    <h5 v-else class="h5 g-color-gray-dark-v1 mb-0"><router-link v-bind:to="{ path: `/user/${child.author.id}` }" class="comment-author g-text-underline--none--hover">{{ child.author.name || child.author.username }}</router-link></h5>
-                    <span class="g-color-gray-dark-v4 g-font-size-12">{{ $moment(child.timestamp).format('YYYY年MM月DD日 HH:mm:ss') }}</span>
-                  </div>
-
+                <p class="ml-3">
+                <router-link style="text-decoration: none"
+                :to="{path: `/user/${child.author.id}`}">
+                {{ child.author.name || child.author.username }}
+                </router-link>
+                <v-btn
+                v-if="child.author.id == post.author.id"
+                x-small color="purple"
+                >
+                博文作者
+                </v-btn>
+                </p>
+                </v-card-title>
+                <v-card-subtitle>
+                <span>{{ $moment(child.timestamp).format('YYYY年MM月DD日 HH:mm:ss') }}</span>
+                </v-card-subtitle>
+                <v-card-text>
                   <div v-if="child.disabled" class="g-color-red g-mb-15">此评论包含不良信息，已被禁止显示.</div>
                   <div v-else>
                     <!-- vue-markdown 开始解析markdown，它是子组件，通过 props 给它传值即可
                     v-highlight 是自定义指令，用 highlight.js 语法高亮 -->
                     <vue-markdown
                       :source="child.body"
-                      class="markdown-body g-mb-15"
                       v-highlight>
                     </vue-markdown>
                   </div>
-
+                </v-card-text>
+                  <v-card-actions></v-card-actions>
                   <ul class="list-inline d-sm-flex my-0">
                     <li v-if="!child.disabled" class="list-inline-item g-mr-20">
                       <v-btn @click="onLikeOrUnlikeComment(child)" class="u-link-v5 g-color-gray-dark-v4 g-color-primary--hover" href="javascript:;">
@@ -198,33 +275,32 @@
                       </v-btn>
                     </li>
                     <li v-if="!child.disabled" class="list-inline-item g-mr-20">
-                      <a @click="onClickReply(child)" class="comment-reply-link u-link-v5 g-color-gray-dark-v4 g-color-primary--hover" href="javascript:;">
+                      <v-btn @click="onClickReply(comment)" >
                         <i class="icon-note g-pos-rel g-top-1 g-mr-3"></i>
                         回复
-                      </a>
+                      </v-btn>
                     </li>
                     <ul class="list-inline mb-0 ml-auto">
                       <li style="display: none;" class="list-inline-item g-mr-5">
                         <button @click="onEditComment(child)" class="btn btn-xs u-btn-outline-purple" data-toggle="modal" data-target="#editCommentModal">编辑</button>
                       </li>
                       <li v-if="!child.disabled && post.author.id == sharedState.user_id" class="list-inline-item">
-                        <button @click="onDisabledComment(child)" class="btn btn-xs u-btn-outline-purple">屏蔽</button>
+                        <v-btn @click="onDisabledComment(comment)" small color="blue-grey">屏蔽</v-btn>
                       </li>
                       <li v-if="child.disabled && post.author.id == sharedState.user_id" class="list-inline-item">
-                        <button @click="onEnabledComment(child)" class="btn btn-xs u-btn-outline-aqua">恢复</button>
+                        <v-btn @click="onEnabledComment(comment)" small color="teal">恢复</v-btn>
                       </li>
                       <li v-if="child.author.id == sharedState.user_id || post.author.id == sharedState.user_id" class="list-inline-item">
-                        <button @click="onDeleteComment(child)" class="btn btn-xs u-btn-outline-red">删除</button>
+                        <v-btn @click="onDeleteComment(comment)" small color="red">删除</v-btn>
                       </li>
                     </ul>
                   </ul>
-                </div>
               </v-card>
             </div>
 
           </div>
           <!-- End Panel Body -->
-        </div>
+      </div>
         <!-- Pagination #04 -->
         <!-- <div v-if="comments && comments._meta.total_pages > 1">
           <v-pagination
@@ -235,65 +311,27 @@
           ></v-pagination>
         </div> -->
         <!-- End Pagination #04 -->
-
-
     </div>
-    <!-- end Articles Content -->
-      <!-- Sidebar -->
-      <div class="col-lg-3 g-pt-80">
-
-        <div id="sticker" class="g-mb-50">
-          <div id="tocHeader" class="u-heading-v3-1 g-mb-15">
-              <h2 class="h5 u-heading-v3__title g-color-primary text-uppercase g-brd-primary">文章目录</h2>
-          </div>
-          <div id="toc" class="toc"></div>
-        </div>
-        
-      </div>
-      <!-- End Sidebar -->
-    </div>
-    <v-dialog
-        v-model="showDelete">
-      <v-card>
-        <v-card-title>
-          Are you sure you want to delete?
-        </v-card-title>
-        <v-card-actions>
-          <v-btn
-              color="primary"
-              text
-              @click="showDelete= false"
-          >
-            Quit
-          </v-btn>
-          <v-spacer></v-spacer>
-          <v-btn
-              color="error"
-              text
-              @click="onDeletePost"
-          >
-            Confirm
-          </v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
+    <!-- end Articles Content --> 
+    </v-col>
+    </v-row>
+    </v-container>
   </div>
 </template>
 
 <script>
 import store from '@/store.js'
 import VueMarkdown from 'vue-markdown'
-import hljs from 'highlight.js'
-import '@/assets/jquery.sticky'
 import Post from '@/api/post'
 import $ from 'jquery'
-
+import hljs from 'highlight.js'
 const highlightCode = () => {
   let blocks = document.querySelectorAll('pre code');
   blocks.forEach((block) => {
     hljs.highlightElement(block)
   })
 }
+import '@/assets/jquery.sticky'
 export default {
   name: 'Post',
   components: {
@@ -320,8 +358,20 @@ export default {
           headshot: "http://43.138.58.36:8000/static/User/3/Images/tmpj0y5cc29.jpg"
         },
         disabled:false,
-        descendants:[],
-        likers_id:[]
+        likers_id:[],
+        descendants:[{
+          id:1,
+          body:'asd',
+          timestamp:"2022-05-18T00:43:46",
+          author:{
+            id: 3,
+            username: "LLLeo",
+            name: "LLLeo",
+            headshot: "http://43.138.58.36:8000/static/User/3/Images/tmpj0y5cc29.jpg"
+          },
+          disabled:false,
+          likers_id:[]
+        }],
       }],
       commentForm:{
         body: '',
@@ -394,8 +444,8 @@ export default {
             console.error(err, "not deleted");
           })
     },
-    tocAllRight: function (tocHtmlStr) {
-      // console.log("toc is parsed :", tocHtmlStr);
+    tocAllRight(tocHtmlStr) {
+      console.log("toc is parsed :", tocHtmlStr);
       // 必须等 vue-markdown 生成 TOC 之后，再用 jquery 操作 DOM!!!
       // 非默认的列表样式
       $('.toc').find('ul').addClass('u-list-inline');
