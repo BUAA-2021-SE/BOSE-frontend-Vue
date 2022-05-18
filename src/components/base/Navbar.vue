@@ -74,15 +74,15 @@
     
 <router-link
         v-if="sharedState.is_authenticated"
+        
         :to="{ name: 'ShowProfile', params: { id: sharedState.user_id } }"
       >
-        <v-btn text class="white--text " @mouseenter="enter" @mouseleave="leave">
+        <v-btn text class="white--text " @click="sharedState.is_hover=false" @mouseenter="enter" @mouseleave="leave">
           Profile</v-btn
         >
       </router-link>
-     
- <!-- v-show="sharedState.is_hover && sharedState.is_authenticated" -->
 
+<v-expand-transition>
  <v-card
     max-width="350"
     v-show="sharedState.is_hover && sharedState.is_authenticated"
@@ -156,7 +156,7 @@
     
   </v-card>
 
-
+</v-expand-transition>
   
     
     </div>
@@ -171,15 +171,24 @@ export default {
   data() {
     return {
       search: "",
+      timer:0,
       sharedState: store.state,
     };
   },
+  
   methods: {
+  
     enter() {
-      store.state.is_hover = true;
+        store.state.is_hover = true;
+        console.log("true")
+        clearTimeout(this.timer);
     },
     leave() {
+      
+this.timer=setTimeout(() =>{
       store.state.is_hover = false;
+      console.log("false")
+      } ,500);
     },
 
     handlerLogout() {
@@ -253,7 +262,8 @@ export default {
   mounted() {
     this.drawLogo();
     console.log(this.path);
-  },
+    },
+  
 };
 </script>
 <style scoped>
