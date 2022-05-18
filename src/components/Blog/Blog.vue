@@ -1,25 +1,85 @@
 <template>
-  <div class="container">
-    
-    <div class="row">
+  <div class="mx-5">
+  <v-container grid-list-xl>
+  <v-dialog
+        v-model="showDelete">
+      <v-card>
+        <v-card-title>
+          Are you sure you want to delete?
+        </v-card-title>
+        <v-card-actions>
+          <v-btn
+              color="primary"
+              text
+              @click="showDelete= false"
+          >
+            Quit
+          </v-btn>
+          <v-spacer></v-spacer>
+          <v-btn
+              color="error"
+              text
+              @click="onDeletePost"
+          >
+            Confirm
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+  <!-- 目录 -->
+    <!-- Sidebar -->
+    <v-row>
+      <v-col cols="12" md="3" class="link">
+        <v-card class="mx-auto mt-2 link_cover">
+        <div class="py-4 links">
+              <h3 class="pl-3 pb-3">目录</h3>
+              <ul>
+                <li
+                  v-for="(nav, index) in navList"
+                  :key="index"
+                  :class="{ on: activeIndex === index }"
+                  @click="currentClick(index)"
+                >
+                  <a href="javascript:;" @click="pageJump(nav.index)">{{
+                    nav.title
+                  }}</a>
+                  <div
+                    v-if="nav.children.length > 0"
+                    class="menu-children-list"
+                  >
+                    <ul class="nav-list">
+                      <li
+                        v-for="(item, idx) in nav.children"
+                        :key="idx"
+                        :class="{ on: childrenActiveIndex === idx }"
+                        @click.stop="childrenCurrentClick(idx)"
+                      >
+                        <a href="javascript:;" @click="pageJump(item.index)">{{
+                          item.title
+                        }}</a>
+                      </li>
+                    </ul>
+                  </div>
+                </li>
+              </ul>
+            </div>
+        </v-card>
+      </v-col>
+  <!-- End Sidebar -->
+    <v-col cols="12" md="9">
       <!-- 博文内容 -->
       <!-- Articles Content -->
       <div class="col-lg-9" >
-
         <article class="g-mb-60 g-pt-15 g-pb-50">
           <header class="g-mb-30">
             <h1 class="g-color-primary g-mb-15">{{ post.title }}</h1>
 
             <ul class="list-inline d-sm-flex g-color-gray-dark-v4 mb-0">
               <li v-if="post.author && post.author.id == sharedState.user_id" class="list-inline-item">
-                <router-link
-                    :to="{name:'PostEdit',params:{id:post.id} }"
-                >
-                  <button class="btn btn-xs u-btn-outline-purple g-mr-5">编辑</button>
-                </router-link>
+                  <v-btn color="primary" :to="{name:'PostEdit',params:{id:post.id} }">编辑</v-btn>
               </li>
               <li v-if="post.author && post.author.id == sharedState.user_id" class="list-inline-item">
-                <button @click="showDelete=true" class="btn btn-xs u-btn-outline-red g-mr-5">删除</button>
+                <v-btn @click="showDelete=true" color="error">删除</v-btn>
               </li>
               <li class="list-inline-item">
                 <span class="btn btn-xs u-btn-outline-aqua g-mr-10">评论</span>
@@ -63,20 +123,32 @@
               </h3>
             </div>
             <vue-markdown
-               
-                :source="post.body"
-                :toc="showToc"
-                :toc-first-level="1"
-                :toc-last-level="3"
-                @toc-rendered="tocAllRight"
-                :emoji="true"
-                toc-id="toc"
-                class="markdown-body">
+                      :source="post.body"
+                      v-highlight>
             </vue-markdown>
-
+          </div>
+          <div id="like-post" class="row">
+            <div class="col-lg-3">
+              <button v-on:click="onLikeOrUnlikePost(post)" v-bind:class="btnOutlineColor" class="btn btn-block g-rounded-50 g-py-12 g-mb-10">
+                <i class="icon-heart g-pos-rel g-top-1 g-mr-5"></i> 喜欢<span v-if="post.likers_id && post.likers_id.length > 0"> | {{ post.likers_id.length }}</span>
+              </button>
+            </div>
+            <div class="col-lg-9">
+              <ul v-if="post.likers" class="list-inline mb-0">
+                <li class="list-inline-item"
+                  v-for="(liker, index) in post.likers" v-bind:key="index">
+                  <router-link
+                    v-bind:to="{ path: `/user/${liker.id}` }"
+                    v-bind:title="liker.name || liker.username">
+                    <img class="g-brd-around g-brd-gray-light-v3 g-pa-2 g-width-40 g-height-40 rounded-circle rounded mCS_img_loaded g-mt-3" v-bind:src="liker.avatar" v-bind:alt="liker.name || liker.username">
+                  </router-link>
+                </li>
+              </ul>
+            </div>
           </div>
         </article>
       
+      <v-divider></v-divider>
       <!-- End Articles Content -->
       <!-- 博文评论 -->
       <div id="comment-list-wrap" class="card border-0 g-mb-15">
@@ -85,29 +157,6 @@
             <h3 class="h6 mb-0">
               <i class="icon-bubbles g-pos-rel g-top-1 g-mr-5"></i> Comments
             </h3>
-            <div class="dropdown g-mb-10 g-mb-0--md">
-              <span class="d-block g-color-primary--hover g-cursor-pointer g-mr-minus-5 g-pa-5" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <i class="icon-options-vertical g-pos-rel g-top-1"></i>
-              </span>
-              <div class="dropdown-menu dropdown-menu-right rounded-0 g-mt-10">
-                <router-link v-bind:to="{ path: $route.path, query: { page: 1, per_page: 1 }}" class="dropdown-item g-px-10">
-                  <i class="icon-plus g-font-size-12 g-color-gray-dark-v5 g-mr-5"></i> 每页 1 条顶层评论
-                </router-link>
-                <router-link v-bind:to="{ path: $route.path, query: { page: 1, per_page: 5 }}" class="dropdown-item g-px-10">
-                  <i class="icon-layers g-font-size-12 g-color-gray-dark-v5 g-mr-5"></i> 每页 5 条顶层评论
-                </router-link>
-                <router-link v-bind:to="{ path: $route.path, query: { page: 1, per_page: 10 }}" class="dropdown-item g-px-10">
-                  <i class="icon-wallet g-font-size-12 g-color-gray-dark-v5 g-mr-5"></i> 每页 10 条顶层评论
-                </router-link>
-                
-                <div class="dropdown-divider"></div>
-                
-                <router-link v-bind:to="{ path: $route.path, query: { page: 1, per_page: 20 }}" class="dropdown-item g-px-10">
-                  <i class="icon-fire g-font-size-12 g-color-gray-dark-v5 g-mr-5"></i> 每页 20 条顶层评论
-                </router-link>
-                
-              </div>
-            </div>
           </div>
           <!-- End Panel Header -->
 
@@ -117,213 +166,204 @@
               <textarea v-model="commentForm.body" class="form-control" id="commentFormBody" rows="5" placeholder=" 写下你的评论 ..."></textarea>
               <small class="form-control-feedback" v-show="commentForm.bodyError">{{ commentForm.bodyError }}</small>
             </div>
-            <button type="reset" class="btn btn-secondary">Cancel</button>
-            <button type="submit" class="btn btn-primary">Submit</button>
+            <v-btn type="reset" >Cancel</v-btn>
+            <v-btn type="submit" color="primary">Submit</v-btn>
           </form>
           <!-- End Add Comment Form -->
 
-          <div v-else class="btn-group g-mr-10 g-mb-50 g-px-10">
-            <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <div v-else>
+            <v-btn color="error" block :to="{name:'Login'}">
               发表评论前，请先登录 ...
-            </button>
-            <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; transform: translate3d(0px, 35px, 0px); top: 0px; left: 0px; will-change: transform;">
-              <router-link v-bind:to="{ path: '/login', query: { redirect: $route.fullPath } }" class="dropdown-item">站内账号</router-link>
-              <div class="dropdown-divider"></div>
-              <a class="dropdown-item" href="javascript:;">Github</a>
-              <a class="dropdown-item" href="javascript:;">Facebook</a>
-              <a class="dropdown-item" href="javascript:;">微信</a>
-            </div>
+            </v-btn>
           </div>
-
+          <v-divider></v-divider>
           <!-- Panel Body -->
           <div v-if="comments" class="card-block g-pa-0" >
           
             <!-- 一级评论，按时间倒序排列 -->
-            <div v-for="(comment, index) in comments.items" v-bind:key="index">
-              <div v-bind:id="'c' + comment.id" class="comment-item media g-brd-around g-brd-gray-light-v4 g-pa-30 g-mb-20">
-                <router-link v-bind:to="{ path: `/user/${comment.author.id}` }">  
-                  <img class="d-flex g-width-50 g-height-50 rounded-circle g-brd-around g-brd-gray-light-v4 g-pa-2 g-mt-3 g-mr-15" v-bind:src="comment.author.avatar" v-bind:alt="comment.author.name || comment.author.username">
+            <div v-for="(comment, index) in comments" v-bind:key="index">
+              <v-card :id="'c' + comment.id"
+                elevation="5"
+                outlined
+              >
+              <v-card-title>
+                <router-link :to="{ path: `/user/${comment.author.id}` }">  
+                <v-avatar size="60">
+                <v-img :src="comment.author.headshot" alt="comment.author.name || comment.author.username"/>
+                </v-avatar>
                 </router-link>
-                <div class="media-body">
-                  <div class="g-mb-15">
-                    <h5 v-if="comment.author.id == comment.post.author_id" class="h5 g-color-gray-dark-v1 mb-0"><router-link v-bind:to="{ path: `/user/${comment.author.id}` }" class="comment-author g-text-underline--none--hover">{{ comment.author.name || comment.author.username }}</router-link> <button class="btn btn-xs u-btn-inset u-btn-outline-red g-mr-5">博文作者</button></h5>
-                    <h5 v-else class="h5 g-color-gray-dark-v1 mb-0"><router-link v-bind:to="{ path: `/user/${comment.author.id}` }" class="comment-author g-text-underline--none--hover">{{ comment.author.name || comment.author.username }}</router-link></h5>
-                    <span class="g-color-gray-dark-v4 g-font-size-12">{{ $moment(comment.timestamp).format('YYYY年MM月DD日 HH:mm:ss') }}</span>
-                  </div>
-
-                  <div v-if="comment.disabled" class="g-color-red g-mb-15">此评论包含不良信息，已被禁止显示.</div>
-                  <div v-else>
+                <p class="ml-3"> 
+                <router-link style="text-decoration:none" :to="{ path: `/user/${comment.author.id}` }">
+                {{ comment.author.name || comment.author.username }}
+                </router-link>
+                <v-btn v-if="comment.author.id == post.author.id" 
+                x-small color="purple">
+                博文作者
+                </v-btn>
+                </p>
+              </v-card-title>
+                <v-card-subtitle>{{ $moment(comment.timestamp).format('YYYY年MM月DD日 HH:mm:ss') }}</v-card-subtitle>
+                  <v-card-text>
+                <div v-if="comment.disabled">此评论包含不良信息，已被禁止显示.</div>
+                <div v-else>
                     <!-- vue-markdown 开始解析markdown，它是子组件，通过 props 给它传值即可
                     v-highlight 是自定义指令，用 highlight.js 语法高亮 -->
                     <vue-markdown
                       :source="comment.body"
-                      class="markdown-body g-mb-15"
                       v-highlight>
                     </vue-markdown>
-                  </div>
-
+                </div>
+                  </v-card-text>
+                  <v-card-actions>
+                  </v-card-actions>
                   <ul class="list-inline d-sm-flex my-0">
                     <li v-if="!comment.disabled" class="list-inline-item g-mr-20">
-                      <a v-on:click="onLikeOrUnlikeComment(comment)" class="u-link-v5 g-color-gray-dark-v4 g-color-primary--hover" href="javascript:;">
+                      <v-btn @click="onLikeOrUnlikeComment(comment)">
                         <i v-bind:class="{ 'g-color-red': comment.likers_id.indexOf(sharedState.user_id) != -1 }" class="icon-like g-pos-rel g-top-1 g-mr-3"></i>
                         <span v-if="comment.likers_id.length > 0"> {{ comment.likers_id.length }} 人赞</span>
                         <span v-else>赞</span>
-                      </a>
+                      </v-btn>
                     </li>
                     <li v-if="!comment.disabled" class="list-inline-item g-mr-20">
-                      <a v-on:click="onClickReply(comment)" class="comment-reply-link u-link-v5 g-color-gray-dark-v4 g-color-primary--hover" href="javascript:;">
+                      <v-btn @click="onClickReply(comment)" >
                         <i class="icon-note g-pos-rel g-top-1 g-mr-3"></i>
                         回复
-                      </a>
+                      </v-btn>
                     </li>
                     <ul class="list-inline mb-0 ml-auto">
                       <li style="display: none;" class="list-inline-item g-mr-5">
-                        <button v-on:click="onEditComment(comment)" class="btn btn-xs u-btn-outline-purple" data-toggle="modal" data-target="#editCommentModal">编辑</button>
+                        <v-btn @click="onEditComment(comment)" color="purple" data-toggle="modal" data-target="#editCommentModal">编辑</v-btn>
                       </li>
                       <li v-if="!comment.disabled && post.author.id == sharedState.user_id" class="list-inline-item">
-                        <button v-on:click="onDisabledComment(comment)" class="btn btn-xs u-btn-outline-purple">屏蔽</button>
+                        <v-btn @click="onDisabledComment(comment)" small color="blue-grey">屏蔽</v-btn>
                       </li>
                       <li v-if="comment.disabled && post.author.id == sharedState.user_id" class="list-inline-item">
-                        <button v-on:click="onEnabledComment(comment)" class="btn btn-xs u-btn-outline-aqua">恢复</button>
+                        <v-btn @click="onEnabledComment(comment)" small color="teal">恢复</v-btn>
                       </li>
                       <li v-if="comment.author.id == sharedState.user_id || post.author.id == sharedState.user_id" class="list-inline-item">
-                        <button v-on:click="onDeleteComment(comment)" class="btn btn-xs u-btn-outline-red">删除</button>
+                        <v-btn @click="onDeleteComment(comment)" small color="red">删除</v-btn>
                       </li>
                     </ul>
                   </ul>
-                </div>
-              </div>
+                
+              </v-card>
 
               <!-- 子级评论，按时间正序排列 -->
-              <div class="g-ml-40 comment-item media g-brd-around g-brd-gray-light-v4 g-pa-30 g-mb-20"
+              <v-card
                   v-if="comment.descendants"
                   v-for="(child, cindex) in comment.descendants" v-bind:key="cindex"
-                  v-bind:id="'c' + child.id">
-                <router-link v-bind:to="{ path: `/user/${child.author.id}` }">  
-                  <img class="d-flex g-width-50 g-height-50 rounded-circle g-brd-around g-brd-gray-light-v4 g-pa-2 g-mt-3 g-mr-15" v-bind:src="child.author.avatar" v-bind:alt="child.author.name || child.author.username">
+                  :id="'c' + child.id">
+                <v-card-title>
+                <router-link :to="{ path: `/user/${child.author.id}` }">
+                <v-avatar size="60"> 
+                  <v-img :src="child.author.headshot" alt="child.author.name || child.author.username"/>
+                  </v-avatar> 
                 </router-link>
-                <div class="media-body">
-                  <div class="g-mb-15">
-                    <h5 v-if="child.author.id == child.post.author_id" class="h5 g-color-gray-dark-v1 mb-0"><router-link v-bind:to="{ path: `/user/${child.author.id}` }" class="comment-author g-text-underline--none--hover">{{ child.author.name || child.author.username }}</router-link> <button class="btn btn-xs u-btn-inset u-btn-outline-red g-mr-5">博文作者</button></h5>
-                    <h5 v-else class="h5 g-color-gray-dark-v1 mb-0"><router-link v-bind:to="{ path: `/user/${child.author.id}` }" class="comment-author g-text-underline--none--hover">{{ child.author.name || child.author.username }}</router-link></h5>
-                    <span class="g-color-gray-dark-v4 g-font-size-12">{{ $moment(child.timestamp).format('YYYY年MM月DD日 HH:mm:ss') }}</span>
-                  </div>
-
+                <p class="ml-3">
+                <router-link style="text-decoration: none"
+                :to="{path: `/user/${child.author.id}`}">
+                {{ child.author.name || child.author.username }}
+                </router-link>
+                <v-btn
+                v-if="child.author.id == post.author.id"
+                x-small color="purple"
+                >
+                博文作者
+                </v-btn>
+                </p>
+                </v-card-title>
+                <v-card-subtitle>
+                <span>{{ $moment(child.timestamp).format('YYYY年MM月DD日 HH:mm:ss') }}</span>
+                </v-card-subtitle>
+                <v-card-text>
                   <div v-if="child.disabled" class="g-color-red g-mb-15">此评论包含不良信息，已被禁止显示.</div>
                   <div v-else>
                     <!-- vue-markdown 开始解析markdown，它是子组件，通过 props 给它传值即可
                     v-highlight 是自定义指令，用 highlight.js 语法高亮 -->
                     <vue-markdown
                       :source="child.body"
-                      class="markdown-body g-mb-15"
                       v-highlight>
                     </vue-markdown>
                   </div>
-
+                </v-card-text>
+                  <v-card-actions></v-card-actions>
                   <ul class="list-inline d-sm-flex my-0">
                     <li v-if="!child.disabled" class="list-inline-item g-mr-20">
-                      <a v-on:click="onLikeOrUnlikeComment(child)" class="u-link-v5 g-color-gray-dark-v4 g-color-primary--hover" href="javascript:;">
+                      <v-btn @click="onLikeOrUnlikeComment(child)" class="u-link-v5 g-color-gray-dark-v4 g-color-primary--hover" href="javascript:;">
                         <i v-bind:class="{ 'g-color-red': child.likers_id.indexOf(sharedState.user_id) != -1 }" class="icon-like g-pos-rel g-top-1 g-mr-3"></i>
                         <span v-if="child.likers_id.length > 0"> {{ child.likers_id.length }} 人赞</span>
                         <span v-else>赞</span>
-                      </a>
+                      </v-btn>
                     </li>
                     <li v-if="!child.disabled" class="list-inline-item g-mr-20">
-                      <a v-on:click="onClickReply(child)" class="comment-reply-link u-link-v5 g-color-gray-dark-v4 g-color-primary--hover" href="javascript:;">
+                      <v-btn @click="onClickReply(comment)" >
                         <i class="icon-note g-pos-rel g-top-1 g-mr-3"></i>
                         回复
-                      </a>
+                      </v-btn>
                     </li>
                     <ul class="list-inline mb-0 ml-auto">
                       <li style="display: none;" class="list-inline-item g-mr-5">
-                        <button v-on:click="onEditComment(child)" class="btn btn-xs u-btn-outline-purple" data-toggle="modal" data-target="#editCommentModal">编辑</button>
+                        <button @click="onEditComment(child)" class="btn btn-xs u-btn-outline-purple" data-toggle="modal" data-target="#editCommentModal">编辑</button>
                       </li>
                       <li v-if="!child.disabled && post.author.id == sharedState.user_id" class="list-inline-item">
-                        <button v-on:click="onDisabledComment(child)" class="btn btn-xs u-btn-outline-purple">屏蔽</button>
+                        <v-btn @click="onDisabledComment(comment)" small color="blue-grey">屏蔽</v-btn>
                       </li>
                       <li v-if="child.disabled && post.author.id == sharedState.user_id" class="list-inline-item">
-                        <button v-on:click="onEnabledComment(child)" class="btn btn-xs u-btn-outline-aqua">恢复</button>
+                        <v-btn @click="onEnabledComment(comment)" small color="teal">恢复</v-btn>
                       </li>
                       <li v-if="child.author.id == sharedState.user_id || post.author.id == sharedState.user_id" class="list-inline-item">
-                        <button v-on:click="onDeleteComment(child)" class="btn btn-xs u-btn-outline-red">删除</button>
+                        <v-btn @click="onDeleteComment(comment)" small color="red">删除</v-btn>
                       </li>
                     </ul>
                   </ul>
-                </div>
-              </div>
+              </v-card>
             </div>
 
           </div>
           <!-- End Panel Body -->
-        </div>
-        <!-- Pagination #04 -->
-        <div v-if="comments && comments._meta.total_pages > 1">
-          <pagination
-            v-bind:cur-page="comments._meta.page"
-            v-bind:per-page="comments._meta.per_page"
-            v-bind:total-pages="comments._meta.total_pages">
-          </pagination>
-        </div>
-        <!-- End Pagination #04 -->
-
-
-    </div>
-    <!-- end Articles Content -->
-      <!-- Sidebar -->
-      <div class="col-lg-3 g-pt-80">
-
-        <div id="sticker" class="g-mb-50">
-          <div id="tocHeader" class="u-heading-v3-1 g-mb-15">
-              <h2 class="h5 u-heading-v3__title g-color-primary text-uppercase g-brd-primary">文章目录</h2>
-          </div>
-          <div id="toc" class="toc"></div>
-        </div>
-        
       </div>
-      <!-- End Sidebar -->
+        <!-- Pagination #04 -->
+        <!-- <div v-if="comments && comments._meta.total_pages > 1">
+          <v-pagination
+          v-model="comments._meta.page"
+          :length="comments._meta.total_pages"
+          :total-visible="7"
+          circle
+          ></v-pagination>
+        </div> -->
+        <!-- End Pagination #04 -->
     </div>
-    <v-dialog
-        v-model="showDelete">
-      <v-card>
-        <v-card-title>
-          Are you sure you want to delete?
-        </v-card-title>
-        <v-card-actions>
-          <v-btn
-              color="primary"
-              text
-              @click="showDelete= false"
-          >
-            Quit
-          </v-btn>
-          <v-spacer></v-spacer>
-          <v-btn
-              color="error"
-              text
-              @click="onDeletePost"
-          >
-            Confirm
-          </v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
+    <!-- end Articles Content --> 
+    </v-col>
+    </v-row>
+    </v-container>
   </div>
 </template>
 
 <script>
 import store from '@/store.js'
 import VueMarkdown from 'vue-markdown'
-import hljs from 'highlight.js'
-import '@/assets/jquery.sticky'
 import Post from '@/api/post'
-import $ from 'jquery'
-
+import hljs from 'highlight.js'
 const highlightCode = () => {
   let blocks = document.querySelectorAll('pre code');
   blocks.forEach((block) => {
     hljs.highlightElement(block)
   })
 }
+import {marked} from "marked"
+
+let rendererMD = new marked.Renderer();
+marked.setOptions({
+  renderer: rendererMD,
+  gfm: true,
+  tables: true,
+  breaks: false,
+  pedantic: false,
+  sanitize: false,
+  smartLists: true,
+  smartypants: false,
+});
 export default {
   name: 'Post',
   components: {
@@ -339,7 +379,32 @@ export default {
       ],
       sharedState: store.state,
       post: {},
-      comments:'',
+      comments:[{
+        id:1,
+        body:'asd',
+        timestamp:"2022-05-18T00:43:46",
+        author:{
+          id: 3,
+          username: "LLLeo",
+          name: "LLLeo",
+          headshot: "http://43.138.58.36:8000/static/User/3/Images/tmpj0y5cc29.jpg"
+        },
+        disabled:false,
+        likers_id:[],
+        descendants:[{
+          id:1,
+          body:'asd',
+          timestamp:"2022-05-18T00:43:46",
+          author:{
+            id: 3,
+            username: "LLLeo",
+            name: "LLLeo",
+            headshot: "http://43.138.58.36:8000/static/User/3/Images/tmpj0y5cc29.jpg"
+          },
+          disabled:false,
+          likers_id:[]
+        }],
+      }],
       commentForm:{
         body: '',
         parent_id: '',  // 被回复的评论的 id
@@ -364,6 +429,11 @@ export default {
       showToc: true,
       showEdit: false,
       showDelete: false,
+      navList: [],
+      activeIndex:0,
+      docsFirstLevels:[],
+      docsSecondLevels:[],
+      childrenActiveIndex:0
     }
   },
   methods: {
@@ -374,6 +444,7 @@ export default {
           .then((res) => {
             this.post = res.data;
             console.log(res.data, "res");
+            console.log(this.post.author.id);
             this.loadingProfile = false;
           })
           .catch((err) => {
@@ -397,26 +468,199 @@ export default {
             console.error(err, "not deleted");
           })
     },
-    tocAllRight: function (tocHtmlStr) {
-      // console.log("toc is parsed :", tocHtmlStr);
-      // 必须等 vue-markdown 生成 TOC 之后，再用 jquery 操作 DOM!!!
-      // 非默认的列表样式
-      $('.toc').find('ul').addClass('u-list-inline');
-      // 2、3级目录缩进
-      $('.toc ul li ul li').addClass('g-ml-15');
-      $('.toc ul li ul li ul li').addClass('g-ml-15');
-      // 链接颜色，鼠标悬停颜色
-      $('.toc').find('a').addClass('u-link-v5 g-color-aqua g-color-red--hover')
+    childrenCurrentClick(index) {
+      this.childrenActiveIndex = index;
+    },
+    getDocsFirstLevels(times) {
+      // 解决图片加载会影响高度问题
+      setTimeout(() => {
+        let firstLevels = [];
+        Array.from(document.querySelectorAll("h3"), (element) => {
+          firstLevels.push(element.offsetTop - 60);
+        });
+        this.docsFirstLevels = firstLevels;
+
+        if (times < 8) {
+          this.getDocsFirstLevels(times + 1);
+        }
+      }, 500);
+    },
+    getDocsSecondLevels(parentActiveIndex) {
+      let idx = parentActiveIndex;
+      let secondLevels = [];
+      let navChildren = this.navList[idx].children;
+
+      if (navChildren.length > 0) {
+        secondLevels = navChildren.map((item) => {
+          return this.$el.querySelector(`#data-${item.index}`).offsetTop - 60;
+        });
+        this.docsSecondLevels = secondLevels;
+      }
+    },
+    getLevelActiveIndex(scrollTop, docsLevels) {
+      let currentIdx = null;
+      let nowActive = docsLevels.some((currentValue, index) => {
+        if (currentValue >= scrollTop) {
+          currentIdx = index;
+          return true;
+        }
+      });
+
+      currentIdx = currentIdx - 1;
+
+      if (nowActive && currentIdx === -1) {
+        currentIdx = 0;
+      } else if (!nowActive && currentIdx === -1) {
+        currentIdx = docsLevels.length - 1;
+      }
+      return currentIdx;
+    },
+    pageJump(id) {
+      this.titleClickScroll = true;
+      //使用了Vuetify自带的goTo事件,避免scrollTop一直为0
+      this.$vuetify.goTo(this.$el.querySelector(`#data-${id}`).offsetTop - 40);
+      setTimeout(() => (this.titleClickScroll = false), 100);
+    },
+    currentClick(index) {
+      this.activeIndex = index;
+      this.getDocsSecondLevels(index);
+    },
+    getTitle(content) {
+      let nav = [];
+
+      let tempArr = [];
+      content.replace(/(#+)[^#][^\n]*?(?:\n)/g, function(match, m1) {
+        let title = match.replace("\n", "");
+        let level = m1.length;
+        tempArr.push({
+          title: title.replace(/^#+/, "").replace(/\([^)]*?\)/, ""),
+          level: level,
+          children: [],
+        });
+      });
+
+      // 只处理二级到四级标题，以及添加与id对应的index值，这里还是有点bug,因为某些code里面的注释可能有多个井号
+      nav = tempArr.filter((item) => item.level >= 2 && item.level <= 4);
+      global.console.log(nav);
+      let index = 0;
+      return (nav = nav.map((item) => {
+        item.index = index++;
+        return item;
+      }));
+    },
+    // 将一级二级标题数据处理成树结构
+    handleNavTree() {
+      let navs = this.getTitle(this.content);
+      let navLevel = [3, 4];
+      let retNavs = [];
+      let toAppendNavList;
+
+      navLevel.forEach((level) => {
+        // 遍历一级二级标题，将同一级的标题组成新数组
+        toAppendNavList = this.find(navs, {
+          level: level,
+        });
+
+        if (retNavs.length === 0) {
+          // 处理一级标题
+          retNavs = retNavs.concat(toAppendNavList);
+        } else {
+          // 处理二级标题，并将二级标题添加到对应的父级标题的children中
+          toAppendNavList.forEach((item) => {
+            item = Object.assign(item);
+            let parentNavIndex = this.getParentIndex(navs, item.index);
+            return this.appendToParentNav(retNavs, parentNavIndex, item);
+          });
+        }
+      });
+      return retNavs;
+    },
+    find(arr, condition) {
+      return arr.filter((item) => {
+        for (let key in condition) {
+          if (condition.hasOwnProperty(key) && condition[key] !== item[key]) {
+            return false;
+          }
+        }
+        return true;
+      });
+    },
+    getParentIndex(nav, endIndex) {
+      for (var i = endIndex - 1; i >= 0; i--) {
+        if (nav[endIndex].level > nav[i].level) {
+          return nav[i].index;
+        }
+      }
+    },
+    appendToParentNav(nav, parentIndex, newNav) {
+      let index = this.findIndex(nav, {
+        index: parentIndex,
+      });
+      nav[index].children = nav[index].children.concat(newNav);
+    },
+    findIndex(arr, condition) {
+      let ret = -1;
+      arr.forEach((item, index) => {
+        for (var key in condition) {
+          if (condition.hasOwnProperty(key) && condition[key] !== item[key]) {
+            return false;
+          }
+        }
+        ret = index;
+      });
+      return ret;
+    },
+    // tocAllRight(tocHtmlStr) {
+    //   console.log("toc is parsed :", tocHtmlStr);
+    //   // 必须等 vue-markdown 生成 TOC 之后，再用 jquery 操作 DOM!!!
+    //   // 非默认的列表样式
+    //   $('.toc').find('ul').addClass('u-list-inline');
+    //   // 2、3级目录缩进
+    //   $('.toc ul li ul li').addClass('g-ml-15');
+    //   $('.toc ul li ul li ul li').addClass('g-ml-15');
+    //   // 链接颜色，鼠标悬停颜色
+    //   $('.toc').find('a').addClass('u-link-v5 g-color-aqua g-color-red--hover');
+    // },
+    getPostComments(id){
+      console.log("getPostComments");
+    }
+  },
+  computed: {
+    content(){
+      return this.post.body;
+    },
+    //此函数将markdown内容进一步的转换
+    compiledMarkdown() {
+      let index = 0;
+      rendererMD.heading = function(text, level) {
+        //三级和四级目录
+        if (level <= 4) {
+          return `<h${level} id="data-${index++}">${text}</h${level}>`;
+        } else {
+          return `<h${level}>${text}</h${level}>`;
+        }
+      };
+      return marked(this.content);
+    },
+    btnOutlineColor() {
+      if (this.sharedState.is_authenticated) {
+        if (this.post.likers_id && this.post.likers_id.indexOf(this.sharedState.user_id) != -1) {
+          return 'u-btn-outline-red'
+        } else {
+          return 'u-btn-outline-primary'
+        }
+      } else {
+        return 'u-btn-outline-primary'
+      }
     }
   },
   created() {
     const postId = this.$route.params.id
     this.getBlog(postId);
-    $(document).ready(function () {
-      $("#sticker").sticky({topSpacing: 70});
-    })
   },
   mounted() {
+    this.navList = this.handleNavTree()
+    this.getDocsFirstLevels(0);
     highlightCode()
   },
   updated() {
@@ -430,19 +674,63 @@ export default {
 </script>
 
 <style>
-.markdown-body h1, .markdown-body h2 , .markdown-body h3 {
+.markdown-body h1, .markdown-body h2, .markdown-body h3, .markdown-body h4, .markdown-body h5, .markdown-body h6 {
     margin-top: -80px !important;
-    padding-top:80px !important;
-}
-.markdown-body h1:first-child, .markdown-body h2:first-child , .markdown-body h3:first-child {
-    margin-top: -80px !important;
-    padding-top:80px !important;
+    padding-top:80px;
 }
 </style>
 
 <style scoped>
-.markdown-body:first-child {
-  margin-top:0px !important;
-  padding-top:0px !important;
+.markdown-body{
+  margin-top:-80px !important;
+}
+.content {
+  padding: 8px 8px;
+  font-size: 14px;
+}
+.body {
+  margin-top: 24px;
+  background: #f0f0f0;
+  border-radius: 5px;
+}
+ul {
+  list-style-type: none;
+  padding: 2px 6px;
+}
+li {
+  list-style-type: none;
+  margin: 2px 6px;
+}
+a {
+  color: #42b983;
+  text-decoration: none;
+}
+@media screen and (min-width: 960px) {
+  .link {
+    padding-top: 100px;
+    position: fixed;
+    right: 25px;
+    top: 100;
+  }
+  .link_cover {
+    max-height: 400px;
+    overflow: scroll;
+    overflow-x: hidden;
+    overflow-y: visible;
+  }
+}
+@media screen and (min-width: 1060px) {
+  .link {
+    padding-top: 100px;
+    position: fixed;
+    right: 50px;
+    top: 100;
+  }
+  .link_cover {
+    max-height: 400px;
+    overflow: scroll;
+    overflow-x: hidden;
+    overflow-y: visible;
+  }
 }
 </style>

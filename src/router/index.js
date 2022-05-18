@@ -21,11 +21,11 @@ Vue.use(VueRouter)
 Vue.use(mavonEditor)
 const router = new VueRouter({
     routes: [
-        { 
-            path: '/:pathMatch(.*)*', 
-            name: 'NotFound', 
-            component: NotFound 
-        },
+        // { 
+        //     path: '/:pathMatch(.*)*', 
+        //     name: 'NotFound', 
+        //     component: NotFound 
+        // },
         {
             path: '/',
             name: 'Home',
