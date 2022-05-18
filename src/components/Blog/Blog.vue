@@ -122,11 +122,10 @@
                 ></v-progress-circular>
               </h3>
             </div>
-            <div
-            class="content markdown-body"
-            ref="helpDocs"
-            v-html="compiledMarkdown"
-            ></div>
+            <vue-markdown
+                      :source="post.body"
+                      v-highlight>
+            </vue-markdown>
           </div>
           <div id="like-post" class="row">
             <div class="col-lg-3">
@@ -352,7 +351,7 @@ const highlightCode = () => {
     hljs.highlightElement(block)
   })
 }
-import marked from "marked"
+import {marked} from "marked"
 
 let rendererMD = new marked.Renderer();
 marked.setOptions({
