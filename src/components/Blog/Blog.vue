@@ -430,9 +430,11 @@ export default {
       showDelete: false,
       navList: [],
       activeIndex:0,
+      arctice:[],
       docsFirstLevels:[],
       docsSecondLevels:[],
-      childrenActiveIndex:0
+      childrenActiveIndex:0,
+      html:""
     }
   },
   methods: {
@@ -442,6 +444,8 @@ export default {
       Post.getBlog(id,formData)
           .then((res) => {
             this.post = res.data;
+            this.arctice = this.post;
+            this.html = res.data.html;
             console.log(res.data, "res");
             console.log(this.post.author.id);
             this.loadingProfile = false;
