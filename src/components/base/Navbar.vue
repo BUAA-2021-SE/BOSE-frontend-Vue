@@ -81,9 +81,8 @@
           Profile</v-btn
         >
       </router-link>
-     
- <!-- v-show="sharedState.is_hover && sharedState.is_authenticated" -->
-<!-- <v-expand-transition> -->
+
+<v-expand-transition>
  <v-card
     max-width="350"
     v-show="sharedState.is_hover && sharedState.is_authenticated"
@@ -156,9 +155,9 @@
 
     
   </v-card>
-<!-- 
-</v-expand-transition> -->
-  <!-- <v-btn @click="test">AAAAA </v-btn> -->
+
+</v-expand-transition>
+  
     
     </div>
   </v-app-bar>
@@ -172,29 +171,24 @@ export default {
   data() {
     return {
       search: "",
+      timer:0,
       sharedState: store.state,
     };
   },
   
   methods: {
-    test(){
-    setTimeout(() =>{
-      console.log(store.state.is_hover)
-      this.test();
-      },100);
-      
-    },
+  
     enter() {
-       
         store.state.is_hover = true;
         console.log("true")
-   
+        clearTimeout(this.timer);
     },
     leave() {
-      setTimeout(() =>{
+      
+this.timer=setTimeout(() =>{
       store.state.is_hover = false;
       console.log("false")
-      } ,1000);
+      } ,500);
     },
 
     handlerLogout() {
@@ -268,7 +262,8 @@ export default {
   mounted() {
     this.drawLogo();
     console.log(this.path);
-  },
+    },
+  
 };
 </script>
 <style scoped>
