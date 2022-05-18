@@ -611,17 +611,17 @@ export default {
       });
       return ret;
     },
-      tocAllRight(tocHtmlStr) {
-      console.log("toc is parsed :", tocHtmlStr);
-      // 必须等 vue-markdown 生成 TOC 之后，再用 jquery 操作 DOM!!!
-      // 非默认的列表样式
-      $('.toc').find('ul').addClass('u-list-inline');
-      // 2、3级目录缩进
-      $('.toc ul li ul li').addClass('g-ml-15');
-      $('.toc ul li ul li ul li').addClass('g-ml-15');
-      // 链接颜色，鼠标悬停颜色
-      $('.toc').find('a').addClass('u-link-v5 g-color-aqua g-color-red--hover');
-    },
+    // tocAllRight(tocHtmlStr) {
+    //   console.log("toc is parsed :", tocHtmlStr);
+    //   // 必须等 vue-markdown 生成 TOC 之后，再用 jquery 操作 DOM!!!
+    //   // 非默认的列表样式
+    //   $('.toc').find('ul').addClass('u-list-inline');
+    //   // 2、3级目录缩进
+    //   $('.toc ul li ul li').addClass('g-ml-15');
+    //   $('.toc ul li ul li ul li').addClass('g-ml-15');
+    //   // 链接颜色，鼠标悬停颜色
+    //   $('.toc').find('a').addClass('u-link-v5 g-color-aqua g-color-red--hover');
+    // },
     getPostComments(id){
       console.log("getPostComments");
     }
@@ -658,10 +658,10 @@ export default {
   created() {
     const postId = this.$route.params.id
     this.getBlog(postId);
-    this.navList = this.handleNavTree()
-    this.getDocsFirstLevels(0);
   },
   mounted() {
+    this.navList = this.handleNavTree()
+    this.getDocsFirstLevels(0);
     highlightCode()
   },
   updated() {
