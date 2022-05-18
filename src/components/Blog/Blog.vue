@@ -69,8 +69,7 @@
     <v-col cols="12" md="9">
       <!-- 博文内容 -->
       <!-- Articles Content -->
-      <div class="col-lg-9" >
-        <article class="g-mb-60 g-pt-15 g-pb-50">
+        <article>
           <header class="g-mb-30">
             <h1 class="g-color-primary g-mb-15">{{ post.title }}</h1>
 
@@ -82,7 +81,7 @@
                 <v-btn @click="showDelete=true" color="error">删除</v-btn>
               </li>
               <li class="list-inline-item">
-                <span class="btn btn-xs u-btn-outline-aqua g-mr-10">评论</span>
+                <v-btn  href="#comment-list-wrap">评论</v-btn>
               </li>
               <li v-if="post.author" class="list-inline-item">
                 <router-link :to="{ name: 'ShowProfile', params: { id: post.author.id }}"
@@ -332,7 +331,7 @@
           ></v-pagination>
         </div> -->
         <!-- End Pagination #04 -->
-    </div>
+    
     <!-- end Articles Content --> 
     </v-col>
     </v-row>
