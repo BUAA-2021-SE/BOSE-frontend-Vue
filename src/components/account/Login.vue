@@ -45,7 +45,7 @@
                   }}
                 </v-alert>
               </v-form>
-              <button @click="onSubmit" class="btn btn-primary">Sign In</button>
+              <v-btn @click="onSubmit" class="info">Sign In</v-btn>
 
               <br/>
               <br/>
