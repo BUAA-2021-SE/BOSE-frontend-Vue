@@ -15,25 +15,17 @@ export default class Followers {
         })
     }
 
-    static async follow(id, data) {
+    static async follow(id) {
         return service(`${url.follow}/${id}`, {
             method: 'put',
-            headers: {
-                'Content-Type': 'multipart/form-data'
-            },
             responseType: 'json',
-            data: data
         })
     }
 
-    static async unFollow(id, data) {
+    static async unFollow(id) {
         return service(`${url.unfollow}/${id}`, {
             method: 'put',
-            headers: {
-                'Content-Type': 'multipart/form-data'
-            },
             responseType: 'json',
-            data: data
         })
     }
 

@@ -38,11 +38,7 @@ export default {
     getUserFollowings() {
       Followers.getUserFollowings(this.$route.params.id)
           .then((res) => {
-            let length = res.data.length;
-            for (let i = 1; i <= length; i++) {
-              this.followings[i] = res.data[`user${i}`];
-              console.log(this.followings[i], `user${i}`)
-            }
+            this.followings = res.data;
             this.loadingProfile = false;
           })
           .catch((err) => {

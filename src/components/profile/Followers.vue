@@ -39,11 +39,7 @@ export default {
     getUserFollowers() {
       Followers.getUserFollowers(this.$route.params.id)
           .then((res) => {
-            let length = res.data.length;
-            for (let i = 1; i <= length; i++) {
-              this.followers[i] = res.data[`user${i}`];
-              console.log(this.followers[i], `user${i}`)
-            }
+            this.followers = res.data;
             this.loadingProfile = false;
           })
           .catch((err) => {

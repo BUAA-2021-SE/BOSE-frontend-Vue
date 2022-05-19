@@ -163,9 +163,7 @@ export default {
           })
     },
     onFollowUser() {
-      const formData = new FormData();
-      formData.append("current_user", this.sharedState.user_id)
-      Followers.follow(this.$route.params.id, formData)
+      Followers.follow(this.$route.params.id)
           .then((res) => {
             console.log(res, "followUser");
             this.ifFollow = true
@@ -176,9 +174,7 @@ export default {
           })
     },
     onUnFollowUser() {
-      const formData = new FormData();
-      formData.append("current_user", this.sharedState.user_id)
-      Followers.unFollow(this.$route.params.id, formData)
+      Followers.unFollow(this.$route.params.id)
           .then((res) => {
             console.log(res, "unfollowUser");
             this.ifFollow = false;
