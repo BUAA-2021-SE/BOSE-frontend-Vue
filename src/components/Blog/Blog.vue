@@ -461,7 +461,6 @@ export default {
     this.getBlog(postId);
   },
   mounted() {
-    this.getDocsFirstLevels(0);
     highlightCode()
   },
   updated() {
