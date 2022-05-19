@@ -33,7 +33,36 @@
         <v-card class="mx-auto mt-2 link_cover">
         <div class="py-4 links">
               <h3 class="pl-3 pb-3">目录</h3>
-              <div v-html="topic"></div>
+              <div id="topic">{{topic}}</div>
+              <!-- <ul>
+                <li
+                  v-for="(nav, index) in navList"
+                  :key="index"
+                  :class="{ on: activeIndex === index }"
+                  @click="currentClick(index)"
+                >
+                  <a href="javascript:;" @click="pageJump(nav.index)">{{
+                    nav.title
+                  }}</a>
+                  <div
+                    v-if="nav.children.length > 0"
+                    class="menu-children-list"
+                  >
+                    <ul class="nav-list">
+                      <li
+                        v-for="(item, idx) in nav.children"
+                        :key="idx"
+                        :class="{ on: childrenActiveIndex === idx }"
+                        @click.stop="childrenCurrentClick(idx)"
+                      >
+                        <a href="javascript:;" @click="pageJump(item.index)">{{
+                          item.title
+                        }}</a>
+                      </li>
+                    </ul>
+                  </div>
+                </li>
+              </ul> -->
             </div>
         </v-card>
       </v-col>
@@ -328,6 +357,19 @@ const highlightCode = () => {
     hljs.highlightElement(block)
   })
 }
+import {marked} from "marked"
+
+let rendererMD = new marked.Renderer();
+marked.setOptions({
+  renderer: rendererMD,
+  gfm: true,
+  tables: true,
+  breaks: false,
+  pedantic: false,
+  sanitize: false,
+  smartLists: true,
+  smartypants: false,
+});
 export default {
   name: 'Post',
   components: {
@@ -393,6 +435,13 @@ export default {
       showToc: true,
       showEdit: false,
       showDelete: false,
+      navList: [],
+      activeIndex:0,
+      arctice:[],
+      docsFirstLevels:[],
+      docsSecondLevels:[],
+      childrenActiveIndex:0,
+      html:"",
       topic:''
     }
   },
@@ -403,11 +452,16 @@ export default {
       Post.getBlog(id,formData)
           .then((res) => {
             this.post = res.data;
+            this.arctice = this.post;
+            this.html = res.data.html;
+            global.console.log(this.article);
             this.loadingProfile = false;
           })
           .catch((err) => {
             console.error(err);
           })
+      this.navList = this.handleNavTree();
+      this.getDocsFirstLevels(0);
     },
     onDeletePost() {
       Post.deleteBlog(this.$route.params.id)
@@ -426,6 +480,9 @@ export default {
             console.error(err, "not deleted");
           })
     },
+    childrenCurrentClick(index) {
+      this.childrenActiveIndex = index;
+    },
     getDocsFirstLevels(times) {
       // 解决图片加载会影响高度问题
       setTimeout(() => {
@@ -440,9 +497,137 @@ export default {
         }
       }, 500);
     },
+    getDocsSecondLevels(parentActiveIndex) {
+      let idx = parentActiveIndex;
+      let secondLevels = [];
+      let navChildren = this.navList[idx].children;
+
+      if (navChildren.length > 0) {
+        secondLevels = navChildren.map((item) => {
+          return this.$el.querySelector(`#data-${item.index}`).offsetTop - 60;
+        });
+        this.docsSecondLevels = secondLevels;
+      }
+    },
+    getLevelActiveIndex(scrollTop, docsLevels) {
+      let currentIdx = null;
+      let nowActive = docsLevels.some((currentValue, index) => {
+        if (currentValue >= scrollTop) {
+          currentIdx = index;
+          return true;
+        }
+      });
+
+      currentIdx = currentIdx - 1;
+
+      if (nowActive && currentIdx === -1) {
+        currentIdx = 0;
+      } else if (!nowActive && currentIdx === -1) {
+        currentIdx = docsLevels.length - 1;
+      }
+      return currentIdx;
+    },
+    pageJump(id) {
+      this.titleClickScroll = true;
+      //使用了Vuetify自带的goTo事件,避免scrollTop一直为0
+      this.$vuetify.goTo(this.$el.querySelector(`#data-${id}`).offsetTop - 40);
+      setTimeout(() => (this.titleClickScroll = false), 100);
+    },
+    currentClick(index) {
+      this.activeIndex = index;
+      this.getDocsSecondLevels(index);
+    },
+    getTitle(content) {
+      let nav = [];
+
+      let tempArr = [];
+      content.replace(/(#+)[^#][^\n]*?(?:\n)/g, function(match, m1) {
+        let title = match.replace("\n", "");
+        let level = m1.length;
+        tempArr.push({
+          title: title.replace(/^#+/, "").replace(/\([^)]*?\)/, ""),
+          level: level,
+          children: [],
+        });
+      });
+      // 只处理二级到四级标题，以及添加与id对应的index值，这里还是有点bug,因为某些code里面的注释可能有多个井号
+      nav = tempArr.filter((item) => item.level >= 2 && item.level <= 4);
+      global.console.log(nav);
+      let index = 0;
+      return (nav = nav.map((item) => {
+        item.index = index++;
+        return item;
+      }));
+    },
+    // 将一级二级标题数据处理成树结构
+    handleNavTree() {
+      let navs = this.getTitle(this.content);
+      let navLevel = [3, 4];
+      let retNavs = [];
+      let toAppendNavList;
+
+      navLevel.forEach((level) => {
+        // 遍历一级二级标题，将同一级的标题组成新数组
+        toAppendNavList = this.find(navs, {
+          level: level,
+        });
+
+        if (retNavs.length === 0) {
+          // 处理一级标题
+          retNavs = retNavs.concat(toAppendNavList);
+        } else {
+          // 处理二级标题，并将二级标题添加到对应的父级标题的children中
+          toAppendNavList.forEach((item) => {
+            item = Object.assign(item);
+            let parentNavIndex = this.getParentIndex(navs, item.index);
+            return this.appendToParentNav(retNavs, parentNavIndex, item);
+          });
+        }
+      });
+      return retNavs;
+    },
+    find(arr, condition) {
+      return arr.filter((item) => {
+        for (let key in condition) {
+          if (condition.hasOwnProperty(key) && condition[key] !== item[key]) {
+            return false;
+          }
+        }
+        return true;
+      });
+    },
+    getParentIndex(nav, endIndex) {
+      for (var i = endIndex - 1; i >= 0; i--) {
+        if (nav[endIndex].level > nav[i].level) {
+          return nav[i].index;
+        }
+      }
+    },
+    appendToParentNav(nav, parentIndex, newNav) {
+      let index = this.findIndex(nav, {
+        index: parentIndex,
+      });
+      nav[index].children = nav[index].children.concat(newNav);
+    },
+    findIndex(arr, condition) {
+      let ret = -1;
+      arr.forEach((item, index) => {
+        for (var key in condition) {
+          if (condition.hasOwnProperty(key) && condition[key] !== item[key]) {
+            return false;
+          }
+        }
+        ret = index;
+      });
+      return ret;
+    },
     tocAllRight(tocHtmlStr) {
+      console.log("toc is parsed :", tocHtmlStr);
+      // 必须等 vue-markdown 生成 TOC 之后，再用 jquery 操作 DOM!!!
+      // 非默认的列表样式
+      document.getElementById("topic").innerHTML = tocHtmlStr;
       this.topic = tocHtmlStr;
-      console.log(this.topic);
+      console.log(this.navList);
     },
     getPostComments(id){
       console.log("getPostComments");
@@ -452,8 +637,29 @@ export default {
     content(){
       return this.post.body;
     },
-    btnOutlineColor(){
-      return '';
+    //此函数将markdown内容进一步的转换
+    compiledMarkdown() {
+      let index = 0;
+      rendererMD.heading = function(text, level) {
+        //三级和四级目录
+        if (level <= 4) {
+          return `<h${level} id="data-${index++}">${text}</h${level}>`;
+        } else {
+          return `<h${level}>${text}</h${level}>`;
+        }
+      };
+      return marked(this.content);
+    },
+    btnOutlineColor() {
+      if (this.sharedState.is_authenticated) {
+        if (this.post.likers_id && this.post.likers_id.indexOf(this.sharedState.user_id) != -1) {
+          return 'u-btn-outline-red'
+        } else {
+          return 'u-btn-outline-primary'
+        }
+      } else {
+        return 'u-btn-outline-primary'
+      }
     }
   },
   created() {
@@ -461,6 +667,7 @@ export default {
     this.getBlog(postId);
   },
   mounted() {
+    this.navList = this.handleNavTree()
     this.getDocsFirstLevels(0);
     highlightCode()
   },
