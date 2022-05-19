@@ -17,41 +17,50 @@
                   :disabled="showIDCode"
                   :class="{'is-invalid': resetForm.emailError}" placeholder="Email address"
               ></v-text-field>
-              <v-alert dense type="error" v-show="resetForm.emailError">{{  }}</v-alert>
-              <v-btn class="info" v-show="!this.showIDCode" @click="getIDCode">Get IDCode</v-btn>
-              <v-text-field v-show="this.showIDCode"
+              
+            
+              <v-text-field 
                             v-model="resetForm.password"
                             label="Password"
+                           
                             filled
                             clearable
                             required
-                            type="password"
+                            :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
+                            :type="showPassword ? 'text' : 'password'"
+                            @click:append="showPassword = !showPassword"
                             autocomplete="new-password"
                             :class="{'is-invalid': resetForm.passwordError}" placeholder="Password"
               ></v-text-field>
-              <v-alert dense type="error" v-show="resetForm.passwordError">{{ resetForm.passwordError }}</v-alert>
-              <v-text-field v-show="this.showIDCode"
+         
+              <v-text-field 
                             v-model="resetForm.password2"
                             label="Password Again"
                             filled
                             required
                             clearable
-                            type="password"
+                            :append-icon="showPassword2 ? 'mdi-eye' : 'mdi-eye-off'"
+                            :type="showPassword2 ? 'text' : 'password'"
+                            @click:append="showPassword2 = !showPassword2"
                             autocomplete="new-password"
+                            
                             :class="{'is-invalid': resetForm.password2Error}" placeholder="Password Again"
               ></v-text-field>
-              <v-alert dense type="error" v-show="resetForm.password2Error">{{ resetForm.password2Error }}</v-alert>
-              <v-text-field v-show="this.showIDCode"
+     
+              <v-text-field 
                             v-model="resetForm.idcode"
                             label="IDCode"
                             required
                             clearable
                             filled
+                            
                             :class="{'is-invalid': resetForm.idcodeError}" placeholder="IDCode"
               ></v-text-field>
-              <v-alert dense type="error" v-show="resetForm.errors">{{ resetForm.emailError||resetForm.passwordError||resetForm.password2Error||resetForm.idcodeError }}</v-alert>
+              <v-alert dense outlined type="error" v-show="resetForm.errors">{{ resetForm.emailError||resetForm.passwordError||resetForm.password2Error||resetForm.idcodeError }}</v-alert>
+                </v-form>
+                <v-btn class="info" v-show="!this.showIDCode" @click="getIDCode">Get IDCode</v-btn>
               <v-btn class="info" v-show="this.showIDCode" @click="reset">Reset</v-btn>
-            </v-form>
+            
          </div>
             <div class="col-md-2">
               <div class="midLine"></div>
@@ -80,6 +89,8 @@ export default {
   data() {
     return {
       showIDCode: false,
+      showPassword:false,
+      showPassword2:false,
       resetForm: {
         email: '',
         password: '',
@@ -132,6 +143,7 @@ export default {
             store.setResetAction();
           })
           .catch((error) => {
+             this.resetForm.errors++;
             console.log(error.data);
             for (let field in error.response.data.detail) {
               if (field == 'password') {
@@ -173,6 +185,7 @@ export default {
             this.showIDCode = true;
           })
           .catch((error) => {
+            this.resetForm.errors++;
             for (let field in error.response.data.detail) {
               if (field == 'email') {
                 this.resetForm.emailError = error.response.data.detail.email

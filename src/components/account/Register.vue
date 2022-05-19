@@ -50,6 +50,7 @@
                   label="Password Again"
                   filled
                   required
+                  autocomplete="new-password"
                   :append-icon="showPassword2 ? 'mdi-eye' : 'mdi-eye-off'"
                   :type="showPassword2 ? 'text' : 'password'"
                   @click:append="showPassword2 = !showPassword2"
@@ -59,7 +60,7 @@
                 ></v-text-field>
                
                 <v-text-field
-                  v-show="this.showIDCode"
+                  
                   v-model="registerForm.idcode"
                   label="IDCode"
                   required
@@ -68,7 +69,7 @@
                   :class="{ 'is-invalid': registerForm.idcodeError }"
                   placeholder="IDCode"
                 ></v-text-field>
-                <v-alert dense type="error" v-show="registerForm.errors"
+                <v-alert dense outlined type="error" v-show="registerForm.errors"
                   >{{ registerForm.usernameError|| registerForm.emailError||registerForm.passwordError|| registerForm.password2Error|| registerForm.idcodeError}}</v-alert>
                 <v-card-actions>
                    <v-card-actions>
@@ -189,6 +190,7 @@ export default {
           store.setNewAction();
         })
         .catch((error) => {
+          this.registerForm.errors++;
           console.log(error.data);
           for (let field in error.response.data.detail) {
             if (field == "username") {
@@ -262,6 +264,7 @@ export default {
           this.showIDCode = true;
         })
         .catch((error) => {
+          this.registerForm.errors++;
           for (let field in error.response.data.detail) {
             if (field == "username") {
               this.registerForm.usernameError =

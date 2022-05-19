@@ -42,8 +42,8 @@
                     :class="{ 'is-invalid': loginForm.passwordError }"
                     placeholder="Password"
                 ></v-text-field>
-                <v-alert dense type="error" v-show="loginForm.passwordError">{{
-                    loginForm.passwordError
+                <v-alert dense outlined type="error" v-show="loginForm.errors">{{
+                    loginForm.usernameError||loginForm.passwordError
                   }}
                 </v-alert>
               </v-form>
@@ -112,6 +112,7 @@ export default {
   },
   methods: {
     onSubmit() {
+      this.loginForm.errors = 0;
       this.loginForm.submitted = true;
       if (!this.loginForm.username) {
         this.loginForm.errors++;
@@ -148,9 +149,8 @@ export default {
           .catch((error) => {
             // handle error
             if (error.response.status == 401) {
-              console.log("test");
-              this.loginForm.usernameError = "Invalid username or password.";
-              this.loginForm.passwordError = "Invalid username or password.";
+              this.loginForm.errors++;
+              this.loginForm.usernameError = error.response.data.detail.error;
             } else {
               console.log(error.response);
             }

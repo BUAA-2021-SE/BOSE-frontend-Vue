@@ -22,7 +22,9 @@
   <div style="z-index:-10">
         <mavon-editor v-model="postForm.body" :toolbars="tools"/>
   </div>
-      <v-alert dense type="error" v-show="this.postForm.errors">
+  <br/>
+  
+      <v-alert dense outlined type="error" v-show="this.postForm.errors">
         {{ postForm.titleError || postForm.summaryError || postForm.bodyError }}
       </v-alert>
       <v-card-actions>
@@ -155,4 +157,7 @@ export default {
 </script>
 
 <style>
+.v-note-wrapper.markdown-body.fullscreen.shadow{
+  margin-top: 64px;
+}
 </style>
