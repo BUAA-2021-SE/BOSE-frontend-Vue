@@ -605,7 +605,6 @@ export default {
           firstLevels.push(element.offsetTop - 60);
         });
         this.docsFirstLevels = firstLevels;
-
         if (times < 8) {
           this.getDocsFirstLevels(times + 1);
         }
@@ -630,9 +629,9 @@ export default {
       let blogId = this.$route.params.id;
       if(!this.commentForm.body){
         this.commentForm.error++;
-        this.commentForm.bodyError = 'Body is required.'
+        this.commentForm.bodyError = 'Body is required.';
       }else{
-        this.commentForm.bodyError = null
+        this.commentForm.bodyError = null;
       }
       if(this.commentForm.error>0){
         return false;
@@ -645,7 +644,7 @@ export default {
 
       })
       .catch((err)=>{
-        console.log(err)
+        console.log(err);
       })
     },
     onClickReply(comment){
@@ -657,7 +656,7 @@ export default {
       let cid = comment.author.id;
       let name = comment.author.name;
       this.currentForm.replyId = comment.id;
-      this.currentForm.replyTo = `To <a href="/user/${cid}"> @${name}</a>:`
+      this.currentForm.replyTo = `To <a href="/user/${cid}"> @${name}</a>:`;
       this.replyCommentDialog = true;
     },
     onSubmitReplyComment(){
