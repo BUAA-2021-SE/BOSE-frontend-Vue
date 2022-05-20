@@ -2,7 +2,7 @@
   <div class="container my-auto" >
     <div class="my-auto" width="80vw">
       <div>
-        <div class="cardTitle"><h1 class="midText">注册</h1></div>
+        <div class="cardTitle"><span class="midText">注册</span></div>
 
         <div>
           <div class="row col-md-12 m-auto">
@@ -14,6 +14,7 @@
                   type="user"
                   required
                   clearable
+                  dense
                   filled
                   :disabled="showIDCode"
                   :class="{ 'is-invalid': registerForm.usernameError }"
@@ -25,6 +26,7 @@
                   label="Email address"
                   required
                   clearable
+                  dense
                   filled
                   :disabled="showIDCode"
                   :class="{ 'is-invalid': registerForm.emailError }"
@@ -35,6 +37,7 @@
                   v-model="registerForm.password"
                   label="Password"
                   filled
+                  dense
                   :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
                   :type="showPassword ? 'text' : 'password'"
                   @click:append="showPassword = !showPassword"
@@ -49,6 +52,7 @@
                   v-model="registerForm.password2"
                   label="Password Again"
                   filled
+                  dense
                   required
                   autocomplete="new-password"
                   :append-icon="showPassword2 ? 'mdi-eye' : 'mdi-eye-off'"
@@ -64,6 +68,7 @@
                   v-model="registerForm.idcode"
                   label="IDCode"
                   required
+                  dense
                   clearable
                   filled
                   :class="{ 'is-invalid': registerForm.idcodeError }"
@@ -84,13 +89,8 @@
             <div class="col-md-2">
               <div class="midLine"></div>
             </div>
-            <div class="col-md-5">
-              <v-img
-                :src="require('@/assets/logo.png')"
-                class="mr-5"
-                contain
-                @click="$vuetify.goTo(0)"
-              />
+            <div class="col-md-5" :style="{ padding:0}">
+              <logo></logo>
             </div>
      
           </div>
@@ -104,9 +104,12 @@
 <script>
 import store from "../../store";
 import { Account } from "@/api/account.js";
-
+import Logo from "../base/Logo";
 export default {
-  name: "Register", //this is the name of the component
+  name: "Register",
+   components: {
+    logo: Logo
+  },
   data() {
     return {
       showPassword: false,
@@ -309,10 +312,5 @@ input {
 }
 </style>
 <style scoped>
-/* .v-messages.theme--light{
-    min-height:0px !important;
-}
-.v-text-field__details{
-    min-height:0px !important;
-} */
+
 </style>

@@ -65,13 +65,8 @@
             <div class="col-md-2">
               <div class="midLine"></div>
             </div>
-            <div class="col-md-5">
-              <v-img
-                  :src="require('@/assets/logo.png')"
-                  class="mr-5"
-                  contain
-                  @click="$vuetify.goTo(0)"
-              />
+            <div class="col-md-5" :style="{ padding:0}">
+              <logo></logo>
             </div>
           </div>
         </div>
@@ -83,9 +78,12 @@
 <script>
 import store from '../../store'
 import {Account} from '@/api/account.js'
-
+import Logo from "../base/Logo";
 export default {
-  name: 'Reset', //this is the name of the component
+  name: 'Reset',
+  components:{
+    logo:Logo
+  },
   data() {
     return {
       showIDCode: false,

@@ -1,5 +1,5 @@
 <template>
-  <div class="container my-auto" height="50vh">
+  <div class="container my-auto" :style="{ padding:0}" height="50vh">
     <alert
         v-if="sharedState.is_new"
         :variant="alertVariant"
@@ -16,11 +16,11 @@
     <br/>
     <div class="my-auto" width="80vw" height="50vh">
       <div>
-        <div class="cardTitle"><h1 class="midText">登录</h1></div>
+        <div class="cardTitle"><h1 class="midText"  >登录</h1></div>
 
         <div>
           <div class="row col-md-12 m-auto">
-            <div class="col-md-5">
+            <div class="col-md-5" >
               <v-form>
                 <v-text-field
                     v-model="loginForm.username"
@@ -64,13 +64,8 @@
             <div class="col-md-2">
               <div class="midLine"></div>
             </div>
-            <div class="col-md-5">
-              <v-img
-                  :src="require('@/assets/logo.png')"
-                  class="mr-5"
-                  contain
-                  @click="$vuetify.goTo(0)"
-              />
+            <div class="col-md-5" :style="{ padding:0}">
+              <logo></logo>
             </div>
           </div>
         </div>
@@ -87,11 +82,12 @@
 import store from "../../store";
 import {Account} from "@/api/account.js";
 import Alert from "../base/Alert";
-
+import Logo from "../base/Logo";
 export default {
   name: "Login",
   components: {
     alert: Alert,
+    logo: Logo
   },
   data() {
     return {
@@ -174,21 +170,11 @@ select:-webkit-autofill {
 input {
   background-color: transparent;
 }
-
-.cardTitle {
-  position: relative;
-  margin: 0 auto;
-  max-width: 80vw;
-  height: 1px;
-  background-color: #d4d4d4;
-  text-align: center;
-  font-size: 16px;
-  color: rgb(101, 173, 240);
-}
-
 .midText {
+  margin-top: 0px !important;
   position: absolute;
   left: 50%;
+  font-size: 40px;
   background-color: #ffffff;
   padding: 0 15px;
   transform: translateX(-50%) translateY(-50%);
@@ -204,4 +190,17 @@ input {
   font-size: 16px;
   color: rgb(101, 173, 240);
 }
+
+.cardTitle {
+  position: relative;
+  margin: 0 auto;
+  max-width: 100vw;
+  height: 1px;
+  background-color: #d4d4d4;
+  text-align: center;
+  font-size: 16px;
+  color: rgb(101, 173, 240);
+}
+
+
 </style>

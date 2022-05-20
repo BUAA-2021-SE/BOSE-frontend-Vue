@@ -86,7 +86,7 @@
               <hr class="g-brd-gray-light-v4 g-my-15" />
             </header>
 
-            <div id="postBody" class="g-font-size-16 g-line-height-1_8 g-mb-30">
+            <div class="postBody">
              
               <vue-markdown
                 :source="post.body"
@@ -715,19 +715,19 @@ export default {
 };
 </script>
 
+<style scoped>
+.postBody{
+  margin-top: -70px !important;
+  padding-top: 70px;
+}
+</style>
 <style>
-.h1,
 h1,
 h2,
-.h2,
 h3,
-.h3,
 h4,
-.h4,
 h5,
-.h5,
-h6,
-.h6 {
+h6{
   margin-top: -70px !important;
   padding-top: 70px;
 }
@@ -738,6 +738,7 @@ h6,
   padding: 8px 8px;
   font-size: 14px;
 }
+
 .body {
   margin-top: 24px;
   background: #f0f0f0;
@@ -751,10 +752,12 @@ li {
   list-style-type: none;
   margin: 2px 6px;
 }
+
 a {
   color: #42b983;
   text-decoration: none;
 }
+
 @media screen and (min-width: 960px) {
   .link {
     padding-top: 100px;
@@ -769,6 +772,7 @@ a {
     overflow-y: visible;
   }
 }
+ 
 @media screen and (min-width: 1060px) {
   .link {
     padding-top: 100px;
@@ -782,5 +786,5 @@ a {
     overflow-x: hidden;
     overflow-y: visible;
   }
-}
+} 
 </style>
