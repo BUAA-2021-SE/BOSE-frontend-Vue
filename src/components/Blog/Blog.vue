@@ -203,10 +203,10 @@
                 @submit.prevent="onSubmitAddComment"
                 @reset.prevent="onResetAddComment"
               >
-              <vue-markdown
-                :source="commentForm.body"
+              <v-textarea
+                v-model="commentForm.body"
                 v-highlight
-              ></vue-markdown>
+              ></v-textarea>
               <small
                 class="form-control-feedback"
                 v-show="commentForm.bodyError"
@@ -641,7 +641,9 @@ export default {
       Comment.postComments(blogId,formData)
       .then((res)=>{
         console.log(res.data);
-
+        this.commentForm.body = ""
+        this.commentForm.error = 0
+        this.commentForm.bodyError = ''
       })
       .catch((err)=>{
         console.log(err);
