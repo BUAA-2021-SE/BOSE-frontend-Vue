@@ -81,9 +81,6 @@
 import {Account} from "@/api/account.js";
 import Followers from "@/api/follower.js";
 import store from "@/store.js";
-import axios from 'axios'
-import router from "../../router";
-
 export default {
   name: "Profile",
   inject: ['reload'],

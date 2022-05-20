@@ -21,6 +21,7 @@ import './plugins/base'
 // 导入markdownCSS
 import './assets/markdown-styles/github-markdown.css'
 import vuetify from "./plugins/vuetify";
+import * as hljs from 'highlight.js';
 // 关闭production模式
 Vue.config.productionTip = false
 // 使用moment.js库将后端UTC时间格式化成本地时间

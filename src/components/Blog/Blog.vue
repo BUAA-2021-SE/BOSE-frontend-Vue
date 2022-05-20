@@ -15,18 +15,6 @@
               </div>
     <v-container v-show="!this.loadingProfile" grid-list-xl>
       
-      <v-dialog v-model="showDelete">
-        <v-card>
-          <v-card-title> Are you sure you want to delete? </v-card-title>
-          <v-card-actions>
-            <v-btn color="primary" text @click="showDelete = false">
-              Quit
-            </v-btn>
-            <v-spacer></v-spacer>
-            <v-btn color="error" text @click="onDeletePost"> Confirm </v-btn>
-          </v-card-actions>
-        </v-card>
-      </v-dialog>
       <!-- 目录 -->
       <!-- Sidebar -->
       <v-row>
@@ -49,7 +37,6 @@
               <ul class="list-inline d-sm-flex g-color-gray-dark-v4 mb-0">
                 <li
                   v-if="post.author && post.author.id == sharedState.user_id"
-                  class="list-inline-item"
                 >
                   <v-btn
                     color="primary"
@@ -59,11 +46,10 @@
                 </li>
                 <li
                   v-if="post.author && post.author.id == sharedState.user_id"
-                  class="list-inline-item"
                 >
-                  <v-btn @click="showDelete = true" color="error">删除</v-btn>
+                  <v-btn @click="deleteBlogDialog=true" color="error">删除</v-btn>
                 </li>
-                <li class="list-inline-item">
+                <li >
                   <v-btn href="#comment-list-wrap">评论</v-btn>
                 </li>
                 <li v-if="post.author" class="list-inline-item">
@@ -149,7 +135,53 @@
               </div>
             </div>
           </article>
-
+          <v-dialog v-model="deleteBlogDialog">
+            <v-card>
+              <v-card-title> Are you sure you want to delete? </v-card-title>
+              <v-card-actions>
+                <v-btn color="primary" text @click="deleteBlogDialog = false">
+                  Quit
+                </v-btn>
+                <v-spacer></v-spacer>
+                <v-btn color="error" text @click="onDeletePost"> Confirm </v-btn>
+              </v-card-actions>
+            </v-card>
+          </v-dialog>
+          <v-dialog v-model="deleteCommentDialog">
+          <v-card>
+              <v-card-title> Are you sure you want to delete this comment? </v-card-title>
+              <v-card-actions>
+                <v-btn color="primary" text @click="deleteCommentDialog = false">
+                  Quit
+                </v-btn>
+                <v-spacer></v-spacer>
+                <v-btn color="error" text @click="onDeleteComment"> Confirm </v-btn>
+              </v-card-actions>
+            </v-card>
+          </v-dialog>
+          <v-dialog v-model="replyCommentDialog">
+            <!-- Add Comment Form -->
+            <v-card>
+            <v-form
+                id="addCommentForm"
+                v-if="sharedState.is_authenticated"
+                @submit.prevent="onSubmitReplyComment"
+                @reset.prevent="onResetReplyComment"
+              >
+              <v-textarea
+                v-model="currentForm.body"
+              ></v-textarea>
+              <small
+                class="form-control-feedback"
+                v-show="currentForm.bodyError"
+                >{{ currentForm.bodyError }}</small
+              >
+              <v-btn type="reset">Cancel</v-btn>
+              <v-btn type="submit" color="primary">Submit</v-btn>
+            </v-form>
+            </v-card>
+            <!-- End Add Comment Form -->
+          </v-dialog>
           <v-divider></v-divider>
           <!-- End Articles Content -->
           <!-- 博文评论 -->
@@ -165,30 +197,24 @@
             <!-- End Panel Header -->
 
             <!-- Add Comment Form -->
-            <form
-              id="addCommentForm"
-              v-if="sharedState.is_authenticated"
-              @submit.prevent="onSubmitAddComment"
-              @reset.prevent="onResetAddComment"
-              class="g-mb-40"
-            >
-              <div class="form-group">
-                <textarea
-                  v-model="commentForm.body"
-                  class="form-control"
-                  id="commentFormBody"
-                  rows="5"
-                  placeholder=" 写下你的评论 ..."
-                ></textarea>
-                <small
-                  class="form-control-feedback"
-                  v-show="commentForm.bodyError"
-                  >{{ commentForm.bodyError }}</small
-                >
-              </div>
+            <v-form
+                id="addCommentForm"
+                v-if="sharedState.is_authenticated"
+                @submit.prevent="onSubmitAddComment"
+                @reset.prevent="onResetAddComment"
+              >
+              <vue-markdown
+                :source="commentForm.body"
+                v-highlight
+              ></vue-markdown>
+              <small
+                class="form-control-feedback"
+                v-show="commentForm.bodyError"
+                >{{ commentForm.bodyError }}</small
+              >
               <v-btn type="reset">Cancel</v-btn>
               <v-btn type="submit" color="primary">Submit</v-btn>
-            </form>
+            </v-form>
             <!-- End Add Comment Form -->
 
             <div v-else>
@@ -198,9 +224,8 @@
             </div>
             <v-divider></v-divider>
             <!-- Panel Body -->
-            <div v-if="comments" class="card-block g-pa-0">
               <!-- 一级评论，按时间倒序排列 -->
-              <div v-for="(comment, index) in comments" v-bind:key="index">
+              <div v-for="(comment, index) in comments" :key="index">
                 <v-card :id="'c' + comment.id" elevation="5" outlined>
                   <v-card-title>
                     <router-link :to="{ path: `/user/${comment.author.id}` }">
@@ -317,7 +342,7 @@
                         class="list-inline-item"
                       >
                         <v-btn
-                          @click="onDeleteComment(comment)"
+                          @click="deleteCommentDialog = true;deleteCommentId = comment.id;"
                           small
                           color="red"
                           >删除</v-btn
@@ -331,7 +356,7 @@
                 <v-card
                   v-if="comment.descendants"
                   v-for="(child, cindex) in comment.descendants"
-                  v-bind:key="cindex"
+                  :key="cindex"
                   :id="'c' + child.id"
                 >
                   <v-card-title>
@@ -369,9 +394,7 @@
                       此评论包含不良信息，已被禁止显示.
                     </div>
                     <div v-else>
-                      <!-- vue-markdown 开始解析markdown，它是子组件，通过 props 给它传值即可
-                    v-highlight 是自定义指令，用 highlight.js 语法高亮 -->
-                      <vue-markdown :source="child.body" v-highlight>
+                      <vue-markdown :source="child.body" highlight>
                       </vue-markdown>
                     </div>
                   </v-card-text>
@@ -398,7 +421,7 @@
                       </v-btn>
                     </li>
                     <li v-if="!child.disabled" class="list-inline-item g-mr-20">
-                      <v-btn @click="onClickReply(comment)">
+                      <v-btn @click="onClickReply(comment)" class="comment-reply-link">
                         <i class="icon-note g-pos-rel g-top-1 g-mr-3"></i>
                         回复
                       </v-btn>
@@ -450,17 +473,16 @@
                         class="list-inline-item"
                       >
                         <v-btn
-                          @click="onDeleteComment(comment)"
+                          @click="deleteCommentDialog = true;deleteCommentId = child.id;"
                           small
                           color="red"
-                          >删除</v-btn
-                        >
+                          >删除</v-btn>
                       </li>
                     </ul>
                   </ul>
                 </v-card>
               </div>
-            </div>
+            
             <!-- End Panel Body -->
           </div>
           <!-- Pagination #04 -->
@@ -485,7 +507,9 @@
 import store from "@/store.js";
 import VueMarkdown from "vue-markdown";
 import Post from "@/api/post";
-import hljs from "highlight.js";
+import * as hljs from 'highlight.js';
+import Comment from "@/api/comment";
+import $ from 'jquery';
 const highlightCode = () => {
   let blocks = document.querySelectorAll("pre code");
   blocks.forEach((block) => {
@@ -507,43 +531,17 @@ export default {
       ],
       sharedState: store.state,
       post: {},
-      comments: [
-        {
-          id: 1,
-          body: "asd",
-          timestamp: "2022-05-18T00:43:46",
-          author: {
-            id: 3,
-            username: "LLLeo",
-            name: "LLLeo",
-            headshot:
-              "http://43.138.58.36:8000/static/User/3/Images/tmpj0y5cc29.jpg",
-          },
-          disabled: false,
-          likers_id: [],
-          descendants: [
-            {
-              id: 1,
-              body: "asd",
-              timestamp: "2022-05-18T00:43:46",
-              author: {
-                id: 3,
-                username: "LLLeo",
-                name: "LLLeo",
-                headshot:
-                  "http://43.138.58.36:8000/static/User/3/Images/tmpj0y5cc29.jpg",
-              },
-              disabled: false,
-              likers_id: [],
-            },
-          ],
-        },
-      ],
+      rules: [v => v.length <= 50 || 'Max 50 characters'],
+      comments: [],
       commentForm: {
         body: "",
-        parent_id: "", // 被回复的评论的 id
-        author_id: "", // 被回复的评论的作者的 id
-        author_name: "", // 被回复的评论的作者的名字
+        errors: 0, // 表单是否在前端验证通过，0 表示没有错误，验证通过
+        bodyError: null,
+      },
+      currentForm:{
+        replyId:0,
+        replyTo:"",
+        body: "",
         errors: 0, // 表单是否在前端验证通过，0 表示没有错误，验证通过
         bodyError: null,
       },
@@ -560,9 +558,12 @@ export default {
         errors: 0, // 表单是否在前端验证通过，0 表示没有错误，验证通过
         bodyError: null,
       },
+      deleteCommentId:0,
+      deleteCommentDialog:false,
+      deleteBlogDialog: false,
+      replyCommentDialog:false,
       showToc: true,
       showEdit: false,
-      showDelete: false,
       topic: "",
     };
   },
@@ -573,6 +574,7 @@ export default {
       Post.getBlog(id, formData)
         .then((res) => {
           this.post = res.data;
+          console.log(this.post)
           this.loadingProfile = false;
         })
         .catch((err) => {
@@ -583,7 +585,7 @@ export default {
       Post.deleteBlog(this.$route.params.id)
         .then((res) => {
           console.log(res);
-          this.showDelete = false;
+          this.deleteBlogDialog = false;
           this.$toasted.success(res.data, {
             icon: "check",
             fullWidth: true,
@@ -614,8 +616,73 @@ export default {
       console.log(this.topic);
     },
     getPostComments(id) {
-      console.log("getPostComments");
+      Comment.getComments(id)
+      .then((res)=>{
+        this.comments = res.data;
+        console.log(this.comments,"getComments");
+      })
+      .catch((err)=>{
+        console.error(err.response.data.detail,"errorMessage");
+      })
     },
+    onSubmitAddComment(){
+      console.log("onSubmitAddComment");
+      let blogId = this.$route.params.id;
+      if(!this.commentForm.body){
+        this.commentForm.error++;
+        this.commentForm.bodyError = 'Body is required.'
+      }else{
+        this.commentForm.bodyError = null
+      }
+      if(this.commentForm.error>0){
+        return false;
+      }
+      const formData = new FormData();
+      formData.append('text',this.commentForm.body);
+      Comment.postComments(blogId,formData)
+      .then((res)=>{
+        console.log(res.data);
+
+      })
+      .catch((err)=>{
+        console.log(err)
+      })
+    },
+    onClickReply(comment){
+      if(!this.sharedState.is_authenticated){
+        this.$toasted.error('您需要先登录才能回复评论 ...', { icon: 'check' });
+        this.$router.replace({name:'Login'});
+      }
+      console.log(comment.author.id,"comment");
+      let cid = comment.author.id;
+      let name = comment.author.name;
+      this.currentForm.replyId = comment.id;
+      this.currentForm.replyTo = `To <a href="/user/${cid}"> @${name}</a>:`
+      this.replyCommentDialog = true;
+    },
+    onSubmitReplyComment(){
+      const formData = new FormData();
+      formData.append('text',this.currentForm.replyTo+this.currentForm.body);
+      this.replyCommentDialog = false;
+      Comment.replyComment(this.currentForm.replyId,formData)
+      .then((res)=>{
+        console.log(res);
+        this.getPostComments(this.$route.params.id);
+      })
+      .catch((err) => {
+        console.error(err);
+      })
+    },
+    onDeleteComment(){
+      Comment.deleteComment(this.deleteCommentId)
+      .then((res)=>{
+        console.log(res);
+        this.getPostComments(this.$route.params.id);
+      })
+      .catch((err)=>{
+        console.error(err.response.data.detail);
+      })
+    }
   },
   computed: {
     content() {
@@ -628,6 +695,7 @@ export default {
   created() {
     const postId = this.$route.params.id;
     this.getBlog(postId);
+    this.getPostComments(postId);
   },
   mounted() {
     highlightCode();
