@@ -675,6 +675,7 @@ export default {
       })
     },
     onDeleteComment(){
+      this.deleteCommentDialog = false;
       Comment.deleteComment(this.deleteCommentId)
       .then((res)=>{
         console.log(res);
