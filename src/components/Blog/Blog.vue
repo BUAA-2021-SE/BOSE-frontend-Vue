@@ -166,7 +166,7 @@
                 id="addCommentForm"
                 v-if="sharedState.is_authenticated"
                 @submit.prevent="onSubmitReplyComment"
-                @reset.prevent="onResetReplyComment"
+                @reset.prevent="currentForm.body=''"
               >
               <v-textarea
                 v-model="currentForm.body"
@@ -421,7 +421,7 @@
                       </v-btn>
                     </li>
                     <li v-if="!child.disabled" class="list-inline-item g-mr-20">
-                      <v-btn @click="onClickReply(comment)" class="comment-reply-link">
+                      <v-btn @click="onClickReply(child)" class="comment-reply-link">
                         <i class="icon-note g-pos-rel g-top-1 g-mr-3"></i>
                         回复
                       </v-btn>
@@ -518,6 +518,7 @@ const highlightCode = () => {
 };
 export default {
   name: "Post",
+  inject:['reload'],
   components: {
     VueMarkdown,
   },
@@ -640,11 +641,11 @@ export default {
       formData.append('text',this.commentForm.body);
       Comment.postComments(blogId,formData)
       .then((res)=>{
-        console.log(res.data);
+        console.log(res.data,"onsubmit");
         this.commentForm.body = "";
         this.commentForm.error = 0;
         this.commentForm.bodyError = '';
-        this.getPostComments(this.$params.id);
+        this.getPostComments(this.$route.params.id);
       })
       .catch((err)=>{
         console.log(err);
