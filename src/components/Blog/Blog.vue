@@ -641,9 +641,10 @@ export default {
       Comment.postComments(blogId,formData)
       .then((res)=>{
         console.log(res.data);
-        this.commentForm.body = ""
-        this.commentForm.error = 0
-        this.commentForm.bodyError = ''
+        this.commentForm.body = "";
+        this.commentForm.error = 0;
+        this.commentForm.bodyError = '';
+        this.getPostComments(this.$params.id);
       })
       .catch((err)=>{
         console.log(err);
@@ -659,16 +660,17 @@ export default {
       let name = comment.author.name;
       this.currentForm.replyId = comment.id;
       this.currentForm.replyTo = `To <a href="/user/${cid}"> @${name}</a>:`;
+      this.currentForm.body = "";
       this.replyCommentDialog = true;
     },
     onSubmitReplyComment(){
       const formData = new FormData();
       formData.append('text',this.currentForm.replyTo+this.currentForm.body);
-      this.replyCommentDialog = false;
       Comment.replyComment(this.currentForm.replyId,formData)
       .then((res)=>{
         console.log(res);
         this.getPostComments(this.$route.params.id);
+        this.replyCommentDialog = false;
       })
       .catch((err) => {
         console.error(err);
@@ -678,7 +680,7 @@ export default {
       this.deleteCommentDialog = false;
       Comment.deleteComment(this.deleteCommentId)
       .then((res)=>{
-        console.log(res);
+        console.log(res,"ondeleteComment");
         this.getPostComments(this.$route.params.id);
       })
       .catch((err)=>{
