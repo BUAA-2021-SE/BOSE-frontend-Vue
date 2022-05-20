@@ -20,6 +20,7 @@ import NotFound from '@/components/base/NotFound'
 Vue.use(VueRouter)
 Vue.use(mavonEditor)
 const router = new VueRouter({
+    mode:'history',
     routes: [
         // { 
         //     path: '/:pathMatch(.*)*', 
