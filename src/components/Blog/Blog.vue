@@ -75,7 +75,7 @@
                     class="u-link-v5 g-color-gray-dark-v4 g-color-primary--hover g-text-underline--none--hover"
                     href="#comment-list-wrap"
                   >
-                    <i class="icon-bubble"></i> 0
+                    <i class="icon-bubble"></i> {{comments.length}}
                   </a>
                 </li>
                 <li class="list-inline-item ml-auto">
@@ -102,15 +102,13 @@
             <div id="like-post" class="row">
               <div class="col-lg-3">
                 <button
-                  v-on:click="onLikeOrUnlikePost(post)"
-                  v-bind:class="btnOutlineColor"
+                  @click="onLikeOrUnlikePost(post)"
+                  :class="btnOutlineColor"
                   class="btn btn-block g-rounded-50 g-py-12 g-mb-10"
                 >
-                  <i class="icon-heart g-pos-rel g-top-1 g-mr-5"></i> 喜欢<span
-                    v-if="post.likers_id && post.likers_id.length > 0"
-                  >
-                    | {{ post.likers_id.length }}</span
-                  >
+                  <i class="icon-heart g-pos-rel g-top-1 g-mr-5"></i>
+                  <span  v-if="post.likers_id && post.likers_id.length > 0">|{{ post.likers_id.length }}</span>
+                  喜欢
                 </button>
               </div>
               <div class="col-lg-9">
@@ -272,15 +270,15 @@
                       v-if="!comment.disabled"
                       class="list-inline-item g-mr-20"
                     >
-                      <v-btn @click="onLikeOrUnlikeComment(comment)">
-                        <i
-                          v-bind:class="{
-                            'g-color-red':
-                              comment.likers_id.indexOf(sharedState.user_id) !=
-                              -1,
-                          }"
-                          class="icon-like g-pos-rel g-top-1 g-mr-3"
-                        ></i>
+                      <v-btn @click="onLikeOrUnlikeComment(comment)" v-if="comment.likers_id.indexOf(sharedState.user_id)!=-1" color="primary">
+                        <i class="icon-like g-pos-rel g-top-1 g-mr-3"></i>
+                        <span v-if="comment.likers_id.length > 0">
+                          {{ comment.likers_id.length }} 人赞</span
+                        >
+                        <span v-else>赞</span>
+                      </v-btn>
+                      <v-btn @click="onLikeOrUnlikeComment(comment)" v-else>
+                        <i class="icon-like g-pos-rel g-top-1 g-mr-3"></i>
                         <span v-if="comment.likers_id.length > 0">
                           {{ comment.likers_id.length }} 人赞</span
                         >
@@ -403,20 +401,21 @@
                     <li v-if="!child.disabled" class="list-inline-item g-mr-20">
                       <v-btn
                         @click="onLikeOrUnlikeComment(child)"
-                        class="u-link-v5 g-color-gray-dark-v4 g-color-primary--hover"
-                        href="javascript:;"
+                        v-if="child.likers_id.indexOf(sharedState.user_id)!=-1" 
+                        color="primary"
                       >
-                        <i
-                          v-bind:class="{
-                            'g-color-red':
-                              child.likers_id.indexOf(sharedState.user_id) !=
-                              -1,
-                          }"
-                          class="icon-like g-pos-rel g-top-1 g-mr-3"
-                        ></i>
+                        <i class="icon-like g-pos-rel g-top-1 g-mr-3"></i>
                         <span v-if="child.likers_id.length > 0">
-                          {{ child.likers_id.length }} 人赞</span
-                        >
+                          {{ child.likers_id.length }} 人赞</span>
+                        <span v-else>赞</span>
+                      </v-btn>
+                      <v-btn
+                        @click="onLikeOrUnlikeComment(child)"
+                        v-else
+                      >
+                        <i class="icon-like g-pos-rel g-top-1 g-mr-3"></i>
+                        <span v-if="child.likers_id.length > 0">
+                          {{ child.likers_id.length }} 人赞</span>
                         <span v-else>赞</span>
                       </v-btn>
                     </li>
@@ -518,7 +517,6 @@ const highlightCode = () => {
 };
 export default {
   name: "Post",
-  inject:['reload'],
   components: {
     VueMarkdown,
   },
@@ -687,6 +685,28 @@ export default {
       .catch((err)=>{
         console.error(err.response.data.detail);
       })
+    },
+    onLikeOrUnlikePost(post){
+      console.log("onLikeOrUnlikePost",post);
+      Post.thumbUp(post.id)
+      .then((res)=>{
+        console.log(res);
+        this.getBlogComments(this.$route.params.id);
+      })
+      .catch((err)=>{
+        console.error(err.response.detail);
+      })
+    },
+    onLikeOrUnlikeComment(comment){
+      console.log("onLikeOrUnlikeComment",comment);
+      Comment.thumbUpComment(comment.id)
+      .then((res)=>{
+        console.log(res);
+        this.getPostComments(this.$route.params.id);
+      })
+      .catch((err) => {
+        console.error(error.response.detail);
+      })
     }
   },
   computed: {
@@ -694,7 +714,12 @@ export default {
       return this.post.body;
     },
     btnOutlineColor() {
-      return "";
+      if(this.sharedState.is_authenticated){
+        if(this.post.likers_id&&this.post.likers_id.indexOf(this.sharedState.user_id)!=-1){
+          return 'u-btn-outline-red'
+        }
+      }
+      return 'u-btn-outline-primary';
     },
   },
   created() {

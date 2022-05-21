@@ -8,8 +8,10 @@ const url = {
     postBlog: '/blog/submit_posts',
     deletePost: '/blog/delete',
     getUserPosts: '/blog/get_user_posts',
-    titleSearch:'/blog/search'
-
+    titleSearch:'/blog/search',
+    thumbUp:'/thumb_up',
+    unThumbUp:'/un_thumb_up',
+    ifThumbUp:'/if_thumb_up'
 };
 export default class Post {
     static async getBlog(id,data) {
@@ -83,5 +85,22 @@ export default class Post {
             responseType: 'json'
         })
     }
-
+    static async thumbUp(id){
+        return service(`${url.thumbUp}/${id}`,{
+            method: 'put',
+            responseType: 'json'
+        })
+    }
+    // static async unThumbUp(id){
+    //     return service(`${url.unThumbUp}/${id}`,{
+    //         method: 'put',
+    //         responseType: 'json'
+    //     })
+    // }
+    // static async ifThumbUp(id){
+    //     return service(`${url.ifThumbUp}/${id}`,{
+    //         method:'post',
+    //         responseType: 'json'
+    //     })
+    // }
 }

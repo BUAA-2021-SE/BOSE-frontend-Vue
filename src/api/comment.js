@@ -4,7 +4,8 @@ const url={
     deleteComment:'/comment/delete_comments',
     replyComment:'/comment/reply_comments',
     updateComments:'/comment/update_comments',
-    getComments:'/comment/get_comments'
+    getComments:'/comment/get_comments',
+    thumbUp:'/thumb_up_comment',
 }
 export default class Comment{
     // Blog id
@@ -43,4 +44,12 @@ export default class Comment{
             responseType: 'json'
         })
     }
+    // Comment id
+    static async thumbUpComment(id){
+        return service(`${url.thumbUp}/${id}`,{
+            method: 'put',
+            responseType: 'json'
+        })
+    }
+
 }
