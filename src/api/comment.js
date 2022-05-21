@@ -6,6 +6,8 @@ const url={
     updateComments:'/comment/update_comments',
     getComments:'/comment/get_comments',
     thumbUp:'/thumb_up_comment',
+    disableComment:'comment/disable',
+    recoverComment:'comment/recover'
 }
 export default class Comment{
     // Blog id
@@ -51,5 +53,18 @@ export default class Comment{
             responseType: 'json'
         })
     }
-
+    // Comment id
+    static async disableComment(id){
+        return service(`${url.disableComment}/${id}`,{
+            method: 'put',
+            responseType: 'json'
+        })
+    }
+    // Comment id
+    static async recoverComment(id){
+        return service(`${url.recoverComment}/${id}`,{
+            method: 'put',
+            responseType: 'json'
+        })
+    }
 }

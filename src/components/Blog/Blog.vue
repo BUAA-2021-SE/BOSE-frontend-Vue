@@ -101,15 +101,23 @@
             </div>
             <div id="like-post" class="row">
               <div class="col-lg-3">
-                <button
-                  @click="onLikeOrUnlikePost(post)"
-                  :class="btnOutlineColor"
-                  class="btn btn-block g-rounded-50 g-py-12 g-mb-10"
+                <v-btn
+                v-if="btnOutlineColor"
+                @click="onLikeOrUnlikePost(post)"
+                color = "primary"
                 >
-                  <i class="icon-heart g-pos-rel g-top-1 g-mr-5"></i>
+                <i class="icon-heart g-pos-rel g-top-1 g-mr-5"></i>
                   <span  v-if="post.likers_id && post.likers_id.length > 0">|{{ post.likers_id.length }}</span>
                   喜欢
-                </button>
+                </v-btn>
+                <v-btn
+                v-else
+                @click="onLikeOrUnlikePost(post)"
+                >
+                <i class="icon-heart g-pos-rel g-top-1 g-mr-5"></i>
+                  <span  v-if="post.likers_id && post.likers_id.length > 0">|{{ post.likers_id.length }}</span>
+                  喜欢
+                </v-btn>
               </div>
               <div class="col-lg-9">
                 <ul v-if="post.likers" class="list-inline mb-0">
@@ -573,7 +581,7 @@ export default {
       Post.getBlog(id, formData)
         .then((res) => {
           this.post = res.data;
-          console.log(this.post)
+          console.log("blog",this.post)
           this.loadingProfile = false;
         })
         .catch((err) => {
@@ -691,7 +699,7 @@ export default {
       Post.thumbUp(post.id)
       .then((res)=>{
         console.log(res);
-        this.getBlogComments(this.$route.params.id);
+        this.getBlog(this.$route.params.id);
       })
       .catch((err)=>{
         console.error(err.response.detail);
@@ -707,6 +715,28 @@ export default {
       .catch((err) => {
         console.error(error.response.detail);
       })
+    },
+    onDisabledComment(comment){
+      console.log("onDisabledComment",comment);
+      Comment.disableComment(comment.id)
+      .then((res)=>{
+        console.log(res);
+        this.getPostComments(this.$params.id);
+      })
+      .catch((err) => {
+        console.error(err);
+      })
+    },
+    onEnabledComment(comment){
+      console.log("onEnabledComment",comment);
+      Comment.recoverComment(comment.id)
+      .then((res)=>{
+        console.log(res);
+        this.getPostComments(this.$params.id);
+      })
+      .catch((err) => {
+        console.error(err);
+      })
     }
   },
   computed: {
@@ -716,10 +746,10 @@ export default {
     btnOutlineColor() {
       if(this.sharedState.is_authenticated){
         if(this.post.likers_id&&this.post.likers_id.indexOf(this.sharedState.user_id)!=-1){
-          return 'u-btn-outline-red'
+          return true
         }
       }
-      return 'u-btn-outline-primary';
+      return false
     },
   },
   created() {
