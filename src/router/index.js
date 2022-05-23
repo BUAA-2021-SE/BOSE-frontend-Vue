@@ -16,6 +16,7 @@ import Followers from '@/components/profile/Followers'
 import Following from '@/components/profile/Following'
 import Posts from '@/components/profile/Posts'
 import PostAdd from '@/components/Blog/AddBlog'
+import Contribution from '@/components/account/Contribution'
 import NotFound from '@/components/base/NotFound'
 Vue.use(VueRouter)
 Vue.use(mavonEditor)
@@ -79,11 +80,22 @@ const router = new VueRouter({
                 {path: '', component: ShowProfile},
                 {path: 'profile', name: 'ShowProfile', component: ShowProfile},
                 {path: 'followers', name: 'Followers', component: Followers},
-                {path: 'following', name: 'Following', component: Following},
-                {path: 'posts', name: 'Posts', component: Posts}
+                {path: 'following', name: 'Following', component: Following}
             ]
         },
-
+        {
+            path:  '/contribution/:id',
+            component: Contribution,
+            meta:{
+                requiresAuth: true
+            },
+            children: [
+                {path: '',component: Posts},
+                {path:'posts', name:'Posts',component: Posts},
+                {path: 'drafts', name: 'Drafts', component: Posts},
+                {path:'resources', name: 'Resources', component: Posts}
+            ]
+        },
         {
             path: '/user/:id/edit',
             name: 'EditProfile',
