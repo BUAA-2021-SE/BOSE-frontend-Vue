@@ -14,7 +14,7 @@
       </div>
       <v-card-actions>
         <router-link
-            :to="{name:'Post',params : {id:post.id} }">
+            :to="{name:'Drafts',params : {id:sharedState.user_id } }">
           <button class="btn btn-primary">Quit</button>
         </router-link>
         <v-spacer></v-spacer>
@@ -114,7 +114,7 @@ export default {
       formData.append('title', this.editForm.title);
       formData.append('summary', this.editForm.summary);
       formData.append('body', this.editForm.body);
-      Post.uploadDraft(this.$route.params.id, formData)
+      Post.editBlog(this.$route.params.id, formData)
           .then((res) => {
             console.log(res);
             this.getDraft(this.editForm.id);
@@ -122,6 +122,7 @@ export default {
             this.editForm.title = ''
             this.editForm.summary = ''
             this.editForm.body = ''
+            this.$router.push({name:'Home'});
           })
           .catch((err) => {
             console.error(err);
