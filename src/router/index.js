@@ -11,6 +11,7 @@ import Ping from '@/components/Ping'
 import EditProfile from '@/components/account/EditProfile'
 import Post from '@/components/blog/Blog'
 import PostEdit from '@/components/blog/EditBlog'
+import DraftEdit from '@/components/blog/EditDraft'
 import ShowProfile from '@/components/account/ShowProfile'
 import Followers from '@/components/profile/Followers'
 import Following from '@/components/profile/Following'
@@ -43,6 +44,11 @@ const router = new VueRouter({
             path: '/postedit/:id',
             name: 'PostEdit',
             component: PostEdit,
+        },
+        {
+            path: '/draftedit/:id',
+            name: 'DraftEdit',
+            component: DraftEdit,
         },
         {
             path: '/postadd/:id',

@@ -3,6 +3,7 @@ import store from '../store.js'
 
 const url = {
     getBlog: '/blog/return_posts',
+    getDraft: '/blog/return_drafts',
     getAllBlog: '/blog/get_all_posts',
     editBlog: '/blog/posts',
     postBlog: '/blog/submit_posts',
@@ -23,6 +24,17 @@ export default class Post {
     static async getBlog(id,data) {
         return service(`${url.getBlog}/${id}`, {
             method: 'put',
+            responseType: 'json',
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            },
+            data:data
+        })
+    }
+
+    static async getDraft(id,data) {
+        return service(`${url.getDraft}/${id}`, {
+            method: 'post',
             responseType: 'json',
             headers: {
                 'Content-Type': 'multipart/form-data'

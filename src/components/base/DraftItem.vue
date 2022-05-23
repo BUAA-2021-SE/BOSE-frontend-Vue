@@ -20,7 +20,7 @@
             删除
           </v-btn>
           <router-link
-              :to="{name:'PostEdit',params:{id:draft.id} }">
+              :to="{name:'DraftEdit',params:{id:draft.id} }">
             <v-btn
                 v-if="draft.author.id==sharedState.user_id"
                 text
