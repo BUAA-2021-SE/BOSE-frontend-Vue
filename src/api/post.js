@@ -3,11 +3,14 @@ import store from '../store.js'
 
 const url = {
     getBlog: '/blog/return_posts',
+    getDraft: '/blog/return_drafts',
     getAllBlog: '/blog/get_all_posts',
     editBlog: '/blog/posts',
+    editDraft:'/blog/edit_draft',
     postBlog: '/blog/submit_posts',
     deletePost: '/blog/delete',
     getUserPosts: '/blog/get_user_posts',
+    getUserDrafts: '/blog/get_user_drafts',
     titleSearch:'/blog/search',
     thumbUp:'/thumb_up',
     unThumbUp:'/un_thumb_up',
@@ -15,12 +18,26 @@ const url = {
     commitBlog:'/blog/commit_posts',
     commitDraft:'/blog/commit_draft',
     editDraft:'/blog/edit_draft',
-    postCover:'/post_cover'
+    postCover:'/post_cover',
+    getAllDrafts:'/blog/get_all_drafts',
+    deleteDraft:'/blog/delete_draft',
+    uploadDraft:'/blog/upload_draft'
 };
 export default class Post {
     static async getBlog(id,data) {
         return service(`${url.getBlog}/${id}`, {
             method: 'put',
+            responseType: 'json',
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            },
+            data:data
+        })
+    }
+
+    static async getDraft(id,data) {
+        return service(`${url.getDraft}/${id}`, {
+            method: 'post',
             responseType: 'json',
             headers: {
                 'Content-Type': 'multipart/form-data'
@@ -62,6 +79,16 @@ export default class Post {
         })
     }
 
+    static async uploadDraft(id, data){
+        return service(`${url.uploadDraft}/${id}`, {
+            method: 'put',
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            },
+            responseType: 'json',
+            data: data
+        })
+    }
     static async postBlog(data) {
         return service(url.postBlog, {
             method: 'post',
@@ -94,6 +121,16 @@ export default class Post {
         })
     }
 
+    static async deleteDraft(id) {
+        return service(`${url.deleteDraft}/${id}`, {
+            method: 'delete',
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            },
+            responseType: 'json'
+        })
+    }
+
     static async getAllBlog(page, size) {
         return service(`${url.getAllBlog}?page=${page}&size=${size}`, {
             method: 'get',
@@ -113,6 +150,17 @@ export default class Post {
             responseType: 'json'
         })
     }
+
+    static async getUserDrafts(id, page, size) {
+        return service(`${url.getUserDrafts}/${id}?page=${page}&size=${size}`, {
+            method: 'post',
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            },
+            responseType: 'json'
+        })
+    }
+
     static async titleSearch(title_keyword) {
         return service(`${url.titleSearch}/${title_keyword}`, {
             method: 'get',

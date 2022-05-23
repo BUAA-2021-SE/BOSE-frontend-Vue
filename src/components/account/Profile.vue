@@ -65,8 +65,9 @@
             <!-- Username -->
             <v-tabs fixed-tabs>
               <v-tab :to="{name: 'ShowProfile', params: {id: this.$route.params.id}}">Profile</v-tab>
-              <v-tab :to="{name: 'Followers', params: {id: this.$route.params.id}}"> Followers</v-tab>
-              <v-tab :to="{name: 'Following', params: {id: this.$route.params.id}}"> Following</v-tab>
+              <v-tab :to="{name: 'Followers', params: {id: this.$route.params.id}}">Followers</v-tab>
+              <v-tab :to="{name: 'Following', params: {id: this.$route.params.id}}">Following</v-tab>
+              <v-tab v-if="sharedState.user_id!=curId" :to="{name: 'ProfilePosts', params: {id: this.$route.params.id}}">Posts</v-tab>
             </v-tabs>
             <router-view/>
           </div>
@@ -103,7 +104,8 @@ export default {
           avatar: "",
         },
       },
-      ifFollow: true
+      ifFollow: true,
+      curId:0
     };
   },
   methods: {
@@ -182,8 +184,9 @@ export default {
     }
   },
   created() {
-    this.getUserDetail(this.$route.params.id);
-    this.getIfFollow(this.$route.params.id)
+    this.curId = this.$route.params.id;
+    this.getUserDetail(this.curId);
+    this.getIfFollow(this.curId)
   },
   beforeRouteUpdate(to, from, next) {
     next()

@@ -64,9 +64,9 @@
           <div class="col-sm-9">
             <!-- Username -->
             <v-tabs fixed-tabs>
-              <v-tab :to="{name: 'Posts', params: {id: this.$route.params.id}}">Posts</v-tab>
-              <v-tab :to="{name: 'Drafts', params: {id: this.$route.params.id}}"> Drafts</v-tab>
-              <v-tab :to="{name: 'Resources', params: {id: this.$route.params.id}}"> Resources</v-tab>
+                <v-tab :to="{name: 'Drafts', params: {id: this.$route.params.id}}"> Drafts</v-tab>
+                <v-tab :to="{name: 'DraftPosts', params: {id: this.$route.params.id}}">Posts</v-tab>
+                <v-tab :to="{name: 'Resources', params: {id: this.$route.params.id}}"> Resources</v-tab>
             </v-tabs>
             <router-view/>
           </div>

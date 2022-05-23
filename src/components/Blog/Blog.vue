@@ -397,7 +397,7 @@
                   </v-card-subtitle>
                   <v-card-text>
                     <div v-if="child.disabled" class="g-color-red g-mb-15">
-                      此评论包含不良信息，已被禁止显示.
+                      此评论已被禁止显示.
                     </div>
                     <div v-else>
                       <vue-markdown :source="child.body" highlight>
