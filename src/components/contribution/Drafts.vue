@@ -70,7 +70,7 @@ export default {
           })
           .catch((err) => {
             console.log(err, "getUserPostsError");
-            this.drafts = "暂无博文"
+            this.drafts = ""
             this.loadingProfile = false;
           });
     },

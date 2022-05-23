@@ -127,7 +127,7 @@
        ShowProfile
       </v-btn>
      </router-link>
-       <router-link :to="{ name: 'Posts', params: { id: sharedState.user_id } }">
+       <router-link :to="{ name: 'Drafts', params: { id: sharedState.user_id } }">
       <v-btn text  :style="{width:'100%' ,}" class="mx-auto" @click="sharedState.is_hover=false">
        Contribution
       </v-btn>

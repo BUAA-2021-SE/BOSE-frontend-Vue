@@ -87,7 +87,8 @@ const router = new VueRouter({
                 {path: '', component: ShowProfile},
                 {path: 'profile', name: 'ShowProfile', component: ShowProfile},
                 {path: 'followers', name: 'Followers', component: Followers},
-                {path: 'following', name: 'Following', component: Following}
+                {path: 'following', name: 'Following', component: Following},
+                {path:'posts', name:'ProfilePosts',component: Posts}
             ]
         },
         {
@@ -97,9 +98,9 @@ const router = new VueRouter({
                 requiresAuth: true
             },
             children: [
-                {path: '',component: Posts},
-                {path:'posts', name:'Posts',component: Posts},
-                {path: 'drafts', name: 'Drafts', component: Drafts},
+                {path: '',component: Drafts},
+                {path:'drafts', name: 'Drafts', component: Drafts},
+                {path:'posts', name:'DraftPosts',component: Posts},
                 {path:'resources', name: 'Resources', component: Posts}
             ]
         },
