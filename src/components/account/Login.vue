@@ -1,70 +1,73 @@
 <template>
-  <div class="container my-auto" :style="{ padding:0}" height="50vh">
+  <div class="container my-auto" :style="{ padding: 0 }" height="50vh">
     <alert
-        v-if="sharedState.is_new"
-        :variant="alertVariant"
-        :message="alertMessage"
+      v-if="sharedState.is_new"
+      :variant="alertVariant"
+      :message="alertMessage"
     >
     </alert>
     <alert
-        v-if="sharedState.is_reset"
-        :variant="alertVariant"
-        :message="alertMessageReset"
+      v-if="sharedState.is_reset"
+      :variant="alertVariant"
+      :message="alertMessageReset"
     >
     </alert>
-    <br/>
-    <br/>
+    <br />
+    <br />
     <div class="my-auto" width="80vw" height="50vh">
       <div>
-        <div class="cardTitle"><h1 class="midText"  >登录</h1></div>
+        <div class="cardTitle"><h1 class="midText">登录</h1></div>
 
         <div>
           <div class="row col-md-12 m-auto">
-            <div class="col-md-5" >
+            <div class="col-md-5">
               <v-form>
                 <v-text-field
-                    v-model="loginForm.username"
-                    label="Username"
-                    required
-                    clearable
-                    filled
-                    :class="{ 'is-invalid': loginForm.usernameError }"
-                    placeholder="Username"
+                  v-model="loginForm.username"
+                  label="Username"
+                  required
+                  clearable
+                  filled
+                  :class="{ 'is-invalid': loginForm.usernameError }"
+                  placeholder="Username"
                 ></v-text-field>
                 <v-text-field
-                    v-model="loginForm.password"
-                    :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
-                    :type="showPassword ? 'text' : 'password'"
-                    @click:append="showPassword = !showPassword"
-                    required
-                    label="Password"
-                    filled
-                    :class="{ 'is-invalid': loginForm.passwordError }"
-                    placeholder="Password"
+                  v-model="loginForm.password"
+                  :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
+                  :type="showPassword ? 'text' : 'password'"
+                  @click:append="showPassword = !showPassword"
+                  required
+                  label="Password"
+                  filled
+                  :class="{ 'is-invalid': loginForm.passwordError }"
+                  placeholder="Password"
                 ></v-text-field>
-                <v-alert dense outlined type="error" v-show="loginForm.errors">{{
-                    loginForm.usernameError||loginForm.passwordError
-                  }}
+                <v-alert dense outlined type="error" v-show="loginForm.errors"
+                  >{{ loginForm.usernameError || loginForm.passwordError }}
                 </v-alert>
               </v-form>
               <v-btn @click="onSubmit" class="info">Sign In</v-btn>
 
-              <br/>
-              <br/>
+              <br />
+              <br />
 
               <p>
                 New User?
-                <router-link :to="{name:'Register'}">Click to Register!</router-link>
+                <router-link :to="{ name: 'Register' }"
+                  >Click to Register!</router-link
+                >
               </p>
               <p>
                 Forgot Your Password?
-                <router-link :to="{name:'Reset'}">Click to Reset It</router-link>
+                <router-link :to="{ name: 'Reset' }"
+                  >Click to Reset It</router-link
+                >
               </p>
             </div>
             <div class="col-md-2">
               <div class="midLine"></div>
             </div>
-            <div class="col-md-5" :style="{ padding:0}">
+            <div class="col-md-5" :style="{ padding: 0 }">
               <logo></logo>
             </div>
           </div>
@@ -72,22 +75,20 @@
         <div class="cardTitle"></div>
       </div>
     </div>
-    <div>
-
-    </div>
+    <div></div>
   </div>
 </template>
 
 <script>
 import store from "../../store";
-import {Account} from "@/api/account.js";
+import { Account } from "@/api/account.js";
 import Alert from "../base/Alert";
 import Logo from "../base/Logo";
 export default {
   name: "Login",
   components: {
     alert: Alert,
-    logo: Logo
+    logo: Logo,
   },
   data() {
     return {
@@ -131,26 +132,26 @@ export default {
       payload.append("username", this.loginForm.username);
       payload.append("password", this.loginForm.password);
       Account.Login(payload)
-          .then((response) => {
-            // handle success
-            window.localStorage.setItem("token", response.data.token);
-            store.resetNotNewAction();
-            store.loginAction();
-            if (typeof this.$route.query.redirect == "undefined") {
-              this.$router.push({ name: 'Home' });
-            } else {
-              this.$router.push(this.$route.query.redirect);
-            }
-          })
-          .catch((error) => {
-            // handle error
-            if (error.response.status == 401) {
-              this.loginForm.errors++;
-              this.loginForm.usernameError = error.response.data.detail.error;
-            } else {
-              console.log(error.response);
-            }
-          });
+        .then((response) => {
+          // handle success
+          window.localStorage.setItem("token", response.data.token);
+          store.resetNotNewAction();
+          store.loginAction();
+          if (typeof this.$route.query.redirect == "undefined") {
+            this.$router.push({ name: "Home" });
+          } else {
+            this.$router.push(this.$route.query.redirect);
+          }
+        })
+        .catch((error) => {
+          // handle error
+          if (error.response.status == 401) {
+            this.loginForm.errors++;
+            this.loginForm.usernameError = error.response.data.detail.error;
+          } else {
+            console.log(error.response);
+          }
+        });
     },
   },
 };
@@ -201,6 +202,4 @@ input {
   font-size: 16px;
   color: rgb(101, 173, 240);
 }
-
-
 </style>

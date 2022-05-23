@@ -15,50 +15,46 @@
         </h1>
       </div>
       <div class="g-brd-around g-brd-gray-light-v4 g-pa-20 g-mb-40" v-show="!this.loadingProfile">
-        <div class="row">
+        <div class="row" >
           <div class="col-sm-3 g-mb-40 g-mb-0--lg">
+            
+            <v-card>
             <!-- User Image -->
-            <div class="g-mb-20">
-              <img
+      
+              <v-img
                   v-if="user._links.avatar"
-                  class="img-fluid w-100"
+                  class="img-fluid w-80"
                   :src="user._links.avatar"
                   alt="Image Description"
-              >
-              <button></button>
-            </div>
+              />
+             <v-spacer></v-spacer>
             <!--Change User Image-->
             <!-- User Image -->
             <!-- Actions -->
             <!-- End Actions -->
-            <v-btn text>
-              <router-link
-                  v-show="!this.loadingProfile"
-                  v-if="$route.params.id == sharedState.user_id"
-                  :to="{ name: 'EditProfile' }"
-                  class="
-                  btn btn-block
-                  u-btn-outline-primary
-                  g-rounded-50 g-py-12 g-mb-10
-                "
-              >
-                <i class="icon-user-follow g-pos-rel g-top-1 g-mr-5"></i> Edit
-                Profile
-              </router-link>
+            <v-row class="justify-center">
+            <v-btn  v-if="$route.params.id == sharedState.user_id" text @click="toEditProfile">
+               <v-icon>edit</v-icon>
+                Edit Profile
+           
             </v-btn>
             <v-btn
                 v-if="$route.params.id == sharedState.user_id"
                 text @click="addFile">
-              <i class="icon-user-follow g-pos-rel g-top-1 g-mr-5"></i> Change
-              Avatar
+               <v-icon>image</v-icon>
+              Change Avatar
             </v-btn>
             <input type="file" ref="upload_input" style="display: none;" @change="select_file" accept=".png,.jpg,.jpeg">
             <v-btn v-if="!ifFollow && $route.params.id != sharedState.user_id" @click="onFollowUser()">
-              <i class="icon-user-follow g-pos-rel g-top-1 g-mr-5"></i> Follow
+              <i class="icon-user-follow g-pos-rel g-top-1 g-mr-5"></i> 
+              Follow
             </v-btn>
             <v-btn v-if="ifFollow && $route.params.id != sharedState.user_id" @click="onUnFollowUser()">
-              <i class="icon-user-unfollow g-pos-rel g-top-1 g-mr-5"></i> Unfollow
+              <i class="icon-user-unfollow g-pos-rel g-top-1 g-mr-5"></i> 
+              Unfollow
             </v-btn>
+            </v-row>
+            </v-card>
           </div>
           <!-- v-divider vertical useless -->
           <div class="col-sm-9">
@@ -70,6 +66,7 @@
               <v-tab v-if="sharedState.user_id!=curId" :to="{name: 'ProfilePosts', params: {id: this.$route.params.id}}">Posts</v-tab>
             </v-tabs>
             <router-view/>
+            
           </div>
         </div>
       </div>
@@ -109,6 +106,9 @@ export default {
     };
   },
   methods: {
+    toEditProfile(){
+        this.$router.push({name: 'EditProfile'})
+    },
     addFile() {
       this.$refs.upload_input.click() // 通过 ref 模拟点击
     },
@@ -199,5 +199,25 @@ export default {
 <style scoped>
 .v-tab {
   text-transform: none;
+}
+</style>
+<style scoped>
+.router-link-active {
+  text-decoration: none;
+  color: rgb(0, 0, 0);
+  color: #000000;
+}
+.v-application a {
+  text-decoration: none;
+  color: rgb(0, 0, 0)!important;
+}
+.v-btn {
+  text-transform: none;
+  font-weight: bold;
+  font-size: 20;
+  width: 80%;
+}
+span.v-btn__content{
+  justify-content: space-between;
 }
 </style>
