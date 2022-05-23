@@ -1,26 +1,42 @@
 <template>
   <div class=" my-auto container" >
-    <v-form v-if="sharedState.is_authenticated" class="mx-auto" width="80vw">
-      
+    <div v-if="sharedState.is_authenticated" class="mx-auto" width="80vw">
+      <v-row>
+      <v-col cols="12" md="6">
       <label>标题</label>
+      <br/>
       <v-text-field
           v-model="postForm.title"
-          solo
+          outlined
           dense
           placeholder=""
           :class="{'is-invalid': postForm.titleError}"
+          :style="{width:'30vw' ,'margin-top':'10px'}"
       ></v-text-field>
+      </v-col>
+<v-col  md="6" class="my-auto">
+    <v-btn @click="addFile">Upload cover</v-btn>
+    <input type="file" ref="upload_input" style="display: none;" @change="select_file" accept=".png,.jpg,.jpeg">
+     <img v-if="postForm.cover" :src="postForm.cover" width="100%">
+</v-col>
+  </v-row>
       <label>摘要</label>
-      <v-text-field
+      <v-textarea
           v-model="postForm.summary"
-          solo
-          dense
+          outlined
+          row-height="15"
+          auto-grow
+          rows="2"
           placeholder=""
           :class="{'is-invalid': postForm.summaryError}"
-      ></v-text-field>
+          :style="{width:'100vw' ,'margin-top':'10px'}"
+      ></v-textarea>
+
+
+   
       <label>正文</label>
   <div style="z-index:-10">
-        <mavon-editor v-model="postForm.body" :toolbars="tools"/>
+        <mavon-editor  ref="md" v-model="postForm.body" :toolbars="tools" @imgAdd="imgAdd" :style="{'min-height':'50hv'}"/>
   </div>
   <br/>
   
@@ -37,7 +53,7 @@
       </v-card-actions>
      
      
-    </v-form>
+    </div>
   </div>
 </template>
 
@@ -56,6 +72,7 @@ export default {
   data() {
     return {
       sharedState: store.state,
+      loadingProfile : false,
       postForm: {
         title: '',
         summary: '',
@@ -63,7 +80,8 @@ export default {
         errors: 0,  // 表单是否在前端验证通过，0 表示没有错误，验证通过
         titleError: false,
         bodyError: false,
-        summaryError: false
+        summaryError: false,
+        cover: ''
       },
       tools: {
         bold: true, // 粗体
@@ -88,13 +106,25 @@ export default {
         undo: true, // 上一步
         redo: true, // 下一步
         trash: true, // 清空
-        navigation: true, // 导航目录
+       // navigation: true, // 导航目录
         subfield: true, // 单双栏模式
         preview: true // 预览
       },
     }
   },
   methods: {
+    imgAdd(pos,file){
+      let formData=new FormData();
+      formData.append("image", file);
+      Post.postPicture(formData)
+          .then((res) => {
+           console.log(res);
+           this.$refs.md.$img2Url(pos, response.data.data)
+          })
+          .catch((error) => {
+            console.log(error);
+          })
+    },
     onSubmitAdd() {
       this.postForm.errors = 0;
       this.postForm.title = this.postForm.title.trim()
@@ -193,7 +223,27 @@ export default {
         console.log(err);
         this.$toasted.error('Something error.', {icon: 'check'});
         })
-    }
+    },
+    addFile() {
+      this.$refs.upload_input.click() // 通过 ref 模拟点击
+    },
+    select_file(file) {
+      this.select_file_data = file.target.files
+      console.log(this.select_file_data)
+      let uploads = new FormData()
+      if (this.select_file_data != "") {
+        uploads.append("picture", this.select_file_data[0])
+        Post.postCover(this.$route.params.id,uploads)
+            .then((res) => {
+              console.log(res.data)
+              this.loadingProfile = true;
+              this.postForm.cover = res.data
+            })
+            .catch((err) => {
+              console.log(err)
+            })
+      }
+    },
   },
   mounted() {
     highlightCode()
@@ -204,8 +254,9 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .v-note-wrapper.markdown-body.fullscreen.shadow{
   margin-top: 64px;
 }
+
 </style>

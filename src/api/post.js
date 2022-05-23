@@ -17,6 +17,8 @@ const url = {
     ifThumbUp:'/if_thumb_up',
     commitBlog:'/blog/commit_posts',
     commitDraft:'/blog/commit_draft',
+    editDraft:'/blog/edit_draft',
+    postCover:'/post_cover',
     getAllDrafts:'/blog/get_all_drafts',
     deleteDraft:'/blog/delete_draft',
     uploadDraft:'/blog/upload_draft',
@@ -150,6 +152,17 @@ export default class Post {
         return service(`${url.createBlog}`,{
             method: 'post',
             responseType: 'json'
+        })
+    }
+    
+    static async postCover(blog_id,data) {
+        return service(`${url.postCover}/${blog_id}`, {
+            method: 'post',
+            responseType: 'json',
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            },
+            data:data
         })
     }
     // static async unThumbUp(id){
