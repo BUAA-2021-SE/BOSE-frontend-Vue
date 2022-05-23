@@ -64,9 +64,9 @@
           <div class="col-sm-9">
             <!-- Username -->
             <v-tabs fixed-tabs>
-              <v-tab :to="{name: 'ShowProfile', params: {id: this.$route.params.id}}">Profile</v-tab>
-              <v-tab :to="{name: 'Followers', params: {id: this.$route.params.id}}"> Followers</v-tab>
-              <v-tab :to="{name: 'Following', params: {id: this.$route.params.id}}"> Following</v-tab>
+              <v-tab :to="{name: 'Posts', params: {id: this.$route.params.id}}">Posts</v-tab>
+              <v-tab :to="{name: 'Drafts', params: {id: this.$route.params.id}}"> Drafts</v-tab>
+              <v-tab :to="{name: 'Resources', params: {id: this.$route.params.id}}"> Resources</v-tab>
             </v-tabs>
             <router-view/>
           </div>
@@ -81,7 +81,7 @@ import {Account} from "@/api/account.js";
 import Followers from "@/api/follower.js";
 import store from "@/store.js";
 export default {
-  name: "Profile",
+  name: "Contribution",
   inject: ['reload'],
   data() {
     return {
