@@ -32,6 +32,7 @@
           <v-btn>Quit</v-btn>
         </router-link>
         <v-spacer></v-spacer>
+        <v-btn @click="onCommitBlog">Commit</v-btn>
         <v-btn @click="onSubmitAdd">Submit</v-btn>
       </v-card-actions>
      
@@ -142,10 +143,57 @@ export default {
             this.$router.push({name:'Home'})
           })
           .catch((error) => {
-            console.log(error.data);
             console.log(error);
           })
     },
+    onCommitBlog(){
+      this.postForm.errors = 0;
+      this.postForm.title = this.postForm.title.trim()
+      this.postForm.summary = this.postForm.summary.trim()
+      this.postForm.body = this.postForm.body.trim()
+
+      if (this.postForm.title == "") {
+        this.postForm.errors++;
+        console.log("aaa");
+        this.postForm.titleError = "Please Enter Title"
+      } else {
+        this.postForm.titleError = null
+      }
+      if (this.postForm.summary == "") {
+        this.postForm.errors++;
+        this.postForm.summaryError = "Please Enter Summary"
+      } else {
+        this.postForm.summaryError = null
+      }
+      if (this.postForm.body == "") {
+        this.postForm.errors++;
+        this.postForm.bodyError = "You Should Write Something"
+      } else {
+        this.postForm.bodyError = null
+      }
+      if (this.postForm.errors > 0) {
+        return false;
+      }
+      const payload = new FormData();
+      payload.append('title', this.postForm.title);
+      payload.append('summary', this.postForm.summary);
+      payload.append('body', this.postForm.body);
+      console.log("onCommitBlog");
+      Post.commitBlog(payload)
+      .then((res)=>{
+        console.log(res);
+        this.$toasted.success(`${this.postForm.title} is committed successfully!`,
+        {
+                  icon: 'check',
+                  fullWidth: true,
+                  position: "bottom-center"
+        })
+      })
+      .catch((err)=>{
+        console.log(err);
+        this.$toasted.error('Something error.', {icon: 'check'});
+        })
+    }
   },
   mounted() {
     highlightCode()

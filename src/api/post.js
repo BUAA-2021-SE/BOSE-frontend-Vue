@@ -11,7 +11,10 @@ const url = {
     titleSearch:'/blog/search',
     thumbUp:'/thumb_up',
     unThumbUp:'/un_thumb_up',
-    ifThumbUp:'/if_thumb_up'
+    ifThumbUp:'/if_thumb_up',
+    commitBlog:'/blog/commit_posts',
+    commitDraft:'/blog/commit_draft',
+    editDraft:'/blog/edit_draft',
 };
 export default class Post {
     static async getBlog(id,data) {
@@ -36,9 +39,42 @@ export default class Post {
         })
     }
 
+    static async editDraft(id, data) {
+        return service(`${url.editDraft}/${id}`, {
+            method: 'put',
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            },
+            responseType: 'json',
+            data: data
+        })
+    }
+
+    static async commitDraft(id, data) {
+        return service(`${url.commitDraft}/${id}`, {
+            method: 'put',
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            },
+            responseType: 'json',
+            data: data
+        })
+    }
+
     static async postBlog(data) {
         return service(url.postBlog, {
             method: 'post',
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            },
+            responseType: 'json',
+            data: data
+        })
+    }
+
+    static async commitBlog(data){
+        return service(url.commitBlog, {
+            method: 'put',
             headers: {
                 'Content-Type': 'multipart/form-data'
             },

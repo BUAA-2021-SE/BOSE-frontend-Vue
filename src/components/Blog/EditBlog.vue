@@ -18,7 +18,8 @@
           <button class="btn btn-primary">Quit</button>
         </router-link>
         <v-spacer></v-spacer>
-        <button class="btn btn-primary" @click="onSubmitAdd">Submit</button>
+        <v-btn @click="onCommitDraft">Commit</v-btn>
+        <v-btn @click="onSubmitAdd">Submit</v-btn>
       </v-card-actions>
     </v-card>
   </div>
@@ -118,7 +119,6 @@ export default {
             console.log(res);
             this.getBlog(this.editForm.id);
             this.$toasted.success('Successfully update the post.', {icon: 'check'});
-            this.showEdit = false;
             this.editForm.title = ''
             this.editForm.summary = ''
             this.editForm.body = ''
@@ -128,6 +128,38 @@ export default {
             console.error(err);
             this.$toasted.error('Something error.', {icon: 'check'});
           })
+    },
+    onCommitDraft(){
+      if (!this.editForm.title) {
+        this.editForm.errors++
+        this.editForm.titleError = 'Title is required.'
+      } else {
+        this.editForm.titleError = null
+      }
+      if (!this.editForm.body) {
+        this.editForm.errors++
+        this.editForm.bodyError = 'Body is required.'
+      } else {
+        this.editForm.bodyError = null
+      }
+      if (this.editForm.errors > 0) {
+        // 表单验证没通过时，不继续往下执行，即不会通过 axios 调用后端API
+        console.log("表单验证没通过")
+        return false
+      }
+      const formData = new FormData();
+      formData.append('title', this.editForm.title);
+      formData.append('summary', this.editForm.summary);
+      formData.append('body', this.editForm.body);
+      Post.commitDraft(this.$route.params.id, formData)
+      .then((res)=>{
+        console.log(res);
+        this.$toasted.success('Successfully commit the draft.', {icon: 'check'});
+      })
+      .catch((err)=>{
+        console.log(err);
+        this.$toasted.error('Something error.', {icon: 'check'});
+      })
     }
   },
   mounted() {
