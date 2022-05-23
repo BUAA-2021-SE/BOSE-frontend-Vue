@@ -6,6 +6,7 @@ const url = {
     getDraft: '/blog/return_drafts',
     getAllBlog: '/blog/get_all_posts',
     editBlog: '/blog/posts',
+    editDraft:'/blog/edit_draft',
     postBlog: '/blog/submit_posts',
     deletePost: '/blog/delete',
     getUserPosts: '/blog/get_user_posts',
@@ -16,9 +17,9 @@ const url = {
     ifThumbUp:'/if_thumb_up',
     commitBlog:'/blog/commit_posts',
     commitDraft:'/blog/commit_draft',
-    editDraft:'/blog/edit_draft',
     getAllDrafts:'/blog/get_all_drafts',
-    deleteDraft:'/blog/delete_draft'
+    deleteDraft:'/blog/delete_draft',
+    uploadDraft:'/blog/upload_draft'
 };
 export default class Post {
     static async getBlog(id,data) {
@@ -76,6 +77,16 @@ export default class Post {
         })
     }
 
+    static async uploadDraft(id, data){
+        return service(`${url.uploadDraft}/${id}`, {
+            method: 'put',
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            },
+            responseType: 'json',
+            data: data
+        })
+    }
     static async postBlog(data) {
         return service(url.postBlog, {
             method: 'post',

@@ -114,15 +114,14 @@ export default {
       formData.append('title', this.editForm.title);
       formData.append('summary', this.editForm.summary);
       formData.append('body', this.editForm.body);
-      Post.editBlog(this.$route.params.id, formData)
+      Post.uploadDraft(this.$route.params.id, formData)
           .then((res) => {
             console.log(res);
             this.getDraft(this.editForm.id);
-            this.$toasted.success('Successfully update the post.', {icon: 'check'});
+            this.$toasted.success('Successfully upload the Draft.', {icon: 'check'});
             this.editForm.title = ''
             this.editForm.summary = ''
             this.editForm.body = ''
-            this.$router.push(`/post/${this.editForm.id}`)
           })
           .catch((err) => {
             console.error(err);
@@ -151,7 +150,7 @@ export default {
       formData.append('title', this.editForm.title);
       formData.append('summary', this.editForm.summary);
       formData.append('body', this.editForm.body);
-      Post.commitDraft(this.$route.params.id, formData)
+      Post.editDraft(this.$route.params.id, formData)
       .then((res)=>{
         console.log(res);
         this.$toasted.success('Successfully commit the draft.', {icon: 'check'});
