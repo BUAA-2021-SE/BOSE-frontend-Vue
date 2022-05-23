@@ -15,6 +15,7 @@ const url = {
     commitBlog:'/blog/commit_posts',
     commitDraft:'/blog/commit_draft',
     editDraft:'/blog/edit_draft',
+    postCover:'/post_cover'
 };
 export default class Post {
     static async getBlog(id,data) {
@@ -125,6 +126,17 @@ export default class Post {
         return service(`${url.thumbUp}/${id}`,{
             method: 'put',
             responseType: 'json'
+        })
+    }
+
+    static async postCover(blog_id,data) {
+        return service(`${url.postCover}/${blog_id}`, {
+            method: 'post',
+            responseType: 'json',
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            },
+            data:data
         })
     }
     // static async unThumbUp(id){
