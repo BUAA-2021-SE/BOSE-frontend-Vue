@@ -8,6 +8,7 @@ const url = {
     postBlog: '/blog/submit_posts',
     deletePost: '/blog/delete',
     getUserPosts: '/blog/get_user_posts',
+    getUserDrafts: '/blog/get_user_drafts',
     titleSearch:'/blog/search',
     thumbUp:'/thumb_up',
     unThumbUp:'/un_thumb_up',
@@ -15,6 +16,8 @@ const url = {
     commitBlog:'/blog/commit_posts',
     commitDraft:'/blog/commit_draft',
     editDraft:'/blog/edit_draft',
+    getAllDrafts:'/blog/get_all_drafts',
+    deleteDraft:'/blog/delete_draft'
 };
 export default class Post {
     static async getBlog(id,data) {
@@ -93,6 +96,16 @@ export default class Post {
         })
     }
 
+    static async deleteDraft(id) {
+        return service(`${url.deleteDraft}/${id}`, {
+            method: 'delete',
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            },
+            responseType: 'json'
+        })
+    }
+
     static async getAllBlog(page, size) {
         return service(`${url.getAllBlog}?page=${page}&size=${size}`, {
             method: 'get',
@@ -112,6 +125,17 @@ export default class Post {
             responseType: 'json'
         })
     }
+
+    static async getUserDrafts(id, page, size) {
+        return service(`${url.getUserDrafts}/${id}?page=${page}&size=${size}`, {
+            method: 'post',
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            },
+            responseType: 'json'
+        })
+    }
+
     static async titleSearch(title_keyword) {
         return service(`${url.titleSearch}/${title_keyword}`, {
             method: 'get',

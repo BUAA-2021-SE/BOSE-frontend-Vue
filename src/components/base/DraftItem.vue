@@ -1,42 +1,28 @@
 <template>
   <div>
   <v-card class="mx-auto">
-        <router-link
-            :to="{name:'Post',params:{id:post.id} }"
-        >
-          <v-card-title>
-            {{ post.title }}
-          </v-card-title>
-        </router-link>
+        <v-card-title>
+        {{ draft.title }}
+        </v-card-title>
         <v-card-text>
-          <p>{{ post.author.name || post.author.username }}</p>
+          <p>{{ draft.author.name || draft.author.username }}</p>
           <div class="text--primary">
-            {{ post.summary }}
+            {{ draft.summary }}
           </div>
         </v-card-text>
         <v-card-actions>
-          <router-link
-              :to="{name:'Post',params:{id:post.id} }"
-          >
-            <v-btn
-                text
-                color="deep-purple accent-4"
-            >
-              阅读全文
-            </v-btn>
-          </router-link>
           <v-btn
-              v-if="post.author.id==sharedState.user_id"
+              v-if="draft.author.id==sharedState.user_id"
               text
               color="deep-purple accent-4"
-              @click="showDeleteDialog(post.id)"
+              @click="showDeleteDialog(draft.id)"
           >
             删除
           </v-btn>
           <router-link
-              :to="{name:'PostEdit',params:{id:post.id} }">
+              :to="{name:'PostEdit',params:{id:draft.id} }">
             <v-btn
-                v-if="post.author.id==sharedState.user_id"
+                v-if="draft.author.id==sharedState.user_id"
                 text
                 color="deep-purple accent-4"
             >
@@ -65,7 +51,7 @@
             <v-btn
                 color="error"
                 text
-                @click="onDeletePost"
+                @click="onDeleteDraft"
             >
               确认
             </v-btn>
@@ -79,8 +65,8 @@
 import store from '@/store.js'
 import Post from '@/api/post.js'
 export default {
-    name:'BlogItem',
-    props:['post'],
+    name:'DraftItem',
+    props:['draft'],
     data(){
         return {
             sharedState: store.state,
@@ -93,9 +79,9 @@ export default {
         this.deleteId = id;
         this.showDelete = true;
       },
-      onDeletePost() {
+      onDeleteDraft() {
         console.log("onDelete", this.deleteId);
-        Post.deleteBlog(this.deleteId)
+        Post.deleteDraft(this.deleteId)
             .then((res) => {
               console.log(res);
               this.$emit('delete');
@@ -110,6 +96,7 @@ export default {
             })
             .catch((err) => {
               console.error(err, "not deleted");
+              this.$toasted.error("not deleted",{icon:'check'});
             })
       }
     }

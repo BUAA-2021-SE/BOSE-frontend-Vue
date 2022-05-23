@@ -9,13 +9,14 @@ import Reset from '@/components/account/Reset'
 import Profile from '@/components/account/Profile'
 import Ping from '@/components/Ping'
 import EditProfile from '@/components/account/EditProfile'
-import Post from '@/components/Blog/Blog'
-import PostEdit from '@/components/Blog/EditBlog'
+import Post from '@/components/blog/Blog'
+import PostEdit from '@/components/blog/EditBlog'
 import ShowProfile from '@/components/account/ShowProfile'
 import Followers from '@/components/profile/Followers'
 import Following from '@/components/profile/Following'
-import Posts from '@/components/profile/Posts'
-import PostAdd from '@/components/Blog/AddBlog'
+import Posts from '@/components/contribution/Posts'
+import Drafts from '@/components/contribution/Drafts'
+import PostAdd from '@/components/blog/AddBlog'
 import Contribution from '@/components/account/Contribution'
 import NotFound from '@/components/base/NotFound'
 Vue.use(VueRouter)
@@ -92,7 +93,7 @@ const router = new VueRouter({
             children: [
                 {path: '',component: Posts},
                 {path:'posts', name:'Posts',component: Posts},
-                {path: 'drafts', name: 'Drafts', component: Posts},
+                {path: 'drafts', name: 'Drafts', component: Drafts},
                 {path:'resources', name: 'Resources', component: Posts}
             ]
         },
