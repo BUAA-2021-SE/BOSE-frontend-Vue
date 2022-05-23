@@ -151,7 +151,7 @@ export default {
       formData.append('title', this.editForm.title);
       formData.append('summary', this.editForm.summary);
       formData.append('body', this.editForm.body);
-      Post.commitDraft(this.$route.params.id, formData)
+      Post.editDraft(this.$route.params.id, formData)
       .then((res)=>{
         console.log(res);
         this.$toasted.success('Successfully commit the draft.', {icon: 'check'});

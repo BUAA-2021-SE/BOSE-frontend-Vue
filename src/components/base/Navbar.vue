@@ -49,15 +49,9 @@
       Logout
     </v-btn>
 
-
- <router-link
-      v-if="sharedState.is_authenticated"
-      :to="{ name: 'PostAdd', params: { id: sharedState.user_id } }"
-    >
-      <v-btn text class="white--text"> New Blog</v-btn>
-    </router-link>
+      <v-btn v-if="sharedState.is_authenticated" text class="white--text" @click="getNewBlog"> New Blog</v-btn>
     <router-link v-else :to="{ name: 'Login' }">
-      <v-btn text class="white--text"> New Blog</v-btn>
+      <v-btn text class="white--text" > New Blog</v-btn>
     </router-link>
 
 <router-link v-if="sharedState.is_authenticated" :to="{ name: 'Home' }">
@@ -203,7 +197,6 @@ this.timer=setTimeout(() =>{
           .catch((err) => {
           console.log(err.data);
           });
-    
     },
     drawLogo() {
       let myChart = this.$echarts.init(document.getElementById("main"));
@@ -258,6 +251,17 @@ this.timer=setTimeout(() =>{
       };
       myChart.setOption(option);
     },
+    getNewBlog() {
+      Post.createBlog()
+      .then((res)=>{
+        console.log(res);
+        let curId = res.data.blog_id;
+        this.$router.push({ name: 'PostAdd', params: { id: curId } });
+      })
+      .catch((err)=>{
+        console.log(err);
+      })
+    }
   },
   mounted() {
     this.drawLogo();

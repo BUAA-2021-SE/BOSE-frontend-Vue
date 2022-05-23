@@ -21,7 +21,8 @@ const url = {
     postCover:'/post_cover',
     getAllDrafts:'/blog/get_all_drafts',
     deleteDraft:'/blog/delete_draft',
-    uploadDraft:'/blog/upload_draft'
+    uploadDraft:'/blog/upload_draft',
+    createBlog:'/blog/create_new_blog'
 };
 export default class Post {
     static async getBlog(id,data) {
@@ -68,27 +69,7 @@ export default class Post {
         })
     }
 
-    static async commitDraft(id, data) {
-        return service(`${url.commitDraft}/${id}`, {
-            method: 'put',
-            headers: {
-                'Content-Type': 'multipart/form-data'
-            },
-            responseType: 'json',
-            data: data
-        })
-    }
 
-    static async uploadDraft(id, data){
-        return service(`${url.uploadDraft}/${id}`, {
-            method: 'put',
-            headers: {
-                'Content-Type': 'multipart/form-data'
-            },
-            responseType: 'json',
-            data: data
-        })
-    }
     static async postBlog(data) {
         return service(url.postBlog, {
             method: 'post',
@@ -100,16 +81,6 @@ export default class Post {
         })
     }
 
-    static async commitBlog(data){
-        return service(url.commitBlog, {
-            method: 'put',
-            headers: {
-                'Content-Type': 'multipart/form-data'
-            },
-            responseType: 'json',
-            data: data
-        })
-    }
 
     static async deleteBlog(id) {
         return service(`${url.deletePost}/${id}`, {
@@ -177,6 +148,13 @@ export default class Post {
         })
     }
 
+    static async createBlog(){
+        return service(`${url.createBlog}`,{
+            method: 'post',
+            responseType: 'json'
+        })
+    }
+    
     static async postCover(blog_id,data) {
         return service(`${url.postCover}/${blog_id}`, {
             method: 'post',

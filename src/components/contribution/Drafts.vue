@@ -56,16 +56,16 @@ export default {
     }
   },
   methods: {
-    // 获取用户的博文列表
+    // 获取用户的草稿列表
     getUserDrafts(page) {
       Post.getUserDrafts(this.$route.params.id, page, this.size)
           .then((res) => {
             console.log(res.data, "getUserDrafts");
             this.drafts = res.data.items;
-            this.total = res.data.total
-            this.page = res.data.page
-            this.size = res.data.size
-            this.pageTotal = Math.ceil(this.total / this.size)
+            this.total = res.data.total;
+            this.page = res.data.page;
+            this.size = res.data.size;
+            this.pageTotal = Math.ceil(this.total / this.size);
             this.loadingProfile = false;
           })
           .catch((err) => {

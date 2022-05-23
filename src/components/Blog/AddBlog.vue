@@ -158,7 +158,7 @@ export default {
       payload.append('summary', this.postForm.summary);
       payload.append('body', this.postForm.body);
       console.log("onSubmitAdd");
-      Post.postBlog(payload)
+      Post.editBlog(this.$route.params.id,payload)
           .then((res) => {
             console.log(res);
             this.$toasted.success(`${this.postForm.title} is submitted successfully!`,
@@ -209,7 +209,7 @@ export default {
       payload.append('summary', this.postForm.summary);
       payload.append('body', this.postForm.body);
       console.log("onCommitBlog");
-      Post.commitBlog(payload)
+      Post.editDraft(this.$route.params.id,payload)
       .then((res)=>{
         console.log(res);
         this.$toasted.success(`${this.postForm.title} is committed successfully!`,
