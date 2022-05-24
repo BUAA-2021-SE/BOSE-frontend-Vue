@@ -33,24 +33,28 @@
             <!-- Actions -->
             <!-- End Actions -->
             <v-row class="justify-center">
-            <v-btn  v-if="$route.params.id == sharedState.user_id" text @click="toEditProfile">
+            <v-btn  v-if="$route.params.id == sharedState.user_id" text @click="toEditProfile" class="d-flex justify-space-between">
                <v-icon>edit</v-icon>
                 Edit Profile
            
             </v-btn>
             <v-btn
-                v-if="$route.params.id == sharedState.user_id"
+                v-if="$route.params.id == sharedState.user_id" class="d-flex justify-space-between"
                 text @click="addFile">
                <v-icon>image</v-icon>
               Change Avatar
             </v-btn>
             <input type="file" ref="upload_input" style="display: none;" @change="select_file" accept=".png,.jpg,.jpeg">
-            <v-btn v-if="!ifFollow && $route.params.id != sharedState.user_id" @click="onFollowUser()">
-              <i class="icon-user-follow g-pos-rel g-top-1 g-mr-5"></i> 
+            <v-btn v-if="!ifFollow && $route.params.id != sharedState.user_id" @click="onFollowUser()" text class="d-flex justify-space-between">
+              <v-icon class="material-icons">
+            person_add_alt_1
+            </v-icon>
               Follow
             </v-btn>
-            <v-btn v-if="ifFollow && $route.params.id != sharedState.user_id" @click="onUnFollowUser()">
-              <i class="icon-user-unfollow g-pos-rel g-top-1 g-mr-5"></i> 
+            <v-btn v-if="ifFollow && $route.params.id != sharedState.user_id" @click="onUnFollowUser()" text class="d-flex justify-space-between">
+           <v-icon class="material-icons">
+            person_remove_alt_1
+            </v-icon>
               Unfollow
             </v-btn>
             </v-row>
