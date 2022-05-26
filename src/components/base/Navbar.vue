@@ -55,10 +55,12 @@
       </router-link>
 
       <router-link v-if="sharedState.is_authenticated" :to="{ name: 'ReceivedComments' }">
-        <v-btn text class="white--text"> Messages</v-btn>
+        <v-btn text class="white--text"> Messages 
+        <span v-if="newMessage!=0" class="red--text ms-1">{{newMessage}}</span>
+        </v-btn>
       </router-link>
-      <router-link v-else :to="{ name: 'ReceivedComments' }">
-        <v-btn text class="white--text"> Messages</v-btn>
+      <router-link v-else :to="{ name: 'Login' }">
+        <v-btn text class="white--text"> Messages </v-btn>
       </router-link>
 
       <router-link v-if="!sharedState.is_authenticated" :to="{ name: 'Login' }">
@@ -158,6 +160,7 @@
   </v-app-bar>
 </template>
 <script>
+import {Account} from "@/api/account.js";
 import store from "../../store.js";
 import Post from "@/api/post.js";
 
@@ -169,6 +172,7 @@ export default {
       search: "",
       timer: 0,
       sharedState: store.state,
+      newMessage:0
     };
   },
 
@@ -261,13 +265,19 @@ export default {
           .catch((err) => {
             console.log(err);
           })
-    }
+    },
   },
   mounted() {
     this.drawLogo();
-    console.log(this.path);
+    setInterval(()=>{
+      Account.getUser(this.sharedState.user_id)
+      .then((res) => {
+        let count = res.data;
+        this.newMessage = count.unread_comments + count.unread_followings + count.unread_likes + count.unread_messages;
+      })
+      console.log("interval",this.newMessage);
+    },10000);
   },
-
 };
 </script>
 <style scoped>

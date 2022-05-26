@@ -1,6 +1,10 @@
 <template>
   <div>
   ReceivedComments
+  <br/>
+  {{items}}
+  <v-card v-for="(item,index) in items" :key="index">
+  </v-card>
   </div>
 </template>
 
@@ -10,7 +14,7 @@ export default {
   name:'ReceivedComments',
   data(){
     return{
-
+      items:[]
     }
   },
   methods: {
@@ -20,6 +24,7 @@ export default {
       Notifications.getMailList(commentId)
       .then((res)=>{
         console.log(res);
+        this.items = res.data.items;
       })
       .catch((err)=>{
         console.error(err);

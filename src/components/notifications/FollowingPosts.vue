@@ -1,6 +1,8 @@
 <template>
   <div>
   FollowingPosts
+  <br/>
+  {{items}}
   </div>
 </template>
 
@@ -8,8 +10,10 @@
 import Notifications from '@/api/notifications.js'
 export default {
   name:'FollowingPosts',
-  data:{
-
+  data(){
+    return{
+      items:[]
+    }
   },
   methods:{
     getFollowList(){
@@ -18,6 +22,7 @@ export default {
       Notifications.getMailList(followId)
       .then((res)=>{
         console.log(res);
+        this.items = res.data.items;
       })
       .catch((err)=>{
         console.error(err);

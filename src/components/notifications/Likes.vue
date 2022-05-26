@@ -1,6 +1,8 @@
 <template>
   <div>
   Likes
+  <br/>
+  {{items}}
   </div>
 </template>
 
@@ -8,8 +10,10 @@
 import Notifications from '@/api/notifications.js'
 export default {
   name:'Likes',
-  data:{
-
+  data(){
+    return{
+      items:[]
+    }
   },
   methods:{
     getLikeList(){
@@ -18,6 +22,7 @@ export default {
       Notifications.getMailList(likeId)
       .then((res)=>{
         console.log(res);
+        this.items = res.data.items;
       })
       .catch((err)=>{
         console.error(err);

@@ -1,6 +1,8 @@
 <template>
   <div>
   ReceivedMessages
+  <br/>
+  {{items}}
   </div>
 </template>
 
@@ -10,7 +12,7 @@ export default {
   name:'ReceivedMessages',
   data(){
     return{
-
+      items:[]
     }
   },
   methods: {
@@ -20,6 +22,7 @@ export default {
       Notifications.getMailList(messageId)
       .then((res)=>{
         console.log(res);
+        this.items = res.data.items;
       })
       .catch((err)=>{
         console.error(err);
