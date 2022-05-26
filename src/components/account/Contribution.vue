@@ -18,7 +18,7 @@
         <div class="row" >
           <div class="col-sm-3 g-mb-40 g-mb-0--lg">
             
-            <v-card>
+           <v-card outlined>
             <!-- User Image -->
       
               <v-img
@@ -32,30 +32,63 @@
             <!-- User Image -->
             <!-- Actions -->
             <!-- End Actions -->
+            <v-card-title><h3>{{user.name}}</h3></v-card-title>
+            <v-card-subtitle><p>{{user.about_me}}</p></v-card-subtitle>
+             <v-divider class="mx-4"></v-divider>
             <v-row class="justify-center">
-            <v-btn  v-if="$route.params.id == sharedState.user_id" text @click="toEditProfile" class="d-flex justify-space-between">
+            <v-btn  v-if="$route.params.id == sharedState.user_id" text @click="toEditProfile" class="d-flex justify-start">
                <v-icon>edit</v-icon>
-                Edit Profile
-           
+                修改信息
             </v-btn>
             <v-btn
-                v-if="$route.params.id == sharedState.user_id" class="d-flex justify-space-between"
+                v-if="$route.params.id == sharedState.user_id" class="d-flex justify-start"
                 text @click="addFile">
                <v-icon>image</v-icon>
-              Change Avatar
+              更换头像
             </v-btn>
             <input type="file" ref="upload_input" style="display: none;" @change="select_file" accept=".png,.jpg,.jpeg">
-            <v-btn v-if="!ifFollow && $route.params.id != sharedState.user_id" @click="onFollowUser()" text class="d-flex justify-space-between">
-              <v-icon class="material-icons">
-            person_add_alt_1
-            </v-icon>
-              Follow
+
+              <v-btn
+                v-if="$route.params.id == sharedState.user_id" class="d-flex justify-start"
+                text >
+               <v-icon>notes</v-icon>
+              获得评论
+              <div class="ml-auto" id="newInfo">1</div>
             </v-btn>
-            <v-btn v-if="ifFollow && $route.params.id != sharedState.user_id" @click="onUnFollowUser()" text class="d-flex justify-space-between">
+            <v-btn
+                v-if="$route.params.id == sharedState.user_id" class="d-flex justify-start"
+                text >
+               <v-icon class="material-icons">textsms</v-icon>
+              我的消息
+              <div class="ml-auto" id="newInfo">1</div>
+            </v-btn>
+
+            <v-btn
+                v-if="$route.params.id == sharedState.user_id" class="d-flex justify-start"
+                text >
+               <v-icon class="material-icons">thumb_up</v-icon>
+              收到的赞
+              <div class="ml-auto" id="newInfo">1</div>
+            </v-btn>
+
+            <v-btn
+                v-if="$route.params.id == sharedState.user_id" class="d-flex justify-start"
+                text >
+               <v-icon class="material-icons">bookmarks</v-icon>
+              关注动态
+              <div class="ml-auto" id="newInfo">1</div>
+            </v-btn>
+            <v-btn v-if="ifFollow && $route.params.id != sharedState.user_id" @click="onUnFollowUser()" text class="d-flex justify-start">
            <v-icon class="material-icons">
             person_remove_alt_1
             </v-icon>
-              Unfollow
+              取关
+            </v-btn>
+            <v-btn v-if="!ifFollow && $route.params.id != sharedState.user_id" @click="onFollowUser()" text class="d-flex justify-start">
+              <v-icon class="material-icons">
+            person_add_alt_1
+            </v-icon>
+              关注
             </v-btn>
             </v-row>
             </v-card>
@@ -219,8 +252,22 @@ export default {
   font-weight: bold;
   font-size: 20;
   width: 80%;
+  margin-top: -13px;
+  margin-bottom: 18px;
+ 
 }
 span.v-btn__content{
   justify-content: space-between;
+}
+div#newInfo{
+    background-color: #fe2d46;
+    width: 20px;
+    height: 20px;
+    bottom:0px;
+    border-radius: 10px;
+    font-size: 16px;
+    line-height: 20px;
+    text-align: center;
+    color: rgb(255, 255, 255); 
 }
 </style>
