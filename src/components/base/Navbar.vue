@@ -54,10 +54,10 @@
       <v-btn text class="white--text" > New Blog</v-btn>
     </router-link>
 
-<router-link v-if="sharedState.is_authenticated" :to="{ name: 'Home' }">
+<router-link v-if="sharedState.is_authenticated" :to="{ name: 'ReceivedComments' }">
       <v-btn text class="white--text"> Messages</v-btn>
     </router-link>
-    <router-link v-else :to="{ name: 'Login' }">
+    <router-link v-else :to="{ name: 'ReceivedComments' }">
       <v-btn text class="white--text"> Messages</v-btn>
     </router-link>
 

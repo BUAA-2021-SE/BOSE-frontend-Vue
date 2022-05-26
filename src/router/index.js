@@ -20,6 +20,12 @@ import Drafts from '@/components/contribution/Drafts'
 import PostAdd from '@/components/blog/AddBlog'
 import Contribution from '@/components/account/Contribution'
 import NotFound from '@/components/base/NotFound'
+// 用户通知
+import Notifications from '@/components/notifications/Notifications'
+import ReceivedComments from '@/components/notifications/ReceivedComments'
+import ReceivedMessages from '@/components/notifications/ReceivedMessages'
+import Likes from '@/components/notifications/Likes'
+import FollowingPosts from '@/components/notifications/FollowingPosts'
 Vue.use(VueRouter)
 Vue.use(mavonEditor)
 const router = new VueRouter({
@@ -111,6 +117,20 @@ const router = new VueRouter({
             meta: {
                 requiresAuth: true
             }
+        },
+        {
+            path:'/notifications',
+            component: Notifications,
+            meta: {
+                requiresAuth: true
+            },
+            children: [
+                {path:'', component: ReceivedComments},
+                {path:'comments', name:'ReceivedComments', component: ReceivedComments},
+                {path:'messages', name:'ReceivedMessages', component: ReceivedMessages },
+                {path:'likes', name:'Likes', component: Likes},
+                {path:'following-posts', name:'FollowingPosts', component: FollowingPosts}
+            ]
         }
     ]
 })
