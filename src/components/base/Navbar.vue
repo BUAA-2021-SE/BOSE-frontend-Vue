@@ -190,7 +190,7 @@ this.timer=setTimeout(() =>{
       this.$router.push("/login");
     },
     searchBlog() {
-      Post.titleSearch(this.search)
+      Post.search(this.search)
           .then((res) => {
             console.log(res.data);
           })
