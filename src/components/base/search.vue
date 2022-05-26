@@ -29,8 +29,6 @@
         ></v-pagination>
       </div>
     </div>
-
-
   </section>
 </template>
 
