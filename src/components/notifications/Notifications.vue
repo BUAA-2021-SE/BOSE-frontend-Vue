@@ -1,41 +1,94 @@
 <template>
   <div>
   <v-row>
+  <v-col cols="12" md="1"></v-col>
     <v-col cols="12" md="3">
-        <ul>
-        <li>
-        <router-link :to="{name: 'ReceivedComments'}">
-        <span>ReceivedComments</span>
-        </router-link>
-        </li>
-        <li>
-        <router-link :to="{name: 'ReceivedMessages'}">
-        <span>ReceivedMessages</span>
-        </router-link>
-        </li>
-        <li>
-        <router-link :to="{name: 'Likes'}">
-        <span>Likes</span>
-        </router-link>
-        </li>
-        <li>
-        <router-link :to="{name: 'FollowingPosts'}">
-        <span>FollowingPosts</span>
-        </router-link>
-        </li>
-        </ul>
+    <v-card>
+    <v-img
+        :aspect-ratio="16/16"
+        :src="user._links.avatar"
+        :max-height="360"
+        :max-width="360"
+      />
+    <v-card-title>
+      {{user.username||user.name}}
+    </v-card-title>
+    <v-card-text>{{user.about_me}}</v-card-text>
+        <v-btn :to="{name: 'ReceivedComments'}" 
+        block color="blue" outlined>
+        <v-icon color="green">mdi-comment</v-icon>
+        ReceivedComments
+        </v-btn>
+        <v-btn :to="{name: 'ReceivedMessages'}" 
+        block color="blue" outlined>
+        <v-icon color="green">mdi-email</v-icon>
+        ReceivedMessages
+        </v-btn>
+        <v-btn :to="{name: 'Likes'}" 
+        block color="blue" outlined>
+        <v-icon color="green">mdi-heart</v-icon>
+        Likes
+        </v-btn>
+        <v-btn :to="{name: 'FollowingPosts'}" 
+        block color="blue" outlined>
+        <v-icon color="green">mdi-access-point</v-icon>
+        Followings
+        </v-btn>
+    </v-card>
     </v-col>
-    <v-col cols="12" md="9">
+    <v-col cols="12" md="6">
     <router-view></router-view>
     </v-col>
+    <v-col col="12" md="1"></v-col>
   </v-row>
   </div>
 </template>
 
 <script>
+import {Account} from "@/api/account.js";
+import store from "@/store.js";
 export default {
     name:'Notifications',
-
+    data() {
+      return{
+        sharedState: store.state,
+        user: {
+        username: "",
+        name: "",
+        email: "",
+        location: "",
+        about_me: "",
+        headshot: "",
+        member_since: "",
+        last_seen: "",
+        _links: {
+          avatar: "",
+          },
+        },
+      }
+    },
+    methods:{
+      getUserDetail(id) {
+      Account.getUser(id)
+        .then((res) => {
+          console.log(res.data);
+          this.user.name = res.data.name;
+          this.user.about_me = res.data.about_me;
+          this.user._links.avatar = res.data.headshot;
+          this.user.last_seen = res.data.last_seen;
+          this.user.location = res.data.location;
+          this.user.username = res.data.username;
+          this.loadingProfile = false;
+          this.reload();
+        })
+        .catch((err) => {
+          console.log((err, "getUserDetailError"));
+        });
+    },
+    },
+    created() {
+      this.getUserDetail(this.sharedState.user_id);
+    }
 }
 </script>
 
