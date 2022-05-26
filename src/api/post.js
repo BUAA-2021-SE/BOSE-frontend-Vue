@@ -6,45 +6,44 @@ const url = {
     getDraft: '/blog/return_drafts',
     getAllBlog: '/blog/get_all_posts',
     editBlog: '/blog/posts',
-    editDraft:'/blog/edit_draft',
+    editDraft: '/blog/edit_draft',
     postBlog: '/blog/submit_posts',
     deletePost: '/blog/delete',
     getUserPosts: '/blog/get_user_posts',
     getUserDrafts: '/blog/get_user_drafts',
-    titleSearch:'/blog/search',
-    thumbUp:'/thumb_up',
-    unThumbUp:'/un_thumb_up',
-    ifThumbUp:'/if_thumb_up',
-    commitBlog:'/blog/commit_posts',
-    commitDraft:'/blog/commit_draft',
-    editDraft:'/blog/edit_draft',
-    postCover:'/blog/post_cover',
-    getAllDrafts:'/blog/get_all_drafts',
-    deleteDraft:'/blog/delete_draft',
-    uploadDraft:'/blog/upload_draft',
-    createBlog:'/blog/create_new_blog',
-    postPicture:'/blog/upload_blog_images'
+    titleSearch: '/blog/search',
+    thumbUp: '/thumb_up',
+    unThumbUp: '/un_thumb_up',
+    ifThumbUp: '/if_thumb_up',
+    commitBlog: '/blog/commit_posts',
+    commitDraft: '/blog/commit_draft',
+    postCover: '/blog/post_cover',
+    getAllDrafts: '/blog/get_all_drafts',
+    deleteDraft: '/blog/delete_draft',
+    uploadDraft: '/blog/upload_draft',
+    createBlog: '/blog/create_new_blog',
+    postPicture: '/blog/upload_blog_images'
 };
 export default class Post {
-    static async getBlog(id,data) {
+    static async getBlog(id, data) {
         return service(`${url.getBlog}/${id}`, {
             method: 'put',
             responseType: 'json',
             headers: {
                 'Content-Type': 'multipart/form-data'
             },
-            data:data
+            data: data
         })
     }
 
-    static async getDraft(id,data) {
+    static async getDraft(id, data) {
         return service(`${url.getDraft}/${id}`, {
             method: 'post',
             responseType: 'json',
             headers: {
                 'Content-Type': 'multipart/form-data'
             },
-            data:data
+            data: data
         })
     }
 
@@ -133,8 +132,8 @@ export default class Post {
         })
     }
 
-    static async titleSearch(title_keyword) {
-        return service(`${url.titleSearch}/${title_keyword}`, {
+    static async search(keyword) {
+        return service(`${url.titleSearch}/${keyword}`, {
             method: 'get',
             headers: {
                 'Content-Type': 'multipart/form-data'
@@ -142,40 +141,43 @@ export default class Post {
             responseType: 'json'
         })
     }
-    static async thumbUp(id){
-        return service(`${url.thumbUp}/${id}`,{
+
+    static async thumbUp(id) {
+        return service(`${url.thumbUp}/${id}`, {
             method: 'put',
             responseType: 'json'
         })
     }
 
-    static async createBlog(){
-        return service(`${url.createBlog}`,{
+    static async createBlog() {
+        return service(`${url.createBlog}`, {
             method: 'post',
             responseType: 'json'
         })
     }
-    
-    static async postCover(blog_id,data) {
+
+    static async postCover(blog_id, data) {
         return service(`${url.postCover}/${blog_id}`, {
             method: 'post',
             responseType: 'json',
             headers: {
                 'Content-Type': 'multipart/form-data'
             },
-            data:data
+            data: data
         })
     }
-    static async postPicture(blog_id,data) {
+
+    static async postPicture(blog_id, data) {
         return service(`${url.postPicture}/${blog_id}`, {
             method: 'post',
             responseType: 'json',
             headers: {
                 'Content-Type': 'multipart/form-data'
             },
-            data:data
+            data: data
         })
     }
+
     // static async unThumbUp(id){
     //     return service(`${url.unThumbUp}/${id}`,{
     //         method: 'put',
