@@ -116,10 +116,10 @@ export default {
     imgAdd(pos,file){
       let formData=new FormData();
       formData.append("image", file);
-      Post.postPicture(formData)
+      Post.postPicture(this.$route.params.id,formData)
           .then((res) => {
            console.log(res);
-           this.$refs.md.$img2Url(pos, response.data.data)
+           this.$refs.md.$img2Url(pos, res.data)
           })
           .catch((error) => {
             console.log(error);
@@ -232,7 +232,7 @@ export default {
       console.log(this.select_file_data)
       let uploads = new FormData()
       if (this.select_file_data != "") {
-        uploads.append("picture", this.select_file_data[0])
+        uploads.append("image", this.select_file_data[0])
         Post.postCover(this.$route.params.id,uploads)
             .then((res) => {
               console.log(res.data)

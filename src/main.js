@@ -10,7 +10,7 @@ import '@mdi/font/css/materialdesignicons.css'
 import * as echarts from 'echarts';
 import mavonEditor from 'mavon-editor'
 import VueSweetalert2 from 'vue-sweetalert2'
-
+import MenuIcon from 'vue-material-design-icons/Menu.vue';
 import 'mavon-editor/dist/css/index.css'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import './assets/icon-awesome/css/font-awesome.min.css'
@@ -30,6 +30,7 @@ Vue.use(ElementUI);
 Vue.prototype.$echarts = echarts;
 Vue.use(mavonEditor);
 Vue.use(VueSweetalert2);
+Vue.component('menu-icon', MenuIcon);
 // 导入highlight.js的CSS文件
 import 'highlight.js/styles/atom-one-dark-reasonable.css'
 Vue.directive('highlight', function (el) {

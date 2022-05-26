@@ -18,11 +18,12 @@ const url = {
     commitBlog:'/blog/commit_posts',
     commitDraft:'/blog/commit_draft',
     editDraft:'/blog/edit_draft',
-    postCover:'/post_cover',
+    postCover:'/blog/post_cover',
     getAllDrafts:'/blog/get_all_drafts',
     deleteDraft:'/blog/delete_draft',
     uploadDraft:'/blog/upload_draft',
-    createBlog:'/blog/create_new_blog'
+    createBlog:'/blog/create_new_blog',
+    postPicture:'/blog/upload_blog_images'
 };
 export default class Post {
     static async getBlog(id,data) {
@@ -157,6 +158,16 @@ export default class Post {
     
     static async postCover(blog_id,data) {
         return service(`${url.postCover}/${blog_id}`, {
+            method: 'post',
+            responseType: 'json',
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            },
+            data:data
+        })
+    }
+    static async postPicture(blog_id,data) {
+        return service(`${url.postPicture}/${blog_id}`, {
             method: 'post',
             responseType: 'json',
             headers: {
