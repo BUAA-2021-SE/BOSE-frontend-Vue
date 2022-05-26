@@ -314,20 +314,6 @@
                       </li>
                       <li
                         v-if="
-                          !comment.disabled &&
-                          post.author.id == sharedState.user_id
-                        "
-                        class="list-inline-item"
-                      >
-                        <v-btn
-                          @click="onDisabledComment(comment)"
-                          small
-                          color="blue-grey"
-                          >屏蔽</v-btn
-                        >
-                      </li>
-                      <li
-                        v-if="
                           comment.disabled &&
                           post.author.id == sharedState.user_id
                         "
@@ -443,20 +429,6 @@
                         >
                           编辑
                         </button>
-                      </li>
-                      <li
-                        v-if="
-                          !child.disabled &&
-                          post.author.id == sharedState.user_id
-                        "
-                        class="list-inline-item"
-                      >
-                        <v-btn
-                          @click="onDisabledComment(comment)"
-                          small
-                          color="blue-grey"
-                          >屏蔽</v-btn
-                        >
                       </li>
                       <li
                         v-if="
