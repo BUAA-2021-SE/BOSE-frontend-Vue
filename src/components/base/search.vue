@@ -14,13 +14,20 @@
         </h3>
       </div>
     </div>
-    <div class="g-brd-around g-brd-gray-light-v4 g-pa-20 g-mb-40" v-show="!this.loadingProfile">
-      <blog v-for="(post,index) in posts" :key="index"
+    <div class="g-brd-around g-brd-gray-light-v4 g-pa-20 g-mb-40"  v-show="!this.loadingProfile">
+      <v-row :style="{width:'80vw'}" class="m-auto">
+         <div class="text-align-center">
+        <h6 class="text-align-center">共有博文{{ total }}篇</h6>
+        </div>
+        <v-col cols="12" sm="6" md="6" v-for="(post,index) in posts" :key="index" >
+        <blog 
             :post="post"
             @delete="getSearchPosts(1)">
-      </blog>
+        </blog>
+        </v-col>
+      </v-row>
       <div>
-        <span>共有博文{{ total }}篇</span>
+       
         <v-pagination
             v-model="page"
             :length="pageTotal"
@@ -59,8 +66,8 @@ export default {
       },
       total: 0, //总博文数
       page: 1, //第几页
-      size: 5, //每页总数
-      pageTotal: 1 //总页数
+      size: 6, //每页总数
+      pageTotal: 10 //总页数
     }
   },
   methods: {
@@ -83,6 +90,11 @@ export default {
             this.loadingProfile = false;
           });
     },
+  },
+  watch: {
+    page: function (newPage, oldPage) {
+      this.getSearchPosts(newPage)
+    }
   },
   created() {
     this.getSearchPosts(1);
