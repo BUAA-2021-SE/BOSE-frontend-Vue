@@ -43,17 +43,17 @@ export default {
         {
           showAlert: true,
           alertVariant: 'danger',
-          alertMessage: 'sign in, register, reset, Markdown写完了'
+          alertMessage: 'Account相关初步完工'
         },
         {
           showAlert: true,
           alertVariant: 'dark',
-          alertMessage: 'Profile, Home初步完工'
+          alertMessage: 'Profile, Home初步完工，Blog，Contribution差样式'
         },
         {
           showAlert: true,
           alertVariant: 'primary',
-          alertMessage: '这周写follow相关组件'
+          alertMessage: '这周写Messages'
         },
         {
           showAlert: true,
