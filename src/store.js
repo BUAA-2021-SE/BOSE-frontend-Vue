@@ -3,7 +3,7 @@ export default {
     state: {
         // 是否为新注册用户
         is_new: false,
-        is_hover:false,
+        is_hover: false,
         // 是否更改密码
         is_reset: false,
         // 是否通过身份验证
@@ -43,5 +43,5 @@ export default {
         window.localStorage.removeItem('token')
         this.state.is_authenticated = false
         this.state.user_id = 0
-    }
+    },
 }

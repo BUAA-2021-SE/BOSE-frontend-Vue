@@ -46,6 +46,7 @@ export default {
   },
   data() {
     return {
+      // sharedKeyword: store.keyword,
       posts: [],
       loadingProfile: true,
       sharedState: store.state,
@@ -67,7 +68,8 @@ export default {
   methods: {
     // 获取用户的博文列表
     getSearchPosts(page) {
-      Post.search(this.$route.params.id, page, this.size)
+      console.log("keyword: " + this.$route.params.keyword);
+      Post.search(this.$route.params.keyword, page, this.size)
           .then((res) => {
             console.log(res.data, "getSearchPosts");
             this.posts = res.data.items;
