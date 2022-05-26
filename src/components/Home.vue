@@ -7,10 +7,14 @@
         :message="alert.alertMessage">
     </alert>
     <div>
-      <blog v-for="(post,index) in posts" :key="index"
+      <v-row>
+        <v-col cols="12" sm="6" md="6" v-for="(post,index) in posts" :key="index" >
+      <blog 
       :post = "post"
       @delete="getPosts(1)">
       </blog>
+      </v-col>
+      </v-row>
       <span>共有博文{{ total }}篇</span>
       <v-pagination
           v-model="page"
@@ -91,7 +95,7 @@ export default {
       },
       total: 0, //总博文数
       page: 1, //第几页
-      size: 5, //每页总数
+      size: 6, //每页总数
       pageTotal: 1 //总页数
     }
   },
@@ -130,3 +134,4 @@ export default {
   }
 }
 </script>
+

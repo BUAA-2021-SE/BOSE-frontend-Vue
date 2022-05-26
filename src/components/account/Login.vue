@@ -184,7 +184,7 @@ input {
 .midLine {
   position: relative;
   margin: 0 auto;
-  width: 1px;
+  width: 2px;
   height: 100%;
   background-color: #d4d4d4;
   text-align: center;
@@ -196,7 +196,7 @@ input {
   position: relative;
   margin: 0 auto;
   max-width: 100vw;
-  height: 1px;
+  height: 2px;
   background-color: #d4d4d4;
   text-align: center;
   font-size: 16px;
