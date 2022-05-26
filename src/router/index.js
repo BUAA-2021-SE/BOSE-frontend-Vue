@@ -19,6 +19,7 @@ import Posts from '@/components/contribution/Posts'
 import Drafts from '@/components/contribution/Drafts'
 import PostAdd from '@/components/blog/AddBlog'
 import Contribution from '@/components/account/Contribution'
+import Search from '@/components/base/Search'
 import NotFound from '@/components/base/NotFound'
 // 用户通知
 import Notifications from '@/components/notifications/Notifications'
@@ -131,6 +132,11 @@ const router = new VueRouter({
                 {path:'likes', name:'Likes', component: Likes},
                 {path:'following-posts', name:'FollowingPosts', component: FollowingPosts}
             ]
+        },
+        {
+            path: '/search/:keyword',
+            name: 'Search',
+            component: Search
         }
     ]
 })
