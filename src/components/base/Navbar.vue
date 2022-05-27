@@ -302,10 +302,7 @@ export default {
             console.log(err);
           })
     },
-  },
-  mounted() {
-    this.drawLogo();
-    setInterval(()=>{
+    queryUser(){
       Account.getUser(this.sharedState.user_id)
       .then((res) => {
         console.log(res.data)
@@ -323,11 +320,20 @@ export default {
             this.user.unread_likes = res.data.unread_likes;
             this.user.unread_messages = res.data.unread_messages;
             this.loadingProfile = false;
-            
         this.newMessage = this.user.unread_comments + this.user.unread_followings + this.user.unread_likes + this.user.unread_messages;
       })
+      .catch((error) => {console.error(error)})
+    }
+  },
+  mounted() {
+    this.drawLogo();
+    if(this.sharedState.is_authenticated) this.queryUser();
+    setInterval(()=>{
+      if(this.sharedState.is_authenticated){
+      this.queryUser();
       console.log("interval",this.newMessage);
-    },10000);
+      }
+    },15000);
   },
 };
 </script>
