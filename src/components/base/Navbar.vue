@@ -78,11 +78,11 @@
         </v-btn
         >
       </router-link>
-
+  <!--  -->
       <v-expand-transition>
         <v-card
             max-width="350"
-            v-show="sharedState.is_hover && sharedState.is_authenticated"
+          v-show="sharedState.is_hover && sharedState.is_authenticated"
             @mouseenter="enter"
             @mouseleave="leave"
         >
@@ -121,20 +121,34 @@
             </v-row>
 
             <router-link :to="{ name: 'ShowProfile', params: { id: sharedState.user_id } }">
-              <v-btn text :style="{width:'100%',}" class="mx-auto" @click="sharedState.is_hover=false">
-                ShowProfile
+              <v-btn text :style="{width:'100%',}" class="mx-auto d-flex justify-start" @click="sharedState.is_hover=false" >
+                <v-icon class="material-icons">perm_identity</v-icon>
+              个人空间
+             
               </v-btn>
             </router-link>
             <router-link :to="{ name: 'Drafts', params: { id: sharedState.user_id } }">
-              <v-btn text :style="{width:'100%' ,}" class="mx-auto" @click="sharedState.is_hover=false">
-                Contribution
+              <v-btn text :style="{width:'100%' ,}" class="mx-auto d-flex justify-start" @click="sharedState.is_hover=false">
+                <!-- Contribution -->
+                <v-icon class="material-icons">drafts</v-icon>
+              我的发布
+      
               </v-btn>
             </router-link>
+
+          <router-link :to="{ name: 'Home', }">
+              <v-btn text :style="{width:'100%'}" class="mx-auto d-flex justify-start" @click="sharedState.is_hover=false">
+              <v-icon class="material-icons">textsms</v-icon>
+              我的消息
+              <div class="ml-auto" id="newInfo">1</div>
+              </v-btn>
+            </router-link>
+<!-- 
             <router-link :to="{ name: 'Home', }">
-              <v-btn text :style="{width:'100%'}" class="mx-auto" @click="sharedState.is_hover=false">
+              <v-btn text :style="{width:'100%'}" class="mx-auto d-flex justify-start" @click="sharedState.is_hover=false">
                 Home
               </v-btn>
-            </router-link>
+            </router-link> -->
 
           </v-card-text>
 
@@ -143,9 +157,10 @@
 
           <v-card-text>
 
-            <v-btn text :style="{width:'100%',}" class="mx-auto " @click=" handlerLogout"
+            <v-btn text :style="{width:'100%',}" class="mx-auto d-flex justify-start" @click=" handlerLogout"
                    v-show="sharedState.is_authenticated">
-              Logout
+               <v-icon class="material-icons">logout</v-icon>
+               登出
             </v-btn>
 
           </v-card-text>
@@ -331,20 +346,36 @@ a {
   text-transform: none;
   font-weight: bold;
   font-size: 20;
-  width: 100px
+  width: 100px;
+  margin-top: 5px;
+  margin-bottom:2px;
 }
 
 .pcard {
   position: relative;
-  width: 40vw;
+  width: 750px;
 
 }
 
 .pcard .v-card {
   position: absolute;
-  margin-right: 175px;
+  margin-right: 220px;
   margin-top: 35px;
 }
-
+div#newInfo{
+    background-color: #fe2d46;
+    width: 20px;
+    height: 20px;
+    bottom:0px;
+    border-radius: 10px;
+    font-size: 16px;
+    line-height: 20px;
+    text-align: center;
+    color: rgb(255, 255, 255); 
+}
+hr.mx-4.v-divider.theme--light{
+  margin-top:-10px;
+  margin-bottom: -10px;
+}
 </style>
 
