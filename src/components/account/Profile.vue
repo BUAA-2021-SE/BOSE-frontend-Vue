@@ -271,6 +271,6 @@ div#newInfo{
 }
 hr.mx-4.v-divider.theme--light{
   margin-top:-10px;
-  margin-bottom: -10px;
+  
 }
 </style>

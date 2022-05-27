@@ -269,4 +269,8 @@ div#newInfo{
     text-align: center;
     color: rgb(255, 255, 255); 
 }
+hr.mx-4.v-divider.theme--light{
+  margin-top:-10px;
+  
+}
 </style>
