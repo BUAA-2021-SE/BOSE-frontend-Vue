@@ -14,6 +14,7 @@
       {{user.username||user.name}}
     </v-card-title>
     <v-card-text>{{user.about_me}}</v-card-text>
+    <v-divider></v-divider>
         <v-btn :to="{name: 'ReceivedComments'}" 
         block color="blue" outlined>
         <v-icon color="green">mdi-comment</v-icon>
