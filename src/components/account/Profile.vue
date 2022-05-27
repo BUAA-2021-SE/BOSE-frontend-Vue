@@ -250,7 +250,6 @@ export default {
 }
 .v-btn {
   text-transform: none;
-  font-weight: bold;
   font-size: 20;
   width: 80%;
   margin-top: -13px;
@@ -270,5 +269,8 @@ div#newInfo{
     text-align: center;
     color: rgb(255, 255, 255); 
 }
-
+hr.mx-4.v-divider.theme--light{
+  margin-top:-10px;
+  margin-bottom: -10px;
+}
 </style>

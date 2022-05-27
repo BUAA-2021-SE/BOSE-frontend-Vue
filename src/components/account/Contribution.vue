@@ -249,7 +249,6 @@ export default {
 }
 .v-btn {
   text-transform: none;
-  font-weight: bold;
   font-size: 20;
   width: 80%;
   margin-top: -13px;

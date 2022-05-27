@@ -15,7 +15,7 @@
     />
 
     <router-link :to="{ name: 'Home' }">
-      <v-btn text class="white--text"> 主页</v-btn>
+      <v-btn text class="white--text" :style="{'font-weight': 'bold'}"> 主页</v-btn>
     </router-link>
     <v-spacer/>
     <v-text-field
@@ -34,8 +34,8 @@
 
 
       <router-link :to="{ name: 'Login' }">
-        <v-btn text class="white--text" v-show="!sharedState.is_authenticated"
-        >Login
+        <v-btn text class="white--text" v-show="!sharedState.is_authenticated" :style="{'font-weight': 'bold'}"
+        >登录
         </v-btn>
       </router-link>
 
@@ -45,26 +45,27 @@
           @click="handlerLogout"
           class="white--text"
           v-show="sharedState.is_authenticated"
+          :style="{'font-weight': 'bold'}"
       >
         登出
       </v-btn>
 
-      <v-btn v-if="sharedState.is_authenticated" text class="white--text" @click="getNewBlog"> 投稿</v-btn>
+      <v-btn v-if="sharedState.is_authenticated" text class="white--text" @click="getNewBlog" :style="{'font-weight': 'bold'}"> 投稿</v-btn>
       <router-link v-else :to="{ name: 'Login' }">
         <v-btn text class="white--text"> 投稿</v-btn>
       </router-link>
 
       <router-link v-if="sharedState.is_authenticated" :to="{ name: 'ReceivedComments' }">
-        <v-btn text class="white--text"> 消息
+        <v-btn text class="white--text" :style="{'font-weight': 'bold'}"> 消息
         <span v-if="newMessage!=0" class="red--text ms-1">{{newMessage}}</span>
         </v-btn>
       </router-link>
       <router-link v-else :to="{ name: 'Login' }">
-        <v-btn text class="white--text"> 消息 </v-btn>
+        <v-btn text class="white--text" :style="{'font-weight': 'bold'}"> 消息 </v-btn>
       </router-link>
 
       <router-link v-if="!sharedState.is_authenticated" :to="{ name: 'Login' }">
-        <v-btn text class="white--text"> 空间</v-btn>
+        <v-btn text class="white--text" :style="{'font-weight': 'bold'}"> 空间</v-btn>
       </router-link>
 
 
@@ -73,7 +74,7 @@
 
           :to="{ name: 'ShowProfile', params: { id: sharedState.user_id } }"
       >
-        <v-btn text class="white--text " @click="sharedState.is_hover=false" @mouseenter="enter" @mouseleave="leave">
+        <v-btn text class="white--text " :style="{'font-weight': 'bold'}" @click="sharedState.is_hover=false" @mouseenter="enter" @mouseleave="leave">
           空间
         </v-btn
         >
@@ -109,20 +110,20 @@
                 class="mx-auto col-md-12"
             >
               <v-col class="col-md-6">
-                <h4 class="mx-auto">
+                <h5 class="mx-auto">
                   关注:{{user.followed_num}}
-                </h4>
+                </h5>
               </v-col>
               <v-col class="col-md-6">
-                <h4 class="mx-auto">
+                <h5 class="mx-auto">
                   粉丝:{{user.followes_num}}
-                </h4>
+                </h5>
               </v-col>
             </v-row>
 
             <router-link :to="{ name: 'ShowProfile', params: { id: sharedState.user_id } }">
               <v-btn text :style="{width:'100%',}" class="mx-auto d-flex justify-start" @click="sharedState.is_hover=false" >
-                <v-icon class="material-icons">perm_identity</v-icon>
+                <v-icon class="material-icons" :style="{ color: 'blue' ,'font-size': '20px','margin-top':'2px'}">perm_identity</v-icon>
               个人空间
              
               </v-btn>
@@ -130,7 +131,7 @@
             <router-link :to="{ name: 'Drafts', params: { id: sharedState.user_id } }">
               <v-btn text :style="{width:'100%' ,}" class="mx-auto d-flex justify-start" @click="sharedState.is_hover=false">
                 <!-- Contribution -->
-                <v-icon class="material-icons">drafts</v-icon>
+                <v-icon class="material-icons" :style="{ color: '#FB8C00' ,'font-size': '20px','margin-top':'2px'}">drafts</v-icon>
               我的发布
       
               </v-btn>
@@ -138,7 +139,7 @@
 
           <router-link :to="{ name: 'Home', }">
               <v-btn text :style="{width:'100%'}" class="mx-auto d-flex justify-start" @click="sharedState.is_hover=false">
-              <v-icon class="material-icons">textsms</v-icon>
+              <v-icon class="material-icons" :style="{ color: 'black' ,'font-size': '20px','margin-top':'2px'}">textsms</v-icon>
               我的消息
               <div class="ml-auto" id="newInfo">1</div>
               </v-btn>
@@ -344,7 +345,7 @@ a {
 
 .v-btn {
   text-transform: none;
-  font-weight: bold;
+
   font-size: 20;
   width: 100px;
   margin-top: 5px;
