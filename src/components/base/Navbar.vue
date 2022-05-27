@@ -15,7 +15,7 @@
     />
 
     <router-link :to="{ name: 'Home' }">
-      <v-btn text class="white--text"> Home</v-btn>
+      <v-btn text class="white--text"> 主页</v-btn>
     </router-link>
     <v-spacer/>
     <v-text-field
@@ -46,25 +46,25 @@
           class="white--text"
           v-show="sharedState.is_authenticated"
       >
-        Logout
+        登出
       </v-btn>
 
-      <v-btn v-if="sharedState.is_authenticated" text class="white--text" @click="getNewBlog"> New Blog</v-btn>
+      <v-btn v-if="sharedState.is_authenticated" text class="white--text" @click="getNewBlog"> 投稿</v-btn>
       <router-link v-else :to="{ name: 'Login' }">
-        <v-btn text class="white--text"> New Blog</v-btn>
+        <v-btn text class="white--text"> 投稿</v-btn>
       </router-link>
 
       <router-link v-if="sharedState.is_authenticated" :to="{ name: 'ReceivedComments' }">
-        <v-btn text class="white--text"> Messages 
+        <v-btn text class="white--text"> 消息
         <span v-if="newMessage!=0" class="red--text ms-1">{{newMessage}}</span>
         </v-btn>
       </router-link>
       <router-link v-else :to="{ name: 'Login' }">
-        <v-btn text class="white--text"> Messages </v-btn>
+        <v-btn text class="white--text"> 消息 </v-btn>
       </router-link>
 
       <router-link v-if="!sharedState.is_authenticated" :to="{ name: 'Login' }">
-        <v-btn text class="white--text"> Profile</v-btn>
+        <v-btn text class="white--text"> 空间</v-btn>
       </router-link>
 
 
@@ -74,7 +74,7 @@
           :to="{ name: 'ShowProfile', params: { id: sharedState.user_id } }"
       >
         <v-btn text class="white--text " @click="sharedState.is_hover=false" @mouseenter="enter" @mouseleave="leave">
-          Profile
+          空间
         </v-btn
         >
       </router-link>
