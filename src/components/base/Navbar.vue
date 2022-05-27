@@ -88,7 +88,7 @@
         >
           <v-card-title>
             <img
-                :src="require('@/assets/logo.png')"
+                :src="user._links.avatar"
                 class="mx-auto"
                 contain
                 height="60"
@@ -99,7 +99,7 @@
           </v-card-title>
           <v-card-title>
             <h2 class="mx-auto">
-              Username
+              {{user.name}}
             </h2>
           </v-card-title>
 
@@ -109,14 +109,14 @@
                 class="mx-auto col-md-12"
             >
               <v-col class="col-md-6">
-                <h3 class="mx-auto">
-                  关注：100
-                </h3>
+                <h4 class="mx-auto">
+                  关注:{{user.followed_num}}
+                </h4>
               </v-col>
               <v-col class="col-md-6">
-                <h3 class="mx-auto">
-                  粉丝：300
-                </h3>
+                <h4 class="mx-auto">
+                  粉丝:{{user.followes_num}}
+                </h4>
               </v-col>
             </v-row>
 
@@ -172,7 +172,27 @@ export default {
       search: "",
       timer: 0,
       sharedState: store.state,
-      newMessage:0
+      newMessage:0,
+       user: {
+        username: "",
+        name: "",
+        email: "",
+        followed_num:0,
+        followes_num:0,
+        have_new_mail:false,
+        unread_comments:0,
+        unread_followings:0,
+        unread_likes:0,
+        unread_messages:0,
+        location: "",
+        about_me: "",
+        headshot: "",
+        member_since: "",
+        last_seen: "",
+        _links: {
+          avatar: "",
+        },
+      },
     };
   },
 
@@ -272,8 +292,23 @@ export default {
     setInterval(()=>{
       Account.getUser(this.sharedState.user_id)
       .then((res) => {
-        let count = res.data;
-        this.newMessage = count.unread_comments + count.unread_followings + count.unread_likes + count.unread_messages;
+        console.log(res.data)
+            this.user.name = res.data.name;
+            this.user.about_me = res.data.about_me;
+            this.user._links.avatar = res.data.headshot;
+            this.user.last_seen = res.data.last_seen;
+            this.user.location = res.data.location;
+            this.user.username = res.data.username;
+            this.user.followed_num = res.data.followed_num;
+            this.user.followes_num = res.data.followes_num;
+            this.user.have_new_mail = res.data.have_new_mail;
+            this.user.unread_comments = res.data.unread_comments;
+            this.user.unread_followings = res.data.unread_followings;
+            this.user.unread_likes = res.data.unread_likes;
+            this.user.unread_messages = res.data.unread_messages;
+            this.loadingProfile = false;
+            
+        this.newMessage = this.user.unread_comments + this.user.unread_followings + this.user.unread_likes + this.user.unread_messages;
       })
       console.log("interval",this.newMessage);
     },10000);
