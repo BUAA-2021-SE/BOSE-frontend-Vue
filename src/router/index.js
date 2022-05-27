@@ -17,6 +17,7 @@ import Followers from '@/components/profile/Followers'
 import Following from '@/components/profile/Following'
 import Posts from '@/components/contribution/Posts'
 import Drafts from '@/components/contribution/Drafts'
+import Resources from '@/components/contribution/Resources'
 import PostAdd from '@/components/blog/AddBlog'
 import Contribution from '@/components/account/Contribution'
 import Search from '@/components/base/Search'
@@ -27,10 +28,11 @@ import ReceivedComments from '@/components/notifications/ReceivedComments'
 import ReceivedMessages from '@/components/notifications/ReceivedMessages'
 import Likes from '@/components/notifications/Likes'
 import FollowingPosts from '@/components/notifications/FollowingPosts'
+
 Vue.use(VueRouter)
 Vue.use(mavonEditor)
 const router = new VueRouter({
-    mode:'history',
+    mode: 'history',
     routes: [
         // { 
         //     path: '/:pathMatch(.*)*', 
@@ -95,20 +97,20 @@ const router = new VueRouter({
                 {path: 'profile', name: 'ShowProfile', component: ShowProfile},
                 {path: 'followers', name: 'Followers', component: Followers},
                 {path: 'following', name: 'Following', component: Following},
-                {path:'posts', name:'ProfilePosts',component: Posts}
+                {path: 'posts', name: 'ProfilePosts', component: Posts}
             ]
         },
         {
-            path:  '/contribution/:id',
+            path: '/contribution/:id',
             component: Contribution,
-            meta:{
+            meta: {
                 requiresAuth: true
             },
             children: [
-                {path: '',component: Drafts},
-                {path:'drafts', name: 'Drafts', component: Drafts},
-                {path:'posts', name:'DraftPosts',component: Posts},
-                {path:'resources', name: 'Resources', component: Posts}
+                {path: '', component: Drafts},
+                {path: 'drafts', name: 'Drafts', component: Drafts},
+                {path: 'posts', name: 'DraftPosts', component: Posts},
+                {path: 'resources', name: 'Resources', component: Resources}
             ]
         },
         {
@@ -120,17 +122,17 @@ const router = new VueRouter({
             }
         },
         {
-            path:'/notifications',
+            path: '/notifications',
             component: Notifications,
             meta: {
                 requiresAuth: true
             },
             children: [
-                {path:'', component: ReceivedComments},
-                {path:'comments', name:'ReceivedComments', component: ReceivedComments},
-                {path:'messages', name:'ReceivedMessages', component: ReceivedMessages },
-                {path:'likes', name:'Likes', component: Likes},
-                {path:'following-posts', name:'FollowingPosts', component: FollowingPosts}
+                {path: '', component: ReceivedComments},
+                {path: 'comments', name: 'ReceivedComments', component: ReceivedComments},
+                {path: 'messages', name: 'ReceivedMessages', component: ReceivedMessages},
+                {path: 'likes', name: 'Likes', component: Likes},
+                {path: 'following-posts', name: 'FollowingPosts', component: FollowingPosts}
             ]
         },
         {
