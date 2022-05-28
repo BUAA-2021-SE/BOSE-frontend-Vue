@@ -18,6 +18,7 @@ import Following from '@/components/profile/Following'
 import Posts from '@/components/contribution/Posts'
 import Drafts from '@/components/contribution/Drafts'
 import Resources from '@/components/contribution/Resources'
+import Stars from '@/components/contribution/Stars'
 import PostAdd from '@/components/blog/AddBlog'
 import Contribution from '@/components/account/Contribution'
 import Search from '@/components/base/Search'
@@ -110,7 +111,8 @@ const router = new VueRouter({
                 {path: '', component: Drafts},
                 {path: 'drafts', name: 'Drafts', component: Drafts},
                 {path: 'posts', name: 'DraftPosts', component: Posts},
-                {path: 'resources', name: 'Resources', component: Resources}
+                {path: 'resources', name: 'Resources', component: Resources},
+                {path: 'stars', name: 'Stars', component: Stars}
             ]
         },
         {
