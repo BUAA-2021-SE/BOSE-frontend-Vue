@@ -14,20 +14,23 @@
         </h3>
       </div>
     </div>
-    <div class="g-brd-around g-brd-gray-light-v4 g-pa-20 g-mb-40"  v-show="!this.loadingProfile">
+    <div
+        v-if="this.posts.length > 0"
+        class="g-brd-around g-brd-gray-light-v4 g-pa-20 g-mb-40"
+        v-show="!this.loadingProfile">
       <v-row :style="{width:'80vw'}" class="m-auto">
-         <div class="text-align-center">
-        <h6 class="text-align-center">共有博文{{ total }}篇</h6>
+        <div class="text-align-center">
+          <h6 class="text-align-center">共有博文{{ total }}篇</h6>
         </div>
-        <v-col cols="12" sm="6" md="6" v-for="(post,index) in posts" :key="index" >
-        <blog 
-            :post="post"
-            @delete="getSearchPosts(1)">
-        </blog>
+        <v-col cols="12" sm="6" md="6" v-for="(post,index) in posts" :key="index">
+          <blog
+              :post="post"
+              @delete="getSearchPosts(1)">
+          </blog>
         </v-col>
       </v-row>
       <div>
-       
+
         <v-pagination
             v-model="page"
             :length="pageTotal"
@@ -36,11 +39,16 @@
         ></v-pagination>
       </div>
     </div>
+    <div
+        v-else-if="this.posts.length === 0 && !this.loadingProfile"
+        class="text-center"
+    >
+      <h4>这个关键词没有博文呢，换个关键词看看吧～</h4>
+    </div>
   </section>
 </template>
 
 <script>
-import store from "@/store.js";
 import Post from "@/api/post";
 import BlogItem from '@/components/base/BlogItem.vue'
 
@@ -53,7 +61,6 @@ export default {
     return {
       posts: [],
       loadingProfile: true,
-      sharedState: store.state,
       blog: {
         title: "",
         summary: "",
@@ -85,7 +92,6 @@ export default {
           })
           .catch((err) => {
             console.log(err, "getSearchPostsError");
-            this.posts = "这个关键词没有博文呢，换个关键词看看吧～"
             this.loadingProfile = false;
           });
     },

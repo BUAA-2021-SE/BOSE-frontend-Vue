@@ -14,7 +14,9 @@
         </h3>
       </div>
     </div>
-    <v-container fluid>
+    <v-container
+        v-if="this.items.length > 0"
+        fluid>
       <v-row justify="center">
         <v-subheader>
           <h3>与我相关的评论</h3>
@@ -48,10 +50,10 @@
 
                 <v-col
                     class="hidden-xs-only"
-                    sm="5"
-                    md="3"
+                    sm="4"
+                    md="2"
                 >
-                  <strong v-html="item.sender.username"></strong>
+                  <strong v-html="item.sender.name"></strong>
                   <!--                  <span-->
                   <!--                      v-if="message.total"-->
                   <!--                      class="grey&#45;&#45;text"-->
@@ -94,6 +96,11 @@
         </v-expansion-panels>
       </v-row>
     </v-container>
+    <div
+        v-else-if="this.items.length === 0 && !this.loadingComments"
+        class="text-center">
+      <h4>呜呜呜，没有新评论。</h4>
+    </div>
   </section>
 </template>
 
