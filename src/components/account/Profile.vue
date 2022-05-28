@@ -37,13 +37,13 @@
              <v-divider class="mx-4" v-if="$route.params.id == sharedState.user_id"></v-divider>
             <v-row class="justify-center">
             <v-btn  v-if="$route.params.id == sharedState.user_id" text @click="toEditProfile" class="d-flex justify-start">
-               <v-icon>edit</v-icon>
+               <v-icon :style="{ color: 'brown' ,'font-size': '20px','margin-top':'2px','margin-right':'3px'}">edit</v-icon>
                 修改信息
             </v-btn>
             <v-btn
                 v-if="$route.params.id == sharedState.user_id" class="d-flex justify-start"
                 text @click="addFile">
-               <v-icon>image</v-icon>
+               <v-icon :style="{ color: 'CornflowerBlue' ,'font-size': '20px','margin-top':'2px','margin-right':'3px'}">image</v-icon>
               更换头像
             </v-btn>
             <input type="file" ref="upload_input" style="display: none;" @change="select_file" accept=".png,.jpg,.jpeg">
@@ -52,14 +52,14 @@
                  class="d-flex justify-start"
                 :to="{name: 'ShowProfile', params: {id: this.$route.params.id}}"
                 text >
-               <v-icon>notes</v-icon>
+               <v-icon :style="{ color: 'grey' ,'font-size': '20px','margin-top':'2px','margin-right':'3px'}">notes</v-icon>
               个人信息
             </v-btn>
             <v-btn
                  class="d-flex justify-start"
                 :to="{name: 'Followers', params: {id: this.$route.params.id}}"
                 text >
-               <v-icon class="material-icons">textsms</v-icon>
+               <v-icon class="material-icons" :style="{ color: 'LightPink' ,'font-size': '20px','margin-top':'2px','margin-right':'3px'}">groups</v-icon>
               粉丝
             </v-btn>
 
@@ -67,24 +67,25 @@
                  class="d-flex justify-start"
                 :to="{name: 'Following', params: {id: this.$route.params.id}}"
                 text >
-               <v-icon class="material-icons">thumb_up</v-icon>
+               <v-icon class="material-icons"  :style="{ color: 'Gold' ,'font-size': '20px','margin-top':'2px','margin-right':'3px'}">tips_and_updates</v-icon>
               关注
             </v-btn>
 
             <v-btn
                 v-if="sharedState.user_id!=curId" :to="{name: 'ProfilePosts', params: {id: this.$route.params.id}}"
-                text >
-               <v-icon class="material-icons">bookmarks</v-icon>
+                text
+                class="d-flex justify-start" >
+               <v-icon class="material-icons"  :style="{ color: 'DarkMagenta' ,'font-size': '20px','margin-top':'2px','margin-right':'3px'}">bookmarks</v-icon>
               博文
             </v-btn>
             <v-btn v-if="ifFollow && $route.params.id != sharedState.user_id" @click="onUnFollowUser()" text class="d-flex justify-start">
-           <v-icon class="material-icons">
+           <v-icon class="material-icons"  :style="{ color: 'DarkSeaGreen' ,'font-size': '20px','margin-top':'2px','margin-right':'3px'}">
             person_remove_alt_1
             </v-icon>
               取消关注
             </v-btn>
             <v-btn v-if="!ifFollow && $route.params.id != sharedState.user_id" @click="onFollowUser()" text class="d-flex justify-start">
-              <v-icon class="material-icons">
+              <v-icon class="material-icons"  :style="{ color: 'DarkTurquoise' ,'font-size': '20px','margin-top':'2px','margin-right':'3px'}">
             person_add_alt_1
             </v-icon>
               立刻关注
