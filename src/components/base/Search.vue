@@ -51,7 +51,6 @@ export default {
   },
   data() {
     return {
-      // sharedKeyword: store.keyword,
       posts: [],
       loadingProfile: true,
       sharedState: store.state,
