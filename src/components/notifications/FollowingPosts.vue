@@ -80,7 +80,7 @@
                     class="grey--text text-truncate hidden-sm-and-down"
                 >
                   &mdash;
-                  {{ $moment(item.follow.timestamp).format("YYYY年MM月DD日 HH:mm:ss") }}
+                  {{ $moment(item.date_time).format("YYYY年MM月DD日 HH:mm:ss") }}
                 </v-col>
                 <v-col
                     cols="12"

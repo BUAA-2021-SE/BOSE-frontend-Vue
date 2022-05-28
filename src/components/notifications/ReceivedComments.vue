@@ -73,7 +73,7 @@
                   <v-col
                       class="grey--text text-truncate hidden-sm-and-down"
                   >
-                    {{ $moment(item.comment.timestamp).format("YYYY年MM月DD日 HH:mm:ss") }}
+                    {{ $moment(item.date_time).format("YYYY年MM月DD日 HH:mm:ss") }}
                   </v-col>
                 </v-row>
               </v-col>
