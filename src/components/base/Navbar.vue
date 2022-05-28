@@ -88,15 +88,17 @@
             @mouseleave="leave"
         >
           <v-card-title>
+            <v-avatar  size="80px" class="mx-auto">
             <img
                 :src="user._links.avatar"
                 class="mx-auto"
                 contain
-                height="60"
-                width="60"
-                max-width="60"
+                height="80"
+                width="80"
+                max-width="80"
                 @click="$vuetify.goTo(0)"
             />
+            </v-avatar>
           </v-card-title>
           <v-card-title>
             <h2 class="mx-auto">

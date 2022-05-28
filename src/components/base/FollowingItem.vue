@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-card outlined class="mx-auto" v-show="!(!followings.current_user_to_user&&$route.params.id==sharedState.user_id)">
+    <v-card outlined class="mx-auto" v-show="!(!followings.current_user_to_user&&personID==sharedState.user_id)">
       <v-row>
           <v-col class="d-flex justify-center my-auto" cols="12" md="2" >
               <router-link :to="{ name: 'ShowProfile',params: { id:followings.id} }">
@@ -64,14 +64,14 @@
     
         <v-col cols="12" md="2"></v-col>
           <v-col cols="12" md="2" class="my-auto">
-            <v-btn v-show="(followings.current_user_to_user&&followings.user_to_current_user)" @click="onUnFollowUser(followings.id)" >
-                已互粉
+           <v-btn depressed :style="{color: 'Gray',width:'100px'}" v-show="(followings.current_user_to_user&&followings.user_to_current_user)" @click="onUnFollowUser(followings.id)" >
+                 <v-icon class="material-icons" >notes</v-icon>已互粉
             </v-btn>
-            <v-btn v-show="(!followings.current_user_to_user)" @click="onFollowUser(followings.id)">
-                关注
+             <v-btn outlined :style="{color: 'Gray',width:'100px'}" v-show="(!followings.current_user_to_user)" @click="onFollowUser(followings.id)">
+                <v-icon class="material-icons" >check</v-icon>关注
             </v-btn>
-             <v-btn v-show="(followings.current_user_to_user&&(!followings.user_to_current_user))" @click="onUnFollowUser(followings.id)">
-                已关注
+             <v-btn depressed :style="{color: 'DimGray',width:'100px'}" v-show="(followings.current_user_to_user&&(!followings.user_to_current_user))" @click="onUnFollowUser(followings.id)">
+                <v-icon class="material-icons" >notes</v-icon>已关注
             </v-btn>
           </v-col>
         </v-row>
@@ -108,6 +108,7 @@ export default {
   data() {
     return {
       sharedState: store.state,
+      personID:this.$route.params.id
     };
   },
   methods: {
@@ -141,6 +142,9 @@ export default {
           })
     }
   },
+  mounted(){
+      console.log(this.$route.params.id,this.sharedState.user_id)
+  }
 };
 </script>
 <style scoped>
@@ -158,4 +162,5 @@ a {
 .v-avatar{
      pointer-events:auto;
 }
+
 </style>

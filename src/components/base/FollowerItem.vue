@@ -64,14 +64,14 @@
     
         <v-col cols="12" md="2"></v-col>
           <v-col cols="12" md="2" class="my-auto">
-            <v-btn v-show="(followers.current_user_to_user&&followers.user_to_current_user)" @click="onUnFollowUser(followers.id)" >
-                已互粉
+            <v-btn depressed :style="{color: 'Gray',width:'100px'}" v-show="(followers.current_user_to_user&&followers.user_to_current_user)" @click="onUnFollowUser(followers.id)" >
+                 <v-icon class="material-icons" >notes</v-icon>已互粉
             </v-btn>
-             <v-btn v-show="(!followers.current_user_to_user)" @click="onFollowUser(followers.id)">
-                关注
+             <v-btn outlined :style="{color: 'Gray',width:'100px'}" v-show="(!followers.current_user_to_user)" @click="onFollowUser(followers.id)">
+                <v-icon class="material-icons" >check</v-icon>关注
             </v-btn>
-             <v-btn v-show="(followers.current_user_to_user&&(!followers.user_to_current_user))" @click="onUnFollowUser(followers.id)">
-                已关注
+             <v-btn depressed :style="{color: 'DimGray',width:'100px'}" v-show="(followers.current_user_to_user&&(!followers.user_to_current_user))" @click="onUnFollowUser(followers.id)">
+                <v-icon class="material-icons" >notes</v-icon>已关注
             </v-btn>
           </v-col>
         </v-row>
@@ -159,4 +159,5 @@ a {
 .v-avatar{
      pointer-events:auto;
 }
+
 </style>

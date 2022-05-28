@@ -64,3 +64,8 @@ export default {
   }
 }
 </script>
+<style scoped>
+.col-md-12.col-12 {
+    padding: 0px;
+}
+</style>
