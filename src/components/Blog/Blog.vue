@@ -33,26 +33,8 @@
           <article>
             <header class="g-mb-30">
               <h1 class="g-color-primary g-mb-15">{{ post.title }}</h1>
-
               <ul class="list-inline d-sm-flex g-color-gray-dark-v4 mb-0">
-                <li
-                  v-if="post.author && post.author.id == sharedState.user_id"
-                >
-                  <v-btn
-                    color="primary"
-                    :to="{ name: 'PostEdit', params: { id: post.id } }"
-                    >编辑</v-btn
-                  >
-                </li>
-                <li
-                  v-if="post.author && post.author.id == sharedState.user_id"
-                >
-                  <v-btn @click="deleteBlogDialog=true" color="error">删除</v-btn>
-                </li>
-                <li >
-                  <v-btn href="#comment-list-wrap">评论</v-btn>
-                </li>
-                <li v-if="post.author" class="list-inline-item">
+                <li v-if="post.author">
                   <router-link
                     :to="{
                       name: 'ShowProfile',
@@ -64,13 +46,13 @@
                     <span v-else>{{ post.author.username }}</span></router-link
                   >
                 </li>
-                <li class="list-inline-item g-mx-10">/</li>
-                <li class="list-inline-item">
+                <li >/</li>
+                <li>
                   <i class="icon-clock"></i>
                   {{ $moment(post.timestamp).format("LLL") }}
                 </li>
-                <li class="list-inline-item g-mx-10">/</li>
-                <li class="list-inline-item g-mr-10">
+                <li>/</li>
+                <li>
                   <a
                     class="u-link-v5 g-color-gray-dark-v4 g-color-primary--hover g-text-underline--none--hover"
                     href="#comment-list-wrap"
@@ -78,11 +60,18 @@
                     <i class="icon-bubble"></i> {{comments.length}}
                   </a>
                 </li>
-                <li class="list-inline-item ml-auto">
+                <li>
                   <i class="icon-eye"></i> {{ post.views }} 次阅读
                 </li>
               </ul>
-
+              <div v-if="post.author && post.author.id == sharedState.user_id" >
+                <v-btn
+                  color="primary"
+                  text
+                  :to="{ name: 'PostEdit', params: { id: post.id } }"
+                  >编辑</v-btn>
+                <v-btn @click="deleteBlogDialog=true" color="error" text>删除</v-btn>
+              </div>
               <hr class="g-brd-gray-light-v4 g-my-15" />
             </header>
 
