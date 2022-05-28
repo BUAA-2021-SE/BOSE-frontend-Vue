@@ -177,17 +177,4 @@ export default class Post {
             data: data
         })
     }
-
-    // static async unThumbUp(id){
-    //     return service(`${url.unThumbUp}/${id}`,{
-    //         method: 'put',
-    //         responseType: 'json'
-    //     })
-    // }
-    // static async ifThumbUp(id){
-    //     return service(`${url.ifThumbUp}/${id}`,{
-    //         method:'post',
-    //         responseType: 'json'
-    //     })
-    // }
 }

@@ -5,6 +5,7 @@
 <script>
 import store from "@/store.js";
 import Post from "@/api/post";
+import Star from '@/api/star';
 import BlogItem from '@/components/base/BlogItem.vue'
 export default {
     name:'Stars',
@@ -32,16 +33,23 @@ export default {
         }
     },
     methods:{
-        getStarPosts(page){
-
+        getStarPosts(){
+            console.log("getStarPosts");
+            Star.getStarList()
+            .then((res)=>{
+                console.log(res);
+            })
+            .catch((err)=>{
+                console.log(err);
+            })
         }
     },
     created() {
-    this.getStarPosts(1);
+    this.getStarPosts();
     },
     beforeRouteUpdate(to, from, next) {
         next()
-        this.getStarPosts(1);
+        this.getStarPosts();
     },
 }
 </script>

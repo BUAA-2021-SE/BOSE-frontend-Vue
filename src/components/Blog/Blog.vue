@@ -107,6 +107,23 @@
                   <span  v-if="post.likers_id && post.likers_id.length > 0">|{{ post.likers_id.length }}</span>
                   喜欢
                 </v-btn>
+                <v-btn
+                v-if="ifStarred"
+                @click="onUnStarPost(post)"
+                color = "primary"
+                >
+                <v-icon class="material-icons">bookmarks</v-icon>
+                  <span  v-if="post.stars_id && post.stars_id.length > 0">|{{ post.stars_id.length }}</span>
+                收藏
+                </v-btn>
+                <v-btn
+                v-else
+                @click="onStarPost(post)"
+                >
+                <v-icon class="material-icons">bookmarks</v-icon>
+                  <span  v-if="post.stars_id && post.stars_id.length > 0">|{{ post.stars_id.length }}</span>
+                收藏
+                </v-btn>
               </div>
               <div class="col-lg-9">
                 <ul v-if="post.likers" class="list-inline mb-0">
@@ -477,7 +494,7 @@ import VueMarkdown from "vue-markdown";
 import Post from "@/api/post";
 import * as hljs from 'highlight.js';
 import Comment from "@/api/comment";
-import $ from 'jquery';
+import Star from '@/api/star';
 const highlightCode = () => {
   let blocks = document.querySelectorAll("pre code");
   blocks.forEach((block) => {
@@ -677,26 +694,26 @@ export default {
         console.error(error.response.detail);
       })
     },
-    onDisabledComment(comment){
-      console.log("onDisabledComment",comment);
-      Comment.disableComment(comment.id)
+    onUnStarPost(post){
+      console.log("onUnStarPost",post);
+      Star.takeoffStar(post.id)
       .then((res)=>{
         console.log(res);
-        this.getPostComments(this.$params.id);
+        this.getBlog(this.$route.params.id);
       })
       .catch((err) => {
-        console.error(err);
+        console.log(err.response.detail);
       })
     },
-    onEnabledComment(comment){
-      console.log("onEnabledComment",comment);
-      Comment.recoverComment(comment.id)
+    onStarPost(post){
+      console.log("onStarPost",post);
+      Star.postStar(post.id)
       .then((res)=>{
         console.log(res);
-        this.getPostComments(this.$params.id);
+        this.getBlog(this.$route.params.id);
       })
       .catch((err) => {
-        console.error(err);
+        console.log(err.response.detail);
       })
     }
   },
@@ -712,6 +729,14 @@ export default {
       }
       return false
     },
+    ifStarred(){
+      if(this.sharedState.is_authenticated){
+        if(this.post.stars_id&&this.post.stars_id.indexOf(this.sharedState.user_id)!=-1){
+          return true
+        }
+      }
+      return false
+    }
   },
   created() {
     const postId = this.$route.params.id;
