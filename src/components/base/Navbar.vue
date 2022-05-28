@@ -366,7 +366,7 @@ a {
 
 .pcard .v-card {
   position: absolute;
-  margin-right: 220px;
+  margin-right: 240px;
   margin-top: 35px;
 }
 div#newInfo{

@@ -2,7 +2,11 @@
   <div>
     <v-card outlined class="mx-auto">
       <v-row>
-          <v-col class="d-flex justify-end" cols="12" md="2">
+          <v-col class="d-flex justify-center my-auto" cols="12" md="2" >
+              <router-link :to="{ name: 'ShowProfile',params: { id:followers.id} }">
+               <v-avatar
+                      size="70px"
+                  >
        <v-img
           :src="followers.headshot"
           class="my-auto"
@@ -11,13 +15,18 @@
           max-width="70"
           max-height="70"
          
+         
         />
+               </v-avatar>
+               </router-link>
         </v-col>
         
         <v-col cols="12" md="6">
-    
+        
         <v-card-title>
+             <router-link :to="{ name: 'ShowProfile',params: { id:followers.id} }">
           <h3>{{ followers.username }}</h3>
+          </router-link>
         </v-card-title>
       
       <v-card-text>
@@ -55,11 +64,11 @@
     
         <v-col cols="12" md="2"></v-col>
           <v-col cols="12" md="2" class="my-auto">
-            <v-btn v-if="followers.both_follow" >
+            <v-btn v-if="followers.both_follow" @click="onUnFollowUser(followers.id)" >
                 已互粉
             </v-btn>
-             <v-btn v-else>
-                已关注
+             <v-btn v-else @click="onFollowUser(followers.id)">
+                关注
             </v-btn>
           </v-col>
         </v-row>
@@ -89,6 +98,7 @@
 
 <script>
 import store from "@/store.js";
+import Followers from "@/api/follower.js";
 export default {
   name: "PersonItem",
   props: ["followers"],
@@ -99,7 +109,30 @@ export default {
     };
   },
   methods: {
-    
+      toProfile(id){
+          this.$router.push({name: 'ShowProfile', params: {id: id}})
+      },
+      onFollowUser(id) {
+      Followers.follow(id)
+          .then((res) => {
+            console.log(res, "followUser");
+            this.ifFollow = true
+            this.followers.both_follow=true;
+          })
+          .catch((err) => {
+            console.error(err);
+          })
+    },
+    onUnFollowUser(id) {
+      Followers.unFollow(id)
+          .then((res) => {
+            console.log(res, "unfollowUser");
+            this.followers.both_follow=false;
+          })
+          .catch((err) => {
+            console.error(err);
+          })
+    }
   },
 };
 </script>
@@ -114,5 +147,8 @@ a {
 }
 .v-card__title {
   color: #3c80de;
+}
+.v-avatar{
+     pointer-events:auto;
 }
 </style>

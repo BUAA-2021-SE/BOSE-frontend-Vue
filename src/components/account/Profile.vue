@@ -14,10 +14,11 @@
           ></v-progress-circular>
         </h1>
       </div>
-      <div class="g-brd-around g-brd-gray-light-v4 g-pa-20 g-mb-40" v-show="!this.loadingProfile">
+      <div v-show="!this.loadingProfile">
         <div class="row" >
-          <div class="col-sm-3 g-mb-40 g-mb-0--lg"> 
-            <v-card outline>
+          <v-col cols="12" md="3">
+            
+            <v-card outlined>
             <!-- User Image -->
       
               <v-img
@@ -90,16 +91,18 @@
             </v-btn>
             </v-row>
             </v-card>
-          </div>
+          </v-col>
           <!-- v-divider vertical useless -->
-          <div class="col-sm-9">
+          <v-col cols="12" md="9">
             <!-- Username -->
             <router-view/>
-            
+            </v-col>
           </div>
+          
         </div>
+      
       </div>
-    </div>
+    
   </section>
 </template>
 
