@@ -24,10 +24,4 @@ export default class Star{
             responseType: 'json'
         })
     }
-    static async ifStar(id) {
-        return service(`${url.ifStar}/${id}`, {
-            method: 'post',
-            responseType: 'json'
-        })
-    }
 }
