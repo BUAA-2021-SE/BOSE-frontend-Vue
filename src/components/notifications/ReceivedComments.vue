@@ -53,7 +53,7 @@
                     sm="4"
                     md="2"
                 >
-                  <strong v-html="item.sender.name"></strong>
+                  <strong v-html="item.sender.name||item.sender.username"></strong>
                   <!--                  <span-->
                   <!--                      v-if="message.total"-->
                   <!--                      class="grey&#45;&#45;text"-->
