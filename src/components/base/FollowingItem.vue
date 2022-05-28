@@ -1,14 +1,14 @@
 <template>
   <div>
-    <v-card outlined class="mx-auto">
+    <v-card outlined class="mx-auto" v-show="!(!followings.current_user_to_user&&$route.params.id==sharedState.user_id)">
       <v-row>
           <v-col class="d-flex justify-center my-auto" cols="12" md="2" >
-              <router-link :to="{ name: 'ShowProfile',params: { id:followers.id} }">
+              <router-link :to="{ name: 'ShowProfile',params: { id:followings.id} }">
                <v-avatar
                       size="70px"
                   >
        <v-img
-          :src="followers.headshot"
+          :src="followings.headshot"
           class="my-auto"
           contain
           height="70"
@@ -24,18 +24,18 @@
         <v-col cols="12" md="6">
         
         <v-card-title>
-             <router-link :to="{ name: 'ShowProfile',params: { id:followers.id} }">
-          <h3>{{ followers.username }}</h3>
+             <router-link :to="{ name: 'ShowProfile',params: { id:followings.id} }">
+          <h3>{{ followings.name }}</h3>
           </router-link>
         </v-card-title>
       
       <v-card-text>
       
-        <div class="text--primary" v-if="followers.about_me.length<30">
-          {{ followers.about_me }}
+        <div class="text--primary" v-if="followings.about_me.length<30">
+          {{ followings.about_me }}
         </div>
         <div class="text--primary" v-else>
-          {{ followers.about_me.substring(0, 27)+'...'}}
+          {{ followings.about_me.substring(0, 27)+'...'}}
         </div>
       </v-card-text>
       <!-- <v-card-actions>
@@ -64,11 +64,14 @@
     
         <v-col cols="12" md="2"></v-col>
           <v-col cols="12" md="2" class="my-auto">
-            <v-btn v-if="followers.both_follow" @click="onUnFollowUser(followers.id)" >
+            <v-btn v-show="(followings.current_user_to_user&&followings.user_to_current_user)" @click="onUnFollowUser(followings.id)" >
                 已互粉
             </v-btn>
-             <v-btn v-else @click="onFollowUser(followers.id)">
+            <v-btn v-show="(!followings.current_user_to_user)" @click="onFollowUser(followings.id)">
                 关注
+            </v-btn>
+             <v-btn v-show="(followings.current_user_to_user&&(!followings.user_to_current_user))" @click="onUnFollowUser(followings.id)">
+                已关注
             </v-btn>
           </v-col>
         </v-row>
@@ -100,8 +103,8 @@
 import store from "@/store.js";
 import Followers from "@/api/follower.js";
 export default {
-  name: "PersonItem",
-  props: ["followers"],
+  name: "FollowerItem",
+  props: ["followings"],
   data() {
     return {
       sharedState: store.state,
@@ -112,13 +115,18 @@ export default {
           this.$router.push({name: 'ShowProfile', params: {id: id}})
       },
       onFollowUser(id) {
+          console.log(this.followings.current_user_to_user,this.followings.user_to_current_user)
       Followers.follow(id)
           .then((res) => {
             console.log(res, "followUser");
-            this.ifFollow = true
-            this.followers.both_follow=true;
+            this.followings.current_user_to_user=true;
           })
           .catch((err) => {
+              if(err.response.status==460){
+            this.$toasted.error("不能关注自己.", {
+              icon: "priority_high",
+            });
+              }
             console.error(err);
           })
     },
@@ -126,7 +134,7 @@ export default {
       Followers.unFollow(id)
           .then((res) => {
             console.log(res, "unfollowUser");
-            this.followers.both_follow=false;
+            this.followings.current_user_to_user=false;
           })
           .catch((err) => {
             console.error(err);

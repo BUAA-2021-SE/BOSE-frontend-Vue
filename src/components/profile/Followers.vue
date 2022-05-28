@@ -16,10 +16,10 @@
     </div>
     <div class="g-brd-around g-brd-gray-light-v4 g-pa-20 g-mb-40" v-show="!this.loadingProfile">
       <v-col cols="12" md="12" v-for="(followers,index) in followers" :key="index">
-        <person
+        <follower
             :followers="followers"
         >
-        </person>
+        </follower>
       </v-col>
     </div>
   </section>
@@ -29,11 +29,11 @@
 import {Account} from "@/api/account.js";
 import Followers from "@/api/follower.js"
 import store from "@/store.js";
-import PersonItem from '@/components/base/PersonItem.vue'
+import FollowerItem from '@/components/base/FollowerItem.vue'
 
 export default {
   name: 'Followers',
-  components: {person: PersonItem},
+  components: {follower: FollowerItem},
   data() {
     return {
       followers: [],

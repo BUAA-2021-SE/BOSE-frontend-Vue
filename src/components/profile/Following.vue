@@ -2,7 +2,7 @@
   <section>
     <div class="container">
       <div class="text-center">
-        <h3 v-show="this.loadingProfile"> 关注列表加载中
+        <h3 v-show="this.loadingProfile"> 粉丝列表加载中
           <v-progress-circular
               class="center"
               indeterminate
@@ -15,7 +15,11 @@
       </div>
     </div>
     <div class="g-brd-around g-brd-gray-light-v4 g-pa-20 g-mb-40" v-show="!this.loadingProfile">
-      <p>{{ followings }}</p>
+      <v-col cols="12" md="12" v-for="(followings,index) in followings" :key="index">
+        <following
+            :followings="followings">
+        </following>
+      </v-col>
     </div>
   </section>
 </template>
@@ -24,9 +28,10 @@
 import {Account} from "@/api/account.js";
 import Followers from "@/api/follower.js";
 import store from "@/store.js";
-
+import FollowingItem from '@/components/base/FollowingItem.vue'
 export default {
   name: 'Followings',
+components: {following: FollowingItem},
   data() {
     return {
       followings: [],
