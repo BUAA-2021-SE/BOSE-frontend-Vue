@@ -15,19 +15,16 @@
       </div>
     </div>
     <div v-show="!loadingProfile" v-for="(star,index) in stars" :key="index">
-        {{ $moment(star.timestamp).format("LLL") }}
-        <v-btn text color="error" @click="takeoffStar(star.blog)">取消收藏</v-btn>
-      <blog :post = "star.blog">
-      </blog>
-      <div>
-        <span>共有收藏{{ total }}篇</span>
-        <v-pagination
-            v-model="page"
-            :length="pageTotal"
-            :total-visible="7"
-            circle
-        ></v-pagination>
-      </div>
+    <star :star="star" @takeoff="takeoffStar(post)"></star>
+    </div>
+    <div>
+    <span>共有收藏{{ total }}篇</span>
+    <v-pagination
+        v-model="page"
+        :length="pageTotal"
+        :total-visible="7"
+        circle
+    ></v-pagination>
     </div>
 </section>
 </template>
@@ -35,11 +32,11 @@
 <script>
 import store from "@/store.js";
 import Star from '@/api/star';
-import BlogItem from '@/components/base/BlogItem.vue'
+import StarItem from '@/components/base/StarItem.vue'
 export default {
     name:'Stars',
     components: {
-        blog: BlogItem
+        star: StarItem
     },
     data() {
         return{
@@ -83,7 +80,7 @@ export default {
                 this.getStarPosts();
             })
             .catch((err)=>{
-                console.log(err.response.details);
+                console.log(err.response);
             })
         }
     },

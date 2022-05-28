@@ -88,8 +88,6 @@
               >
               </vue-markdown>
             </div>
-            <div id="like-post" class="row">
-              <div class="col-lg-3">
                 <v-btn
                 v-if="btnOutlineColor"
                 @click="onLikeOrUnlikePost(post)"
@@ -124,7 +122,7 @@
                   <span  v-if="post.stars_id && post.stars_id.length > 0">|{{ post.stars_id.length }}</span>
                 收藏
                 </v-btn>
-              </div>
+              
               <div class="col-lg-9">
                 <ul v-if="post.likers" class="list-inline mb-0">
                   <li
@@ -145,7 +143,6 @@
                   </li>
                 </ul>
               </div>
-            </div>
           </article>
           <v-dialog v-model="deleteBlogDialog">
             <v-card>
@@ -550,6 +547,7 @@ export default {
       showToc: true,
       showEdit: false,
       topic: "",
+      ifStarred:false
     };
   },
   methods: {
@@ -559,7 +557,12 @@ export default {
       Post.getBlog(id, formData)
         .then((res) => {
           this.post = res.data;
-          console.log("blog",this.post)
+          console.log("blog",this.post);
+          console.log(this.sharedState.user_id)
+          this.ifStarred = false;
+          if(this.post.stars_id&&this.post.stars_id.indexOf(this.sharedState.user_id)!=-1){
+          this.ifStarred = true;
+          }
           this.loadingProfile = false;
         })
         .catch((err) => {
@@ -713,7 +716,7 @@ export default {
         this.getBlog(this.$route.params.id);
       })
       .catch((err) => {
-        console.log(err.response.detail);
+        console.log(err.response);
       })
     }
   },
@@ -724,14 +727,6 @@ export default {
     btnOutlineColor() {
       if(this.sharedState.is_authenticated){
         if(this.post.likers_id&&this.post.likers_id.indexOf(this.sharedState.user_id)!=-1){
-          return true
-        }
-      }
-      return false
-    },
-    ifStarred(){
-      if(this.sharedState.is_authenticated){
-        if(this.post.stars_id&&this.post.stars_id.indexOf(this.sharedState.user_id)!=-1){
           return true
         }
       }
