@@ -3,6 +3,7 @@
     <v-card outlined class="mx-auto">
       <v-row>
           <v-col class="d-flex justify-center my-auto" cols="12" md="2" >
+              <router-link :to="{ name: 'ShowProfile',params: { id:followers.id} }">
                <v-avatar
                       size="70px"
                   >
@@ -14,14 +15,18 @@
           max-width="70"
           max-height="70"
          
+         
         />
                </v-avatar>
+               </router-link>
         </v-col>
         
         <v-col cols="12" md="6">
-    
+        
         <v-card-title>
+             <router-link :to="{ name: 'ShowProfile',params: { id:followers.id} }">
           <h3>{{ followers.username }}</h3>
+          </router-link>
         </v-card-title>
       
       <v-card-text>
@@ -104,6 +109,9 @@ export default {
     };
   },
   methods: {
+      toProfile(id){
+          this.$router.push({name: 'ShowProfile', params: {id: id}})
+      },
       onFollowUser(id) {
       Followers.follow(id)
           .then((res) => {
@@ -139,5 +147,8 @@ a {
 }
 .v-card__title {
   color: #3c80de;
+}
+.v-avatar{
+     pointer-events:auto;
 }
 </style>
