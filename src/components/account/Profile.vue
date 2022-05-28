@@ -49,34 +49,33 @@
             <input type="file" ref="upload_input" style="display: none;" @change="select_file" accept=".png,.jpg,.jpeg">
 
               <v-btn
-                v-if="$route.params.id == sharedState.user_id" class="d-flex justify-start"
+                 class="d-flex justify-start"
+                :to="{name: 'ShowProfile', params: {id: this.$route.params.id}}"
                 text >
                <v-icon>notes</v-icon>
-              获得评论
-              <div class="ml-auto" id="newInfo">1</div>
+              个人信息
             </v-btn>
             <v-btn
-                v-if="$route.params.id == sharedState.user_id" class="d-flex justify-start"
+                 class="d-flex justify-start"
+                :to="{name: 'Followers', params: {id: this.$route.params.id}}"
                 text >
                <v-icon class="material-icons">textsms</v-icon>
-              我的消息
-              <div class="ml-auto" id="newInfo">1</div>
+              粉丝
             </v-btn>
 
             <v-btn
-                v-if="$route.params.id == sharedState.user_id" class="d-flex justify-start"
+                 class="d-flex justify-start"
+                :to="{name: 'Following', params: {id: this.$route.params.id}}"
                 text >
                <v-icon class="material-icons">thumb_up</v-icon>
-              收到的赞
-              <div class="ml-auto" id="newInfo">1</div>
+              关注
             </v-btn>
 
             <v-btn
-                v-if="$route.params.id == sharedState.user_id" class="d-flex justify-start"
+                v-if="sharedState.user_id!=curId" :to="{name: 'ProfilePosts', params: {id: this.$route.params.id}}"
                 text >
                <v-icon class="material-icons">bookmarks</v-icon>
-              关注动态
-              <div class="ml-auto" id="newInfo">1</div>
+              博文
             </v-btn>
             <v-btn v-if="ifFollow && $route.params.id != sharedState.user_id" @click="onUnFollowUser()" text class="d-flex justify-start">
            <v-icon class="material-icons">
@@ -96,12 +95,6 @@
           <!-- v-divider vertical useless -->
           <v-col cols="12" md="9">
             <!-- Username -->
-            <v-tabs fixed-tabs>
-              <v-tab :to="{name: 'ShowProfile', params: {id: this.$route.params.id}}">Profile</v-tab>
-              <v-tab :to="{name: 'Followers', params: {id: this.$route.params.id}}">Followers</v-tab>
-              <v-tab :to="{name: 'Following', params: {id: this.$route.params.id}}">Following</v-tab>
-              <v-tab v-if="sharedState.user_id!=curId" :to="{name: 'ProfilePosts', params: {id: this.$route.params.id}}">Posts</v-tab>
-            </v-tabs>
             <router-view/>
             </v-col>
           </div>
