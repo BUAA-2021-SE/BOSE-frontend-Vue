@@ -16,6 +16,7 @@
     </div>
     <div v-show="!loadingProfile" v-for="(star,index) in stars" :key="index">
         {{ $moment(star.timestamp).format("LLL") }}
+        <v-btn text color="error" @click="takeoffStar(star.blog)">取消收藏</v-btn>
       <blog :post = "star.blog">
       </blog>
       <div>
@@ -72,6 +73,17 @@ export default {
             })
             .catch((err)=>{
                 console.log(err);
+            })
+        },
+        takeoffStar(post){
+            console.log("takeoffStar",post);
+            Star.takeoffStar(post.id)
+            .then((res)=>{
+                console.log(res);
+                this.getStarPosts();
+            })
+            .catch((err)=>{
+                console.log(err.response.details);
             })
         }
     },
