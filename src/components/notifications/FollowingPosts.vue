@@ -2,7 +2,7 @@
   <section>
     <div class="container">
       <div class="text-center">
-        <h3 v-show="this.loadingFollowings"> 关注通知列表加载中
+        <h3 v-show="this.loadingFollowings"> 新增粉丝列表加载中
           <v-progress-circular
               class="center"
               indeterminate
@@ -18,7 +18,7 @@
         v-if="this.items.length > 0"
         fluid>
       <v-row justify="center">
-        <h3>新粉丝通知</h3>
+        <h3>新增粉丝通知</h3>
         <v-expansion-panels popout>
           <v-expansion-panel
               v-for="(item,index) in items"
@@ -67,7 +67,7 @@
                 <!--                  <v-chip-->
                 <!--                      v-if="item.is_read == false"-->
                 <!--                      :color="`${item.color} light-blue`"-->
-                <!--                      class="ml-0 mr-2 black&#45;&#45;text"-->
+                <!--                      class="ml-0 mr-2 black--text"-->
                 <!--                      label-->
                 <!--                      small-->
                 <!--                  >-->
@@ -80,7 +80,23 @@
                     class="grey--text text-truncate hidden-sm-and-down"
                 >
                   &mdash;
-                  {{ $moment(item.follow.timestamp).format("YYYY年MM月DD日 HH:mm:ss") }}
+                  {{ $moment(item.date_time).format("YYYY年MM月DD日 HH:mm:ss") }}
+                </v-col>
+                <v-col
+                    cols="12"
+                    sm="3"
+                    md="2"
+                    class="text-right"
+                >
+                  <v-chip
+                      v-if="item.is_read == false"
+                      :color="`${item.color} light-blue`"
+                      class="ml-0 mr-2 black--text"
+                      label
+                      small
+                  >
+                    new
+                  </v-chip>
                 </v-col>
               </v-row>
             </v-expansion-panel-header>
@@ -96,7 +112,7 @@
     <div
         v-else-if="this.items.length === 0 && !this.loadingFollowings"
         class="text-center">
-      <h4>呜呜呜，没有新粉丝。</h4>
+      <h4>呜呜呜，一个新粉丝都没有。</h4>
     </div>
   </section>
 </template>
