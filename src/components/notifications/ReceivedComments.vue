@@ -33,11 +33,11 @@
               >
                 <v-col
                     cols="4"
-                    sm="2"
-                    md="1"
+                    sm="3"
+                    md="2"
                 >
                   <v-avatar
-                      size="36px"
+                      size="60px"
                   >
                     <img
                         alt="Avatar"
