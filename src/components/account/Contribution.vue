@@ -2,7 +2,6 @@
   <section>
     <div class="container">
       <div class="text-center">
-
         <h1 v-show="this.loadingProfile"> 努力加载······
           <v-progress-circular
               class="center"
@@ -271,6 +270,5 @@ div#newInfo{
 }
 hr.mx-4.v-divider.theme--light{
   margin-top:-10px;
-  
 }
 </style>
