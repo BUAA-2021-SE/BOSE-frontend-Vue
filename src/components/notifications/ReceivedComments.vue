@@ -28,69 +28,79 @@
               :key="index"
           >
             <v-expansion-panel-header>
-              <v-row
-                  align="center"
+              <v-col
+                  cols="4"
+                  sm="3"
+                  md="2"
                   class="spacer"
-                  no-gutters
               >
-                <v-col
-                    cols="4"
-                    sm="3"
-                    md="2"
+                <v-avatar
+                    size="62px"
                 >
-                  <v-avatar
-                      size="60px"
+                  <img
+                      alt="Avatar"
+                      :src="item.sender.headshot"
                   >
-                    <img
-                        alt="Avatar"
-                        :src="item.sender.headshot"
-                    >
-                  </v-avatar>
-                </v-col>
-
-                <v-col
-                    class="hidden-xs-only"
-                    sm="4"
-                    md="2"
+                </v-avatar>
+              </v-col>
+              <v-col
+                  cols="8"
+                  sm="9"
+                  md="10"
+                  class="text-left"
+              >
+                <v-row
+                    align="center"
+                    class="spacer"
+                    no-gutters
                 >
-                  <strong v-html="item.sender.name||item.sender.username"></strong>
-                  <!--                  <span-->
-                  <!--                      v-if="message.total"-->
-                  <!--                      class="grey&#45;&#45;text"-->
-                  <!--                  >-->
-                  <!--                  &nbsp;({{ message.total }})-->
-                  <!--                </span>-->
-                </v-col>
-
-                <v-col
-                    class="text-no-wrap"
-                    cols="5"
-                    sm="3"
-                >
-                  <v-chip
-                      v-if="item.is_read == false"
-                      :color="`${item.color} light-blue`"
-                      class="ml-0 mr-2 black--text"
-                      label
-                      small
+                  <v-col
+                      class="hidden-xs-only"
                   >
-                    new
-                  </v-chip>
-                  <strong v-html="item.blog_title"></strong>
-                </v-col>
-
-                <v-col
-                    class="grey--text text-truncate hidden-sm-and-down"
+                    <strong v-html="item.sender.name||item.sender.username"></strong>
+                    在博文
+                    <strong v-html="item.blog_title"></strong>
+                    给你留下了评论
+                    <!--                  <span-->
+                    <!--                      v-if="message.total"-->
+                    <!--                      class="grey--text"-->
+                    <!--                  >-->
+                    <!--                  &nbsp;({{ message.total }})-->
+                    <!--                </span>-->
+                  </v-col>
+                </v-row>
+                <v-row>
+                  <v-col
+                      class="grey--text text-truncate hidden-sm-and-down"
+                  >
+                    {{ $moment(item.comment.timestamp).format("YYYY年MM月DD日 HH:mm:ss") }}
+                  </v-col>
+                </v-row>
+              </v-col>
+              <v-col
+                  cols="12"
+                  sm="3"
+                  md="2"
+                  class="text-right"
+              >
+                <v-chip
+                    v-if="item.is_read == false"
+                    :color="`${item.color} light-blue`"
+                    class="ml-0 mr-2 black--text"
+                    label
+                    small
                 >
-                  &mdash;
-                  {{ $moment(item.comment.timestamp).format("YYYY年MM月DD日 HH:mm:ss") }}
-                </v-col>
-              </v-row>
+                  new
+                </v-chip>
+              </v-col>
+
             </v-expansion-panel-header>
 
             <v-expansion-panel-content>
               <v-divider></v-divider>
-              <v-card-text v-text="item.body"></v-card-text>
+              <v-card-text>
+                {{ getComments(item.body) }}
+              </v-card-text>
             </v-expansion-panel-content>
           </v-expansion-panel>
         </v-expansion-panels>
@@ -101,6 +111,9 @@
         class="text-center">
       <h4>呜呜呜，没有新评论。</h4>
     </div>
+    <!--    <div>-->
+    <!--      {{ items }}-->
+    <!--    </div>-->
   </section>
 </template>
 
@@ -113,7 +126,7 @@ export default {
   data() {
     return {
       items: [],
-      loadingComments: true
+      loadingComments: true,
     }
   },
   methods: {
@@ -130,6 +143,10 @@ export default {
             console.error(err);
             this.loadingComments = false;
           })
+    },
+    getComments(rawString) {
+      let comments = rawString.split(":");
+      return comments[comments.length - 1];
     }
   },
   created() {
