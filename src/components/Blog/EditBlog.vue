@@ -1,30 +1,61 @@
 <template>
-  <div>
-    <v-card>
-      <div class="form-group" :class="{'u-has-error-v1': editForm.titleError}">
-        <input type="text" v-model="editForm.title" class="form-control" id="post_title" placeholder="标题">
-        <small class="form-control-feedback" v-show="editForm.titleError">{{ editForm.titleError }}</small>
-      </div>
-      <div class="form-group">
-        <input type="text" v-model="editForm.summary" class="form-control" id="post_summary" placeholder="摘要">
-      </div>
-      <div class="form-group">
-        <mavon-editor v-model="editForm.body" :toolbars="tools"/>
-        <small class="form-control-feedback" v-show="editForm.bodyError">{{ editForm.bodyError }}</small>
-      </div>
+  <div class=" my-auto container" >
+    <div v-if="sharedState.is_authenticated" class="mx-auto" width="80vw">
+      <v-row>
+      <v-col cols="12" md="6">
+      <label>标题</label>
+      <br/>
+      <v-text-field
+          v-model="editForm.title"
+          outlined
+          dense
+          placeholder=""
+          :class="{'is-invalid': editForm.titleError}"
+          :style="{width:'30vw' ,'margin-top':'10px'}"
+      ></v-text-field>
+      </v-col>
+<v-col  md="6" class="my-auto">
+    <v-btn @click="addFile">Upload cover</v-btn>
+    <input type="file" ref="upload_input" style="display: none;" @change="select_file" accept=".png,.jpg,.jpeg">
+     <img v-if="editForm.cover" :src="editForm.cover" width="100%">
+</v-col>
+  </v-row>
+      <label>摘要</label>
+      <v-textarea
+          v-model="editForm.summary"
+          outlined
+          row-height="15"
+          auto-grow
+          rows="2"
+          placeholder=""
+          :class="{'is-invalid': editForm.summaryError}"
+          :style="{width:'100vw' ,'margin-top':'10px'}"
+      ></v-textarea>
+
+
+   
+      <label>正文</label>
+  <div style="z-index:-10">
+        <mavon-editor  ref="md" v-model="editForm.body" :toolbars="tools" @imgAdd="imgAdd" :style="{'min-height':'50hv'}"/>
+  </div>
+  <br/>
+  
+      <v-alert dense outlined type="error" v-show="this.editForm.errors">
+        {{ editForm.titleError || editForm.summaryError || editForm.bodyError }}
+      </v-alert>
       <v-card-actions>
-        <router-link
-            :to="{name:'Post',params : {id:post.id} }">
-          <button class="btn btn-primary">Quit</button>
+        <router-link :to="{name: 'Home'}">
+          <v-btn>Quit</v-btn>
         </router-link>
         <v-spacer></v-spacer>
-        <v-btn @click="onCommitDraft">Commit</v-btn>
+        <v-btn @click="onCommitBlog">Commit</v-btn>
         <v-btn @click="onSubmitAdd">Submit</v-btn>
       </v-card-actions>
-    </v-card>
+     
+     
+    </div>
   </div>
 </template>
-
 <script>
 import store from '@/store.js'
 import Post from '@/api/post'
@@ -47,7 +78,9 @@ export default {
         body: '',
         errors: 0,  // 表单是否在前端验证通过，0 表示没有错误，验证通过
         titleError: false,
-        bodyError: false
+        bodyError: false,
+        summaryError: false,
+        cover: ''
       },
       tools: {
         bold: true, // 粗体
@@ -72,13 +105,25 @@ export default {
         undo: true, // 上一步
         redo: true, // 下一步
         trash: true, // 清空
-        navigation: true, // 导航目录
+        // navigation: true, // 导航目录
         subfield: true, // 单双栏模式
         preview: true // 预览
       },
     }
   },
   methods: {
+    imgAdd(pos,file){
+      let formData=new FormData();
+      formData.append("image", file);
+      Post.postPicture(this.$route.params.id,formData)
+          .then((res) => {
+           console.log(res);
+           this.$refs.md.$img2Url(pos, res.data)
+          })
+          .catch((error) => {
+            console.log(error);
+          })
+    },
     getBlog(id) {
       const formData = new FormData();
       formData.append('view_id',0);
@@ -160,7 +205,27 @@ export default {
         console.log(err);
         this.$toasted.error('Something error.', {icon: 'check'});
       })
-    }
+    },
+    addFile() {
+      this.$refs.upload_input.click() // 通过 ref 模拟点击
+    },
+    select_file(file) {
+      this.select_file_data = file.target.files
+      console.log(this.select_file_data)
+      let uploads = new FormData()
+      if (this.select_file_data != "") {
+        uploads.append("image", this.select_file_data[0])
+        Post.postCover(this.$route.params.id,uploads)
+            .then((res) => {
+              console.log(res.data)
+              this.loadingProfile = true;
+              this.editForm.cover = res.data
+            })
+            .catch((err) => {
+              console.log(err)
+            })
+      }
+    },
   },
   mounted() {
     highlightCode()
