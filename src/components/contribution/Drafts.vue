@@ -2,7 +2,7 @@
   <section>
     <div class="container">
       <div class="text-center">
-        <h3 v-show="this.loadingProfile"> 草稿列表加载中
+        <h3 v-show="loadingProfile"> 草稿列表加载中
           <v-progress-circular
               class="center"
               indeterminate
@@ -14,8 +14,7 @@
         </h3>
       </div>
     </div>
-    <div class="g-brd-around g-brd-gray-light-v4 g-pa-20 g-mb-40" v-show="!this.loadingProfile">
-    {{drafts}}
+    <div v-show="!loadingProfile">
       <draft v-for="(draft,index) in drafts" :key="index"
       :draft = "draft"
       @delete="getUserDrafts(1)">
@@ -30,8 +29,6 @@
         ></v-pagination>
       </div>
     </div>
-
-
   </section>
 </template>
 

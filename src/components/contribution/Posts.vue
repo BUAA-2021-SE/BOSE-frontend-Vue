@@ -2,7 +2,7 @@
   <section>
     <div class="container">
       <div class="text-center">
-        <h3 v-show="this.loadingProfile"> 博客列表加载中
+        <h3 v-show="loadingProfile"> 博客列表加载中
           <v-progress-circular
               class="center"
               indeterminate
@@ -14,7 +14,7 @@
         </h3>
       </div>
     </div>
-    <div class="g-brd-around g-brd-gray-light-v4 g-pa-20 g-mb-40" v-show="!this.loadingProfile">
+    <div v-show="!loadingProfile">
       <blog v-for="(post,index) in posts" :key="index"
       :post = "post"
       @delete="getUserPosts(1)">

@@ -18,26 +18,31 @@
         <v-btn :to="{name: 'ReceivedComments'}" 
         block color="blue" outlined>
         <v-icon color="green">mdi-comment</v-icon>
-        ReceivedComments
+        收到评论
         <span class="red--text ms-4" v-if="unread.unread_comments!=0">{{unread.unread_comments}}</span>
         </v-btn>
         <v-btn :to="{name: 'ReceivedMessages'}" 
         block color="blue" outlined>
         <v-icon color="green">mdi-email</v-icon>
-        ReceivedMessages
+        收到私信
         <span class="red--text ms-4" v-if="unread.unread_messages!=0">{{unread.unread_messages}}</span>
         </v-btn>
         <v-btn :to="{name: 'Likes'}" 
         block color="blue" outlined>
         <v-icon color="green">mdi-heart</v-icon>
-        Likes
+        喜欢
         <span class="red--text ms-4" v-if="unread.unread_likes!=0">{{unread.unread_likes}}</span>
         </v-btn>
         <v-btn :to="{name: 'FollowingPosts'}" 
         block color="blue" outlined>
         <v-icon color="green">mdi-access-point</v-icon>
-        Followings
+        新增粉丝
         <span class="red--text ms-4" v-if="unread.unread_followings!=0">{{unread.unread_followings}}</span>
+        </v-btn>
+        <v-btn :to="{name: 'History'}"
+        block color="blue" outlined>
+        <v-icon color="green">mdi-history</v-icon>
+        历史记录
         </v-btn>
     </v-card>
     </v-col>

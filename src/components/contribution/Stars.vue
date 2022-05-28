@@ -1,10 +1,38 @@
 <template>
-  
+<section>
+    <div class="container">
+      <div class="text-center">
+        <h3 v-show="this.loadingProfile"> 收藏列表加载中
+          <v-progress-circular
+              class="center"
+              indeterminate
+              color="primary"
+              :size="40"
+              :width="3"
+              v-show="loadingProfile"
+          ></v-progress-circular>
+        </h3>
+      </div>
+    </div>
+    <div v-show="!loadingProfile" v-for="(star,index) in stars" :key="index">
+        {{ $moment(star.timestamp).format("LLL") }}
+      <blog :post = "star.blog">
+      </blog>
+      <div>
+        <span>共有收藏{{ total }}篇</span>
+        <v-pagination
+            v-model="page"
+            :length="pageTotal"
+            :total-visible="7"
+            circle
+        ></v-pagination>
+      </div>
+    </div>
+</section>
 </template>
 
 <script>
 import store from "@/store.js";
-import Post from "@/api/post";
 import Star from '@/api/star';
 import BlogItem from '@/components/base/BlogItem.vue'
 export default {
@@ -14,7 +42,7 @@ export default {
     },
     data() {
         return{
-            posts: [],
+            stars: [],
             loadingProfile: true,
             sharedState: store.state,
             blog: {
@@ -38,6 +66,9 @@ export default {
             Star.getStarList()
             .then((res)=>{
                 console.log(res);
+                this.stars = res.data;
+                this.total = res.data.length;
+                this.loadingProfile = false;
             })
             .catch((err)=>{
                 console.log(err);
