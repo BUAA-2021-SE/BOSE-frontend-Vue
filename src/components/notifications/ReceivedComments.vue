@@ -27,7 +27,9 @@
               v-for="(item,index) in items"
               :key="index"
           >
-            <v-expansion-panel-header>
+            <v-expansion-panel-header
+                @click="readMail(item.id)"
+            >
               <v-col
                   cols="4"
                   sm="3"
@@ -57,16 +59,7 @@
                   <v-col
                       class="hidden-xs-only"
                   >
-                    <strong v-html="item.sender.name||item.sender.username"></strong>
-                    在博文
-                    <strong v-html="item.blog_title"></strong>
-                    给你留下了评论
-                    <!--                  <span-->
-                    <!--                      v-if="message.total"-->
-                    <!--                      class="grey--text"-->
-                    <!--                  >-->
-                    <!--                  &nbsp;({{ message.total }})-->
-                    <!--                </span>-->
+                    来自用户 <strong v-html="item.sender.name||item.sender.username"></strong> 的评论通知
                   </v-col>
                 </v-row>
                 <v-row>
@@ -98,9 +91,19 @@
 
             <v-expansion-panel-content>
               <v-divider></v-divider>
-              <v-card-text>
-                {{ getComments(item.body) }}
-              </v-card-text>
+              <v-card-text v-html="item.body"></v-card-text>
+              <router-link
+                  :to="{name: 'Post',params: {id:item.blog_id}}"
+                  class="text-primary">
+                <v-btn
+                    color="primary"
+                    class="mr-2"
+                    small
+                    text
+                >
+                  查看帖子
+                </v-btn>
+              </router-link>
             </v-expansion-panel-content>
           </v-expansion-panel>
         </v-expansion-panels>
@@ -148,6 +151,10 @@ export default {
       let comments = rawString.split(":");
       comments = comments[comments.length - 1].split("：");
       return comments[comments.length - 1];
+    },
+    readMail(id) {
+      console.log("readMail" + id);
+      Notifications.getMail(id);
     }
   },
   created() {
