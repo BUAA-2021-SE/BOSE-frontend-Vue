@@ -13,14 +13,7 @@
           :class="{'is-invalid': postForm.titleError}"
           :style="{width:'30vw' ,'margin-top':'10px'}"
       ></v-text-field>
-      </v-col>
-<v-col  md="6" class="my-auto">
-    <v-btn @click="addFile">Upload cover</v-btn>
-    <input type="file" ref="upload_input" style="display: none;" @change="select_file" accept=".png,.jpg,.jpeg">
-     <img v-if="postForm.cover" :src="postForm.cover" width="100%">
-</v-col>
-  </v-row>
-      <label>摘要</label>
+       <label>摘要</label>
       <v-textarea
           v-model="postForm.summary"
           outlined
@@ -29,9 +22,17 @@
           rows="2"
           placeholder=""
           :class="{'is-invalid': postForm.summaryError}"
-          :style="{width:'100vw' ,'margin-top':'10px'}"
+          :style="{width:'30vw' ,'margin-top':'10px'}"
       ></v-textarea>
 
+      </v-col>
+<v-col  md="6" class="my-auto">
+    <v-btn @click="addFile">Upload cover</v-btn>
+    <input type="file" ref="upload_input" style="display: none;" @change="select_file" accept=".png,.jpg,.jpeg">
+     <img v-if="postForm.cover" :src="postForm.cover" width="300px" height="150px">
+</v-col>
+  </v-row>
+     
 
    
       <label>正文</label>

@@ -66,4 +66,8 @@ components: {following: FollowingItem},
 .col-md-12.col-12 {
     padding: 0px;
 }
+h3{
+  margin-top:0px!important;
+  padding-top:0px!important;
+}
 </style>

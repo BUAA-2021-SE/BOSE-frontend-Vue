@@ -13,13 +13,7 @@
           :class="{'is-invalid': editForm.titleError}"
           :style="{width:'30vw' ,'margin-top':'10px'}"
       ></v-text-field>
-      </v-col>
-<v-col  md="6" class="my-auto">
-    <v-btn @click="addFile">Upload cover</v-btn>
-    <input type="file" ref="upload_input" style="display: none;" @change="select_file" accept=".png,.jpg,.jpeg">
-     <img v-if="editForm.cover" :src="editForm.cover" width="100%">
-</v-col>
-  </v-row>
+
       <label>摘要</label>
       <v-textarea
           v-model="editForm.summary"
@@ -29,11 +23,17 @@
           rows="2"
           placeholder=""
           :class="{'is-invalid': editForm.summaryError}"
-          :style="{width:'100vw' ,'margin-top':'10px'}"
+          :style="{width:'30vw' ,'margin-top':'10px'}"
       ></v-textarea>
 
-
-   
+      </v-col>
+<v-col  md="6" class="my-auto">
+    <v-btn @click="addFile">上传封面</v-btn>
+    <input type="file" ref="upload_input" style="display: none;" @change="select_file" accept=".png,.jpg,.jpeg">
+     <img v-if="editForm.cover" :src="editForm.cover" max-width="300px" max-height="150px">
+</v-col>
+  </v-row>
+      
       <label>正文</label>
   <div style="z-index:-10">
         <mavon-editor  ref="md" v-model="editForm.body" :toolbars="tools" @imgAdd="imgAdd" :style="{'min-height':'50hv'}"/>
@@ -45,11 +45,11 @@
       </v-alert>
       <v-card-actions>
         <router-link :to="{name: 'Home'}">
-          <v-btn>Quit</v-btn>
+          <v-btn>返回</v-btn>
         </router-link>
         <v-spacer></v-spacer>
-        <v-btn @click="onCommitBlog">Commit</v-btn>
-        <v-btn @click="onSubmitAdd">Submit</v-btn>
+        <v-btn @click="onCommitBlog">保存</v-btn>
+        <v-btn @click="onSubmitAdd">发布</v-btn>
       </v-card-actions>
      
      
@@ -243,6 +243,15 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
+.router-link-active {
+  text-decoration: none;
+  color: yellow;
+  color: #4cabeb;
+}
 
+a {
+  text-decoration: none;
+  color: rgb(255, 255, 255);
+}
 </style>

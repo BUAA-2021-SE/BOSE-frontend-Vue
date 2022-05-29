@@ -117,6 +117,10 @@ export default {
 };
 </script>
 <style scoped>
+h3{
+  margin-top:0px!important;
+  padding-top:0px!important;
+}
 .router-link-active {
   text-decoration: none;
 }
