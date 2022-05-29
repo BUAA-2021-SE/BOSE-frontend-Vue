@@ -24,7 +24,7 @@
         </div>
         <v-col cols="12" sm="6" md="6" v-for="(post,index) in posts" :key="index">
           <blog
-              :post="post"
+              :post="brightSearch(post)"
               @delete="getSearchPosts(1)">
           </blog>
         </v-col>
@@ -94,6 +94,17 @@ export default {
             console.log(err, "getSearchPostsError");
             this.loadingProfile = false;
           });
+    },
+    brightSearch(post) {
+      console.log("brightSearch", post);
+      if (this.$route.params.keyword && this.$route.params.keyword.length > 0) {
+        let replaceReg = new RegExp(this.$route.params.keyword, 'g')
+        let replaceString = '<span class="search-text">' + this.$route.params.keyword + '</span>'
+        post.title = post.title.replace(replaceReg, replaceString)
+        post.summary = post.summary.replace(replaceReg, replaceString)
+        post.body = post.body.replace(replaceReg, replaceString)
+        return post
+      }
     },
   },
   watch: {
