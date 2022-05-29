@@ -90,6 +90,14 @@
             </v-icon>
               立刻关注
             </v-btn>
+            <v-btn v-if="$route.params.id != sharedState.user_id" text class="d-flex justify-start"
+            :to="{name: 'HistoryMessage',params: {id: this.$route.params.id}}"
+            >
+            <v-icon class="material-icons"  :style="{ color: 'DarkTurquoise' ,'font-size': '20px','margin-top':'2px','margin-right':'3px'}">
+            message
+            </v-icon>
+              私信交流
+            </v-btn>
             </v-row>
             </v-card>
           </v-col>

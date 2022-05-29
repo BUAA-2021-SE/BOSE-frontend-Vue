@@ -4,6 +4,8 @@ const url = {
     getMailList: '/mail/get_mail_list',
     history: '/history/history_list',
     getMail: '/mail/get_mail',
+    postChat:'/chat/send_chat_by_user_id',
+    getChatList:'/chat/get_chat_list'
 };
 export default class Notifications {
     static async getMailList(id) {
@@ -23,6 +25,20 @@ export default class Notifications {
     static async getMail(id) {
         return service(`${url.getMail}/${id}`, {
             method: 'post',
+            responseType: 'json'
+        })
+    }
+
+    static async postChat(id){
+        return service(`${url.postChat}/${id}`, {
+            method: 'post',
+            responseType: 'json'
+        })
+    }
+
+    static async getChatList(id){
+        return service(`${url.getChatList}/${id}`,{
+            method: 'get',
             responseType: 'json'
         })
     }

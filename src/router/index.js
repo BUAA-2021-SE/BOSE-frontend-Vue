@@ -30,6 +30,7 @@ import ReceivedMessages from '@/components/notifications/ReceivedMessages'
 import Likes from '@/components/notifications/Likes'
 import FollowingPosts from '@/components/notifications/FollowingPosts'
 import History from '@/components/notifications/History'
+import HistoryMessage from '@/components/notifications/HistoryMessage'
 Vue.use(VueRouter)
 Vue.use(mavonEditor)
 const router = new VueRouter({
@@ -132,7 +133,11 @@ const router = new VueRouter({
             children: [
                 {path: '', component: ReceivedComments},
                 {path: 'comments', name: 'ReceivedComments', component: ReceivedComments},
-                {path: 'messages', name: 'ReceivedMessages', component: ReceivedMessages},
+                {path: 'messages', name: 'ReceivedMessages', component: ReceivedMessages,
+                    children: [
+                        {path:'history_message/:id',name: 'HistoryMessage',component: HistoryMessage}
+                    ]
+                },
                 {path: 'likes', name: 'Likes', component: Likes},
                 {path: 'following-posts', name: 'FollowingPosts', component: FollowingPosts},
                 {path: 'history', name:'History',component: History}
