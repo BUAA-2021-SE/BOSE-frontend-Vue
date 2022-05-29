@@ -144,31 +144,50 @@
                 </ul>
               </div>
           </article>
-          <v-dialog v-model="deleteBlogDialog">
-            <v-card>
-              <v-card-title> Are you sure you want to delete? </v-card-title>
-              <v-card-actions>
-                <v-btn color="primary" text @click="deleteBlogDialog = false">
-                  Quit
-                </v-btn>
-                <v-spacer></v-spacer>
-                <v-btn color="error" text @click="onDeletePost"> Confirm </v-btn>
-              </v-card-actions>
-            </v-card>
-          </v-dialog>
-          <v-dialog v-model="deleteCommentDialog">
-          <v-card>
-              <v-card-title> Are you sure you want to delete this comment? </v-card-title>
-              <v-card-actions>
-                <v-btn color="primary" text @click="deleteCommentDialog = false">
-                  Quit
-                </v-btn>
-                <v-spacer></v-spacer>
-                <v-btn color="error" text @click="onDeleteComment"> Confirm </v-btn>
-              </v-card-actions>
-            </v-card>
-          </v-dialog>
-          <v-dialog v-model="replyCommentDialog">
+
+          <v-dialog
+      style="z-index: 2000"
+     v-model="deleteBlogDialog"
+      width="25vw"
+      height="20vh"
+    >
+      <v-card
+        :style="{ width: '25vw', height: '20vh' }"
+        class="d-flex align-center flex-wrap"
+      >
+      <v-row class="mx-auto d-flex justify-center">
+        <v-card-title class="mx-auto"><h3 class="mx-auto">确定删除？</h3> </v-card-title>
+        <v-card-actions>
+          <v-btn color="primary" text @click="deleteBlogDialog = false"> 取消 </v-btn>
+          <v-spacer></v-spacer>
+          <v-btn color="error" text @click="onDeletePost"> 确认 </v-btn>
+        </v-card-actions>
+       </v-row>
+      </v-card>
+    </v-dialog>
+ <v-dialog
+      style="z-index: 2000"
+     v-model="deleteCommentDialog"
+      width="25vw"
+      height="20vh"
+    >
+      <v-card
+        :style="{ width: '25vw', height: '20vh' }"
+        class="d-flex align-center flex-wrap"
+      >
+      <v-row class="mx-auto d-flex justify-center">
+        <v-card-title class="mx-auto"><h3 class="mx-auto">确定删除？</h3> </v-card-title>
+        <v-card-actions>
+          <v-btn color="primary" text @click="deleteCommentDialog = false"> 取消 </v-btn>
+          <v-spacer></v-spacer>
+          <v-btn color="error" text @click="onDeleteComment"> 确认 </v-btn>
+        </v-card-actions>
+       </v-row>
+      </v-card>
+    </v-dialog>
+          
+          
+          <v-dialog v-model="replyCommentDialog" >
             <!-- Add Comment Form -->
             <v-card>
             <v-form
@@ -349,7 +368,7 @@
 
                 <!-- 子级评论，按时间正序排列 -->
                 <v-card
-                  v-if="comment.descendants"
+                  v-show="comment.descendants"
                   v-for="(child, cindex) in comment.descendants"
                   :key="cindex"
                   :id="'c' + child.id"

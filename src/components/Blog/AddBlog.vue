@@ -29,7 +29,7 @@
 <v-col  md="6" class="my-auto">
     <v-btn @click="addFile">Upload cover</v-btn>
     <input type="file" ref="upload_input" style="display: none;" @change="select_file" accept=".png,.jpg,.jpeg">
-     <img v-if="postForm.cover" :src="postForm.cover" width="300px" height="150px">
+     <img v-if="postForm.cover" :src="postForm.cover" max-width="300px" max-height="150px" width="300px" height="150px">
 </v-col>
   </v-row>
      
@@ -46,11 +46,11 @@
       </v-alert>
       <v-card-actions>
         <router-link :to="{name: 'Home'}">
-          <v-btn>Quit</v-btn>
+          <v-btn>返回</v-btn>
         </router-link>
         <v-spacer></v-spacer>
-        <v-btn @click="onCommitBlog">Commit</v-btn>
-        <v-btn @click="onSubmitAdd">Submit</v-btn>
+        <v-btn @click="onCommitBlog">保存</v-btn>
+        <v-btn @click="onSubmitAdd">发布</v-btn>
       </v-card-actions>
      
      
