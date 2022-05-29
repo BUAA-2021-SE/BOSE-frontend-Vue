@@ -18,7 +18,7 @@
       <!-- Sidebar -->
       <v-row>
         <!-- End Sidebar -->
-        <v-col cols="12" md="9" class="mx-auto">
+        <v-col cols="12" md="9" >
           <!-- 博文内容 -->
           <!-- Articles Content -->
           <article>
@@ -84,37 +84,97 @@
               @click="onLikeOrUnlikePost(post)"
               color="primary"
               text
-              :style="{width:'80px'}"
+              :style="{ width: '80px' }"
             >
-              
               <span v-if="post.likers_id && post.likers_id.length > 0"
-                ><v-icon class="material-icons my-auto" :style="{color:'#1976D2','font-size':'20px','margin-right':'10px','margin-top':'-4px!important'}"> thumb_up </v-icon
-                        >{{ post.likers_id.length }}</span
+                ><v-icon
+                  class="material-icons my-auto"
+                  :style="{
+                    color: '#1976D2',
+                    'font-size': '20px',
+                    'margin-right': '10px',
+                    'margin-top': '-4px!important',
+                  }"
+                >
+                  thumb_up </v-icon
+                >{{ post.likers_id.length }}</span
               >
-              
             </v-btn>
-            <v-btn v-else   :style="{width:'80px'}" text @click="onLikeOrUnlikePost(post)">
-              
+            <v-btn
+              v-else
+              :style="{ width: '80px' }"
+              text
+              @click="onLikeOrUnlikePost(post)"
+            >
               <span v-if="post.likers_id && post.likers_id.length > 0"
-                ><v-icon class="material-icons my-auto" :style="{'margin-right':'10px','margin-top':'-4px!important'}">
-                          thumb_up
-                        </v-icon>{{ post.likers_id.length }}</span
+                ><v-icon
+                  class="material-icons my-auto"
+                  :style="{
+                    'margin-right': '10px',
+                    'margin-top': '-4px!important',
+                  }"
+                >
+                  thumb_up </v-icon
+                >{{ post.likers_id.length }}</span
               >
-              
             </v-btn>
-            <v-btn v-if="ifStarred" @click="onUnStarPost(post)" color="primary">
-              <v-icon class="material-icons">bookmarks</v-icon>
+            <v-btn
+              text
+              v-if="ifStarred"
+              @click="onUnStarPost(post)"
+              color="primary"
+            >
               <span v-if="post.stars_id && post.stars_id.length > 0"
-                >|{{ post.stars_id.length }}</span
+                ><v-icon
+                  class="material-icons my-auto"
+                  :style="{
+                    color: '#1976D2',
+                    'font-size': '20px',
+                    'margin-right': '10px',
+                    'margin-top': '-4px!important',
+                  }"
+                  >star</v-icon
+                >{{ post.stars_id.length }}</span
               >
-              收藏
+              <span v-else
+                ><v-icon
+                  class="material-icons my-auto"
+                  :style="{
+                    color: '#1976D2',
+                    'font-size': '20px',
+                    'margin-right': '10px',
+                    'margin-top': '-4px!important',
+                  }"
+                  >star</v-icon
+                >
+              </span>
             </v-btn>
-            <v-btn v-else @click="onStarPost(post)">
-              <v-icon class="material-icons">bookmarks</v-icon>
-              <span v-if="post.stars_id && post.stars_id.length > 0"
-                >|{{ post.stars_id.length }}</span
+            <v-btn
+              text
+              v-else
+              @click="onStarPost(post)"
+              :style="{ width: '80px' }"
+            >
+              <span v-if="post.stars_id && post.stars_id.length > 0">
+                <v-icon
+                  class="material-icons my-auto"
+                  :style="{
+                    'margin-right': '10px',
+                    'margin-top': '-4px!important',
+                  }"
+                  >star</v-icon
+                >{{ post.stars_id.length }}</span
               >
-              收藏
+              <span v-else
+                ><v-icon
+                  class="material-icons my-auto"
+                  :style="{
+                    'margin-right': '10px',
+                    'margin-top': '-4px!important',
+                  }"
+                  >star</v-icon
+                >
+              </span>
             </v-btn>
 
             <div class="col-lg-9">
@@ -260,7 +320,7 @@
             </v-card>
             <!-- End Add Comment Form -->
           </v-dialog>
-          <v-divider></v-divider>
+  
           <!-- End Articles Content -->
           <!-- 博文评论 -->
           <div id="comment-list-wrap" class="card border-0 g-mb-15">
@@ -269,44 +329,81 @@
               class="card-header d-flex align-items-center justify-content-between g-bg-gray-light-v5 border-0 g-mb-15"
             >
               <h3 class="h6 mb-0">
-                <i class="icon-bubbles g-pos-rel g-top-1 g-mr-5"></i> 评论
+                <i class="icon-bubbles g-pos-rel g-top-1 g-mr-5"></i> 评论区
               </h3>
             </div>
             <!-- End Panel Header -->
 
             <!-- Add Comment Form -->
-            <v-form
-              id="addCommentForm"
-              v-if="sharedState.is_authenticated"
-              @submit.prevent="onSubmitAddComment"
-              @reset.prevent="onResetAddComment"
-            >
-              <v-textarea
-                v-model="commentForm.body"
-                v-highlight
-                auto-grow
-                rows="1"
-              ></v-textarea>
-              <small
-                class="form-control-feedback"
-                v-show="commentForm.bodyError"
-                >{{ commentForm.bodyError }}</small
-              >
-              <v-btn type="reset">Cancel</v-btn>
-              <v-btn type="submit" color="primary">Submit</v-btn>
-            </v-form>
-            <!-- End Add Comment Form -->
 
-            <div v-else>
-              <v-btn color="error" block :to="{ name: 'Login' }">
-                发表评论前，请先登录 ...
-              </v-btn>
-            </div>
-            <v-divider></v-divider>
+            <v-row>
+              <v-col cols="12" md="1" class="d-flex justify-center">
+                <v-avatar size="60">
+                  <img
+                    :src="user._links.avatar"
+                    width="60px"
+                    height="60px"
+                    max-height="60px"
+                    max-width="60px"
+                  />
+                </v-avatar>
+              </v-col>
+              <v-col cols="12" md="11">
+                <div id="addCommentForm" v-if="sharedState.is_authenticated">
+                  <v-row>
+                    <v-col cols="12" md="10">
+                      <v-textarea
+                        v-model="commentForm.body"
+                        dense
+                        v-highlight
+                        outlined
+                        auto-grow
+                        placeholder="发布一条友善的评论"
+                        row-height="20"
+                        rows="3"
+                      ></v-textarea>
+
+                      <v-alert
+                        dense
+                        outlined
+                        type="error"
+                        v-show="commentForm.bodyError"
+                        :style="{'margin-top':'-20px','margin-bottom':'5px'}"
+                      >
+                        评论不能为空哦
+                      </v-alert>
+                    </v-col>
+                    <v-col cols="12" md="2">
+                      <v-btn
+                        :style="{
+                          height: '70px',
+                          width: '100%',
+                          'margin-top': '-5px',
+                          'background-color': '#00AEEC',
+                          color: '#FFFFFF',
+                        }"
+                        type="submit"
+                        @click="onSubmitAddComment()"
+                        preventdefault
+                        >发布</v-btn
+                      >
+                    </v-col>
+                  </v-row>
+                </div>
+                <!-- End Add Comment Form -->
+
+                <div v-else>
+                  <v-btn color="error" block :to="{ name: 'Login' }">
+                    发表评论前，请先登录 ...
+                  </v-btn>
+                </div>
+              </v-col>
+            </v-row>
+
             <!-- Panel Body -->
             <!-- 一级评论，按时间倒序排列 -->
             <div v-for="(comment, index) in comments" :key="index">
-              <v-card :id="'c' + comment.id" elevation="5" outlined>
+              <v-card outlined :id="'c' + comment.id"  :style="{'border-left-color':'#FFFFFF','border-bottom-color':'#FFFFFF','border-right-color':'#FFFFFF'}">
                 <v-card-title>
                   <router-link :to="{ path: `/user/${comment.author.id}` }">
                     <v-avatar size="60">
@@ -323,36 +420,35 @@
                     >
                       {{ comment.author.name || comment.author.username }}
                     </router-link>
-                    
-                  
+
                     <v-btn
                       v-if="comment.author.id == post.author.id"
                       x-small
                       text
-                      :style="{ 'pointer-events': 'none'}"
+                      :style="{ 'pointer-events': 'none' }"
                     >
-                       <i
-                class="icon-check g-pos-rel g-top-1 g-color-gray-dark-v5 g-mr-5"
-                
-              ></i>博文作者
+                      <i
+                        class="icon-check g-pos-rel g-top-1 g-color-gray-dark-v5 g-mr-5"
+                      ></i
+                      >博文作者
                     </v-btn>
                   </p>
                 </v-card-title>
-                <v-card-subtitle>{{
-                  $moment(comment.timestamp).format("YYYY年MM月DD日 HH:mm:ss")
-                }}</v-card-subtitle>
-                <v-card-text>
+                <v-card-subtitle></v-card-subtitle>
+                <v-card-text :style="{'color':'#000000','padding-bottom':'0px'}">
                   <div v-if="comment.disabled">
                     此评论包含不良信息，已被禁止显示.
                   </div>
                   <div v-else>
                     <!-- vue-markdown 开始解析markdown，它是子组件，通过 props 给它传值即可
                     v-highlight 是自定义指令，用 highlight.js 语法高亮 -->
-                    <vue-markdown :source="comment.body" v-highlight>
+                    <vue-markdown :source="comment.body" v-highlight >
                     </vue-markdown>
                   </div>
                 </v-card-text>
+                
                 <ul class="list-inline d-sm-flex my-0">
+                  <li class="my-auto" :style="{color:'grey'}">{{$moment(comment.timestamp).format("YYYY年MM月DD日 HH:mm:ss")}}</li>
                   <li v-if="!comment.disabled" class="list-inline-item g-mr-20">
                     <v-btn
                       @click="onLikeOrUnlikeComment(comment)"
@@ -360,28 +456,68 @@
                         comment.likers_id.indexOf(sharedState.user_id) != -1
                       "
                       text
-                  :style="{width:'80px'}"
+                      :style="{ width: '80px' }"
                       color="primary"
-                      
                     >
-                      
                       <span v-if="comment.likers_id.length > 0">
-                       <v-icon class="material-icons my-auto" :style="{color:'#1976D2','font-size':'20px','margin-right':'10px','margin-top':'-4px!important'}"> thumb_up </v-icon
+                        <v-icon
+                          class="material-icons my-auto"
+                          :style="{
+                            color: '#1976D2',
+                            'font-size': '20px',
+                            'margin-right': '10px',
+                            'margin-top': '-4px!important',
+                          }"
+                        >
+                          thumb_up </v-icon
                         >{{ comment.likers_id.length }}</span
                       >
-                      <span v-else><v-icon class="material-icons my-auto" :style="{color:'#1976D2','font-size':'20px','margin-right':'10px','margin-top':'-4px!important'}"> thumb_up </v-icon
-                        ></span>
-                    </v-btn>
-                    <v-btn text @click="onLikeOrUnlikeComment(comment)"  :style="{width:'80px'}" v-else>
-                      
-                      <span v-if="comment.likers_id.length > 0">
-                         <v-icon class="material-icons  my-auto" :style="{'margin-right':'10px','margin-top':'-4px!important'}"> thumb_up </v-icon>{{ comment.likers_id.length }}</span
+                      <span v-else
+                        ><v-icon
+                          class="material-icons my-auto"
+                          :style="{
+                            color: '#1976D2',
+                            'font-size': '20px',
+                            'margin-right': '10px',
+                            'margin-top': '-4px!important',
+                          }"
+                        >
+                          thumb_up
+                        </v-icon></span
                       >
-                      <span v-else> <v-icon class="material-icons  my-auto" :style="{'margin-right':'10px','margin-top':'-4px!important'}"> thumb_up </v-icon></span>
+                    </v-btn>
+                    <v-btn
+                      text
+                      @click="onLikeOrUnlikeComment(comment)"
+                      :style="{ width: '80px' }"
+                      v-else
+                    >
+                      <span v-if="comment.likers_id.length > 0">
+                        <v-icon
+                          class="material-icons my-auto"
+                          :style="{
+                            'margin-right': '10px',
+                            'margin-top': '-4px!important',
+                          }"
+                        >
+                          thumb_up </v-icon
+                        >{{ comment.likers_id.length }}</span
+                      >
+                      <span v-else>
+                        <v-icon
+                          class="material-icons my-auto"
+                          :style="{
+                            'margin-right': '10px',
+                            'margin-top': '-4px!important',
+                          }"
+                        >
+                          thumb_up
+                        </v-icon></span
+                      >
                     </v-btn>
                   </li>
                   <li v-if="!comment.disabled" class="list-inline-item g-mr-20">
-                    <v-btn @click="onClickReply(comment)">
+                    <v-btn @click="onClickReply(comment)" text>
                       <i class="icon-note g-pos-rel g-top-1 g-mr-3"></i>
                       回复
                     </v-btn>
@@ -422,6 +558,7 @@
                           deleteCommentDialog = true;
                           deleteCommentId = comment.id;
                         "
+                        text
                         small
                         color="red"
                         >删除</v-btn
@@ -437,10 +574,14 @@
                 v-for="(child, cindex) in comment.descendants"
                 :key="cindex"
                 :id="'c' + child.id"
+                outlined
+                width="80%"
+                class="mx-auto"
+                :style="{'border-color':'#FFFFFF','border-right-color':'#FFFFFF','margin-right':'0px'}"
               >
                 <v-card-title>
                   <router-link :to="{ path: `/user/${child.author.id}` }">
-                    <v-avatar size="60">
+                    <v-avatar size="40">
                       <v-img
                         :src="child.author.headshot"
                         alt="child.author.name || child.author.username"
@@ -454,56 +595,94 @@
                     >
                       {{ child.author.name || child.author.username }}
                     </router-link>
+
                     <v-btn
                       v-if="child.author.id == post.author.id"
                       x-small
-                      color="purple"
+                      text
+                      :style="{ 'pointer-events': 'none' }"
                     >
-                      博文作者
+                      <i
+                        class="icon-check g-pos-rel g-top-1 g-color-gray-dark-v5 g-mr-5"
+                      ></i
+                      >博文作者
                     </v-btn>
                   </p>
                 </v-card-title>
                 <v-card-subtitle>
-                  <span>{{
-                    $moment(child.timestamp).format("YYYY年MM月DD日 HH:mm:ss")
-                  }}</span>
+                  <span></span>
                 </v-card-subtitle>
-                <v-card-text>
+                <v-card-text :style="{'color':'#000000','padding-bottom':'0px'}">
                   <div v-if="child.disabled" class="g-color-red g-mb-15">
                     此评论已被禁止显示.
                   </div>
                   <div v-else>
-                    <vue-markdown :source="child.body" highlight>
+                    <vue-markdown :source="child.body" highlight >
                     </vue-markdown>
                   </div>
                 </v-card-text>
                 <ul class="list-inline d-sm-flex my-0">
+                  <li class="my-auto" :style="{color:'grey'}">{{$moment(child.timestamp).format("YYYY年MM月DD日 HH:mm:ss")}}</li>
                   <li v-if="!child.disabled" class="list-inline-item g-mr-20">
                     <v-btn
                       text
                       @click="onLikeOrUnlikeComment(child)"
                       v-if="child.likers_id.indexOf(sharedState.user_id) != -1"
                       color="primary"
-                     
-                       :style="{width:'80px'}"
+                      :style="{ width: '80px' }"
                     >
                       <span v-if="child.likers_id.length > 0">
-                        <v-icon class="material-icons my-auto" :style="{color:'#1976D2','font-size':'20px','margin-right':'10px','margin-top':'-4px!important'}"> thumb_up </v-icon
+                        <v-icon
+                          class="material-icons my-auto"
+                          :style="{
+                            color: '#1976D2',
+                            'font-size': '20px',
+                            'margin-right': '10px',
+                            'margin-top': '-4px!important',
+                          }"
+                        >
+                          thumb_up </v-icon
                         >{{ child.likers_id.length }}</span
                       >
                       <span v-else
-                        ><v-icon class="material-icons  my-auto" :style="{color:'#1976D2','font-size':'20px','margin-right':'10px','margin-top':'-4px!important'}">
+                        ><v-icon
+                          class="material-icons my-auto"
+                          :style="{
+                            color: '#1976D2',
+                            'font-size': '20px',
+                            'margin-right': '10px',
+                            'margin-top': '-4px!important',
+                          }"
+                        >
                           thumb_up
                         </v-icon></span
                       >
                     </v-btn>
-                    <v-btn @click="onLikeOrUnlikeComment(child)"  :style="{width:'80px'}" v-else text>
+                    <v-btn
+                      @click="onLikeOrUnlikeComment(child)"
+                      :style="{ width: '80px' }"
+                      v-else
+                      text
+                    >
                       <span v-if="child.likers_id.length > 0">
-                        <v-icon class="material-icons  my-auto" :style="{'margin-right':'10px','margin-top':'-4px!important'}"> thumb_up </v-icon
+                        <v-icon
+                          class="material-icons my-auto"
+                          :style="{
+                            'margin-right': '10px',
+                            'margin-top': '-4px!important',
+                          }"
+                        >
+                          thumb_up </v-icon
                         >{{ child.likers_id.length }}</span
                       >
                       <span v-else>
-                        <v-icon class="material-icons my-auto" :style="{'margin-right':'10px','margin-top':'-4px!important'}">
+                        <v-icon
+                          class="material-icons my-auto"
+                          :style="{
+                            'margin-right': '10px',
+                            'margin-top': '-4px!important',
+                          }"
+                        >
                           thumb_up
                         </v-icon></span
                       >
@@ -513,6 +692,7 @@
                     <v-btn
                       @click="onClickReply(child)"
                       class="comment-reply-link"
+                      text
                     >
                       <i class="icon-note g-pos-rel g-top-1 g-mr-3"></i>
                       回复
@@ -554,6 +734,7 @@
                           deleteCommentDialog = true;
                           deleteCommentId = child.id;
                         "
+                        text
                         small
                         color="red"
                         >删除</v-btn
@@ -563,7 +744,8 @@
                 </ul>
               </v-card>
             </div>
-
+            <v-divider></v-divider>
+            <span class="mx-auto">没有更多评论了捏~</span>
             <!-- End Panel Body -->
           </div>
           <!-- Pagination #04 -->
@@ -631,6 +813,7 @@ import Post from "@/api/post";
 import * as hljs from "highlight.js";
 import Comment from "@/api/comment";
 import Star from "@/api/star";
+import { Account } from "@/api/account.js";
 const highlightCode = () => {
   let blocks = document.querySelectorAll("pre code");
   blocks.forEach((block) => {
@@ -645,7 +828,8 @@ export default {
   data() {
     return {
       loadingProfile: true,
-      showContent: false,
+      showContent: true,
+
       items: [
         { title: "Home", icon: "mdi-home-city" },
         { title: "My Account", icon: "mdi-account" },
@@ -667,6 +851,7 @@ export default {
         errors: 0, // 表单是否在前端验证通过，0 表示没有错误，验证通过
         bodyError: null,
       },
+
       editForm: {
         title: "",
         summary: "",
@@ -681,6 +866,7 @@ export default {
         bodyError: null,
       },
       deleteCommentId: 0,
+      snackbar: false,
       deleteCommentDialog: false,
       deleteBlogDialog: false,
       replyCommentDialog: false,
@@ -688,6 +874,26 @@ export default {
       showEdit: false,
       topic: "",
       ifStarred: false,
+      user: {
+        username: "",
+        name: "",
+        email: "",
+        followed_num: 0,
+        followes_num: 0,
+        have_new_mail: false,
+        unread_comments: 0,
+        unread_followings: 0,
+        unread_likes: 0,
+        unread_messages: 0,
+        location: "",
+        about_me: "",
+        headshot: "",
+        member_since: "",
+        last_seen: "",
+        _links: {
+          avatar: "",
+        },
+      },
     };
   },
   methods: {
@@ -761,6 +967,10 @@ export default {
       if (!this.commentForm.body) {
         this.commentForm.error++;
         this.commentForm.bodyError = "Body is required.";
+        this.snackbar = true;
+        setInterval(() => {
+          this.snackbar = false;
+        }, 3000);
       } else {
         this.commentForm.bodyError = null;
       }
@@ -791,7 +1001,7 @@ export default {
       let cid = comment.author.id;
       let name = comment.author.name;
       this.currentForm.replyId = comment.id;
-      this.currentForm.replyTo = `To <a href="/user/${cid}"> @${name}</a>:`;
+      this.currentForm.replyTo = `回复 <a href="/user/${cid}"> @${name}</a>:`;
       // console.log(document.getElementById("replyTo"));
       this.currentForm.body = "";
       this.replyCommentDialog = true;
@@ -864,6 +1074,35 @@ export default {
           console.log(err.response);
         });
     },
+
+    queryUser() {
+      Account.getUser(this.sharedState.user_id)
+        .then((res) => {
+          console.log(res.data);
+          this.user.name = res.data.name;
+          this.user.about_me = res.data.about_me;
+          this.user._links.avatar = res.data.headshot;
+          this.user.last_seen = res.data.last_seen;
+          this.user.location = res.data.location;
+          this.user.username = res.data.username;
+          this.user.followed_num = res.data.followed_num;
+          this.user.followes_num = res.data.followes_num;
+          this.user.have_new_mail = res.data.have_new_mail;
+          this.user.unread_comments = res.data.unread_comments;
+          this.user.unread_followings = res.data.unread_followings;
+          this.user.unread_likes = res.data.unread_likes;
+          this.user.unread_messages = res.data.unread_messages;
+          this.loadingProfile = false;
+          this.newMessage =
+            this.user.unread_comments +
+            this.user.unread_followings +
+            this.user.unread_likes +
+            this.user.unread_messages;
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    },
   },
   computed: {
     content() {
@@ -888,6 +1127,7 @@ export default {
   },
   mounted() {
     highlightCode();
+    this.queryUser();
   },
   updated() {
     highlightCode();
@@ -906,6 +1146,7 @@ export default {
 }
 </style>
 <style>
+
 h1,
 h2,
 h3,
@@ -915,9 +1156,11 @@ h6 {
   margin-top: -70px !important;
   padding-top: 70px;
 }
+
 </style>
 
 <style scoped>
+
 .content {
   padding: 8px 8px;
   font-size: 14px;
@@ -971,4 +1214,5 @@ a {
     overflow-y: visible;
   }
 }
+
 </style>
