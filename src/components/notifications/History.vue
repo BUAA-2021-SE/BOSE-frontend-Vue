@@ -33,9 +33,7 @@
               v-for="(item,index) in itemByDay.slice(1,itemByDay.length)"
               :key="index"
           >
-            <v-expansion-panel-header
-                @click="readMail(item.id)"
-            >
+            <v-expansion-panel-header>
               <v-col
                   cols="16"
                   sm="4"
@@ -148,10 +146,6 @@ export default {
             console.log(err.response.details);
             this.loadingHistory = false;
           })
-    },
-    readMail(id) {
-      console.log("readMail" + id);
-      Notifications.getMail(id);
     }
   },
   created() {
