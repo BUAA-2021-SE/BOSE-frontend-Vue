@@ -28,9 +28,7 @@
             md="10"
         >
           <v-card>
-            <v-list
-                v-for="(itemByDay, index) in items"
-            >
+            <v-list v-for="(itemByDay, index) in items" :key="index">
               <v-subheader :key="index">
                 <h5>{{ itemByDay[0] }}</h5>
               </v-subheader>

@@ -215,11 +215,11 @@
                 >{{ currentForm.bodyError }}</small
               >
              
-              <v-card-action class="d-flex justify-between" :style="{'padding-bottom':'20px','padding-left':'20px','padding-right':'20px',}">
+              <v-card-actions class="d-flex justify-between" :style="{'padding-bottom':'20px','padding-left':'20px','padding-right':'20px',}">
               <v-btn type="reset" text @click="replyCommentDialog=!replyCommentDialog">Cancel</v-btn>
               <v-spacer></v-spacer>
               <v-btn type="submit" text color="primary" preventdefault @click="onSubmitReplyComment">Submit</v-btn>
-              </v-card-action>
+              </v-card-actions>
                
             <!-- </v-form> -->
             </v-card>
@@ -310,7 +310,6 @@
                       </vue-markdown>
                     </div>
                   </v-card-text>
-                  <v-card-actions> </v-card-actions>
                   <ul class="list-inline d-sm-flex my-0">
                     <li
                       v-if="!comment.disabled"
@@ -428,7 +427,6 @@
                       </vue-markdown>
                     </div>
                   </v-card-text>
-                  <v-card-actions></v-card-actions>
                   <ul class="list-inline d-sm-flex my-0">
                     <li v-if="!child.disabled" class="list-inline-item g-mr-20">
                       <v-btn
@@ -684,7 +682,7 @@ export default {
       let name = comment.author.name;
       this.currentForm.replyId = comment.id;
       this.currentForm.replyTo = `To <a href="/user/${cid}"> @${name}</a>:`;
-      // document.getElementById("replyTo").innerHTML = this.currentForm.replyTo;
+      // console.log(document.getElementById("replyTo"));
       this.currentForm.body = "";
       this.replyCommentDialog = true;
     },
