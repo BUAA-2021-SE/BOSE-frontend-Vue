@@ -4,7 +4,7 @@
   <v-card-title>123</v-card-title>
   <v-card-subtitle>456</v-card-subtitle>
   <v-divider></v-divider>
-  {{items}}
+  {{items.length}}
   <v-divider></v-divider>
   <v-textarea
     hint="友善是交流的前提"
@@ -12,7 +12,7 @@
     auto-grow
   ></v-textarea>
   <v-card-actions>
-  <v-btn text> 回复评论 </v-btn>
+  <v-btn text @click="postChat"> 发送消息 </v-btn>
   </v-card-actions>
   </v-card>
   </div>
@@ -27,7 +27,7 @@ export default {
     return{
       sharedState: store.state,
       items:[],
-      chatForm:'asd'
+      chatForm:''
     }
   },
   methods:{
@@ -40,6 +40,20 @@ export default {
       })
       .catch((err)=>{
         console.error(err);
+      })
+    },
+    postChat(){
+      console.log("postChat");
+      const formData = new FormData();
+      formData.append('text',this.chatForm);
+      Notifications.postChat(this.$route.params.id,formData)
+      .then((res)=>{
+        console.log(res);
+        this.chatForm = '';
+        // this.$toasted
+      })
+      .catch((err)=>{
+        console.log(err);
       })
     }
   },

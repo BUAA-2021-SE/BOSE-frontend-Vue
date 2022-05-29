@@ -30,10 +30,14 @@ export default class Notifications {
         })
     }
 
-    static async postChat(id){
+    static async postChat(id,data){
         return service(`${url.postChat}/${id}`, {
             method: 'post',
-            responseType: 'json'
+            responseType: 'json',
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            },
+            data:data
         })
     }
 
