@@ -21,7 +21,7 @@
             收到评论
             <span class="red--text ms-4" v-if="unread.unread_comments!=0">{{ unread.unread_comments }}</span>
           </v-btn>
-          <v-btn :to="{name: 'ReceivedMessages'}"
+          <v-btn :to="{name: 'MessageList'}"
                  block color="blue" outlined>
             <v-icon color="green">mdi-email</v-icon>
             收到私信

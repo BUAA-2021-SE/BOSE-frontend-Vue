@@ -26,11 +26,12 @@ import NotFound from '@/components/base/NotFound'
 // 用户通知
 import Notifications from '@/components/notifications/Notifications'
 import ReceivedComments from '@/components/notifications/ReceivedComments'
-import ReceivedMessages from '@/components/notifications/ReceivedMessages'
 import Likes from '@/components/notifications/Likes'
 import FollowingPosts from '@/components/notifications/FollowingPosts'
 import History from '@/components/notifications/History'
-import HistoryMessage from '@/components/notifications/HistoryMessage'
+import ReceivedMessages from '@/components/notifications/message/Index'
+import HistoryMessage from '@/components/notifications/message/HistoryMessage'
+import MessageList from '@/components/notifications/message/MessageList'
 Vue.use(VueRouter)
 Vue.use(mavonEditor)
 const router = new VueRouter({
@@ -135,6 +136,8 @@ const router = new VueRouter({
                 {path: 'comments', name: 'ReceivedComments', component: ReceivedComments},
                 {path: 'messages', name: 'ReceivedMessages', component: ReceivedMessages,
                     children: [
+                        {path:'',component:MessageList},
+                        {path:'message_list', name: 'MessageList', component:MessageList},
                         {path:'history_message/:id',name: 'HistoryMessage',component: HistoryMessage}
                     ]
                 },
