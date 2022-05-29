@@ -136,8 +136,8 @@
 
               </v-btn>
             </router-link>
-            <router-link :to="{ name: 'Drafts', params: { id: sharedState.user_id } }">
-              <v-btn text :style="{width:'100%' ,}" class="mx-auto d-flex justify-start"
+            <router-link :to="{ name: 'DraftPosts', params: { id: sharedState.user_id } }">
+              <v-btn text :style="{width:'100%' }" class="mx-auto d-flex justify-start"
                      @click="sharedState.is_hover=false">
                 <!-- Contribution -->
                 <v-icon class="material-icons" :style="{ color: '#FB8C00' ,'font-size': '20px','margin-top':'2px'}">
