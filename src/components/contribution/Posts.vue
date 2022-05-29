@@ -2,7 +2,7 @@
   <section>
     <div class="container">
       <div class="text-center">
-        <h3 v-show="loadingProfile"> 博客列表加载中
+        <h3 v-show="loadingProfile"> 博文列表加载中
           <v-progress-circular
               class="center"
               indeterminate
@@ -14,10 +14,13 @@
         </h3>
       </div>
     </div>
-    <div v-show="!loadingProfile">
+    <div
+        v-if="posts.length > 0"
+        v-show="!loadingProfile"
+    >
       <blog v-for="(post,index) in posts" :key="index"
-      :post = "post"
-      @delete="getUserPosts(1)">
+            :post="post"
+            @delete="getUserPosts(1)">
       </blog>
       <div>
         <span>共有博文{{ total }}篇</span>
@@ -29,7 +32,11 @@
         ></v-pagination>
       </div>
     </div>
-
+    <div
+        v-else-if="posts.length === 0 && !this.loadingProfile"
+        class="text-center">
+      <h4>呜呜呜，一篇博文都没有。</h4>
+    </div>
 
   </section>
 </template>
@@ -38,10 +45,11 @@
 import store from "@/store.js";
 import Post from "@/api/post";
 import BlogItem from '@/components/base/BlogItem.vue'
+
 export default {
   name: 'Posts',
   components: {
-    blog:BlogItem
+    blog: BlogItem
   },
   data() {
     return {

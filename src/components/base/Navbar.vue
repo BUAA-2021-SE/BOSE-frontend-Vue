@@ -50,18 +50,20 @@
         登出
       </v-btn>
 
-      <v-btn v-if="sharedState.is_authenticated" text class="white--text" @click="getNewBlog" :style="{'font-weight': 'bold'}"> 投稿</v-btn>
+      <v-btn v-if="sharedState.is_authenticated" text class="white--text" @click="getNewBlog"
+             :style="{'font-weight': 'bold'}"> 投稿
+      </v-btn>
       <router-link v-else :to="{ name: 'Login' }">
         <v-btn text class="white--text"> 投稿</v-btn>
       </router-link>
 
       <router-link v-if="sharedState.is_authenticated" :to="{ name: 'ReceivedComments' }">
         <v-btn text class="white--text" :style="{'font-weight': 'bold'}"> 消息
-        <span v-if="newMessage!=0" class="red--text ms-1">{{newMessage}}</span>
+          <span v-if="newMessage!=0" class="red--text ms-1">{{ newMessage }}</span>
         </v-btn>
       </router-link>
       <router-link v-else :to="{ name: 'Login' }">
-        <v-btn text class="white--text" :style="{'font-weight': 'bold'}"> 消息 </v-btn>
+        <v-btn text class="white--text" :style="{'font-weight': 'bold'}"> 消息</v-btn>
       </router-link>
 
       <router-link v-if="!sharedState.is_authenticated" :to="{ name: 'Login' }">
@@ -74,35 +76,36 @@
 
           :to="{ name: 'ShowProfile', params: { id: sharedState.user_id } }"
       >
-        <v-btn text class="white--text " :style="{'font-weight': 'bold'}" @click="sharedState.is_hover=false" @mouseenter="enter" @mouseleave="leave">
+        <v-btn text class="white--text " :style="{'font-weight': 'bold'}" @click="sharedState.is_hover=false"
+               @mouseenter="enter" @mouseleave="leave">
           空间
         </v-btn
         >
       </router-link>
-  <!--  -->
+      <!--  -->
       <v-expand-transition>
         <v-card
             max-width="350"
-          v-show="sharedState.is_hover && sharedState.is_authenticated"
+            v-show="sharedState.is_hover && sharedState.is_authenticated"
             @mouseenter="enter"
             @mouseleave="leave"
         >
           <v-card-title>
-            <v-avatar  size="80px" class="mx-auto">
-            <img
-                :src="user._links.avatar"
-                class="mx-auto"
-                contain
-                height="80"
-                width="80"
-                max-width="80"
-                @click="$vuetify.goTo(0)"
-            />
+            <v-avatar size="80px" class="mx-auto">
+              <img
+                  :src="user._links.avatar"
+                  class="mx-auto"
+                  contain
+                  height="80"
+                  width="80"
+                  max-width="80"
+                  @click="$vuetify.goTo(0)"
+              />
             </v-avatar>
           </v-card-title>
           <v-card-title>
             <h2 class="mx-auto">
-              {{user.name}}
+              {{ user.name }}
             </h2>
           </v-card-title>
 
@@ -113,45 +116,54 @@
             >
               <v-col class="col-md-6">
                 <h5 class="mx-auto">
-                  关注:{{user.followed_num}}
+                  关注:{{ user.followed_num }}
                 </h5>
               </v-col>
               <v-col class="col-md-6">
                 <h5 class="mx-auto">
-                  粉丝:{{user.followes_num}}
+                  粉丝:{{ user.followes_num }}
                 </h5>
               </v-col>
             </v-row>
 
             <router-link :to="{ name: 'ShowProfile', params: { id: sharedState.user_id } }">
-              <v-btn text :style="{width:'100%',}" class="mx-auto d-flex justify-start" @click="sharedState.is_hover=false" >
-                <v-icon class="material-icons" :style="{ color: 'blue' ,'font-size': '20px','margin-top':'2px'}">perm_identity</v-icon>
-              个人空间
-             
+              <v-btn text :style="{width:'100%',}" class="mx-auto d-flex justify-start"
+                     @click="sharedState.is_hover=false">
+                <v-icon class="material-icons" :style="{ color: 'blue' ,'font-size': '20px','margin-top':'2px'}">
+                  perm_identity
+                </v-icon>
+                个人空间
+
               </v-btn>
             </router-link>
             <router-link :to="{ name: 'Drafts', params: { id: sharedState.user_id } }">
-              <v-btn text :style="{width:'100%' ,}" class="mx-auto d-flex justify-start" @click="sharedState.is_hover=false">
+              <v-btn text :style="{width:'100%' ,}" class="mx-auto d-flex justify-start"
+                     @click="sharedState.is_hover=false">
                 <!-- Contribution -->
-                <v-icon class="material-icons" :style="{ color: '#FB8C00' ,'font-size': '20px','margin-top':'2px'}">drafts</v-icon>
-              我的发布
-      
+                <v-icon class="material-icons" :style="{ color: '#FB8C00' ,'font-size': '20px','margin-top':'2px'}">
+                  drafts
+                </v-icon>
+                我的发布
+
               </v-btn>
             </router-link>
 
-          <router-link :to="{ name: 'Home', }">
-              <v-btn text :style="{width:'100%'}" class="mx-auto d-flex justify-start" @click="sharedState.is_hover=false">
-              <v-icon class="material-icons" :style="{ color: 'black' ,'font-size': '20px','margin-top':'2px'}">textsms</v-icon>
-              我的消息
-              <div class="ml-auto" id="newInfo">1</div>
+            <router-link :to="{ name: 'Home', }">
+              <v-btn text :style="{width:'100%'}" class="mx-auto d-flex justify-start"
+                     @click="sharedState.is_hover=false">
+                <v-icon class="material-icons" :style="{ color: 'black' ,'font-size': '20px','margin-top':'2px'}">
+                  textsms
+                </v-icon>
+                我的消息
+                <div class="ml-auto" id="newInfo">1</div>
               </v-btn>
             </router-link>
-<!-- 
-            <router-link :to="{ name: 'Home', }">
-              <v-btn text :style="{width:'100%'}" class="mx-auto d-flex justify-start" @click="sharedState.is_hover=false">
-                Home
-              </v-btn>
-            </router-link> -->
+            <!--
+                        <router-link :to="{ name: 'Home', }">
+                          <v-btn text :style="{width:'100%'}" class="mx-auto d-flex justify-start" @click="sharedState.is_hover=false">
+                            Home
+                          </v-btn>
+                        </router-link> -->
 
           </v-card-text>
 
@@ -162,8 +174,8 @@
 
             <v-btn text :style="{width:'100%',}" class="mx-auto d-flex justify-start" @click=" handlerLogout"
                    v-show="sharedState.is_authenticated">
-               <v-icon class="material-icons">logout</v-icon>
-               登出
+              <v-icon class="material-icons">logout</v-icon>
+              登出
             </v-btn>
 
           </v-card-text>
@@ -190,18 +202,18 @@ export default {
       search: "",
       timer: 0,
       sharedState: store.state,
-      newMessage:0,
-       user: {
+      newMessage: 0,
+      user: {
         username: "",
         name: "",
         email: "",
-        followed_num:0,
-        followes_num:0,
-        have_new_mail:false,
-        unread_comments:0,
-        unread_followings:0,
-        unread_likes:0,
-        unread_messages:0,
+        followed_num: 0,
+        followes_num: 0,
+        have_new_mail: false,
+        unread_comments: 0,
+        unread_followings: 0,
+        unread_likes: 0,
+        unread_messages: 0,
         location: "",
         about_me: "",
         headshot: "",
@@ -304,10 +316,10 @@ export default {
             console.log(err);
           })
     },
-    queryUser(){
+    queryUser() {
       Account.getUser(this.sharedState.user_id)
-      .then((res) => {
-        console.log(res.data)
+          .then((res) => {
+            console.log(res.data)
             this.user.name = res.data.name;
             this.user.about_me = res.data.about_me;
             this.user._links.avatar = res.data.headshot;
@@ -322,20 +334,22 @@ export default {
             this.user.unread_likes = res.data.unread_likes;
             this.user.unread_messages = res.data.unread_messages;
             this.loadingProfile = false;
-        this.newMessage = this.user.unread_comments + this.user.unread_followings + this.user.unread_likes + this.user.unread_messages;
-      })
-      .catch((error) => {console.error(error)})
+            this.newMessage = this.user.unread_comments + this.user.unread_followings + this.user.unread_likes + this.user.unread_messages;
+          })
+          .catch((error) => {
+            console.error(error)
+          })
     }
   },
   mounted() {
     this.drawLogo();
-    if(this.sharedState.is_authenticated) this.queryUser();
-    setInterval(()=>{
-      if(this.sharedState.is_authenticated){
-      this.queryUser();
-      console.log("interval",this.newMessage);
+    if (this.sharedState.is_authenticated) this.queryUser();
+    setInterval(() => {
+      if (this.sharedState.is_authenticated) {
+        this.queryUser();
+        console.log("interval", this.newMessage);
       }
-    },15000);
+    }, 15000);
   },
 };
 </script>
@@ -357,7 +371,7 @@ a {
   font-size: 20;
   width: 100px;
   margin-top: 5px;
-  margin-bottom:2px;
+  margin-bottom: 2px;
 }
 
 .pcard {
@@ -371,19 +385,21 @@ a {
   margin-right: 240px;
   margin-top: 35px;
 }
-div#newInfo{
-    background-color: #fe2d46;
-    width: 20px;
-    height: 20px;
-    bottom:0px;
-    border-radius: 10px;
-    font-size: 16px;
-    line-height: 20px;
-    text-align: center;
-    color: rgb(255, 255, 255); 
+
+div#newInfo {
+  background-color: #fe2d46;
+  width: 20px;
+  height: 20px;
+  bottom: 0px;
+  border-radius: 10px;
+  font-size: 16px;
+  line-height: 20px;
+  text-align: center;
+  color: rgb(255, 255, 255);
 }
-hr.mx-4.v-divider.theme--light{
-  margin-top:-10px;
+
+hr.mx-4.v-divider.theme--light {
+  margin-top: -10px;
   margin-bottom: -10px;
 }
 </style>

@@ -14,10 +14,13 @@
         </h3>
       </div>
     </div>
-    <div v-show="!loadingProfile">
+    <div
+        v-if="drafts.length > 0"
+        v-show="!loadingProfile"
+    >
       <draft v-for="(draft,index) in drafts" :key="index"
-      :draft = "draft"
-      @delete="getUserDrafts(1)">
+             :draft="draft"
+             @delete="getUserDrafts(1)">
       </draft>
       <div>
         <span>共有草稿{{ total }}篇</span>
@@ -29,6 +32,11 @@
         ></v-pagination>
       </div>
     </div>
+    <div
+        v-else-if="drafts.length === 0 && !this.loadingProfile"
+        class="text-center">
+      <h4>呜呜呜，一篇草稿都没有。</h4>
+    </div>
   </section>
 </template>
 
@@ -36,10 +44,11 @@
 import store from "@/store.js";
 import Post from "@/api/post";
 import DraftItem from '@/components/base/DraftItem.vue'
+
 export default {
   name: 'Drafts',
   components: {
-    draft:DraftItem
+    draft: DraftItem
   },
   data() {
     return {

@@ -24,7 +24,9 @@
               v-for="(item,index) in items"
               :key="index"
           >
-            <v-expansion-panel-header>
+            <v-expansion-panel-header
+                @click="readMail(item.id)"
+            >
               <v-row
                   align="center"
                   class="spacer"
@@ -35,14 +37,16 @@
                     sm="3"
                     md="2"
                 >
-                  <v-avatar
-                      size="60px"
-                  >
-                    <img
-                        alt="Avatar"
-                        :src="item.sender.headshot"
+                  <router-link :to="{ name: 'ShowProfile',params: { id:item.sender.id} }">
+                    <v-avatar
+                        size="60px"
                     >
-                  </v-avatar>
+                      <img
+                          alt="Avatar"
+                          :src="item.sender.headshot"
+                      >
+                    </v-avatar>
+                  </router-link>
                 </v-col>
 
                 <v-col
@@ -50,7 +54,9 @@
                     sm="4"
                     md="2"
                 >
-                  <strong v-html="item.sender.name||item.sender.username"></strong>
+                  <router-link :to="{ name: 'ShowProfile',params: { id:item.sender.id} }">
+                    <strong v-html="item.sender.name||item.sender.username"></strong>
+                  </router-link>
                   <!--                  <span-->
                   <!--                      v-if="message.total"-->
                   <!--                      class="grey--text"-->
@@ -79,8 +85,7 @@
                 <v-col
                     class="grey--text text-truncate hidden-sm-and-down"
                 >
-                  &mdash;
-                  {{ $moment(item.date_time).format("YYYY年MM月DD日 HH:mm:ss") }}
+                  &mdash; {{ $moment(item.date_time).format("YYYY年MM月DD日 HH:mm:ss") }}
                 </v-col>
                 <v-col
                     cols="12"
@@ -103,7 +108,9 @@
 
             <v-expansion-panel-content>
               <v-divider></v-divider>
-              <v-card-text v-text="item.body"></v-card-text>
+              <v-card-text>
+                用户 <strong v-html="item.sender.name||item.sender.username"></strong> 关注了您！
+              </v-card-text>
             </v-expansion-panel-content>
           </v-expansion-panel>
         </v-expansion-panels>
@@ -142,6 +149,10 @@ export default {
             console.error(err);
             this.loadingFollowings = false;
           })
+    },
+    readMail(id) {
+      console.log("readMail" + id);
+      Notifications.getMail(id);
     }
   },
   created() {
