@@ -10,8 +10,9 @@
             </v-avatar>
             <router-link :to="{name:'ShowProfile',params:{id: chat.id}}">{{chat.name||chat.username}}</router-link>
         </v-card-title>
+        <v-card-subtitle><span>{{chat.unread}}条未读信息</span></v-card-subtitle>
         <v-card-text>
-        向您发送了私信
+        <span>{{chat.detail}}</span>
         </v-card-text>
         <v-card-actions>
         <v-btn text :to="{name: 'HistoryMessage',params: {id: chat.id}}">
