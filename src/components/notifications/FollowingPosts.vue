@@ -18,7 +18,9 @@
         v-if="this.items.length > 0"
         fluid>
       <v-row justify="center">
-        <h3>新增粉丝通知</h3>
+        <v-subheader>
+          <h3>新增粉丝</h3>
+        </v-subheader>
         <v-expansion-panels popout>
           <v-expansion-panel
               v-for="(item,index) in items"
