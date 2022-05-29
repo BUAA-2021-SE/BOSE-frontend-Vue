@@ -187,16 +187,26 @@
     </v-dialog>
           
           
-          <v-dialog v-model="replyCommentDialog" >
+          <v-dialog v-model="replyCommentDialog"  style="z-index: 2000"  width="60vw"
+      height="30vh">
             <!-- Add Comment Form -->
-            <v-card>
-            <v-form
+            <v-card  v-if="sharedState.is_authenticated" >
+            <!-- <v-form
                 id="addCommentForm"
                 v-if="sharedState.is_authenticated"
                 @submit.prevent="onSubmitReplyComment"
                 @reset.prevent="currentForm.body=''"
-              >
+              > -->
+               <v-row class="mx-auto d-flex justify-center">
+              <v-card-title id="replyTo" ><h4 :style="{'padding-top':'100px','padding-left':'30px'}" v-html="currentForm.replyTo"></h4></v-card-title>
+              </v-row>
+              <v-divider class="mx-4"></v-divider>
+              
               <v-textarea
+              class="m-auto"
+             :style="{width:'50vw','margin-top':'10px'}"
+              outlined
+              auto-grow
                 v-model="currentForm.body"
               ></v-textarea>
               <small
@@ -204,9 +214,14 @@
                 v-show="currentForm.bodyError"
                 >{{ currentForm.bodyError }}</small
               >
-              <v-btn type="reset">Cancel</v-btn>
-              <v-btn type="submit" color="primary">Submit</v-btn>
-            </v-form>
+             
+              <v-card-action class="d-flex justify-between" :style="{'padding-bottom':'20px','padding-left':'20px','padding-right':'20px',}">
+              <v-btn type="reset" text @click="replyCommentDialog=!replyCommentDialog">Cancel</v-btn>
+              <v-spacer></v-spacer>
+              <v-btn type="submit" text color="primary" preventdefault @click="onSubmitReplyComment">Submit</v-btn>
+              </v-card-action>
+               
+            <!-- </v-form> -->
             </v-card>
             <!-- End Add Comment Form -->
           </v-dialog>
@@ -234,6 +249,7 @@
               <v-textarea
                 v-model="commentForm.body"
                 v-highlight
+                auto-grow
               ></v-textarea>
               <small
                 class="form-control-feedback"
@@ -663,10 +679,12 @@ export default {
         this.$router.replace({name:'Login'});
       }
       console.log(comment.author.id,"comment");
+     
       let cid = comment.author.id;
       let name = comment.author.name;
       this.currentForm.replyId = comment.id;
       this.currentForm.replyTo = `To <a href="/user/${cid}"> @${name}</a>:`;
+      // document.getElementById("replyTo").innerHTML = this.currentForm.replyTo;
       this.currentForm.body = "";
       this.replyCommentDialog = true;
     },
