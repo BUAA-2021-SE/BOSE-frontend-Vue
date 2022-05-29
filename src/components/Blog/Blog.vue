@@ -1,33 +1,24 @@
 <template>
   <div class="mx-5">
-     <div class="text-center" v-show="this.loadingProfile">
-                <h3 v-show="this.loadingProfile">
-                  博客加载中······
-                  <v-progress-circular
-                    class="center"
-                    indeterminate
-                    color="primary"
-                    :size="40"
-                    :width="3"
-                    v-show="this.loadingProfile"
-                  ></v-progress-circular>
-                </h3>
-              </div>
+    <div class="text-center" v-show="this.loadingProfile">
+      <h3 v-show="this.loadingProfile">
+        博客加载中······
+        <v-progress-circular
+          class="center"
+          indeterminate
+          color="primary"
+          :size="40"
+          :width="3"
+          v-show="this.loadingProfile"
+        ></v-progress-circular>
+      </h3>
+    </div>
     <v-container v-show="!this.loadingProfile" grid-list-xl>
-      
       <!-- 目录 -->
       <!-- Sidebar -->
       <v-row>
-        <v-col cols="12" md="3" class="link">
-          <v-card class="mx-auto mt-2 link_cover">
-            <div class="py-4 links">
-              <h3 class="pl-3 pb-3">目录</h3>
-              <div v-html="topic"></div>
-            </div>
-          </v-card>
-        </v-col>
         <!-- End Sidebar -->
-        <v-col cols="12" md="9">
+        <v-col cols="12" md="9" class="mx-auto">
           <!-- 博文内容 -->
           <!-- Articles Content -->
           <article>
@@ -46,7 +37,7 @@
                     <span v-else>{{ post.author.username }}</span></router-link
                   >
                 </li>
-                <li >/</li>
+                <li>/</li>
                 <li>
                   <i class="icon-clock"></i>
                   {{ $moment(post.timestamp).format("LLL") }}
@@ -57,26 +48,26 @@
                     class="u-link-v5 g-color-gray-dark-v4 g-color-primary--hover g-text-underline--none--hover"
                     href="#comment-list-wrap"
                   >
-                    <i class="icon-bubble"></i> {{comments.length}}
+                    <i class="icon-bubble"></i> {{ comments.length }}
                   </a>
                 </li>
-                <li>
-                  <i class="icon-eye"></i> {{ post.views }} 次阅读
-                </li>
+                <li><i class="icon-eye"></i> {{ post.views }} 次阅读</li>
               </ul>
-              <div v-if="post.author && post.author.id == sharedState.user_id" >
+              <div v-if="post.author && post.author.id == sharedState.user_id">
                 <v-btn
                   color="primary"
                   text
                   :to="{ name: 'PostEdit', params: { id: post.id } }"
-                  >编辑</v-btn>
-                <v-btn @click="deleteBlogDialog=true" color="error" text>删除</v-btn>
+                  >编辑</v-btn
+                >
+                <v-btn @click="deleteBlogDialog = true" color="error" text
+                  >删除</v-btn
+                >
               </div>
               <hr class="g-brd-gray-light-v4 g-my-15" />
             </header>
 
             <div class="postBody">
-             
               <vue-markdown
                 :source="post.body"
                 v-highlight
@@ -88,125 +79,150 @@
               >
               </vue-markdown>
             </div>
-                <v-btn
-                v-if="btnOutlineColor"
-                @click="onLikeOrUnlikePost(post)"
-                color = "primary"
-                >
-                <i class="icon-heart g-pos-rel g-top-1 g-mr-5"></i>
-                  <span  v-if="post.likers_id && post.likers_id.length > 0">|{{ post.likers_id.length }}</span>
-                  喜欢
-                </v-btn>
-                <v-btn
-                v-else
-                @click="onLikeOrUnlikePost(post)"
-                >
-                <i class="icon-heart g-pos-rel g-top-1 g-mr-5"></i>
-                  <span  v-if="post.likers_id && post.likers_id.length > 0">|{{ post.likers_id.length }}</span>
-                  喜欢
-                </v-btn>
-                <v-btn
-                v-if="ifStarred"
-                @click="onUnStarPost(post)"
-                color = "primary"
-                >
-                <v-icon class="material-icons">bookmarks</v-icon>
-                  <span  v-if="post.stars_id && post.stars_id.length > 0">|{{ post.stars_id.length }}</span>
-                收藏
-                </v-btn>
-                <v-btn
-                v-else
-                @click="onStarPost(post)"
-                >
-                <v-icon class="material-icons">bookmarks</v-icon>
-                  <span  v-if="post.stars_id && post.stars_id.length > 0">|{{ post.stars_id.length }}</span>
-                收藏
-                </v-btn>
+            <v-btn
+              v-if="btnOutlineColor"
+              @click="onLikeOrUnlikePost(post)"
+              color="primary"
+              text
+              :style="{width:'80px'}"
+            >
               
-              <div class="col-lg-9">
-                <ul v-if="post.likers" class="list-inline mb-0">
-                  <li
-                    class="list-inline-item"
-                    v-for="(liker, index) in post.likers"
-                    v-bind:key="index"
+              <span v-if="post.likers_id && post.likers_id.length > 0"
+                ><v-icon class="material-icons my-auto" :style="{color:'#1976D2','font-size':'20px','margin-right':'10px','margin-top':'-4px!important'}"> thumb_up </v-icon
+                        >{{ post.likers_id.length }}</span
+              >
+              
+            </v-btn>
+            <v-btn v-else   :style="{width:'80px'}" text @click="onLikeOrUnlikePost(post)">
+              
+              <span v-if="post.likers_id && post.likers_id.length > 0"
+                ><v-icon class="material-icons my-auto" :style="{'margin-right':'10px','margin-top':'-4px!important'}">
+                          thumb_up
+                        </v-icon>{{ post.likers_id.length }}</span
+              >
+              
+            </v-btn>
+            <v-btn v-if="ifStarred" @click="onUnStarPost(post)" color="primary">
+              <v-icon class="material-icons">bookmarks</v-icon>
+              <span v-if="post.stars_id && post.stars_id.length > 0"
+                >|{{ post.stars_id.length }}</span
+              >
+              收藏
+            </v-btn>
+            <v-btn v-else @click="onStarPost(post)">
+              <v-icon class="material-icons">bookmarks</v-icon>
+              <span v-if="post.stars_id && post.stars_id.length > 0"
+                >|{{ post.stars_id.length }}</span
+              >
+              收藏
+            </v-btn>
+
+            <div class="col-lg-9">
+              <ul v-if="post.likers" class="list-inline mb-0">
+                <li
+                  class="list-inline-item"
+                  v-for="(liker, index) in post.likers"
+                  v-bind:key="index"
+                >
+                  <router-link
+                    v-bind:to="{ path: `/user/${liker.id}` }"
+                    v-bind:title="liker.name || liker.username"
                   >
-                    <router-link
-                      v-bind:to="{ path: `/user/${liker.id}` }"
-                      v-bind:title="liker.name || liker.username"
-                    >
-                      <img
-                        class="g-brd-around g-brd-gray-light-v3 g-pa-2 g-width-40 g-height-40 rounded-circle rounded mCS_img_loaded g-mt-3"
-                        v-bind:src="liker.avatar"
-                        v-bind:alt="liker.name || liker.username"
-                      />
-                    </router-link>
-                  </li>
-                </ul>
-              </div>
+                    <img
+                      class="g-brd-around g-brd-gray-light-v3 g-pa-2 g-width-40 g-height-40 rounded-circle rounded mCS_img_loaded g-mt-3"
+                      v-bind:src="liker.avatar"
+                      v-bind:alt="liker.name || liker.username"
+                    />
+                  </router-link>
+                </li>
+              </ul>
+            </div>
           </article>
 
           <v-dialog
-      style="z-index: 2000"
-     v-model="deleteBlogDialog"
-      width="25vw"
-      height="20vh"
-    >
-      <v-card
-        :style="{ width: '25vw', height: '20vh' }"
-        class="d-flex align-center flex-wrap"
-      >
-      <v-row class="mx-auto d-flex justify-center">
-        <v-card-title class="mx-auto"><h3 class="mx-auto">确定删除？</h3> </v-card-title>
-        <v-card-actions>
-          <v-btn color="primary" text @click="deleteBlogDialog = false"> 取消 </v-btn>
-          <v-spacer></v-spacer>
-          <v-btn color="error" text @click="onDeletePost"> 确认 </v-btn>
-        </v-card-actions>
-       </v-row>
-      </v-card>
-    </v-dialog>
- <v-dialog
-      style="z-index: 2000"
-     v-model="deleteCommentDialog"
-      width="25vw"
-      height="20vh"
-    >
-      <v-card
-        :style="{ width: '25vw', height: '20vh' }"
-        class="d-flex align-center flex-wrap"
-      >
-      <v-row class="mx-auto d-flex justify-center">
-        <v-card-title class="mx-auto"><h3 class="mx-auto">确定删除？</h3> </v-card-title>
-        <v-card-actions>
-          <v-btn color="primary" text @click="deleteCommentDialog = false"> 取消 </v-btn>
-          <v-spacer></v-spacer>
-          <v-btn color="error" text @click="onDeleteComment"> 确认 </v-btn>
-        </v-card-actions>
-       </v-row>
-      </v-card>
-    </v-dialog>
-          
-          
-          <v-dialog v-model="replyCommentDialog"  style="z-index: 2000"  width="60vw"
-      height="30vh">
+            style="z-index: 2000"
+            v-model="deleteBlogDialog"
+            width="25vw"
+            height="20vh"
+          >
+            <v-card
+              :style="{ width: '25vw', height: '20vh' }"
+              class="d-flex align-center flex-wrap"
+            >
+              <v-row class="mx-auto d-flex justify-center">
+                <v-card-title class="mx-auto"
+                  ><h3 class="mx-auto">确定删除？</h3>
+                </v-card-title>
+                <v-card-actions>
+                  <v-btn color="primary" text @click="deleteBlogDialog = false">
+                    取消
+                  </v-btn>
+                  <v-spacer></v-spacer>
+                  <v-btn color="error" text @click="onDeletePost"> 确认 </v-btn>
+                </v-card-actions>
+              </v-row>
+            </v-card>
+          </v-dialog>
+          <v-dialog
+            style="z-index: 2000"
+            v-model="deleteCommentDialog"
+            width="25vw"
+            height="20vh"
+          >
+            <v-card
+              :style="{ width: '25vw', height: '20vh' }"
+              class="d-flex align-center flex-wrap"
+            >
+              <v-row class="mx-auto d-flex justify-center">
+                <v-card-title class="mx-auto"
+                  ><h3 class="mx-auto">确定删除？</h3>
+                </v-card-title>
+                <v-card-actions>
+                  <v-btn
+                    color="primary"
+                    text
+                    @click="deleteCommentDialog = false"
+                  >
+                    取消
+                  </v-btn>
+                  <v-spacer></v-spacer>
+                  <v-btn color="error" text @click="onDeleteComment">
+                    确认
+                  </v-btn>
+                </v-card-actions>
+              </v-row>
+            </v-card>
+          </v-dialog>
+
+          <v-dialog
+            v-model="replyCommentDialog"
+            style="z-index: 2000"
+            width="60vw"
+            height="30vh"
+          >
             <!-- Add Comment Form -->
-            <v-card  v-if="sharedState.is_authenticated" >
-            <!-- <v-form
+            <v-card v-if="sharedState.is_authenticated">
+              <!-- <v-form
                 id="addCommentForm"
                 v-if="sharedState.is_authenticated"
                 @submit.prevent="onSubmitReplyComment"
                 @reset.prevent="currentForm.body=''"
               > -->
-               <v-row class="mx-auto d-flex justify-center">
-              <v-card-title id="replyTo" ><h4 :style="{'padding-top':'100px','padding-left':'30px'}" v-html="currentForm.replyTo"></h4></v-card-title>
+              <v-row class="mx-auto d-flex justify-center">
+                <v-card-title id="replyTo"
+                  ><h4
+                    :style="{ 'padding-top': '100px', 'padding-left': '30px' }"
+                    v-html="currentForm.replyTo"
+                  ></h4
+                ></v-card-title>
               </v-row>
               <v-divider class="mx-4"></v-divider>
-              
+
               <v-textarea
-              class="m-auto"
-             :style="{width:'50vw','margin-top':'10px'}"
-              outlined
-              auto-grow
+                class="m-auto"
+                :style="{ width: '50vw', 'margin-top': '10px' }"
+                outlined
+                auto-grow
                 v-model="currentForm.body"
               ></v-textarea>
               <small
@@ -214,14 +230,33 @@
                 v-show="currentForm.bodyError"
                 >{{ currentForm.bodyError }}</small
               >
-             
-              <v-card-actions class="d-flex justify-between" :style="{'padding-bottom':'20px','padding-left':'20px','padding-right':'20px',}">
-              <v-btn type="reset" text @click="replyCommentDialog=!replyCommentDialog">Cancel</v-btn>
-              <v-spacer></v-spacer>
-              <v-btn type="submit" text color="primary" preventdefault @click="onSubmitReplyComment">Submit</v-btn>
+
+              <v-card-actions
+                class="d-flex justify-between"
+                :style="{
+                  'padding-bottom': '20px',
+                  'padding-left': '20px',
+                  'padding-right': '20px',
+                }"
+              >
+                <v-btn
+                  type="reset"
+                  text
+                  @click="replyCommentDialog = !replyCommentDialog"
+                  >取消</v-btn
+                >
+                <v-spacer></v-spacer>
+                <v-btn
+                  type="submit"
+                  text
+                  color="primary"
+                  preventdefault
+                  @click="onSubmitReplyComment"
+                  >评论</v-btn
+                >
               </v-card-actions>
-               
-            <!-- </v-form> -->
+
+              <!-- </v-form> -->
             </v-card>
             <!-- End Add Comment Form -->
           </v-dialog>
@@ -234,22 +269,23 @@
               class="card-header d-flex align-items-center justify-content-between g-bg-gray-light-v5 border-0 g-mb-15"
             >
               <h3 class="h6 mb-0">
-                <i class="icon-bubbles g-pos-rel g-top-1 g-mr-5"></i> Comments
+                <i class="icon-bubbles g-pos-rel g-top-1 g-mr-5"></i> 评论
               </h3>
             </div>
             <!-- End Panel Header -->
 
             <!-- Add Comment Form -->
             <v-form
-                id="addCommentForm"
-                v-if="sharedState.is_authenticated"
-                @submit.prevent="onSubmitAddComment"
-                @reset.prevent="onResetAddComment"
-              >
+              id="addCommentForm"
+              v-if="sharedState.is_authenticated"
+              @submit.prevent="onSubmitAddComment"
+              @reset.prevent="onResetAddComment"
+            >
               <v-textarea
                 v-model="commentForm.body"
                 v-highlight
                 auto-grow
+                rows="1"
               ></v-textarea>
               <small
                 class="form-control-feedback"
@@ -268,236 +304,266 @@
             </div>
             <v-divider></v-divider>
             <!-- Panel Body -->
-              <!-- 一级评论，按时间倒序排列 -->
-              <div v-for="(comment, index) in comments" :key="index">
-                <v-card :id="'c' + comment.id" elevation="5" outlined>
-                  <v-card-title>
-                    <router-link :to="{ path: `/user/${comment.author.id}` }">
-                      <v-avatar size="60">
-                        <v-img
-                          :src="comment.author.headshot"
-                          alt="comment.author.name || comment.author.username"
-                        />
-                      </v-avatar>
+            <!-- 一级评论，按时间倒序排列 -->
+            <div v-for="(comment, index) in comments" :key="index">
+              <v-card :id="'c' + comment.id" elevation="5" outlined>
+                <v-card-title>
+                  <router-link :to="{ path: `/user/${comment.author.id}` }">
+                    <v-avatar size="60">
+                      <v-img
+                        :src="comment.author.headshot"
+                        alt="comment.author.name || comment.author.username"
+                      />
+                    </v-avatar>
+                  </router-link>
+                  <p class="ml-3">
+                    <router-link
+                      style="text-decoration: none"
+                      :to="{ path: `/user/${comment.author.id}` }"
+                    >
+                      {{ comment.author.name || comment.author.username }}
                     </router-link>
-                    <p class="ml-3">
-                      <router-link
-                        style="text-decoration: none"
-                        :to="{ path: `/user/${comment.author.id}` }"
-                      >
-                        {{ comment.author.name || comment.author.username }}
-                      </router-link>
-                      <v-btn
-                        v-if="comment.author.id == post.author.id"
-                        x-small
-                        color="purple"
-                      >
-                        博文作者
-                      </v-btn>
-                    </p>
-                  </v-card-title>
-                  <v-card-subtitle>{{
-                    $moment(comment.timestamp).format("YYYY年MM月DD日 HH:mm:ss")
-                  }}</v-card-subtitle>
-                  <v-card-text>
-                    <div v-if="comment.disabled">
-                      此评论包含不良信息，已被禁止显示.
-                    </div>
-                    <div v-else>
-                      <!-- vue-markdown 开始解析markdown，它是子组件，通过 props 给它传值即可
+                    
+                  
+                    <v-btn
+                      v-if="comment.author.id == post.author.id"
+                      x-small
+                      text
+                      :style="{ 'pointer-events': 'none'}"
+                    >
+                       <i
+                class="icon-check g-pos-rel g-top-1 g-color-gray-dark-v5 g-mr-5"
+                
+              ></i>博文作者
+                    </v-btn>
+                  </p>
+                </v-card-title>
+                <v-card-subtitle>{{
+                  $moment(comment.timestamp).format("YYYY年MM月DD日 HH:mm:ss")
+                }}</v-card-subtitle>
+                <v-card-text>
+                  <div v-if="comment.disabled">
+                    此评论包含不良信息，已被禁止显示.
+                  </div>
+                  <div v-else>
+                    <!-- vue-markdown 开始解析markdown，它是子组件，通过 props 给它传值即可
                     v-highlight 是自定义指令，用 highlight.js 语法高亮 -->
-                      <vue-markdown :source="comment.body" v-highlight>
-                      </vue-markdown>
-                    </div>
-                  </v-card-text>
-                  <ul class="list-inline d-sm-flex my-0">
-                    <li
-                      v-if="!comment.disabled"
-                      class="list-inline-item g-mr-20"
+                    <vue-markdown :source="comment.body" v-highlight>
+                    </vue-markdown>
+                  </div>
+                </v-card-text>
+                <ul class="list-inline d-sm-flex my-0">
+                  <li v-if="!comment.disabled" class="list-inline-item g-mr-20">
+                    <v-btn
+                      @click="onLikeOrUnlikeComment(comment)"
+                      v-if="
+                        comment.likers_id.indexOf(sharedState.user_id) != -1
+                      "
+                      text
+                  :style="{width:'80px'}"
+                      color="primary"
+                      
                     >
-                      <v-btn @click="onLikeOrUnlikeComment(comment)" v-if="comment.likers_id.indexOf(sharedState.user_id)!=-1" color="primary">
-                        <i class="icon-like g-pos-rel g-top-1 g-mr-3"></i>
-                        <span v-if="comment.likers_id.length > 0">
-                          {{ comment.likers_id.length }} 人赞</span
-                        >
-                        <span v-else>赞</span>
-                      </v-btn>
-                      <v-btn @click="onLikeOrUnlikeComment(comment)" v-else>
-                        <i class="icon-like g-pos-rel g-top-1 g-mr-3"></i>
-                        <span v-if="comment.likers_id.length > 0">
-                          {{ comment.likers_id.length }} 人赞</span
-                        >
-                        <span v-else>赞</span>
-                      </v-btn>
-                    </li>
-                    <li
-                      v-if="!comment.disabled"
-                      class="list-inline-item g-mr-20"
-                    >
-                      <v-btn @click="onClickReply(comment)">
-                        <i class="icon-note g-pos-rel g-top-1 g-mr-3"></i>
-                        回复
-                      </v-btn>
-                    </li>
-                    <ul class="list-inline mb-0 ml-auto">
-                      <li style="display: none" class="list-inline-item g-mr-5">
-                        <v-btn
-                          @click="onEditComment(comment)"
-                          color="purple"
-                          data-toggle="modal"
-                          data-target="#editCommentModal"
-                          >编辑</v-btn
-                        >
-                      </li>
-                      <li
-                        v-if="
-                          comment.disabled &&
-                          post.author.id == sharedState.user_id
-                        "
-                        class="list-inline-item"
+                      
+                      <span v-if="comment.likers_id.length > 0">
+                       <v-icon class="material-icons my-auto" :style="{color:'#1976D2','font-size':'20px','margin-right':'10px','margin-top':'-4px!important'}"> thumb_up </v-icon
+                        >{{ comment.likers_id.length }}</span
                       >
-                        <v-btn
-                          @click="onEnabledComment(comment)"
-                          small
-                          color="teal"
-                          >恢复</v-btn
-                        >
-                      </li>
-                      <li
-                        v-if="
-                          comment.author.id == sharedState.user_id ||
-                          post.author.id == sharedState.user_id
-                        "
-                        class="list-inline-item"
+                      <span v-else><v-icon class="material-icons my-auto" :style="{color:'#1976D2','font-size':'20px','margin-right':'10px','margin-top':'-4px!important'}"> thumb_up </v-icon
+                        ></span>
+                    </v-btn>
+                    <v-btn text @click="onLikeOrUnlikeComment(comment)"  :style="{width:'80px'}" v-else>
+                      
+                      <span v-if="comment.likers_id.length > 0">
+                         <v-icon class="material-icons  my-auto" :style="{'margin-right':'10px','margin-top':'-4px!important'}"> thumb_up </v-icon>{{ comment.likers_id.length }}</span
                       >
-                        <v-btn
-                          @click="deleteCommentDialog = true;deleteCommentId = comment.id;"
-                          small
-                          color="red"
-                          >删除</v-btn
-                        >
-                      </li>
-                    </ul>
-                  </ul>
-                </v-card>
-
-                <!-- 子级评论，按时间正序排列 -->
-                <v-card
-                  v-show="comment.descendants"
-                  v-for="(child, cindex) in comment.descendants"
-                  :key="cindex"
-                  :id="'c' + child.id"
-                >
-                  <v-card-title>
-                    <router-link :to="{ path: `/user/${child.author.id}` }">
-                      <v-avatar size="60">
-                        <v-img
-                          :src="child.author.headshot"
-                          alt="child.author.name || child.author.username"
-                        />
-                      </v-avatar>
-                    </router-link>
-                    <p class="ml-3">
-                      <router-link
-                        style="text-decoration: none"
-                        :to="{ path: `/user/${child.author.id}` }"
-                      >
-                        {{ child.author.name || child.author.username }}
-                      </router-link>
+                      <span v-else> <v-icon class="material-icons  my-auto" :style="{'margin-right':'10px','margin-top':'-4px!important'}"> thumb_up </v-icon></span>
+                    </v-btn>
+                  </li>
+                  <li v-if="!comment.disabled" class="list-inline-item g-mr-20">
+                    <v-btn @click="onClickReply(comment)">
+                      <i class="icon-note g-pos-rel g-top-1 g-mr-3"></i>
+                      回复
+                    </v-btn>
+                  </li>
+                  <ul class="list-inline mb-0 ml-auto">
+                    <li style="display: none" class="list-inline-item g-mr-5">
                       <v-btn
-                        v-if="child.author.id == post.author.id"
-                        x-small
+                        @click="onEditComment(comment)"
                         color="purple"
+                        data-toggle="modal"
+                        data-target="#editCommentModal"
+                        >编辑</v-btn
                       >
-                        博文作者
-                      </v-btn>
-                    </p>
-                  </v-card-title>
-                  <v-card-subtitle>
-                    <span>{{
-                      $moment(child.timestamp).format("YYYY年MM月DD日 HH:mm:ss")
-                    }}</span>
-                  </v-card-subtitle>
-                  <v-card-text>
-                    <div v-if="child.disabled" class="g-color-red g-mb-15">
-                      此评论已被禁止显示.
-                    </div>
-                    <div v-else>
-                      <vue-markdown :source="child.body" highlight>
-                      </vue-markdown>
-                    </div>
-                  </v-card-text>
-                  <ul class="list-inline d-sm-flex my-0">
-                    <li v-if="!child.disabled" class="list-inline-item g-mr-20">
-                      <v-btn
-                        @click="onLikeOrUnlikeComment(child)"
-                        v-if="child.likers_id.indexOf(sharedState.user_id)!=-1" 
-                        color="primary"
-                      >
-                        <i class="icon-like g-pos-rel g-top-1 g-mr-3"></i>
-                        <span v-if="child.likers_id.length > 0">
-                          {{ child.likers_id.length }} 人赞</span>
-                        <span v-else>赞</span>
-                      </v-btn>
-                      <v-btn
-                        @click="onLikeOrUnlikeComment(child)"
-                        v-else
-                      >
-                        <i class="icon-like g-pos-rel g-top-1 g-mr-3"></i>
-                        <span v-if="child.likers_id.length > 0">
-                          {{ child.likers_id.length }} 人赞</span>
-                        <span v-else>赞</span>
-                      </v-btn>
                     </li>
-                    <li v-if="!child.disabled" class="list-inline-item g-mr-20">
-                      <v-btn @click="onClickReply(child)" class="comment-reply-link">
-                        <i class="icon-note g-pos-rel g-top-1 g-mr-3"></i>
-                        回复
-                      </v-btn>
+                    <li
+                      v-if="
+                        comment.disabled &&
+                        post.author.id == sharedState.user_id
+                      "
+                      class="list-inline-item"
+                    >
+                      <v-btn
+                        @click="onEnabledComment(comment)"
+                        small
+                        color="teal"
+                        >恢复</v-btn
+                      >
                     </li>
-                    <ul class="list-inline mb-0 ml-auto">
-                      <li style="display: none" class="list-inline-item g-mr-5">
-                        <button
-                          @click="onEditComment(child)"
-                          class="btn btn-xs u-btn-outline-purple"
-                          data-toggle="modal"
-                          data-target="#editCommentModal"
-                        >
-                          编辑
-                        </button>
-                      </li>
-                      <li
-                        v-if="
-                          child.disabled &&
-                          post.author.id == sharedState.user_id
+                    <li
+                      v-if="
+                        comment.author.id == sharedState.user_id ||
+                        post.author.id == sharedState.user_id
+                      "
+                      class="list-inline-item"
+                    >
+                      <v-btn
+                        @click="
+                          deleteCommentDialog = true;
+                          deleteCommentId = comment.id;
                         "
-                        class="list-inline-item"
+                        small
+                        color="red"
+                        >删除</v-btn
                       >
-                        <v-btn
-                          @click="onEnabledComment(comment)"
-                          small
-                          color="teal"
-                          >恢复</v-btn
-                        >
-                      </li>
-                      <li
-                        v-if="
-                          child.author.id == sharedState.user_id ||
-                          post.author.id == sharedState.user_id
-                        "
-                        class="list-inline-item"
-                      >
-                        <v-btn
-                          @click="deleteCommentDialog = true;deleteCommentId = child.id;"
-                          small
-                          color="red"
-                          >删除</v-btn>
-                      </li>
-                    </ul>
+                    </li>
                   </ul>
-                </v-card>
-              </div>
-            
+                </ul>
+              </v-card>
+
+              <!-- 子级评论，按时间正序排列 -->
+              <v-card
+                v-show="comment.descendants"
+                v-for="(child, cindex) in comment.descendants"
+                :key="cindex"
+                :id="'c' + child.id"
+              >
+                <v-card-title>
+                  <router-link :to="{ path: `/user/${child.author.id}` }">
+                    <v-avatar size="60">
+                      <v-img
+                        :src="child.author.headshot"
+                        alt="child.author.name || child.author.username"
+                      />
+                    </v-avatar>
+                  </router-link>
+                  <p class="ml-3">
+                    <router-link
+                      style="text-decoration: none"
+                      :to="{ path: `/user/${child.author.id}` }"
+                    >
+                      {{ child.author.name || child.author.username }}
+                    </router-link>
+                    <v-btn
+                      v-if="child.author.id == post.author.id"
+                      x-small
+                      color="purple"
+                    >
+                      博文作者
+                    </v-btn>
+                  </p>
+                </v-card-title>
+                <v-card-subtitle>
+                  <span>{{
+                    $moment(child.timestamp).format("YYYY年MM月DD日 HH:mm:ss")
+                  }}</span>
+                </v-card-subtitle>
+                <v-card-text>
+                  <div v-if="child.disabled" class="g-color-red g-mb-15">
+                    此评论已被禁止显示.
+                  </div>
+                  <div v-else>
+                    <vue-markdown :source="child.body" highlight>
+                    </vue-markdown>
+                  </div>
+                </v-card-text>
+                <ul class="list-inline d-sm-flex my-0">
+                  <li v-if="!child.disabled" class="list-inline-item g-mr-20">
+                    <v-btn
+                      text
+                      @click="onLikeOrUnlikeComment(child)"
+                      v-if="child.likers_id.indexOf(sharedState.user_id) != -1"
+                      color="primary"
+                     
+                       :style="{width:'80px'}"
+                    >
+                      <span v-if="child.likers_id.length > 0">
+                        <v-icon class="material-icons my-auto" :style="{color:'#1976D2','font-size':'20px','margin-right':'10px','margin-top':'-4px!important'}"> thumb_up </v-icon
+                        >{{ child.likers_id.length }}</span
+                      >
+                      <span v-else
+                        ><v-icon class="material-icons  my-auto" :style="{color:'#1976D2','font-size':'20px','margin-right':'10px','margin-top':'-4px!important'}">
+                          thumb_up
+                        </v-icon></span
+                      >
+                    </v-btn>
+                    <v-btn @click="onLikeOrUnlikeComment(child)"  :style="{width:'80px'}" v-else text>
+                      <span v-if="child.likers_id.length > 0">
+                        <v-icon class="material-icons  my-auto" :style="{'margin-right':'10px','margin-top':'-4px!important'}"> thumb_up </v-icon
+                        >{{ child.likers_id.length }}</span
+                      >
+                      <span v-else>
+                        <v-icon class="material-icons my-auto" :style="{'margin-right':'10px','margin-top':'-4px!important'}">
+                          thumb_up
+                        </v-icon></span
+                      >
+                    </v-btn>
+                  </li>
+                  <li v-if="!child.disabled" class="list-inline-item g-mr-20">
+                    <v-btn
+                      @click="onClickReply(child)"
+                      class="comment-reply-link"
+                    >
+                      <i class="icon-note g-pos-rel g-top-1 g-mr-3"></i>
+                      回复
+                    </v-btn>
+                  </li>
+                  <ul class="list-inline mb-0 ml-auto">
+                    <li style="display: none" class="list-inline-item g-mr-5">
+                      <button
+                        @click="onEditComment(child)"
+                        class="btn btn-xs u-btn-outline-purple"
+                        data-toggle="modal"
+                        data-target="#editCommentModal"
+                      >
+                        编辑
+                      </button>
+                    </li>
+                    <li
+                      v-if="
+                        child.disabled && post.author.id == sharedState.user_id
+                      "
+                      class="list-inline-item"
+                    >
+                      <v-btn
+                        @click="onEnabledComment(comment)"
+                        small
+                        color="teal"
+                        >恢复</v-btn
+                      >
+                    </li>
+                    <li
+                      v-if="
+                        child.author.id == sharedState.user_id ||
+                        post.author.id == sharedState.user_id
+                      "
+                      class="list-inline-item"
+                    >
+                      <v-btn
+                        @click="
+                          deleteCommentDialog = true;
+                          deleteCommentId = child.id;
+                        "
+                        small
+                        color="red"
+                        >删除</v-btn
+                      >
+                    </li>
+                  </ul>
+                </ul>
+              </v-card>
+            </div>
+
             <!-- End Panel Body -->
           </div>
           <!-- Pagination #04 -->
@@ -513,6 +579,46 @@
 
           <!-- end Articles Content -->
         </v-col>
+        <v-col cols="12" md="3" class="link">
+          <v-row class="d-flex justify-center">
+            <v-btn
+              class="mx-5"
+              fab
+              dark
+              large
+              color="blue"
+              @click="showContent = !showContent"
+              v-if="!showContent"
+            >
+              <span class="material-icons" :style="{ 'font-size': '40px' }">
+                expand_more
+              </span>
+            </v-btn>
+            <v-btn
+              class="mx-5"
+              fab
+              dark
+              large
+              color="blue"
+              @click="showContent = !showContent"
+              v-else
+            >
+              <span class="material-icons" :style="{ 'font-size': '40px' }">
+                expand_less
+              </span>
+            </v-btn>
+            <v-expand-transition>
+              <v-card outlined class="mx-auto" v-show="showContent">
+                <div :style="{ 'margin-top': '15px' }">
+                  <div :style="{ 'margin-left': '9px', 'font-size': '30px' }">
+                    目录
+                  </div>
+                  <div v-html="topic"></div>
+                </div>
+              </v-card>
+            </v-expand-transition>
+          </v-row>
+        </v-col>
       </v-row>
     </v-container>
   </div>
@@ -522,9 +628,9 @@
 import store from "@/store.js";
 import VueMarkdown from "vue-markdown";
 import Post from "@/api/post";
-import * as hljs from 'highlight.js';
+import * as hljs from "highlight.js";
 import Comment from "@/api/comment";
-import Star from '@/api/star';
+import Star from "@/api/star";
 const highlightCode = () => {
   let blocks = document.querySelectorAll("pre code");
   blocks.forEach((block) => {
@@ -539,6 +645,7 @@ export default {
   data() {
     return {
       loadingProfile: true,
+      showContent: false,
       items: [
         { title: "Home", icon: "mdi-home-city" },
         { title: "My Account", icon: "mdi-account" },
@@ -546,16 +653,16 @@ export default {
       ],
       sharedState: store.state,
       post: {},
-      rules: [v => v.length <= 50 || 'Max 50 characters'],
+      rules: [(v) => v.length <= 50 || "Max 50 characters"],
       comments: [],
       commentForm: {
         body: "",
         errors: 0, // 表单是否在前端验证通过，0 表示没有错误，验证通过
         bodyError: null,
       },
-      currentForm:{
-        replyId:0,
-        replyTo:"",
+      currentForm: {
+        replyId: 0,
+        replyTo: "",
         body: "",
         errors: 0, // 表单是否在前端验证通过，0 表示没有错误，验证通过
         bodyError: null,
@@ -573,14 +680,14 @@ export default {
         errors: 0, // 表单是否在前端验证通过，0 表示没有错误，验证通过
         bodyError: null,
       },
-      deleteCommentId:0,
-      deleteCommentDialog:false,
+      deleteCommentId: 0,
+      deleteCommentDialog: false,
       deleteBlogDialog: false,
-      replyCommentDialog:false,
+      replyCommentDialog: false,
       showToc: true,
       showEdit: false,
       topic: "",
-      ifStarred:false
+      ifStarred: false,
     };
   },
   methods: {
@@ -590,11 +697,14 @@ export default {
       Post.getBlog(id, formData)
         .then((res) => {
           this.post = res.data;
-          console.log("blog",this.post);
-          console.log(this.sharedState.user_id)
+          console.log("blog", this.post);
+          console.log(this.sharedState.user_id);
           this.ifStarred = false;
-          if(this.post.stars_id&&this.post.stars_id.indexOf(this.sharedState.user_id)!=-1){
-          this.ifStarred = true;
+          if (
+            this.post.stars_id &&
+            this.post.stars_id.indexOf(this.sharedState.user_id) != -1
+          ) {
+            this.ifStarred = true;
           }
           this.loadingProfile = false;
         })
@@ -637,47 +747,47 @@ export default {
     },
     getPostComments(id) {
       Comment.getComments(id)
-      .then((res)=>{
-        this.comments = res.data;
-        console.log(this.comments,"getComments");
-      })
-      .catch((err)=>{
-        console.error(err.response.data.detail,"errorMessage");
-      })
+        .then((res) => {
+          this.comments = res.data;
+          console.log(this.comments, "getComments");
+        })
+        .catch((err) => {
+          console.error(err.response.data.detail, "errorMessage");
+        });
     },
-    onSubmitAddComment(){
+    onSubmitAddComment() {
       console.log("onSubmitAddComment");
       let blogId = this.$route.params.id;
-      if(!this.commentForm.body){
+      if (!this.commentForm.body) {
         this.commentForm.error++;
-        this.commentForm.bodyError = 'Body is required.';
-      }else{
+        this.commentForm.bodyError = "Body is required.";
+      } else {
         this.commentForm.bodyError = null;
       }
-      if(this.commentForm.error>0){
+      if (this.commentForm.error > 0) {
         return false;
       }
       const formData = new FormData();
-      formData.append('text',this.commentForm.body);
-      Comment.postComments(blogId,formData)
-      .then((res)=>{
-        console.log(res.data,"onsubmit");
-        this.commentForm.body = "";
-        this.commentForm.error = 0;
-        this.commentForm.bodyError = '';
-        this.getPostComments(this.$route.params.id);
-      })
-      .catch((err)=>{
-        console.log(err);
-      })
+      formData.append("text", this.commentForm.body);
+      Comment.postComments(blogId, formData)
+        .then((res) => {
+          console.log(res.data, "onsubmit");
+          this.commentForm.body = "";
+          this.commentForm.error = 0;
+          this.commentForm.bodyError = "";
+          this.getPostComments(this.$route.params.id);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     },
-    onClickReply(comment){
-      if(!this.sharedState.is_authenticated){
-        this.$toasted.error('您需要先登录才能回复评论 ...', { icon: 'check' });
-        this.$router.replace({name:'Login'});
+    onClickReply(comment) {
+      if (!this.sharedState.is_authenticated) {
+        this.$toasted.error("您需要先登录才能回复评论 ...", { icon: "check" });
+        this.$router.replace({ name: "Login" });
       }
-      console.log(comment.author.id,"comment");
-     
+      console.log(comment.author.id, "comment");
+
       let cid = comment.author.id;
       let name = comment.author.name;
       this.currentForm.replyId = comment.id;
@@ -686,87 +796,90 @@ export default {
       this.currentForm.body = "";
       this.replyCommentDialog = true;
     },
-    onSubmitReplyComment(){
+    onSubmitReplyComment() {
       const formData = new FormData();
-      formData.append('text',this.currentForm.replyTo+this.currentForm.body);
-      Comment.replyComment(this.currentForm.replyId,formData)
-      .then((res)=>{
-        console.log(res);
-        this.getPostComments(this.$route.params.id);
-        this.replyCommentDialog = false;
-      })
-      .catch((err) => {
-        console.error(err);
-      })
+      formData.append("text", this.currentForm.replyTo + this.currentForm.body);
+      Comment.replyComment(this.currentForm.replyId, formData)
+        .then((res) => {
+          console.log(res);
+          this.getPostComments(this.$route.params.id);
+          this.replyCommentDialog = false;
+        })
+        .catch((err) => {
+          console.error(err);
+        });
     },
-    onDeleteComment(){
+    onDeleteComment() {
       this.deleteCommentDialog = false;
       Comment.deleteComment(this.deleteCommentId)
-      .then((res)=>{
-        console.log(res,"ondeleteComment");
-        this.getPostComments(this.$route.params.id);
-      })
-      .catch((err)=>{
-        console.error(err.response.data.detail);
-      })
+        .then((res) => {
+          console.log(res, "ondeleteComment");
+          this.getPostComments(this.$route.params.id);
+        })
+        .catch((err) => {
+          console.error(err.response.data.detail);
+        });
     },
-    onLikeOrUnlikePost(post){
-      console.log("onLikeOrUnlikePost",post);
+    onLikeOrUnlikePost(post) {
+      console.log("onLikeOrUnlikePost", post);
       Post.thumbUp(post.id)
-      .then((res)=>{
-        console.log(res);
-        this.getBlog(this.$route.params.id);
-      })
-      .catch((err)=>{
-        console.error(err.response.detail);
-      })
+        .then((res) => {
+          console.log(res);
+          this.getBlog(this.$route.params.id);
+        })
+        .catch((err) => {
+          console.error(err.response.detail);
+        });
     },
-    onLikeOrUnlikeComment(comment){
-      console.log("onLikeOrUnlikeComment",comment);
+    onLikeOrUnlikeComment(comment) {
+      console.log("onLikeOrUnlikeComment", comment);
       Comment.thumbUpComment(comment.id)
-      .then((res)=>{
-        console.log(res);
-        this.getPostComments(this.$route.params.id);
-      })
-      .catch((err) => {
-        console.error(error.response.detail);
-      })
+        .then((res) => {
+          console.log(res);
+          this.getPostComments(this.$route.params.id);
+        })
+        .catch((err) => {
+          console.error(error.response.detail);
+        });
     },
-    onUnStarPost(post){
-      console.log("onUnStarPost",post);
+    onUnStarPost(post) {
+      console.log("onUnStarPost", post);
       Star.takeoffStar(post.id)
-      .then((res)=>{
-        console.log(res);
-        this.getBlog(this.$route.params.id);
-      })
-      .catch((err) => {
-        console.log(err.response.detail);
-      })
+        .then((res) => {
+          console.log(res);
+          this.getBlog(this.$route.params.id);
+        })
+        .catch((err) => {
+          console.log(err.response.detail);
+        });
     },
-    onStarPost(post){
-      console.log("onStarPost",post);
+    onStarPost(post) {
+      console.log("onStarPost", post);
       Star.postStar(post.id)
-      .then((res)=>{
-        console.log(res);
-        this.getBlog(this.$route.params.id);
-      })
-      .catch((err) => {
-        console.log(err.response);
-      })
-    }
+        .then((res) => {
+          console.log(res);
+          this.getBlog(this.$route.params.id);
+        })
+        .catch((err) => {
+          console.log(err.response);
+        });
+    },
   },
   computed: {
     content() {
       return this.post.body;
     },
     btnOutlineColor() {
-      if(this.sharedState.is_authenticated){
-        if(this.post.likers_id&&this.post.likers_id.indexOf(this.sharedState.user_id)!=-1){
-          return true
+      if (this.sharedState.is_authenticated) {
+        if (
+          this.post.likers_id &&
+          this.post.likers_id.indexOf(this.sharedState.user_id) != -1
+        ) {
+          return true;
         }
       }
-      return false
-    }
+      return false;
+    },
   },
   created() {
     const postId = this.$route.params.id;
@@ -787,7 +900,7 @@ export default {
 </script>
 
 <style scoped>
-.postBody{
+.postBody {
   margin-top: -70px !important;
   padding-top: 70px;
 }
@@ -798,7 +911,7 @@ h2,
 h3,
 h4,
 h5,
-h6{
+h6 {
   margin-top: -70px !important;
   padding-top: 70px;
 }
@@ -843,7 +956,7 @@ a {
     overflow-y: visible;
   }
 }
- 
+
 @media screen and (min-width: 1060px) {
   .link {
     padding-top: 100px;
@@ -857,5 +970,5 @@ a {
     overflow-x: hidden;
     overflow-y: visible;
   }
-} 
+}
 </style>
