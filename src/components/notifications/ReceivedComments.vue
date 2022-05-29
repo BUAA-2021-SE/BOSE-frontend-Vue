@@ -111,6 +111,9 @@
         class="text-center">
       <h4>呜呜呜，没有新评论。</h4>
     </div>
+    <div>
+      {{ items }}
+    </div>
   </section>
 </template>
 
@@ -143,6 +146,7 @@ export default {
     },
     getComments(rawString) {
       let comments = rawString.split(":");
+      comments = comments[comments.length - 1].split("：");
       return comments[comments.length - 1];
     }
   },

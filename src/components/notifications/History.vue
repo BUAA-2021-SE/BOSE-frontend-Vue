@@ -22,60 +22,93 @@
         <v-subheader>
           <h3>历史记录</h3>
         </v-subheader>
-        <v-col
-            cols="12"
-            sm="12"
-            md="10"
+        <v-expansion-panels
+            v-for="(itemByDay,index) in items"
+            :key="index"
+            popout
         >
-          <v-card>
-            <v-list
-                v-for="(itemByDay, index) in items"
+          <h5>{{ itemByDay[0] }}</h5>
+          <v-divider></v-divider>
+          <v-expansion-panel
+              v-for="(item,index) in itemByDay.slice(1,itemByDay.length)"
+              :key="index"
+          >
+            <v-expansion-panel-header
+                @click="readMail(item.id)"
             >
-              <v-subheader :key="index">
-                <h5>{{ itemByDay[0] }}</h5>
-              </v-subheader>
-              <v-divider
-                  :key="index"
-              ></v-divider>
+              <v-col
+                  cols="16"
+                  sm="4"
+                  md="4"
+              >
+                <v-img
+                    :src="item.blog.cover"
+                    class="my-auto"
+                    contain
+                    height="90"
+                    max-width="120"
+                    max-height="90"
+                    :style="{'margin-right':'10px'}"
+                />
+              </v-col>
 
-              <!--{{ itemByDay }}-->
-              <div v-for="(item, index) in itemByDay.slice(1,itemByDay.length)"
-                   :key="index"
+              <v-col
+                  class="text-left"
               >
                 <v-row
                     align="center"
                     class="spacer"
                     no-gutters
                 >
-                  <v-col
-                      class="hidden-xs-only"
-                  >
-                    <router-link :to="{ name: 'Post',params: { id:item.blog_id}}">
-                      <strong v-html="item.blog_title"></strong>
-                    </router-link>
-                  </v-col>
-
+                  <router-link :to="{ name: 'Post',params: { id:item.blog.id} }">
+                    <h4>{{ item.blog.title }}</h4>
+                  </router-link>
+                </v-row>
+                <v-row>
+                  <router-link :to="{ name: 'ShowProfile',params: { id:item.blog.author.id} }">
+                    <strong v-html="item.blog.author.name||item.blog.author.username"></strong>
+                  </router-link>
+                </v-row>
+                <v-row>
                   <v-col
                       class="grey--text text-truncate hidden-sm-and-down"
                   >
-                    &mdash; {{ item.hour_minute_second }}
-                  </v-col>
-                  <v-col class="d-flex justify-end" cols="12" md="3">
-                    <v-img
-                        :src="item.Blog_cover"
-                        class="my-auto"
-                        contain
-                        height="75"
-                        max-width="100"
-                        max-height="75"
-                        :style="{'margin-right':'10px'}"
-                    />
+                    {{ item.hour_minute_second }}
                   </v-col>
                 </v-row>
-              </div>
-            </v-list>
-          </v-card>
-        </v-col>
+              </v-col>
+            </v-expansion-panel-header>
+
+            <v-expansion-panel-content>
+              <v-divider></v-divider>
+              <v-card-text>
+                <v-row
+                    align="center"
+                    class="spacer"
+                    no-gutters
+                >
+                  <v-col cols="3">
+                    浏览 <strong v-html="item.blog.views"></strong> 次
+                  </v-col>
+                  <v-col cols="3">
+                    点赞 <strong v-html="item.blog.thumbs_up"></strong> 次
+                  </v-col>
+                  <v-col cols="3">
+                    收藏 <strong v-html="item.blog.collection"></strong> 次
+                  </v-col>
+                  <v-col cols="3">
+                    评论 <strong v-html="item.blog.comments_count"></strong> 个
+                  </v-col>
+                </v-row>
+                <v-row>
+                  <v-card-text>
+                    <strong>博文摘要 </strong> {{ item.blog.summary }}
+                  </v-card-text>
+                </v-row>
+              </v-card-text>
+            </v-expansion-panel-content>
+          </v-expansion-panel>
+        </v-expansion-panels>
       </v-row>
     </div>
     <div
@@ -116,6 +149,10 @@ export default {
             this.loadingHistory = false;
           })
     },
+    readMail(id) {
+      console.log("readMail" + id);
+      Notifications.getMail(id);
+    }
   },
   created() {
     this.getHistoryList();

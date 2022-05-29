@@ -57,31 +57,7 @@
                   <router-link :to="{ name: 'ShowProfile',params: { id:item.sender.id} }">
                     <strong v-html="item.sender.name||item.sender.username"></strong>
                   </router-link>
-                  <!--                  <span-->
-                  <!--                      v-if="message.total"-->
-                  <!--                      class="grey--text"-->
-                  <!--                  >-->
-                  <!--                  &nbsp;({{ message.total }})-->
-                  <!--                </span>-->
                 </v-col>
-
-                <!--                <v-col-->
-                <!--                    class="text-no-wrap"-->
-                <!--                    cols="5"-->
-                <!--                    sm="3"-->
-                <!--                >-->
-                <!--                  <v-chip-->
-                <!--                      v-if="item.is_read == false"-->
-                <!--                      :color="`${item.color} light-blue`"-->
-                <!--                      class="ml-0 mr-2 black--text"-->
-                <!--                      label-->
-                <!--                      small-->
-                <!--                  >-->
-                <!--                    new-->
-                <!--                  </v-chip>-->
-                <!--                  <strong v-html="item.blog_title"></strong>-->
-                <!--                </v-col>-->
-
                 <v-col
                     class="grey--text text-truncate hidden-sm-and-down"
                 >
