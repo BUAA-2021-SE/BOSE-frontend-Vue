@@ -134,7 +134,7 @@ const router = new VueRouter({
             children: [
                 {path: '', component: ReceivedComments},
                 {path: 'comments', name: 'ReceivedComments', component: ReceivedComments},
-                {path: 'messages', name: 'ReceivedMessages', component: ReceivedMessages,
+                {path: 'messages', component: ReceivedMessages,
                     children: [
                         {path:'',component:MessageList},
                         {path:'message_list', name: 'MessageList', component:MessageList},

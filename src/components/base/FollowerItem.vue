@@ -38,28 +38,6 @@
           {{ followers.about_me.substring(0, 27)+'...'}}
         </div>
       </v-card-text>
-      <!-- <v-card-actions>
-        <router-link :to="{ name: 'Post', params: { id: post.id } }">
-          <v-btn text color="deep-purple accent-4"> 阅读全文 </v-btn>
-        </router-link>
-        <v-btn
-          v-if="post.author.id == sharedState.user_id"
-          text
-          color="deep-purple accent-4"
-          @click="showDeleteDialog(post.id)"
-        >
-          删除
-        </v-btn>
-        <router-link :to="{ name: 'PostEdit', params: { id: post.id } }">
-          <v-btn
-            v-if="post.author.id == sharedState.user_id"
-            text
-            color="deep-purple accent-4"
-          >
-            编辑
-          </v-btn>
-        </router-link>
-      </v-card-actions> -->
       </v-col>
     
         <v-col cols="12" md="2"></v-col>
