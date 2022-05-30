@@ -25,7 +25,7 @@
         
         <v-card-title>
              <router-link :to="{ name: 'ShowProfile',params: { id:followers.id} }">
-          <h3>{{ followers.username }}</h3>
+          <h3>{{ followers.name||followers.username }}</h3>
           </router-link>
         </v-card-title>
       

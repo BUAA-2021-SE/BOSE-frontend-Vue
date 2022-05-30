@@ -33,8 +33,7 @@
                     }"
                     class="u-link-v5 g-color-gray-dark-v4 g-color-primary--hover g-text-underline--none--hover"
                   >
-                    <span v-if="post.author.name">{{ post.author.name }}</span>
-                    <span v-else>{{ post.author.username }}</span></router-link
+                    <span>{{ post.author.name||post.author.username }}</span></router-link
                   >
                 </li>
                 <li>/</li>
