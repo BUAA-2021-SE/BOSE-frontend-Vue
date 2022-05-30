@@ -817,6 +817,9 @@ import { Account } from "@/api/account.js";
 const highlightCode = () => {
   let blocks = document.querySelectorAll("pre code");
   blocks.forEach((block) => {
+    hljs.configure({
+      ignoreUnescapedHTML: true
+    })
     hljs.highlightElement(block);
   });
 };

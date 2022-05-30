@@ -191,6 +191,7 @@ export default {
           });
     },
     getIfFollow(id) {
+      console.log("Get if-follow")
       Followers.isFollow(id)
           .then((res) => {
             console.log(res.data);
