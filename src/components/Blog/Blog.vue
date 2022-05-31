@@ -18,8 +18,8 @@
       
       <!-- 目录 -->
       <!-- Sidebar -->
-      <div :style="{'position':'relative'}">
-            <div  :style="{'position':'absolute',}" style="z-index:160 ">
+      <div  :style="{'position':'relative'}">
+        <div v-if="ifContent" :style="{'position':'absolute',}" style="z-index:160 ">
             <v-btn
               :style="{'position':'absolute','top':'100px','right':'50px','position':'fixed'}"
               class="mx-5"
@@ -114,7 +114,7 @@
                 v-highlight
                 :toc="showToc"
                 :toc-first-level="1"
-                :toc-last-level="3"
+                :toc-last-level="6"
                 @toc-rendered="tocAllRight"
                 toc-id="toc"
               >
@@ -858,7 +858,7 @@ export default {
     return {
       loadingProfile: true,
       showContent: false,
-
+      ifContent: false,
       items: [
         { title: "Home", icon: "mdi-home-city" },
         { title: "My Account", icon: "mdi-account" },
@@ -978,13 +978,7 @@ export default {
     },
     tocAllRight(tocHtmlStr) {
       this.topic = tocHtmlStr;
-      console.log(this.topic);
-      
-      // for(let i=0;i<document.getElementsByClassName("toc-anchor-link").length;i++){
-      // document.getElementsByClassName("toc-anchor-link")[i].textContent= "AAAA"
-      // document.getElementsByClassName("toc-anchor-link")[i].outerText= "AAAA"
-      // }
-      // console.log("xxx",document.getElementsByClassName("toc-anchor-link"))
+      this.ifContent = true;
     },
     getPostComments(id) {
       Comment.getComments(id)

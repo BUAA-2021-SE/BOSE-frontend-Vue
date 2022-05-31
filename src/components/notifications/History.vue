@@ -2,7 +2,7 @@
   <section>
     <div class="container">
       <div class="text-center">
-        <h3 v-show="loadingHistory"> 博文列表加载中
+        <h3 v-show="loadingHistory"> 历史记录加载中
           <v-progress-circular
               class="center"
               indeterminate

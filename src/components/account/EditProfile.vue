@@ -5,7 +5,7 @@
 
       <div class="col-md-8">
         <h1>
-          <center>Edit Your Profile</center>
+          <center>修改个人信息</center>
         </h1>
         <form @submit.prevent="onSubmit">
           <!-- <div class="form-group">

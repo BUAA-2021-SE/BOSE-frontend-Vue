@@ -27,7 +27,7 @@
 
       </v-col>
 <v-col  md="6" class="my-auto">
-    <v-btn @click="addFile">Upload cover</v-btn>
+    <v-btn @click="addFile">上传封面</v-btn>
     <input type="file" ref="upload_input" style="display: none;" @change="select_file" accept=".png,.jpg,.jpeg">
      <img v-if="postForm.cover" :src="postForm.cover" max-width="300px" max-height="150px" width="300px" height="150px">
 </v-col>

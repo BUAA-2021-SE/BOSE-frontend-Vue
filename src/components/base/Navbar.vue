@@ -21,6 +21,7 @@
     <v-text-field
         append-icon="mdi-magnify"
         @click:append="searchBlog"
+        @keyup.enter="searchBlog"
         flat
         hide-details
         solo
