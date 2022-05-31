@@ -19,30 +19,22 @@
       <!-- 目录 -->
       <!-- Sidebar -->
       <div :style="{'position':'relative'}">
-
-
-          <!-- <v-col cols="12" md="3" class="link" :style="{position:absolute}">
-          <v-row class="d-flex justify-center"> -->
-          
-
-
             <div  :style="{'position':'absolute',}" style="z-index:160 ">
             <v-btn
-              :style="{'position':'absolute','top':'200px','right':'50px','position':'fixed'}"
+              :style="{'position':'absolute','top':'100px','right':'50px','position':'fixed'}"
               class="mx-5"
               fab
               dark
               large
               color="blue"
               @click="showContent = !showContent"
-              v-if="!showContent"
-            >
+              v-if="!showContent">
               <span class="material-icons" :style="{ 'font-size': '40px' }">
                 expand_more
               </span>
             </v-btn>
             <v-btn
-             :style="{'position':'absolute','top':'200px','right':'50px','position':'fixed'}"
+             :style="{'position':'absolute','top':'100px','right':'50px','position':'fixed'}"
               class="mx-5"
               fab
               dark
@@ -56,8 +48,8 @@
               </span>
             </v-btn>
             <v-expand-transition>
-              <v-card outlined class="mx-auto" v-show="showContent" :style="{'position':'absolute','top':'270px','right':'25px','position':'fixed','width':'300px',
-              'border-color':'#00AEEC','border-width':'2px'}">
+              <v-card outlined class="mx-auto" v-show="showContent" :style="{'position':'absolute','top':'170px','right':'25px','position':'fixed','width':'300px',
+              'border-color':'#00AEEC','border-width':'2px','max-height':'60vh','overflow':'scroll','overflow-x':'hidden'}">
                 <div :style="{ 'margin-top': '15px' }">
                   <div :style="{ 'margin-left': '9px', 'font-size': '30px','color':'#00AEEC'}">
                     目录
@@ -65,12 +57,9 @@
                   <div v-html="topic"></div>
                 </div>
               </v-card>
-            </v-expand-transition>
-          <!-- </v-row>
-        </v-col> -->
+            </v-expand-transition>    
         </div>
         <!-- End Sidebar -->
-        <!-- <v-col cols="12" md="9"> -->
           <div>
           <!-- 博文内容 -->
           <!-- Articles Content -->
@@ -990,6 +979,12 @@ export default {
     tocAllRight(tocHtmlStr) {
       this.topic = tocHtmlStr;
       console.log(this.topic);
+      
+      // for(let i=0;i<document.getElementsByClassName("toc-anchor-link").length;i++){
+      // document.getElementsByClassName("toc-anchor-link")[i].textContent= "AAAA"
+      // document.getElementsByClassName("toc-anchor-link")[i].outerText= "AAAA"
+      // }
+      // console.log("xxx",document.getElementsByClassName("toc-anchor-link"))
     },
     getPostComments(id) {
       Comment.getComments(id)
