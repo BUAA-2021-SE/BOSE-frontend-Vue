@@ -1,5 +1,6 @@
 <template>
   <div class="mx-5">
+    
     <div class="text-center" v-show="this.loadingProfile">
       <h3 v-show="this.loadingProfile">
         博客加载中······
@@ -14,11 +15,63 @@
       </h3>
     </div>
     <v-container v-show="!this.loadingProfile" grid-list-xl>
+      
       <!-- 目录 -->
       <!-- Sidebar -->
-      <v-row>
+      <div :style="{'position':'relative'}">
+
+
+          <!-- <v-col cols="12" md="3" class="link" :style="{position:absolute}">
+          <v-row class="d-flex justify-center"> -->
+          
+
+
+            <div  :style="{'position':'absolute',}" style="z-index:160 ">
+            <v-btn
+              :style="{'position':'absolute','top':'200px','right':'50px','position':'fixed'}"
+              class="mx-5"
+              fab
+              dark
+              large
+              color="blue"
+              @click="showContent = !showContent"
+              v-if="!showContent"
+            >
+              <span class="material-icons" :style="{ 'font-size': '40px' }">
+                expand_more
+              </span>
+            </v-btn>
+            <v-btn
+             :style="{'position':'absolute','top':'200px','right':'50px','position':'fixed'}"
+              class="mx-5"
+              fab
+              dark
+              large
+              color="blue"
+              @click="showContent = !showContent"
+              v-else
+            >
+              <span class="material-icons" :style="{ 'font-size': '40px' }">
+                expand_less
+              </span>
+            </v-btn>
+            <v-expand-transition>
+              <v-card outlined class="mx-auto" v-show="showContent" :style="{'position':'absolute','top':'270px','right':'25px','position':'fixed','width':'300px',
+              'border-color':'#00AEEC','border-width':'2px'}">
+                <div :style="{ 'margin-top': '15px' }">
+                  <div :style="{ 'margin-left': '9px', 'font-size': '30px','color':'#00AEEC'}">
+                    目录
+                  </div>
+                  <div v-html="topic"></div>
+                </div>
+              </v-card>
+            </v-expand-transition>
+          <!-- </v-row>
+        </v-col> -->
+        </div>
         <!-- End Sidebar -->
-        <v-col cols="12" md="9" >
+        <!-- <v-col cols="12" md="9"> -->
+          <div>
           <!-- 博文内容 -->
           <!-- Articles Content -->
           <article>
@@ -98,6 +151,18 @@
                   thumb_up </v-icon
                 >{{ post.likers_id.length }}</span
               >
+               <span v-else
+                ><v-icon
+                  class="material-icons my-auto"
+                  :style="{
+                    color: '#1976D2',
+                    'font-size': '20px',
+                    'margin-right': '10px',
+                    'margin-top': '-4px!important',
+                  }"
+                  >thumb_up</v-icon
+                >
+              </span>
             </v-btn>
             <v-btn
               v-else
@@ -115,6 +180,17 @@
                 >
                   thumb_up </v-icon
                 >{{ post.likers_id.length }}</span
+              >
+              <span v-else
+                ><v-icon
+                  class="material-icons my-auto"
+                  :style="{
+                    'margin-right': '10px',
+                    'margin-top': '-4px!important',
+                  }"
+                >
+                  thumb_up </v-icon
+                ></span
               >
             </v-btn>
             <v-btn
@@ -327,9 +403,9 @@
             <div
               class="card-header d-flex align-items-center justify-content-between g-bg-gray-light-v5 border-0 g-mb-15"
             >
-              <h3 class="h6 mb-0">
+              <div class="h6 mb-0">
                 <i class="icon-bubbles g-pos-rel g-top-1 g-mr-5"></i> 评论区
-              </h3>
+              </div>
             </div>
             <!-- End Panel Header -->
 
@@ -350,7 +426,7 @@
               <v-col cols="12" md="11">
                 <div id="addCommentForm" v-if="sharedState.is_authenticated">
                   <v-row>
-                    <v-col cols="12" md="10">
+                    <v-col cols="12" md="11">
                       <v-textarea
                         v-model="commentForm.body"
                         dense
@@ -372,7 +448,7 @@
                         评论不能为空哦
                       </v-alert>
                     </v-col>
-                    <v-col cols="12" md="2">
+                    <v-col cols="12" md="1">
                       <v-btn
                         :style="{
                           height: '70px',
@@ -759,48 +835,10 @@
           <!-- End Pagination #04 -->
 
           <!-- end Articles Content -->
-        </v-col>
-        <v-col cols="12" md="3" class="link">
-          <v-row class="d-flex justify-center">
-            <v-btn
-              class="mx-5"
-              fab
-              dark
-              large
-              color="blue"
-              @click="showContent = !showContent"
-              v-if="!showContent"
-            >
-              <span class="material-icons" :style="{ 'font-size': '40px' }">
-                expand_more
-              </span>
-            </v-btn>
-            <v-btn
-              class="mx-5"
-              fab
-              dark
-              large
-              color="blue"
-              @click="showContent = !showContent"
-              v-else
-            >
-              <span class="material-icons" :style="{ 'font-size': '40px' }">
-                expand_less
-              </span>
-            </v-btn>
-            <v-expand-transition>
-              <v-card outlined class="mx-auto" v-show="showContent">
-                <div :style="{ 'margin-top': '15px' }">
-                  <div :style="{ 'margin-left': '9px', 'font-size': '30px' }">
-                    目录
-                  </div>
-                  <div v-html="topic"></div>
-                </div>
-              </v-card>
-            </v-expand-transition>
-          </v-row>
-        </v-col>
-      </v-row>
+        <!-- </v-col> -->
+        </div>
+      
+      </div>
     </v-container>
   </div>
 </template>
@@ -830,7 +868,7 @@ export default {
   data() {
     return {
       loadingProfile: true,
-      showContent: true,
+      showContent: false,
 
       items: [
         { title: "Home", icon: "mdi-home-city" },
@@ -1142,13 +1180,14 @@ export default {
 </script>
 
 <style scoped>
-.postBody {
-  margin-top: -70px !important;
-  padding-top: 70px;
-}
+
 </style>
 <style>
-
+img,svg{
+    vertical-align: middle;
+    max-width: 80vw;
+    size:50%
+}
 h1,
 h2,
 h3,
@@ -1158,10 +1197,19 @@ h6 {
   margin-top: -70px !important;
   padding-top: 70px;
 }
-
+a {
+  text-decoration: none!important;
+}
 </style>
 
 <style scoped>
+.router-link-active {
+  text-decoration: none;
+  color: yellow;
+  color: #4cabeb;
+}
+
+
 
 .content {
   padding: 8px 8px;
