@@ -85,7 +85,8 @@
       <!--  -->
       <v-expand-transition>
         <v-card
-            max-width="350"
+            max-width="250px"
+            width="250px"
             v-show="sharedState.is_hover && sharedState.is_authenticated"
             @mouseenter="enter"
             @mouseleave="leave"
@@ -382,7 +383,7 @@ a {
 
 .pcard .v-card {
   position: absolute;
-  margin-right: 240px;
+  margin-right: 225px;
   margin-top: 35px;
 }
 
