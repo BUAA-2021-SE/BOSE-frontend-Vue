@@ -232,6 +232,7 @@ export default {
   beforeRouteUpdate(to, from, next) {
     next()
     this.getUserDetail(to.params.id)
+    this.getIfFollow(this.$route.params.id);
     this.reload();
   },
 };
