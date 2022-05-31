@@ -72,7 +72,7 @@
             </v-btn>
 
             <v-btn
-                v-if="sharedState.user_id!=curId" :to="{name: 'ProfilePosts', params: {id: this.$route.params.id}}"
+                v-if="sharedState.user_id!=$route.params.id" :to="{name: 'ProfilePosts', params: {id: this.$route.params.id}}"
                 text
                 class="d-flex justify-start" >
                <v-icon class="material-icons"  :style="{ color: 'DarkMagenta' ,'font-size': '20px','margin-top':'2px','margin-right':'3px'}">bookmarks</v-icon>
@@ -226,9 +226,8 @@ export default {
     }
   },
   created() {
-    this.curId = this.$route.params.id;
-    this.getUserDetail(this.curId);
-    this.getIfFollow(this.curId)
+    this.getUserDetail(this.$route.params.id);
+    this.getIfFollow(this.$route.params.id);
   },
   beforeRouteUpdate(to, from, next) {
     next()
