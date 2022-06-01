@@ -15,6 +15,7 @@ import DraftEdit from '@/components/blog/EditDraft'
 import ShowProfile from '@/components/account/ShowProfile'
 import Followers from '@/components/profile/Followers'
 import Following from '@/components/profile/Following'
+import BlackList from '@/components/profile/BlackList'
 import Posts from '@/components/contribution/Posts'
 import Drafts from '@/components/contribution/Drafts'
 import Resources from '@/components/contribution/Resources'
@@ -23,6 +24,7 @@ import PostAdd from '@/components/blog/AddBlog'
 import Contribution from '@/components/account/Contribution'
 import Search from '@/components/base/Search'
 import NotFound from '@/components/base/NotFound'
+
 // 用户通知
 import Notifications from '@/components/notifications/Notifications'
 import ReceivedComments from '@/components/notifications/ReceivedComments'
@@ -100,7 +102,8 @@ const router = new VueRouter({
                 {path: 'profile', name: 'ShowProfile', component: ShowProfile},
                 {path: 'followers', name: 'Followers', component: Followers},
                 {path: 'following', name: 'Following', component: Following},
-                {path: 'posts', name: 'ProfilePosts', component: Posts}
+                {path: 'posts', name: 'ProfilePosts', component: Posts},
+                {path: 'blacklist', name: 'BlackList', component: BlackList}
             ]
         },
         {
