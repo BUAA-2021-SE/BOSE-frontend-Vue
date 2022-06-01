@@ -8,7 +8,8 @@ const url = {
     followings: '/user/followeds',
     followers: '/user/followers', 
     block:'/blacklist/black',
-    unBlock:'/blacklist/unblack'
+    unBlock:'/blacklist/unblack',
+    blacklist:'/blacklist/blacklist',
 }
 export default class Followers {
     static async isFollow(id) {
@@ -69,6 +70,13 @@ export default class Followers {
 
     static async getUserFollowings(id) {
         return service(`${url.followings}/${id}`, {
+            method: 'post',
+            responseType: 'json',
+        })
+    }
+
+    static async getUserBlockers() {
+        return service(`${url.blacklist}`, {
             method: 'post',
             responseType: 'json',
         })
