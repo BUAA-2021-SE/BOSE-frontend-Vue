@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-card outlined class="mx-auto">
+    <v-card outlined class="mx-auto" v-show="isBlock">
       <v-row>
           <v-col class="d-flex justify-center my-auto" cols="12" md="2" >
               <router-link :to="{ name: 'ShowProfile',params: { id:blockers.id} }">
@@ -42,14 +42,8 @@
     
         <v-col cols="12" md="2"></v-col>
           <v-col cols="12" md="2" class="my-auto">
-            <v-btn depressed :style="{color: 'Gray',width:'100px'}" v-show="(blockers.current_user_to_user&&blockers.user_to_current_user)" @click="onUnFollowUser(blockers.id)" >
-                 <v-icon class="material-icons" >notes</v-icon>已互粉
-            </v-btn>
-             <v-btn outlined :style="{color: 'Gray',width:'100px'}" v-show="(!blockers.current_user_to_user)" @click="onFollowUser(blockers.id)">
-                <v-icon class="material-icons" >check</v-icon>关注
-            </v-btn>
-             <v-btn depressed :style="{color: 'DimGray',width:'100px'}" v-show="(blockers.current_user_to_user&&(!blockers.user_to_current_user))" @click="onUnFollowUser(blockers.id)">
-                <v-icon class="material-icons" >notes</v-icon>已关注
+             <v-btn depressed :style="{color: 'DimGray',width:'100px'}"  @click="onUnblockUser(blockers.id)">
+                <v-icon class="material-icons" >tag_faces</v-icon>解除误会
             </v-btn>
           </v-col>
         </v-row>
@@ -67,39 +61,27 @@ export default {
   data() {
     return {
       sharedState: store.state,
+      isBlock:true,
     };
   },
   methods: {
       toProfile(id){
           this.$router.push({name: 'ShowProfile', params: {id: id}})
       },
-    //   onFollowUser(id) {
-          
-    //   Followers.follow(id)
-    //       .then((res) => {
-    //         console.log(res, "followUser");
-            
-    //         this.blockers.current_user_to_user=true;
-    //       })
-    //       .catch((err) => {
-    //           if(err.response.status==460){
-    //         this.$toasted.error("不能关注自己.", {
-    //           icon: "priority_high",
-    //         });
-    //           }
-    //         console.error(err);
-    //       })
-    // },
-    // onUnFollowUser(id) {
-    //   Followers.unFollow(id)
-    //       .then((res) => {
-    //         console.log(res, "unfollowUser");
-    //         this.followers.current_user_to_user=false;
-    //       })
-    //       .catch((err) => {
-    //         console.error(err);
-    //       })
-    // }
+    onUnblockUser(id) {
+      Followers.unBlock(id)
+          .then((res) => {
+            console.log(res, "unblockUser");
+            this.isBlock = false;
+            this.$toasted.success("误会解除~", {
+              icon: "check",
+            });
+         
+          })
+          .catch((err) => {
+            console.error(err);
+          })
+    },
   },
 };
 </script>
