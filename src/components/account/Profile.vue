@@ -98,6 +98,27 @@
             </v-icon>
               私信交流
             </v-btn>
+
+           <v-btn v-if="ifBlock && $route.params.id != sharedState.user_id" @click="onUnblockUser()" text class="d-flex justify-start">
+           <v-icon class="material-icons"  :style="{ color: 'DarkSeaGreen' ,'font-size': '20px','margin-top':'2px','margin-right':'3px'}">
+            supervised_user_circle
+            </v-icon>
+              取消拉黑
+            </v-btn>
+            <v-btn v-if="!ifBlock && $route.params.id != sharedState.user_id" @click="onBlockUser()" text class="d-flex justify-start">
+              <v-icon class="material-icons"  :style="{ color: 'red' ,'font-size': '20px','margin-top':'2px','margin-right':'3px'}">
+            block
+            </v-icon>
+              果断拉黑
+            </v-btn>
+
+              <v-btn v-if="$route.params.id == sharedState.user_id"  :to="{name: 'BlackList', params: {id: this.$route.params.id}}" text class="d-flex justify-start">
+              <v-icon class="material-icons"  :style="{ color: 'red' ,'font-size': '20px','margin-top':'2px','margin-right':'3px'}">
+            block
+            </v-icon>
+              黑名单
+            </v-btn>
+
             </v-row>
             </v-card>
           </v-col>
@@ -143,6 +164,7 @@ export default {
         },
       },
       ifFollow: true,
+      ifBlock:false,
       curId:0
     };
   },
@@ -202,7 +224,23 @@ export default {
             console.error(err);
           })
     },
+    getIfBlock(id) {
+      console.log("Get if-follow")
+      Followers.isBlock(id)
+          .then((res) => {
+            console.log(res.data);
+            this.ifBlock = res.data;
+            console.log(res, "getIfBlock");
+          })
+          .catch((err) => {
+            console.error(err);
+          })
+    },
     onFollowUser() {
+      if(this.ifBlock){
+        this.$toasted.error('人家在你小黑屋里面捏~', {icon: 'error_outline'});
+      }
+      else{
       Followers.follow(this.$route.params.id)
           .then((res) => {
             console.log(res, "followUser");
@@ -212,8 +250,13 @@ export default {
           .catch((err) => {
             console.error(err);
           })
+      }
     },
     onUnFollowUser() {
+      if(this.ifBlock){
+        this.$toasted.error('人家在你小黑屋里面捏~', {icon: 'error_outline'});
+      }
+      else{
       Followers.unFollow(this.$route.params.id)
           .then((res) => {
             console.log(res, "unfollowUser");
@@ -223,16 +266,42 @@ export default {
           .catch((err) => {
             console.error(err);
           })
-    }
+      }
+    },
+    onBlockUser() {
+      Followers.block(this.$route.params.id)
+          .then((res) => {
+            console.log(res, "blockUser");
+            this.ifBlock = true;
+            this.ifFollow = false;
+            this.$router.push({name: 'ShowProfile', params: {id: this.$route.params.id}})
+          })
+          .catch((err) => {
+            console.error(err);
+          })
+    },
+    onUnblockUser() {
+      Followers.unBlock(this.$route.params.id)
+          .then((res) => {
+            console.log(res, "unblockUser");
+            this.ifBlock = false;
+            this.$router.push({name: 'ShowProfile', params: {id: this.$route.params.id}})
+          })
+          .catch((err) => {
+            console.error(err);
+          })
+    },
   },
   created() {
     this.getUserDetail(this.$route.params.id);
     this.getIfFollow(this.$route.params.id);
+    this.getIfBlock(this.$route.params.id);
   },
   beforeRouteUpdate(to, from, next) {
     next()
     this.getUserDetail(to.params.id)
     this.getIfFollow(this.$route.params.id);
+    this.getIfBlock(this.$route.params.id);
     this.reload();
   },
 };
