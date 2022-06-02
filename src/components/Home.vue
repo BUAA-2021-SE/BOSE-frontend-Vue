@@ -1,27 +1,107 @@
 <template>
-  <div class="container">
+  <div class="container" width="80vw" min-width="1000px" >
     <!-- 项目进度 -->
-    <alert
+    <!-- <alert
         v-for="(alert, index) in alertsFilter" :key="index"
         :variant="alert.alertVariant"
         :message="alert.alertMessage">
-    </alert>
-    <div>
+    </alert> -->
+    <div class=" mx-auto" width="80vw" min-width="1000px">
       <v-row>
-        <v-col cols="12" sm="6" md="6" v-for="(post,index) in posts" :key="index" >
+        <v-col cols="12" sm="12" md="6">
+          <v-card :style="{'border-radius':'20px'}">
+           <v-carousel
+    cycle
+    height="400"
+    hide-delimiter-background
+    show-arrows-on-hover
+    
+  >
+    <v-carousel-item
+     v-for="(post,index) in posts" :key="index"
+    >
+      <v-sheet
+       
+        height="100%"
+      >
+      <v-img :src="post.cover"  :style="{'min-width':'100%','min-height':'100%',}" />
+     
+        <router-link :to="{ name: 'Post', params: { id: post.id } }">
+        <div class="mask white--text align-end">
+          <router-link :to="{ name: 'Post', params: { id: post.id } }">
+            <h2 :style="{'margin-bottom':'50px','margin-left':'15px',color:'white'}">{{post.title}}</h2>
+             </router-link>
+             </div>
+              </router-link>
+       
+        
+       
+        
+        
+      </v-sheet>
+    </v-carousel-item>
+  </v-carousel>
+  </v-card>
+        </v-col>
+        <v-col cols="12" sm="12" md="6">
+          <v-row>
+          <v-col cols="12"  sm="12" md="12">
+            <v-row>
+            <v-col cols="12" sm="12" md="6">
+              <v-card :style="{'border-radius':'20px','height':'200px',}">
+               <v-img :src="posts[1].cover"  :style="{'min-width':'100%','min-height':'100%','border-radius':'20px'}" />
+                  <router-link :to="{ name: 'Post', params: { id: posts[1].id } }">
+                  <div class="mask2 white--text align-end">
+                    <h4 :style="{'margin-bottom':'20px','margin-left':'15px',color:'white'}">{{posts[1].title}}</h4>
+                    </div>
+                    </router-link>
+                    
+                 </v-card>
+            </v-col> 
+            <v-col cols="12" sm="12" md="6">
+              <v-card :style="{'border-radius':'20px','height':'200px',}">
+               <v-img :src="posts[2].cover"  :style="{'min-width':'100%','min-height':'100%','border-radius':'20px'}" />
+                  <router-link :to="{ name: 'Post', params: { id: posts[2].id } }">
+                  <div class="mask2 white--text align-end">
+                    <h4 :style="{'margin-bottom':'20px','margin-left':'15px',color:'white'}">{{posts[2].title}}</h4>
+                    </div>
+                    </router-link>
+                    
+                 </v-card>
+             
+            </v-col> 
+            </v-row>
+          </v-col>
+          <v-col cols="12"  md="12">
+            <v-card :style="{'border-radius':'20px',height:'150px'}">
+              <v-card-title>通知</v-card-title>
+              <v-subtitle :style="{'margin-left':'20px'}">{{HomeMessage}}</v-subtitle>
+            </v-card>
+          </v-col>
+          </v-row>
+        </v-col>
+        
+     <v-col cols="12" md="9">
+        <v-col cols="12" sm="6" md="12" v-for="(post,index) in posts" :key="index" >
       <blog 
       :post = "post"
       @delete="getPosts(1)">
       </blog>
       </v-col>
+      </v-col>
+      <v-col cols="12"  md="3">
+        5555
+      </v-col> 
+        
+
       </v-row>
-      <span>共有博文{{ total }}篇</span>
+      <!-- <span>共有博文{{ total }}篇</span>
       <v-pagination
           v-model="page"
           :length="pageTotal"
           :total-visible="7"
           circle
-      ></v-pagination>
+      ></v-pagination> -->
     </div>
   </div>
 </template>
@@ -43,6 +123,7 @@ export default {
   data() {
     return {
       sharedState: store.state,
+      HomeMessage: '主页一期完成',
       alerts: [
         {
           showAlert: true,
@@ -122,7 +203,9 @@ export default {
             this.size = res.data.size
             this.pageTotal = Math.ceil(this.total / this.size)
           })
-    }
+    },
+   
+
   },
   created() {
     this.getPosts(1)
@@ -134,4 +217,18 @@ export default {
   }
 }
 </script>
-
+<style scoped>
+.mask{
+    display: flex;
+    position: absolute;
+    inset: 0px;
+    background-image: var(--mask-gradient, linear-gradient(to top, rgba(0, 0, 0, 1), rgba(0,0,0,0) 176px));
+}
+.mask2{
+    display: flex;
+    position: absolute;
+    inset: 0px;
+    background-image: var(--mask-gradient, linear-gradient(to top, rgba(0, 0, 0, 1), rgba(0,0,0,0) 76px));
+    border-radius: 20px;
+}
+</style>

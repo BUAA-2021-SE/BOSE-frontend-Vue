@@ -1,7 +1,18 @@
 <template>
   <div>
-    <v-card outlined class="mx-auto">
+    <v-card outlined class="mx-auto" :style="{'border-radius':'20px'}">
       <v-row>
+        <v-col class="d-flex justify-center" cols="12" md="5">
+       <v-img
+          :src="post.cover"
+          class="my-auto"
+          contain
+          height="180"
+          max-width="240"
+          max-height="180"
+          :style="{'border-radius':'20px'}"
+        />
+        </v-col>
         <v-col cols="12" md="7">
       <router-link :to="{ name: 'Post', params: { id: post.id } }">
         <v-card-title>
@@ -41,18 +52,8 @@
         </router-link>
       </v-card-actions>
       </v-col>
-      <v-col cols="12" md="2"></v-col>
-      <v-col class="d-flex justify-end" cols="12" md="3">
-       <v-img
-          :src="post.cover"
-          class="my-auto"
-          contain
-          height="150"
-          max-width="200"
-          max-height="150"
-          :style="{'margin-right':'10px'}"
-        />
-        </v-col>
+      
+      
         </v-row>
 
     </v-card>
