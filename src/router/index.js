@@ -19,7 +19,9 @@ import Posts from '@/components/contribution/Posts'
 import Drafts from '@/components/contribution/Drafts'
 import Resources from '@/components/contribution/Resources'
 import Stars from '@/components/contribution/Stars'
-import PostAdd from '@/components/blog/AddBlog'
+import BlogAdd from '@/components/blog/AddBlog'
+import PostAdd from '@/components/blog/AddPost'
+import ResourceAdd from '@/components/resource/AddResource'
 import Contribution from '@/components/account/Contribution'
 import Search from '@/components/base/Search'
 import NotFound from '@/components/base/NotFound'
@@ -63,9 +65,13 @@ const router = new VueRouter({
             component: DraftEdit,
         },
         {
-            path: '/postadd/:id',
-            name: 'PostAdd',
-            component: PostAdd
+            path: '/addpost/:id',
+            component: PostAdd,
+            name:'PostAdd',
+            children: [
+                {path:'blog',name:'BlogAdd',component: BlogAdd},
+                {path:'resource',name:'ResourceAdd',component: ResourceAdd}
+            ]
         },
         {
             path: '/ping',

@@ -52,12 +52,23 @@
       </v-btn>
 
       <v-btn v-if="sharedState.is_authenticated" text class="white--text" @click="getNewBlog"
-             :style="{'font-weight': 'bold'}"> 投稿
+             :style="{'font-weight': 'bold'}"
+             @mouseenter="showEnter" @mouseleave="showLeave"> 投稿
       </v-btn>
       <router-link v-else :to="{ name: 'Login' }">
-        <v-btn text class="white--text"> 投稿</v-btn>
+        <v-btn text class="white--text" > 投稿</v-btn>
       </router-link>
-
+      <v-expand-transition>
+      <v-card
+      v-show="showAddPost&&sharedState.is_authenticated"
+      @mouseenter="showEnter" @mouseleave="showLeave"
+      >
+      <v-card-actions>
+      <v-btn text @click="getNewBlog">上传博客</v-btn>
+      <v-btn text @click="getNewResource">上传资源</v-btn>
+      </v-card-actions>
+      </v-card>
+      </v-expand-transition>
       <router-link v-if="sharedState.is_authenticated" :to="{ name: 'ReceivedComments' }">
         <v-btn text class="white--text" :style="{'font-weight': 'bold'}"> 消息
           <span v-if="newMessage!=0" class="red--text ms-1">{{ newMessage }}</span>
@@ -149,17 +160,6 @@
 
               </v-btn>
             </router-link>
-
-            <router-link :to="{ name: 'Home', }">
-              <v-btn text :style="{width:'100%'}" class="mx-auto d-flex justify-start"
-                     @click="sharedState.is_hover=false">
-                <v-icon class="material-icons" :style="{ color: 'black' ,'font-size': '20px','margin-top':'2px'}">
-                  textsms
-                </v-icon>
-                我的消息
-                <div class="ml-auto" id="newInfo">1</div>
-              </v-btn>
-            </router-link>
             <!--
                         <router-link :to="{ name: 'Home', }">
                           <v-btn text :style="{width:'100%'}" class="mx-auto d-flex justify-start" @click="sharedState.is_hover=false">
@@ -184,7 +184,6 @@
 
 
         </v-card>
-
       </v-expand-transition>
 
 
@@ -225,6 +224,8 @@ export default {
           avatar: "",
         },
       },
+      showAddPost:false,
+      showTimer:0
     };
   },
 
@@ -236,13 +237,20 @@ export default {
       clearTimeout(this.timer);
     },
     leave() {
-
       this.timer = setTimeout(() => {
         store.state.is_hover = false;
         console.log("false")
       }, 500);
     },
-
+    showEnter(){
+      this.showAddPost = true;
+      clearTimeout(this.showTimer);
+    },
+    showLeave(){
+      this.showTimer = setTimeout(() => {
+        this.showAddPost = false;
+      },500);
+    },
     handlerLogout() {
       store.logoutAction();
       this.$router.push("/login");
@@ -312,7 +320,18 @@ export default {
           .then((res) => {
             console.log(res);
             let curId = res.data.blog_id;
-            this.$router.push({name: 'PostAdd', params: {id: curId}});
+            this.$router.push({name: 'BlogAdd', params: {id: curId}});
+          })
+          .catch((err) => {
+            console.log(err);
+          })
+    },
+    getNewResource(){
+      Post.createBlog()
+          .then((res) => {
+            console.log(res);
+            let curId = res.data.blog_id;
+            this.$router.push({name: 'ResourceAdd', params: {id: curId}});
           })
           .catch((err) => {
             console.log(err);
