@@ -150,6 +150,12 @@ export default {
       } else {
         this.editForm.bodyError = null
       }
+      if (!this.editForm.summary) {
+        this.editForm.errors++
+        this.editForm.summaryError = 'Summary is required.'
+      } else {
+        this.editForm.summaryError = null
+      }
       if (this.editForm.errors > 0) {
         // 表单验证没通过时，不继续往下执行，即不会通过 axios 调用后端API
         console.log("表单验证没通过")

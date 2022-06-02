@@ -24,32 +24,35 @@
           :class="{'is-invalid': postForm.summaryError}"
           :style="{width:'30vw' ,'margin-top':'10px'}"
       ></v-textarea>
+          <v-file-input
+            v-model="uploadResource"
+            show-size
+            counter
+            multiple
+            label="上传资源"
+            @change="getFiles"
+          ></v-file-input>
+
+          <div v-for="(item,index) in totalResource" :key="index">
+          <span>{{item.name}}</span>
+          <v-btn text> 删除资源 </v-btn>
+          </div>
       </v-col>
       <v-col  md="6" class="my-auto">
           <v-btn @click="addFile">上传封面</v-btn>
           <input type="file" ref="upload_input" style="display: none;" @change="select_file" accept=".png,.jpg,.jpeg">
           <img v-if="postForm.cover" :src="postForm.cover" max-width="300px" max-height="150px" width="300px" height="150px">
       </v-col>
-  </v-row>
-     
-
-   
-      <label>正文</label>
-  <div style="z-index:-10">
-        <mavon-editor  ref="md" v-model="postForm.body" :toolbars="tools" @imgAdd="imgAdd" :style="{'min-height':'50hv'}"/>
-  </div>
-  <br/>
-  
+      </v-row>
       <v-alert dense outlined type="error" v-show="this.postForm.errors">
-        {{ postForm.titleError || postForm.summaryError || postForm.bodyError }}
+        {{ postForm.titleError || postForm.summaryError || postForm.resourceError }}
       </v-alert>
       <v-card-actions>
         <router-link :to="{name: 'Home'}">
           <v-btn>返回</v-btn>
         </router-link>
         <v-spacer></v-spacer>
-        <v-btn @click="onCommitBlog">保存</v-btn>
-        <v-btn @click="onSubmitAdd">发布</v-btn>
+        <v-btn @click="postResource">发布</v-btn>
       </v-card-actions>
      
      
@@ -61,12 +64,6 @@
 import store from '@/store.js'
 import Post from '@/api/post'
 
-const highlightCode = () => {
-  let blocks = document.querySelectorAll('pre code');
-  blocks.forEach((block) => {
-    hljs.highlightElement(block)
-  })
-}
 export default {
   name: 'EditBlog',
   data() {
@@ -79,7 +76,7 @@ export default {
         body: '',
         errors: 0,  // 表单是否在前端验证通过，0 表示没有错误，验证通过
         titleError: false,
-        bodyError: false,
+        resourceError: false,
         summaryError: false,
         fileError: false,
         cover: ''
@@ -111,120 +108,11 @@ export default {
         subfield: true, // 单双栏模式
         preview: true // 预览
       },
+      uploadResource:[],
+      totalResource:[]
     }
   },
   methods: {
-    imgAdd(pos,file){
-      let formData=new FormData();
-      formData.append("image", file);
-      Post.postPicture(this.$route.params.id,formData)
-          .then((res) => {
-           console.log(res);
-           this.$refs.md.$img2Url(pos, res.data)
-          })
-          .catch((error) => {
-            console.log(error);
-          })
-    },
-    onSubmitAdd() {
-      this.postForm.errors = 0;
-      this.postForm.title = this.postForm.title.trim()
-      this.postForm.summary = this.postForm.summary.trim()
-      this.postForm.body = this.postForm.body.trim()
-
-      if (this.postForm.title == "") {
-        this.postForm.errors++;
-        console.log("aaa");
-        this.postForm.titleError = "Please Enter Title"
-      } else {
-        this.postForm.titleError = null
-      }
-      if (this.postForm.summary == "") {
-        this.postForm.errors++;
-        this.postForm.summaryError = "Please Enter Summary"
-      } else {
-        this.postForm.summaryError = null
-      }
-      if (this.postForm.body == "") {
-        this.postForm.errors++;
-        this.postForm.bodyError = "You Should Write Something"
-      } else {
-        this.postForm.bodyError = null
-      }
-      if (this.postForm.errors > 0) {
-        return false;
-      }
-      const payload = new FormData();
-      payload.append('title', this.postForm.title);
-      payload.append('summary', this.postForm.summary);
-      payload.append('body', this.postForm.body);
-      console.log("onSubmitAdd");
-      Post.editBlog(this.$route.params.id,payload)
-          .then((res) => {
-            console.log(res);
-            this.$toasted.success(`${this.postForm.title} is submitted successfully!`,
-                {
-                  icon: 'check',
-                  fullWidth: true,
-                  position: "bottom-center"
-                })
-            this.postForm.title = ''
-            this.postForm.summary = ''
-            this.postForm.body = ''
-            this.$router.push({name:'Home'})
-          })
-          .catch((error) => {
-            console.log(error);
-          })
-    },
-    onCommitBlog(){
-      this.postForm.errors = 0;
-      this.postForm.title = this.postForm.title.trim()
-      this.postForm.summary = this.postForm.summary.trim()
-      this.postForm.body = this.postForm.body.trim()
-
-      if (this.postForm.title == "") {
-        this.postForm.errors++;
-        console.log("aaa");
-        this.postForm.titleError = "Please Enter Title"
-      } else {
-        this.postForm.titleError = null
-      }
-      if (this.postForm.summary == "") {
-        this.postForm.errors++;
-        this.postForm.summaryError = "Please Enter Summary"
-      } else {
-        this.postForm.summaryError = null
-      }
-      if (this.postForm.body == "") {
-        this.postForm.errors++;
-        this.postForm.bodyError = "You Should Write Something"
-      } else {
-        this.postForm.bodyError = null
-      }
-      if (this.postForm.errors > 0) {
-        return false;
-      }
-      const payload = new FormData();
-      payload.append('title', this.postForm.title);
-      payload.append('summary', this.postForm.summary);
-      payload.append('body', this.postForm.body);
-      console.log("onCommitBlog");
-      Post.editDraft(this.$route.params.id,payload)
-      .then((res)=>{
-        console.log(res);
-        this.$toasted.success(`${this.postForm.title} is committed successfully!`,
-        {
-                  icon: 'check',
-                  fullWidth: true,
-                  position: "bottom-center"
-        })
-      })
-      .catch((err)=>{
-        console.log(err);
-        this.$toasted.error('Something error.', {icon: 'check'});
-        })
-    },
     addFile() {
       this.$refs.upload_input.click() // 通过 ref 模拟点击
     },
@@ -233,24 +121,83 @@ export default {
       console.log(this.select_file_data)
       let uploads = new FormData()
       if (this.select_file_data != "") {
-        uploads.append("image", this.select_file_data[0])
+        uploads.append("image", this.select_file_data)
         Post.postCover(this.$route.params.id,uploads)
             .then((res) => {
               console.log(res.data)
               this.loadingProfile = true;
-              this.postForm.cover = res.data
+              this.postForm.cover = res.data;
             })
             .catch((err) => {
-              console.log(err)
+              console.log(err);
             })
       }
     },
+    showFiles(){
+      console.log("showFiles");
+      Post.getResource(this.$route.params.id)
+      .then((res)=>{
+        console.log(res);
+        this.totalResource = res.data;
+      })
+      .catch((err)=>{
+        console.error(err);
+      })
+    },
+    getFiles(){
+      console.log("getFiles",this.uploadResource);
+      const formData = new FormData();
+      formData.append('resources',this.uploadResource[0]);
+      Post.postResource(this.$route.params.id,formData)
+      .then((res)=>{
+        console.log(res);
+        this.showFiles();
+        this.$toasted.success('已成功上传');
+      })
+      .catch((err)=>{
+        console.error(err);
+      })
+    },
+    postResource(){
+      if (!this.postForm.title) {
+        this.postForm.errors++
+        this.postForm.titleError = 'Title is required.'
+      } else {
+        this.postForm.titleError = null
+      }
+      if (!this.postForm.summary) {
+        this.postForm.errors++
+        this.postForm.summaryError = 'Summary is required.'
+      } else {
+        this.postForm.summaryError = null
+      }
+      if (!this.totalResource) {
+        this.postForm.errors++
+        this.postForm.resourceError = 'Resource is required.'
+      } else {
+        this.postForm.resourceError = null
+      }
+      if(this.postForm.errors>0){
+        console.log("表单验证失败");
+        return false
+      }
+      const formData = new FormData();
+      formData.append('title', this.postForm.title);
+      formData.append('summary', this.postForm.summary);
+      Post.editResource(this.$route.params.id,formData)
+      .then((res)=>{
+        console.log(res);
+        this.postForm.title = ''
+        this.postForm.summary = ''
+        this.addFile.errors = 0;
+      })
+      .catch((err)=>{
+        console.error(err);
+      })
+    }
   },
-  mounted() {
-    highlightCode()
-  },
-  updated() {
-    highlightCode()
+  created(){
+    this.showFiles();
   }
 }
 </script>

@@ -22,7 +22,10 @@ const url = {
     deleteDraft: '/blog/delete_draft',
     uploadDraft: '/blog/upload_draft',
     createBlog: '/blog/create_new_blog',
-    postPicture: '/blog/upload_blog_images'
+    postPicture: '/blog/upload_blog_images',
+    postResource:'/blog/upload_blog_resources',
+    editResource:'/resources/edit_resource',
+    getResource: '/resources/all_resources'
 };
 export default class Post {
     static async getBlog(id, data) {
@@ -175,6 +178,39 @@ export default class Post {
                 'Content-Type': 'multipart/form-data'
             },
             data: data
+        })
+    }
+
+    static async postResource(id, data) {
+        return service(`${url.postResource}/${id}`, {
+            method: 'post',
+            responseType: 'json',
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            },
+            data: data
+        })
+    }
+
+    static async editResource(id, data) {
+        return service(`${url.editResource}/${id}`, {
+            method: 'put',
+            responseType: 'json',
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            },
+            data: data
+        })
+    }
+
+
+    static async getResource(id) {
+        return service(`${url.getResource}/${id}`, {
+            method: 'post',
+            responseType: 'json',
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            },
         })
     }
 }

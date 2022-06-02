@@ -348,7 +348,6 @@ export default {
     setInterval(() => {
       if (this.sharedState.is_authenticated) {
         this.queryUser();
-        console.log("interval", this.newMessage);
       }
     }, 15000);
   },
