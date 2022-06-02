@@ -153,6 +153,7 @@ export default {
         console.log(res);
         this.showFiles();
         this.$toasted.success('已成功上传');
+        this.uploadResource.splice(1);
       })
       .catch((err)=>{
         console.error(err);
