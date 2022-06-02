@@ -96,7 +96,7 @@
     <div
         v-else-if="this.items.length === 0 && !this.loadingLikes"
         class="text-center">
-      <h4>呜呜呜，你来到了没有资源的荒漠。</h4>
+      <h3>呜呜呜，你来到了没有资源的荒漠。</h3>
     </div>
   </section>
 </template>

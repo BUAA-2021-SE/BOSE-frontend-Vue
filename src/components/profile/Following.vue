@@ -14,12 +14,19 @@
         </h3>
       </div>
     </div>
-    <div class="g-brd-around g-brd-gray-light-v4 g-pa-20 g-mb-40" v-show="!this.loadingProfile">
+    <div class="g-brd-around g-brd-gray-light-v4 g-pa-20 g-mb-40"
+         v-if="followings.length > 0"
+         v-show="!this.loadingProfile">
       <v-col cols="12" md="12" v-for="(followings,index) in followings" :key="index">
         <following
             :followings="followings">
         </following>
       </v-col>
+    </div>
+    <div
+        v-else-if="followings.length === 0 && !this.loadingProfile"
+        class="text-center">
+      <h3>一个关注也没有呢，快到处转转吧！</h3>
     </div>
   </section>
 </template>
@@ -29,9 +36,10 @@ import {Account} from "@/api/account.js";
 import Followers from "@/api/follower.js";
 import store from "@/store.js";
 import FollowingItem from '@/components/base/FollowingItem.vue'
+
 export default {
   name: 'Followings',
-components: {following: FollowingItem},
+  components: {following: FollowingItem},
   data() {
     return {
       followings: [],
@@ -64,10 +72,11 @@ components: {following: FollowingItem},
 </script>
 <style scoped>
 .col-md-12.col-12 {
-    padding: 0px;
+  padding: 0px;
 }
-h3{
-  margin-top:0px!important;
-  padding-top:0px!important;
+
+h3 {
+  margin-top: 0px !important;
+  padding-top: 0px !important;
 }
 </style>

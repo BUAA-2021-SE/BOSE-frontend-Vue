@@ -35,7 +35,7 @@
     <div
         v-else-if="drafts.length === 0 && !this.loadingProfile"
         class="text-center">
-      <h4>呜呜呜，一篇草稿都没有。</h4>
+      <h3>呜呜呜，一篇草稿都没有。</h3>
     </div>
   </section>
 </template>

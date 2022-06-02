@@ -14,13 +14,20 @@
         </h3>
       </div>
     </div>
-    <div class="g-brd-around g-brd-gray-light-v4 g-pa-20 g-mb-40" v-show="!this.loadingProfile">
+    <div class="g-brd-around g-brd-gray-light-v4 g-pa-20 g-mb-40"
+         v-if="followers.length > 0"
+         v-show="!this.loadingProfile">
       <v-col cols="12" md="12" v-for="(followers,index) in followers" :key="index">
         <follower
             :followers="followers"
         >
         </follower>
       </v-col>
+    </div>
+    <div
+        v-else-if="followers.length === 0 && !this.loadingProfile"
+        class="text-center">
+      <h3>呜呜呜，居然没有粉丝呢</h3>
     </div>
   </section>
 </template>
@@ -66,6 +73,6 @@ export default {
 </script>
 <style scoped>
 .col-md-12.col-12 {
-    padding: 0px;
+  padding: 0px;
 }
 </style>

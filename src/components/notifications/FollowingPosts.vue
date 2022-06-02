@@ -97,7 +97,7 @@
     <div
         v-else-if="this.items.length === 0 && !this.loadingFollowings"
         class="text-center">
-      <h4>呜呜呜，一个新粉丝都没有。</h4>
+      <h3>呜呜呜，一个新粉丝都没有。</h3>
     </div>
   </section>
 </template>

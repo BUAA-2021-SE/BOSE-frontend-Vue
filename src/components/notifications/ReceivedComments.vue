@@ -112,7 +112,7 @@
     <div
         v-else-if="this.items.length === 0 && !this.loadingComments"
         class="text-center">
-      <h4>呜呜呜，没有新评论。</h4>
+      <h3>还没有新评论呢，快去努努力吧！</h3>
     </div>
   </section>
 </template>
