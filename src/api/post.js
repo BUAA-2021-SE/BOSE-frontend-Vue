@@ -25,7 +25,8 @@ const url = {
     postPicture: '/blog/upload_blog_images',
     postResource:'/blog/upload_blog_resources',
     editResource:'/resources/edit_resource',
-    getResource: '/resources/all_resources'
+    getResource: '/resources/all_resources',
+    deleteResource:'/resources/delete_resource',
 };
 export default class Post {
     static async getBlog(id, data) {
@@ -207,6 +208,16 @@ export default class Post {
     static async getResource(id) {
         return service(`${url.getResource}/${id}`, {
             method: 'post',
+            responseType: 'json',
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            },
+        })
+    }
+
+    static async deleteResource(id) {
+        return service(`${url.deleteResource}/${id}`, {
+            method: 'delete',
             responseType: 'json',
             headers: {
                 'Content-Type': 'multipart/form-data'

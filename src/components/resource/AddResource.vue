@@ -35,7 +35,7 @@
 
           <div v-for="(item,index) in totalResource" :key="index">
           <span>{{item.name}}</span>
-          <v-btn text> 删除资源 </v-btn>
+          <v-btn text @click="deleteFile(item.id)"> 删除资源 </v-btn>
           </div>
       </v-col>
       <v-col  md="6" class="my-auto">
@@ -158,6 +158,17 @@ export default {
         console.error(err);
       })
     },
+    deleteFile(id){
+      Post.deleteResource(id)
+      .then((res)=>{
+        console.log(res);
+        this.showFiles();
+        this.$toasted.success('已成功删除');
+      })
+      .catch((err)=>{
+        console.error(err);
+      })
+    },
     postResource(){
       if (!this.postForm.title) {
         this.postForm.errors++
@@ -190,6 +201,8 @@ export default {
         this.postForm.title = ''
         this.postForm.summary = ''
         this.addFile.errors = 0;
+        this.$toasted.success('成功上传资源');
+        this.$router.push({name:'Home'});
       })
       .catch((err)=>{
         console.error(err);

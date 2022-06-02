@@ -320,7 +320,6 @@ export default {
     queryUser() {
       Account.getUser(this.sharedState.user_id)
           .then((res) => {
-            console.log(res.data)
             this.user.name = res.data.name;
             this.user.about_me = res.data.about_me;
             this.user._links.avatar = res.data.headshot;
