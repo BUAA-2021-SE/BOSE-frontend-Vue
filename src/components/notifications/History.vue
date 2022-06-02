@@ -112,7 +112,10 @@
     <div
         v-else-if="items.length === 0 && !this.loadingHistory"
         class="text-center">
-      <h4>呜呜呜，你都不看博文的吗。</h4>
+      <h3>呜呜呜，你都不看博文的吗？快去到处看看吧！</h3>
+    </div>
+    <div>
+      {{ items }}
     </div>
   </section>
 </template>

@@ -33,7 +33,7 @@
     <div
         v-else-if="stars.length === 0 && !this.loadingProfile"
         class="text-center">
-      <h4>呜呜呜，一篇收藏都没有。</h4>
+      <h4>居然没有收藏？快到处转转吧！</h4>
     </div>
   </section>
 </template>

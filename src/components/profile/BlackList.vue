@@ -14,8 +14,8 @@
         </h3>
       </div>
     </div>
-    <div   v-show="!this.loadingProfile">
-        <h1 v-show="!blockers" class="text-center">小黑屋里空空如也</h1>
+    <div v-show="!this.loadingProfile">
+      <h3 v-show="!blockers" class="text-center">小黑屋里空空如也</h3>
       <v-col cols="12" md="12" v-for="(blockers,index) in blockers" :key="index">
         <block
             :blockers="blockers"
@@ -45,11 +45,11 @@ export default {
     getUserBlockers() {
       Followers.getUserBlockers()
           .then((res) => {
-             
+
             this.blockers = res.data;
             this.loadingProfile = false;
-            if(res.data.length == 0){
-                this.blockers=null;
+            if (res.data.length == 0) {
+              this.blockers = null;
             }
           })
           .catch((err) => {
@@ -70,6 +70,6 @@ export default {
 </script>
 <style scoped>
 .col-md-12.col-12 {
-    padding: 0px;
+  padding: 0px;
 }
 </style>

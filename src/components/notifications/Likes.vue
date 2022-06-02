@@ -114,7 +114,7 @@
     <div
         v-else-if="this.items.length === 0 && !this.loadingLikes"
         class="text-center">
-      <h4>呜呜呜，一个点赞也没有。</h4>
+      <h3>还没有点赞呢，再努努力吧！</h3>
     </div>
   </section>
 </template>
