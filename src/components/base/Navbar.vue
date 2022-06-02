@@ -32,15 +32,11 @@
 
     <v-spacer/>
     <div class="pcard d-flex flex-row-reverse">
-
-
       <router-link :to="{ name: 'Login' }">
         <v-btn text class="white--text" v-show="!sharedState.is_authenticated" :style="{'font-weight': 'bold'}"
         >登录
         </v-btn>
       </router-link>
-
-
       <v-btn
           text
           @click="handlerLogout"
@@ -160,33 +156,17 @@
 
               </v-btn>
             </router-link>
-            <!--
-                        <router-link :to="{ name: 'Home', }">
-                          <v-btn text :style="{width:'100%'}" class="mx-auto d-flex justify-start" @click="sharedState.is_hover=false">
-                            Home
-                          </v-btn>
-                        </router-link> -->
-
           </v-card-text>
-
           <v-divider class="mx-4"></v-divider>
-
-
           <v-card-text>
-
             <v-btn text :style="{width:'100%',}" class="mx-auto d-flex justify-start" @click=" handlerLogout"
                    v-show="sharedState.is_authenticated">
               <v-icon class="material-icons">logout</v-icon>
               登出
             </v-btn>
-
           </v-card-text>
-
-
         </v-card>
       </v-expand-transition>
-
-
     </div>
   </v-app-bar>
 </template>
