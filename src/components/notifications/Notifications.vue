@@ -1,7 +1,6 @@
 <template>
-  <div>
-    <v-row>
-      <v-col cols="12" md="1"></v-col>
+  <div class="container">
+    <v-row >
       <v-col cols="12" md="3">
         <v-card>
           <v-img
@@ -46,10 +45,10 @@
           </v-btn>
         </v-card>
       </v-col>
-      <v-col cols="12" md="6">
+      <v-col cols="12" md="9">
         <router-view></router-view>
       </v-col>
-      <v-col col="12" md="1"></v-col>
+      
     </v-row>
   </div>
 </template>

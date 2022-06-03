@@ -51,18 +51,25 @@
              :style="{'font-weight': 'bold'}"
              @mouseenter="showEnter" @mouseleave="showLeave"> 投稿
       </v-btn>
-      <router-link v-else :to="{ name: 'Login' }">
-        <v-btn text class="white--text" > 投稿</v-btn>
+      <router-link v-else :to="{ name: 'Login' }" >
+        <v-btn text class="white--text"  :style="{'font-weight': 'bold'}" > 投稿</v-btn>
       </router-link>
       <v-expand-transition>
       <v-card
+      mas-width="120px"
+      width="120px"
       v-show="showAddPost&&sharedState.is_authenticated"
       @mouseenter="showEnter" @mouseleave="showLeave"
+      class="uploadCard"
       >
+      
       <v-card-actions>
+        <v-row class="m-auto">
       <v-btn text @click="getNewBlog">上传博客</v-btn>
       <v-btn text @click="getNewResource">上传资源</v-btn>
+      </v-row>
       </v-card-actions>
+      
       </v-card>
       </v-expand-transition>
       <router-link v-if="sharedState.is_authenticated" :to="{ name: 'ReceivedComments' }">
@@ -95,6 +102,7 @@
         <v-card
             max-width="250px"
             width="250px"
+            class="myCard"
             v-show="sharedState.is_hover && sharedState.is_authenticated"
             @mouseenter="enter"
             @mouseleave="leave"
@@ -379,9 +387,14 @@ a {
 
 }
 
-.pcard .v-card {
+.pcard .myCard{
   position: absolute;
   margin-right: 225px;
+  margin-top: 35px;
+}
+.pcard .uploadCard{
+  position: absolute;
+  margin-right: 90px;
   margin-top: 35px;
 }
 

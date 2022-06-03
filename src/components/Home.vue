@@ -75,7 +75,7 @@
           <v-col cols="12"  md="12">
             <v-card :style="{'border-radius':'20px',height:'150px'}">
               <v-card-title>通知</v-card-title>
-              <v-subtitle :style="{'margin-left':'20px'}">{{HomeMessage}}</v-subtitle>
+              <v-card-subtitle :style="{'margin-left':'20px'}">{{HomeMessage}}</v-card-subtitle>
             </v-card>
           </v-col>
           </v-row>
