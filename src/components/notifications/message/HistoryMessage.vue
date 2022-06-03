@@ -1,16 +1,16 @@
 <template>
   <div>
   <v-card>
-  <v-card-title >{{user.name}}</v-card-title>
-  <v-divider></v-divider>
-  <v-container  :style="{'height':'500px','overflow':'scroll','overflow-x':'hidden','background-color':'#E8E8E8  '}">
+  <v-card-title class="d-flex justify-center">与{{user.name}}的聊天</v-card-title>
+  <v-container  :style="{'height':'500px','overflow':'scroll','overflow-x':'hidden','background-color':'#F4F4F4 ','border-color':'#000000','border-width':'2px'}">
     <div v-for="(item,index) in items" :key="index" :style="{}">
       <div v-if="item.sender.id==user.id" class="text-left d-flex  justify-start" :style="{'margin-right':'30%',}">
         <div class="justify-start ">
           <div>
-          <v-avatar size="60" :style="{'margin-top':'5px'}"><v-img :src="item.sender.headshot"/></v-avatar>
-        <v-card  :style="{'background-color':'#FFFFFF ','max-width':'400px','margin-left':'80px','margin-top':'-55px','margin-bottom':'10px',padding:'5px'}">
-          <v-card-text :style="{color:'black'}">{{item.content}}</v-card-text>
+            <router-link :to="{ name: 'ShowProfile',params: { id:item.sender.id} }">
+          <v-avatar size="60" :style="{'margin-top':'5px'}"><v-img :src="item.sender.headshot"/></v-avatar></router-link>
+        <v-card  :style="{'background-color':'#FFFFFF ','max-width':'400px','margin-left':'80px','margin-top':'-35px','margin-bottom':'10px','border-radius':'0px 10px 10px 10px'}">
+          <v-card-text :style="{color:'black','padding':'5px 15px 5px 15px'}">{{item.content}}</v-card-text>
           </v-card>
           </div>
         </div>
@@ -19,9 +19,10 @@
       <div v-else class="text-right d-flex  justify-end" :style="{'margin-left':'30%',}">
         <div class="justify-end ">
           <div>
-          <v-avatar size="60" :style="{'margin-top':'5px'}"><v-img :src="item.sender.headshot"/></v-avatar>
-        <v-card  :style="{'background-color':'#6EA0D3 ','max-width':'400px','margin-right':'80px','margin-top':'-55px','margin-bottom':'10px'}">
-          <v-card-text :style="{color:'white'}">{{item.content}}</v-card-text>
+            <router-link :to="{ name: 'ShowProfile',params: { id:item.sender.id} }">
+          <v-avatar size="60" :style="{'margin-top':'5px'}"><v-img :src="item.sender.headshot"/></v-avatar></router-link>
+        <v-card  :style="{'background-color':'#6EA0D3 ','max-width':'400px','margin-right':'80px','margin-top':'-35px','margin-bottom':'10px','border-radius':'10px 0px 10px 10px'}">
+          <v-card-text :style="{color:'white','padding':'5px 15px 5px 15px','text-align':'start!important'}">{{item.content}}</v-card-text>
           </v-card>
           </div>
         </div>
@@ -29,13 +30,16 @@
       
     </div>
   </v-container>
+  <v-divider :style="{'margin-top':'0px','margin-bottom':'0px'}"></v-divider>
   <v-textarea
     hint="友善是交流的前提"
     v-model="chatForm"
-    auto-grow
+      no-resize
+      rows="4"
+    :style="{'background-color':'#F4F4F4 ','margin-top':'0px',padding:'10px','border-top-color':'#000000',}"
   ></v-textarea>
-  <v-card-actions>
-  <v-btn text @click="postChat"> 发送消息 </v-btn>
+  <v-card-actions :style="{'background-color':'#F4F4F4'}">
+  <v-btn text @click="postChat" :style="{'background-color':'#FFFFFF','border-width':'2px','border-color':'black'}"> 发送消息 </v-btn>
   </v-card-actions>
   </v-card>
   </div>
@@ -124,6 +128,8 @@ export default {
 }
 </script>
 
-<style>
-
+<style scoped>
+.v-text-field > .v-input__control > .v-input__slot:before {
+    border-color: rgba(0, 0, 0, 0);
+}
 </style>
