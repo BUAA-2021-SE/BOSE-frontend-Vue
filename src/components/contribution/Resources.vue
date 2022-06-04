@@ -78,7 +78,7 @@
                    :key="index"
               >
                 <a :href="resource.resources_url" target="_blank">
-                  {{ resource.filename }}
+                  {{ resource.name }}
                 </a>
               </div>
 
