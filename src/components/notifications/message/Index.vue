@@ -1,6 +1,5 @@
 <template>
   <div>
-  聊天页表
   <router-view></router-view>
   </div>
 </template>

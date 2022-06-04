@@ -31,15 +31,17 @@
     </div>
   </v-container>
   <v-divider :style="{'margin-top':'0px','margin-bottom':'0px'}"></v-divider>
-  <v-textarea
-    hint="友善是交流的前提"
-    v-model="chatForm"
-      no-resize
+  <div :style="{'height':'116px'}">
+  <textarea
+      v-model="chatForm"
+      outlined
       rows="4"
-    :style="{'background-color':'#F4F4F4 ','margin-top':'0px',padding:'10px','border-top-color':'#000000',}"
-  ></v-textarea>
-  <v-card-actions :style="{'background-color':'#F4F4F4'}">
-  <v-btn text @click="postChat" :style="{'background-color':'#FFFFFF','border-width':'2px','border-color':'black'}"> 发送消息 </v-btn>
+      placeholder="友善是交流的前提"
+    :style="{'background-color':'#F4F4F4 ','width':'100%','outline':'none','margin-top':'0px',padding:'10px','border-top-color':'#000000','border':'none','resize':'none','position':'relative'}"
+  ></textarea>
+  </div >
+  <v-card-actions :style="{'background-color':'#F4F4F4'}" class="d-flex justify-end">
+  <v-btn text @click="postChat" :style="{'background-color':'#FFFFFF','border-width':'2px','border-color':'black','margin-right':'3px','margin-bottom':'3px'}"> 发送消息 </v-btn>
   </v-card-actions>
   </v-card>
   </div>
@@ -92,6 +94,7 @@ export default {
       .then((res)=>{
         console.log(res);
         this.chatForm = '';
+        this.getChatList();
         // this.$toasted
       })
       .catch((err)=>{
@@ -129,7 +132,5 @@ export default {
 </script>
 
 <style scoped>
-.v-text-field > .v-input__control > .v-input__slot:before {
-    border-color: rgba(0, 0, 0, 0);
-}
+
 </style>
