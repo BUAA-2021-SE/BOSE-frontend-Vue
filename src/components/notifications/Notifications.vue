@@ -23,7 +23,7 @@
           <v-btn :to="{name: 'MessageList'}"
                  block color="blue" outlined>
             <v-icon color="green">mdi-email</v-icon>
-            收到私信
+            私信交流
             <span class="red--text ms-4" v-if="unread.unread_messages!=0">{{ unread.unread_messages }}</span>
           </v-btn>
           <v-btn :to="{name: 'Likes'}"

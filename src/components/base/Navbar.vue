@@ -169,7 +169,7 @@
             </router-link>
               <v-btn v-if="sharedState.is_admin"
               text :style="{width:'100%' }" class="mx-auto d-flex justify-start"
-              @click="sharedState.is_hover=false" :to="{ name: 'AdminRoles'}">
+              @click="sharedState.is_hover=false" :to="{ name: 'AdminBlogs'}">
                 <!-- Contribution -->
                 <v-icon class="material-icons" :style="{ color: '#FB8C00' ,'font-size': '20px','margin-top':'2px'}">
                   drafts

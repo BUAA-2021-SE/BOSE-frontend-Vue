@@ -38,7 +38,8 @@ import MessageList from '@/components/notifications/message/MessageList'
 
 // 管理后台
 import Admin from '@/components/admin/Admin'
-import AdminRoles from '@/components/admin/Roles'
+import AdminBlogs from '@/components/admin/Blogs'
+import ExaminingBlogs from '@/components/admin/ExaminingBlogs'
 Vue.use(VueRouter)
 Vue.use(mavonEditor)
 const router = new VueRouter({
@@ -57,8 +58,9 @@ const router = new VueRouter({
                 requiresAdmin: true
             },
             children: [
-                {path:'', component:AdminRoles},
-                {path: 'roles', name: 'AdminRoles', component: AdminRoles },
+                {path:'', component:AdminBlogs},
+                {path:'blogs', name: 'AdminBlogs', component: AdminBlogs },
+                {path:'examinblogs', name: 'ExaminingBlogs', component: ExaminingBlogs },
             ]
         },
         {
