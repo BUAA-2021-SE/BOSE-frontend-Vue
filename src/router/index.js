@@ -193,6 +193,7 @@ router.beforeEach((to, from, next) => {
             path: from.fullPath
         });
     }
+    // 404
     else if (to.matched.length === 0) {
         Vue.toasted.error('404: Not Found', { icon: 'check' })
         if (from.name) {
