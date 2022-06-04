@@ -9,7 +9,7 @@
       <v-toolbar
         flat
       >
-        <v-toolbar-title>打回违规博文</v-toolbar-title>
+        <v-toolbar-title>打回违规资源</v-toolbar-title>
         <v-divider
           class="mx-4"
           inset
@@ -18,7 +18,7 @@
         <v-spacer></v-spacer>
         <v-dialog v-model="dialogDelete" max-width="500px">
           <v-card>
-            <v-card-title class="text-h5">确定打回博文？</v-card-title>
+            <v-card-title class="text-h5">确定打回资源？</v-card-title>
             <v-card-actions>
               <v-spacer></v-spacer>
               <v-btn color="blue darken-1" text @click="closeDelete">取消</v-btn>
@@ -122,7 +122,7 @@ export default {
         Admin.failExamination(this.editedItem.id)
         .then((res)=>{
           console.log(res.data);
-          this.$toasted.success(`博文${this.editedItem.title}被成功打回`);
+          this.$toasted.success(`资源${this.editedItem.title}被成功打回`);
           this.closeDelete()
           this.initialize()
           
