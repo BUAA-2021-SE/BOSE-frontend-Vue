@@ -169,7 +169,7 @@
             </router-link>
               <v-btn v-if="sharedState.is_admin"
               text :style="{width:'100%' }" class="mx-auto d-flex justify-start"
-              @click="sharedState.is_hover=false" :to="{ name: 'AdminRoles'}">
+              @click="sharedState.is_hover=false" :to="{ name: 'AdminBlogs'}">
                 <!-- Contribution -->
                 <v-icon class="material-icons" :style="{ color: '#FB8C00' ,'font-size': '20px','margin-top':'2px'}">
                   drafts
@@ -224,13 +224,13 @@ export default {
           avatar: "",
         },
       },
+      defaultUser: {},
       showAddPost:false,
-      showTimer:0
+      showTimer:0,
+      timer:{}
     };
   },
-
   methods: {
-
     enter() {
       store.state.is_hover = true;
       console.log("true")
@@ -253,6 +253,9 @@ export default {
     },
     handlerLogout() {
       store.logoutAction();
+      console.log(this.defaultUser);
+      this.user = this.defaultUser;
+      clearInterval(this.timer);
       this.$router.push("/login");
     },
     searchBlog() {
@@ -362,10 +365,13 @@ export default {
           })
     }
   },
+  created() {
+      this.defaultUser = Object.assign({},this.user);
+  },
   mounted() {
     this.drawLogo();
     if (this.sharedState.is_authenticated) this.queryUser();
-    setInterval(() => {
+    this.timer = setInterval(() => {
       if (this.sharedState.is_authenticated) {
         this.queryUser();
       }
