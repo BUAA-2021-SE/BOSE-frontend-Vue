@@ -9,6 +9,7 @@
           v-model="editForm.title"
           outlined
           dense
+          counter="20"
           placeholder=""
           :class="{'is-invalid': editForm.titleError}"
           :style="{width:'30vw' ,'margin-top':'10px'}"
@@ -19,23 +20,14 @@
           v-model="editForm.summary"
           outlined
           row-height="15"
-          rows="2"
+          counter="100"
+          rows="3"
           no-resize
           placeholder=""
           :class="{'is-invalid': editForm.summaryError}"
           :style="{width:'30vw' ,'margin-top':'10px',}"
       ></v-textarea>
-<label>标签</label>
-      <v-textarea
-          v-model="editForm.summary"
-          outlined
-          row-height="15"
-          auto-grow
-          rows="2"
-          placeholder=""
-          :class="{'is-invalid': editForm.summaryError}"
-          :style="{width:'30vw' ,'margin-top':'10px'}"
-      ></v-textarea>
+
       </v-col>
 <v-col  md="6" class="my-auto">
     <v-btn @click="addFile">上传封面</v-btn>
@@ -44,7 +36,46 @@
      :style="{'margin-left':'50px','border-radius':'20px'}">
 </v-col>
   </v-row>
+  <v-row>
+       <div v-for="(tag,index) in givenTags" :key="index">
+          <v-btn v-if="!tag.value" @click="addExistTags(tag)">{{tag.key}}</v-btn>
+          <v-btn v-if="tag.value" color="blue" @click="removeExistTags(tag)" >{{tag.key}}</v-btn>
+       </div>
+       </v-row>
+ <v-row>
+      <v-col cols="12" md="3">
       
+    <label>标签</label>
+      <div class="d-flex my-auto">
+      <v-textarea
+          v-model="editForm.tags"
+          outlined
+          row-height="10"
+         counter="10"
+          rows="1"
+          dense
+          no-resize
+          placeholder=""
+          :style="{'margin-top':'10px'}"
+      > 
+      
+      </v-textarea>
+       <v-btn @click="addTags" class="my-auto" :style="{'margin-bottom':'30px!important','margin-left':'10px'}">添加</v-btn>
+        </div>
+      </v-col>
+       <v-col cols="12" md="9" class="d-flex my-auto" >
+         <div  v-for="(tag,index) in tags" :key="index" >
+      <v-chip   class="ma-2" 
+      close
+     @click:close="removetags(tag)" >
+        {{tag}}
+    </v-chip>
+    </div>
+    
+       </v-col>
+</v-row>
+
+
       <label>正文</label>
   <div style="z-index:-10">
         <mavon-editor  ref="md" v-model="editForm.body" :toolbars="tools" @imgAdd="imgAdd" :style="{'min-height':'50hv'}"/>
@@ -59,7 +90,7 @@
           <v-btn>返回</v-btn>
         </router-link>
         <v-spacer></v-spacer>
-        <v-btn @click="onCommitBlog">保存</v-btn>
+        <v-btn @click="onCommitDraft">保存</v-btn>
         <v-btn @click="onSubmitAdd">发布</v-btn>
       </v-card-actions>
      
@@ -83,16 +114,33 @@ export default {
     return {
       sharedState: store.state,
       post: {},
+        tags:[],
       editForm: {
         title: '',
         summary: '',
         body: '',
+        tags:'',
         errors: 0,  // 表单是否在前端验证通过，0 表示没有错误，验证通过
         titleError: false,
         bodyError: false,
         summaryError: false,
         cover: ''
       },
+      givenTags: [
+        {'key':"后端",'value':0},
+        {'key':"前端",'value':0},
+        {'key':"移动开发",'value':0},
+        {'key':"编程语言",'value':0},
+        {'key':"Java",'value':0},
+        {'key':"Python",'value':0},
+        {'key':"人工智能",'value':0},
+        {'key':"大数据",'value':0},
+        {'key':"数据结构预算法",'value':0},
+        {'key':"云平台",'value':0},
+        {'key':"运维服务器",'value':0},
+        {'key':"操作系统",'value':0},
+        {'key':"数据库管理",'value':0},
+      ],
       tools: {
         bold: true, // 粗体
         italic: true, // 斜体
@@ -135,12 +183,73 @@ export default {
             console.log(error);
           })
     },
+    addExistTags(tag){
+      if(this.tags.length >=4){
+        this.$toasted.error('最多只能添加4个标签')
+        return false;
+      }
+        this.tags.push(tag.key);
+        tag.value=1;
+        console.log(tag)
+        console.log(this.tags)
+        
+    },
+    addTags(){
+      if(this.tags.length >=4){
+        this.$toasted.error('最多只能添加4个标签')
+        return false
+      }
+      if(this.editForm.tags.length>10){
+        this.$toasted.error('标签太长啦')
+        return false
+      }
+      this.editForm.tags=this.editForm.tags.trim();
+      for(let i=0;i<this.givenTags.length;i++){
+      if(this.editForm.tags==this.givenTags[i].key){
+        if(this.givenTags[i].value==1){
+           this.$toasted.error('标签写过啦')
+           return false
+        }
+        else{
+          this.tags.push(this.editForm.tags);
+          this.givenTags[i].value=1;
+          this.editForm.tags='';
+          return true
+        }
+      }
+      }
+      
+        this.tags.push(this.editForm.tags);
+        this.editForm.tags = '';
+    },
+    removetags(tag){
+      for(let i=0;i<this.givenTags.length;i++){
+        if(tag==this.givenTags[i].key){
+          this.givenTags[i].value=0;
+        }
+      }
+        this.tags.splice(this.tags.indexOf(tag), 1)
+        this.tags = [...this.tags]
+         console.log(this.tags)
+
+    },
+    removeExistTags(tag){
+      this.tags.splice(this.tags.indexOf(tag.key), 1)
+        this.tags = [...this.tags]
+        console.log(this.tags)
+        tag.value=0;
+    },
+
     getBlog(id) {
       const formData = new FormData();
       formData.append('view_id',0);
       Post.getBlog(id,formData)
           .then((res) => {
             this.post = res.data;
+            if(res.data.tag1!='none'){this.tags.push(res.data.tag1)}
+            if(res.data.tag2!='none'){this.tags.push(res.data.tag2)}
+            if(res.data.tag3!='none'){this.tags.push(res.data.tag3)}
+            if(res.data.tag4!='none'){this.tags.push(res.data.tag4)}
             console.log(res.data, "res");
             this.editForm = Object.assign({}, this.post);
           })
@@ -172,18 +281,31 @@ export default {
         console.log("表单验证没通过")
         return false
       }
+      if(this.editForm.title.length>20){
+        this.$toasted.error("标题长度不能超过20个字符");
+        return false;
+      }
+      else if(this.editForm.summary.length>100){
+        this.$toasted.error("摘要长度不能超过100个字符");
+        return false;
+      }
       const formData = new FormData();
       formData.append('title', this.editForm.title);
       formData.append('summary', this.editForm.summary);
       formData.append('body', this.editForm.body);
+       let len=this.tags.length;
+      for(let i=0;i<len;i++){
+        formData.append('tag'+(i+1), this.tags[i]);
+      }
       Post.editBlog(this.$route.params.id, formData)
           .then((res) => {
             console.log(res);
             this.getBlog(this.editForm.id);
-            this.$toasted.success('Successfully update the post.', {icon: 'check'});
+            this.$toasted.success('成功发布博文', {icon: 'check'});
             this.editForm.title = ''
             this.editForm.summary = ''
             this.editForm.body = ''
+            this.editForm.tags=''
             this.$router.push(`/post/${this.editForm.id}`)
           })
           .catch((err) => {
@@ -209,14 +331,26 @@ export default {
         console.log("表单验证没通过")
         return false
       }
+      if(this.editForm.title.length>20){
+        this.$toasted.error("标题长度不能超过20个字符");
+        return false;
+      }
+      else if(this.editForm.summary.length>100){
+        this.$toasted.error("摘要长度不能超过100个字符");
+        return false;
+      }
       const formData = new FormData();
       formData.append('title', this.editForm.title);
       formData.append('summary', this.editForm.summary);
       formData.append('body', this.editForm.body);
+      let len=this.tags.length;
+      for(let i=0;i<len;i++){
+        formData.append('tag'+(i+1), this.tags[i]);
+      }
       Post.editDraft(this.$route.params.id, formData)
       .then((res)=>{
         console.log(res);
-        this.$toasted.success('Successfully commit the draft.', {icon: 'check'});
+        this.$toasted.success('成功保存草稿！', {icon: 'check'});
       })
       .catch((err)=>{
         console.log(err);

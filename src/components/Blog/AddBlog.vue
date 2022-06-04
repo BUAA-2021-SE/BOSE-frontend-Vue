@@ -10,6 +10,7 @@
           outlined
           dense
           placeholder=""
+           counter="20"
           :class="{'is-invalid': postForm.titleError}"
           :style="{width:'30vw' ,'margin-top':'10px'}"
       ></v-text-field>
@@ -18,12 +19,14 @@
           v-model="postForm.summary"
           outlined
           row-height="15"
-          auto-grow
-          rows="2"
+          counter="100"
+           no-resize
+          rows="3"
           placeholder=""
           :class="{'is-invalid': postForm.summaryError}"
           :style="{width:'30vw' ,'margin-top':'10px'}"
       ></v-textarea>
+     
       </v-col>
       <v-col  md="6" class="my-auto">
           <v-btn @click="addFile">上传封面</v-btn>
@@ -33,8 +36,39 @@
       </v-col>
   </v-row>
      
+    <v-row>
+      <v-col cols="12" md="3">
+      
+    <label>标签</label>
+      <div class="d-flex my-auto">
+      <v-textarea
+          v-model="postForm.tags"
+          outlined
+          row-height="10"
+         counter="10"
+          rows="1"
+          dense
+          no-resize
+          placeholder=""
+          :style="{'margin-top':'10px'}"
+      > 
+      
+      </v-textarea>
+       <v-btn @click="addTags" class="my-auto" :style="{'margin-bottom':'30px!important','margin-left':'10px'}">添加</v-btn>
+        </div>
+      </v-col>
+       <v-col cols="12" md="9" class="d-flex my-auto" >
+         <div  v-for="tag in tags" :key="tag" >
+      <v-chip   class="ma-2" 
+      close
+     @click:close="removetags(tag)" >
+        {{tag}}
+    </v-chip>
+    </div>
+       </v-col>
+     
 
-   
+</v-row>
       <label>正文</label>
   <div style="z-index:-10">
         <mavon-editor  ref="md" v-model="postForm.body" :toolbars="tools" @imgAdd="imgAdd" :style="{'min-height':'50hv'}"/>
@@ -74,10 +108,12 @@ export default {
     return {
       sharedState: store.state,
       loadingProfile : false,
+      tags:[],
       postForm: {
         title: '',
         summary: '',
         body: '',
+        tags:'',
         errors: 0,  // 表单是否在前端验证通过，0 表示没有错误，验证通过
         titleError: false,
         bodyError: false,
@@ -115,6 +151,24 @@ export default {
     }
   },
   methods: {
+    addTags(){
+      if(this.tags.length >=4){
+        this.$toasted.error('最多只能添加4个标签')
+        return false;
+      }
+      if(this.postForm.tags.length>10){
+        this.$toasted.error('标签太长捏')
+        return false
+      }
+      
+        this.tags.push(this.postForm.tags);
+        this.postForm.tags = '';
+    },
+    removetags(tag){
+        this.tags.splice(this.tags.indexOf(tag), 1)
+        this.tags = [...this.tags]
+         console.log(this.tags)
+    },
     imgAdd(pos,file){
       let formData=new FormData();
       formData.append("image", file);
@@ -159,6 +213,10 @@ export default {
       payload.append('title', this.postForm.title);
       payload.append('summary', this.postForm.summary);
       payload.append('body', this.postForm.body);
+      let len=this.tags.length;
+      for(let i=0;i<len;i++){
+        payload.append('tag'+(i+1), this.tags[i]);
+      }
       console.log("onSubmitAdd");
       Post.editBlog(this.$route.params.id,payload)
           .then((res) => {
@@ -172,6 +230,7 @@ export default {
             this.postForm.title = ''
             this.postForm.summary = ''
             this.postForm.body = ''
+            this.tags=''
             this.$router.push({name:'Home'})
           })
           .catch((error) => {
@@ -210,6 +269,10 @@ export default {
       payload.append('title', this.postForm.title);
       payload.append('summary', this.postForm.summary);
       payload.append('body', this.postForm.body);
+      let len=this.tags.length;
+      for(let i=0;i<len;i++){
+        payload.append('tag'+(i+1), this.tags[i]);
+      }
       console.log("onCommitBlog");
       Post.editDraft(this.$route.params.id,payload)
       .then((res)=>{
