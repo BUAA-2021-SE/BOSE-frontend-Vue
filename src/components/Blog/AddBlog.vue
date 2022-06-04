@@ -28,7 +28,8 @@
       <v-col  md="6" class="my-auto">
           <v-btn @click="addFile">上传封面</v-btn>
           <input type="file" ref="upload_input" style="display: none;" @change="select_file" accept=".png,.jpg,.jpeg">
-          <img v-if="postForm.cover" :src="postForm.cover" max-width="300px" max-height="150px" width="300px" height="150px">
+          <img v-if="postForm.cover" :src="postForm.cover" max-width="300px" max-height="150px" width="300px" height="150px"
+          :style="{'margin-left':'50px','border-radius':'20px'}">
       </v-col>
   </v-row>
      
@@ -100,7 +101,7 @@ export default {
         imagelink: true, // 图片链接
         code: true, // code
         table: true, // 表格
-        fullscreen: true, // 全屏编辑
+        // fullscreen: true, // 全屏编辑
         readmodel: true, // 沉浸式阅读
         htmlcode: true, // 展示html源码
         help: true, // 帮助
