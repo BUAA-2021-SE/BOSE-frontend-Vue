@@ -167,6 +167,15 @@
 
               </v-btn>
             </router-link>
+              <v-btn v-if="sharedState.is_admin"
+              text :style="{width:'100%' }" class="mx-auto d-flex justify-start"
+              @click="sharedState.is_hover=false" :to="{ name: 'AdminRoles'}">
+                <!-- Contribution -->
+                <v-icon class="material-icons" :style="{ color: '#FB8C00' ,'font-size': '20px','margin-top':'2px'}">
+                  drafts
+                </v-icon>
+                管理界面
+              </v-btn>
           </v-card-text>
           <v-divider class="mx-4"></v-divider>
           <v-card-text>
@@ -345,6 +354,7 @@ export default {
             this.user.unread_likes = res.data.unread_likes;
             this.user.unread_messages = res.data.unread_messages;
             this.loadingProfile = false;
+            this.sharedState.is_admin = res.data.if_controller;
             this.newMessage = this.user.unread_comments + this.user.unread_followings + this.user.unread_likes + this.user.unread_messages;
           })
           .catch((error) => {

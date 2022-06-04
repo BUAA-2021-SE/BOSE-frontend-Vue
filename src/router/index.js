@@ -25,7 +25,6 @@ import PostAdd from '@/components/blog/AddPost'
 import ResourceAdd from '@/components/resource/AddResource'
 import Contribution from '@/components/account/Contribution'
 import Search from '@/components/base/Search'
-import NotFound from '@/components/base/NotFound'
 
 // 用户通知
 import Notifications from '@/components/notifications/Notifications'
@@ -36,20 +35,31 @@ import History from '@/components/notifications/History'
 import ReceivedMessages from '@/components/notifications/message/Index'
 import HistoryMessage from '@/components/notifications/message/HistoryMessage'
 import MessageList from '@/components/notifications/message/MessageList'
+
+// 管理后台
+import Admin from '@/components/admin/Admin'
+import AdminRoles from '@/components/admin/Roles'
 Vue.use(VueRouter)
 Vue.use(mavonEditor)
 const router = new VueRouter({
     mode: 'history',
     routes: [
-        // { 
-        //     path: '/:pathMatch(.*)*', 
-        //     name: 'NotFound', 
-        //     component: NotFound 
-        // },
         {
             path: '/',
             name: 'Home',
             component: Home,
+        },
+        {
+            path:'/admin',
+            component: Admin,
+            meta:{
+                requiresAuth: true,
+                requiresAdmin: true
+            },
+            children: [
+                {path:'', component:AdminRoles},
+                {path: 'roles', name: 'AdminRoles', component: AdminRoles },
+            ]
         },
         {
             path: '/post/:id',
@@ -180,6 +190,13 @@ const router = new VueRouter({
 // query从URL的search部分提取的已解码查询参数的字典
 router.beforeEach((to, from, next) => {
     const token = window.localStorage.getItem('token');
+    let user_perms = false;
+    if(token){
+        let str = token.split('$$$');
+        if(str.length>2 && str[2]==='$$admin'){
+            user_perms = true;
+        }
+    }
     // 有权限且未登录
     if (to.matched.some(record => record.meta.requiresAuth) && (!token || token === null)) {
         next({
@@ -205,6 +222,13 @@ router.beforeEach((to, from, next) => {
               path: '/'
             })
           }
+    }
+    // 管理员权限界面
+    else if(to.matched.some(record => record.meta.requiresAdmin) && token && !user_perms){
+        Vue.toasted.error('403: Forbidden', { icon: 'fingerprint' });
+        next({
+            path: '/'
+          })
     }
     // 无操作
     else {
