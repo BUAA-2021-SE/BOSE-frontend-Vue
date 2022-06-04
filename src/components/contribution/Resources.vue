@@ -28,42 +28,37 @@
               :key="index"
           >
             <v-expansion-panel-header>
-              <v-col
-                  cols="16"
-                  sm="4"
-                  md="4"
-                  class="spacer"
-              >
-                这里是用户头像
-                <!--                <v-avatar-->
-                <!--                    size="62px"-->
-                <!--                >-->
-                <!--                  <img-->
-                <!--                      alt="Avatar"-->
-                <!--                      :src="item.sender.headshot"-->
-                <!--                  >-->
-                <!--                </v-avatar>-->
+              <v-col class="d-flex justify-center" cols="12" md="5">
+                <v-img
+                    :src="item.cover"
+                    class="my-auto"
+                    contain
+                    height="120"
+                    max-width="150"
+                    max-height="120"
+                    :style="{'border-radius':'20px'}"
+                />
               </v-col>
-              <v-col
-                  class="text-left"
-              >
-                <v-row
-                    align="center"
-                    class="spacer"
-                    no-gutters
-                >
-                  <v-col
-                      class="hidden-xs-only"
-                  >
-
-                  </v-col>
+              <v-col class="text-left">
+                <v-row align="center">
+                  <v-card-title>
+                    <div v-if="item.title.length <12">{{ item.title }}</div>
+                    <div v-else>{{ item.title.substring(0, 9) + '...' }}</div>
+                  </v-card-title>
+                </v-row>
+                <v-row align="center">
+                  <v-card-text>
+                    <div class="text--primary" v-if="item.summary.length <30">
+                      {{ item.summary }}
+                    </div>
+                    <div class="text--primary" v-else>
+                      {{ item.summary.substring(0, 27) + '...' }}
+                    </div>
+                  </v-card-text>
                 </v-row>
                 <v-row>
-                  <v-col
-                      class="grey--text text-truncate hidden-sm-and-down"
-                  >
-                    这里是上传时间
-                    <!--                    {{ $moment(item.date_time).format("YYYY年MM月DD日 HH:mm:ss") }}-->
+                  <v-col class="grey--text text-truncate hidden-sm-and-down">
+                    {{ $moment(item.timestamp).format("YYYY年MM月DD日 HH:mm:ss") }}
                   </v-col>
                 </v-row>
               </v-col>
@@ -72,22 +67,21 @@
 
             <v-expansion-panel-content>
               <v-divider></v-divider>
+              <strong>资源摘要说明 </strong>
               <v-card-text>
-                这里是资源详细介绍
+                {{ item.summary }}
               </v-card-text>
-              这里还应该有一个去这个资源的链接
-              <!--              <router-link-->
-              <!--                  :to="{name: 'Post',params: {id:item.blog_id}}"-->
-              <!--                  class="text-primary">-->
-              <!--                <v-btn-->
-              <!--                    color="primary"-->
-              <!--                    class="mr-2"-->
-              <!--                    small-->
-              <!--                    text-->
-              <!--                >-->
-              <!--                  查看原文-->
-              <!--                </v-btn>-->
-              <!--              </router-link>-->
+              <v-spacer></v-spacer>
+              <strong>资源下载链接 </strong>
+              <div class="resources_url"
+                   v-for="(resource, index) in item.resources"
+                   :key="index"
+              >
+                <a :href="resource.resources_url" target="_blank">
+                  {{ resource.name }}
+                </a>
+              </div>
+
             </v-expansion-panel-content>
           </v-expansion-panel>
         </v-expansion-panels>
@@ -136,5 +130,9 @@ export default {
 </script>
 
 <style>
+
+.resources_url {
+  margin-top: 10px;
+}
 
 </style>
