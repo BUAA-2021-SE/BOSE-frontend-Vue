@@ -19,18 +19,29 @@
           v-model="editForm.summary"
           outlined
           row-height="15"
+          rows="2"
+          no-resize
+          placeholder=""
+          :class="{'is-invalid': editForm.summaryError}"
+          :style="{width:'30vw' ,'margin-top':'10px',}"
+      ></v-textarea>
+<label>标签</label>
+      <v-textarea
+          v-model="editForm.summary"
+          outlined
+          row-height="15"
           auto-grow
           rows="2"
           placeholder=""
           :class="{'is-invalid': editForm.summaryError}"
           :style="{width:'30vw' ,'margin-top':'10px'}"
       ></v-textarea>
-
       </v-col>
 <v-col  md="6" class="my-auto">
     <v-btn @click="addFile">上传封面</v-btn>
     <input type="file" ref="upload_input" style="display: none;" @change="select_file" accept=".png,.jpg,.jpeg">
-     <img v-if="editForm.cover" :src="editForm.cover" max-width="300px" max-height="150px" width="300px" height="150px">
+     <img v-if="editForm.cover" :src="editForm.cover" max-width="300px" max-height="150px" width="300px" height="150px" 
+     :style="{'margin-left':'50px','border-radius':'20px'}">
 </v-col>
   </v-row>
       
@@ -98,7 +109,7 @@ export default {
         imagelink: true, // 图片链接
         code: true, // code
         table: true, // 表格
-        fullscreen: true, // 全屏编辑
+        // fullscreen: true, // 全屏编辑
         readmodel: true, // 沉浸式阅读
         htmlcode: true, // 展示html源码
         help: true, // 帮助

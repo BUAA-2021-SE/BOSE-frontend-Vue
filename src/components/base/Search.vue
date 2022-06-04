@@ -22,7 +22,7 @@
         <div class="text-align-center">
           <h6 class="text-align-center">共有博文{{ total }}篇</h6>
         </div>
-        <v-col cols="12" sm="6" md="6">
+        <v-col cols="12"  md="6">
           <div v-for="(post,index) in posts" :key="index">
             <div>
               <v-card outlined class="mx-auto">

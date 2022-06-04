@@ -131,14 +131,17 @@
                 align="center"
                 class="mx-auto col-md-12"
             >
-              <v-col class="col-md-6">
+              <v-col class="col-md-6 text-center">
                 <h5 class="mx-auto">
-                  关注:{{ user.followed_num }}
+                  关注
                 </h5>
+                <h5 class="mx-auto">{{ user.followed_num }}</h5>
               </v-col>
-              <v-col class="col-md-6">
+              <v-col class="col-md-6 text-center">
                 <h5 class="mx-auto">
-                  粉丝:{{ user.followes_num }}
+                  粉丝
+                </h5>
+                  <h5>{{ user.followes_num }}
                 </h5>
               </v-col>
             </v-row>

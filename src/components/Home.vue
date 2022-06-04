@@ -90,7 +90,10 @@
       </v-col>
       </v-col>
       <v-col cols="12"  md="3">
-        5555
+       <v-card :style="{'border-radius':'20px',}">
+              <v-card-title>通知</v-card-title>
+              <v-card-subtitle :style="{'margin-left':'20px'}">{{HomeMessage}}</v-card-subtitle>
+            </v-card>
       </v-col> 
         
 
