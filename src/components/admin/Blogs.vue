@@ -9,13 +9,24 @@
       <v-toolbar
         flat
       >
-        <v-toolbar-title>打回违规博文</v-toolbar-title>
+        <v-toolbar-title>审核所有博文</v-toolbar-title>
         <v-divider
           class="mx-4"
           inset
           vertical
         ></v-divider>
         <v-spacer></v-spacer>
+        <v-dialog v-model="dialog" max-width="500px">
+          <v-card>
+            <v-card-title class="text-h5">确定通过博文？</v-card-title>
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn color="blue darken-1" text @click="close">取消</v-btn>
+              <v-btn color="blue darken-1" text @click="passItemConfirm">确定</v-btn>
+              <v-spacer></v-spacer>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
         <v-dialog v-model="dialogDelete" max-width="500px">
           <v-card>
             <v-card-title class="text-h5">确定打回博文？</v-card-title>
@@ -36,6 +47,13 @@
         @click="deleteItem(item)"
       >
         打回
+      </v-btn>
+      <v-btn
+          color="primary"
+          text
+        @click="passItem(item)"
+      >
+        通过
       </v-btn>
     </template>
     <template v-slot:expanded-item="{ headers, item }">
@@ -79,6 +97,7 @@ export default {
     data: () => ({
       sharedState: store.state,
       dialogDelete: false,
+      dialog:false,
       headers: [
         {
           text: '标题',
@@ -90,7 +109,8 @@ export default {
         { text: '操作', value: 'actions'},
       ],
       posts:[],
-      editedItem:{}
+      editedItem:{},
+      passedItem:{}
     }),
     computed: {
       formTitle () {
@@ -101,6 +121,9 @@ export default {
       dialogDelete (val) {
         val || this.closeDelete()
       },
+      dialog(val){
+          val || this.close()
+      }
     },
     created () {
       this.initialize()
@@ -112,6 +135,10 @@ export default {
           console.log(res.data);
           this.posts = res.data;
         })
+      },
+      passItem(item) {
+        this.passedItem = Object.assign({}, item)
+        this.dialog = true
       },
       deleteItem (item) {
         this.editedItem = Object.assign({}, item)
@@ -131,9 +158,25 @@ export default {
           console.error(err);
         })
       },
+      passItemConfirm () {
+          console.log(this.passedItem);
+          Admin.passExamination(this.passedItem.id)
+          .then((res)=>{
+                console.log(res.data);
+                this.$toasted.success(`博文${this.passedItem.title}已通过审核`);
+                this.close()
+                this.initialize()
+          })
+          .catch((err)=>[
+              console.error(err)
+          ])
+      },
       closeDelete () {
         this.dialogDelete = false
       },
+      close(){
+          this.dialog = false
+      }
     },
 }
 </script>

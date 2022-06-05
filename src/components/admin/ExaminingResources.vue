@@ -9,7 +9,7 @@
       <v-toolbar
         flat
       >
-        <v-toolbar-title>审核违规资源</v-toolbar-title>
+        <v-toolbar-title>打回违规资源</v-toolbar-title>
         <v-divider
           class="mx-4"
           inset
