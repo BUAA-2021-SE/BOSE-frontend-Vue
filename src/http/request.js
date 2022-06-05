@@ -30,16 +30,26 @@ service.interceptors.response.use(function(response) {
                 store.logoutAction();
                 // 跳转到登录页
                 if (router.currentRoute.path !== '/login') {
-                    Vue.toasted.error('450: 认证已失效，请先登录', {icon: 'check'})
+                    Vue.toasted.error('认证已失效，请先登录', {icon: 'check'})
                     router.replace({
                         path: '/login',
                         query: {redirect: router.currentRoute.path},
                     })
                 }
                 break
-            // 没有对应资源
+            // 452 404 没有对应资源
             case 404:
-                Vue.toasted.error('404: NOT FOUND', {icon: 'fingerprint'})
+            case 452:
+                Vue.toasted.error('未找到资源', {icon: 'check'})
+                router.back()
+                break
+            // 453 没有博文编辑权限
+            case 453:
+                Vue.toasted.error('没有编辑权限', {icon: 'check'})
+                router.back()
+                break
+            case 251:
+                Vue.toasted.error('很遗憾，您已被对方拉黑', {icon: 'check'})
                 router.back()
                 break
         }
