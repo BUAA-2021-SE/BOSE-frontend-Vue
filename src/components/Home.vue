@@ -1,11 +1,5 @@
 <template>
   <div class="container" width="80vw" min-width="1000px" >
-    <!-- 项目进度 -->
-    <!-- <alert
-        v-for="(alert, index) in alertsFilter" :key="index"
-        :variant="alert.alertVariant"
-        :message="alert.alertMessage">
-    </alert> -->
     <div class=" mx-auto" width="80vw" min-width="1000px">
       <v-row>
         <v-col cols="12" sm="12" md="6">

@@ -230,6 +230,21 @@ export default {
       timer:{}
     };
   },
+  watch: {
+    user:{
+      handler(){
+        clearInterval(this.timer);
+        console.log("NEW");
+        this.timer = setInterval(() => {
+            if (this.sharedState.is_authenticated) {
+              this.queryUser();
+            }
+          }, 15000);
+      },
+      deep:true,
+      immediate:true
+    }
+  },
   methods: {
     enter() {
       store.state.is_hover = true;
@@ -253,9 +268,7 @@ export default {
     },
     handlerLogout() {
       store.logoutAction();
-      console.log(this.defaultUser);
       this.user = this.defaultUser;
-      clearInterval(this.timer);
       this.$router.push("/login");
     },
     searchBlog() {
