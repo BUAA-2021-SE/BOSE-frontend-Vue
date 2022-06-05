@@ -38,13 +38,31 @@
   </v-row>
       
  <v-row>
-      <v-col cols="12" md="3">
+  <v-col cols="12" md="12">
+  <div class="d-flex">
+       <div v-for="(tag,index) in givenTags" :key="index"   >
+          <v-btn depressed outlined v-if="!tag.value" @click="addExistTags(tag)"
+          :style="{'border-radius':'20px','margin-right':'5px'}">{{tag.key}}</v-btn>
+          <v-btn depressed v-if="tag.value" @click="removeExistTags(tag)" 
+          :style="{'border-radius':'20px','margin-right':'5px','background-color':'#00AEEC','color':'white'}">{{tag.key}}</v-btn>
+       </div>
+       </div>
+  </v-col>
+  </v-row>
+ <v-row>
+      <v-col cols="12" md="12">
       
     <label>标签</label>
-      <div class="d-flex my-auto">
-      <v-textarea
+      <div class="d-flex my-auto"  :style="{'width':'1000px'}">
+        <div v-for="(tag,index) in tags" :key="index" >
+      <v-chip   class="ma-2" 
+      close
+     @click:close="removetags(tag)" >
+        {{tag}}
+    </v-chip>
+    </div>
+      <v-text-field
           v-model="editForm.tags"
-          outlined
           row-height="10"
          counter="10"
           rows="1"
@@ -52,21 +70,12 @@
           no-resize
           placeholder=""
           :style="{'margin-top':'10px'}"
+          @keyup.enter="addTags"
       > 
-      
-      </v-textarea>
-       <v-btn @click="addTags" class="my-auto" :style="{'margin-bottom':'30px!important','margin-left':'10px'}">添加</v-btn>
+      </v-text-field>  
         </div>
       </v-col>
-       <v-col cols="12" md="9" class="d-flex my-auto" >
-         <div  v-for="tag in tags" :key="tag" >
-      <v-chip   class="ma-2" 
-      close
-     @click:close="removetags(tag)" >
-        {{tag}}
-    </v-chip>
-    </div>
-       </v-col>
+      
 </v-row>
 
 
@@ -135,17 +144,32 @@ export default {
         imagelink: true, // 图片链接
         code: true, // code
         table: true, // 表格
-        fullscreen: true, // 全屏编辑
+        // fullscreen: true, // 全屏编辑
         readmodel: true, // 沉浸式阅读
         htmlcode: true, // 展示html源码
         help: true, // 帮助
         undo: true, // 上一步
         redo: true, // 下一步
         trash: true, // 清空
-        navigation: true, // 导航目录
+        // navigation: true, // 导航目录
         subfield: true, // 单双栏模式
         preview: true // 预览
       },
+       givenTags: [
+        {'key':"后端",'value':0},
+        {'key':"前端",'value':0},
+        {'key':"移动开发",'value':0},
+        {'key':"编程语言",'value':0},
+        {'key':"Java",'value':0},
+        {'key':"Python",'value':0},
+        {'key':"人工智能",'value':0},
+        {'key':"大数据",'value':0},
+        {'key':"数据结构与算法",'value':0},
+        {'key':"云平台",'value':0},
+        {'key':"运维服务器",'value':0},
+        {'key':"操作系统",'value':0},
+        {'key':"数据库管理",'value':0},
+      ],
     }
   },
   methods: {
@@ -161,23 +185,68 @@ export default {
             console.log(error);
           })
     },
-    addTags(){
+   addExistTags(tag){
       if(this.tags.length >=4){
         this.$toasted.error('最多只能添加4个标签')
         return false;
       }
-      if(this.editForm.tags.length>10){
-        this.$toasted.error('标签太长捏')
+        this.tags.push(tag.key);
+        tag.value=1;
+        console.log(tag)
+        console.log(this.tags)
+        
+    },
+    addTags(){
+      if(this.tags.length >=4){
+        this.$toasted.error('最多只能添加4个标签')
         return false
       }
-      
+      if(this.editForm.tags.length>10){
+        this.$toasted.error('标签太长啦')
+        return false
+      }
+      this.editForm.tags=this.editForm.tags.trim();
+      for(let i=0;i<this.givenTags.length;i++){
+      if(this.editForm.tags==this.givenTags[i].key){
+        if(this.givenTags[i].value==1){
+           this.$toasted.error('标签写过啦')
+           return false
+        }
+        else{
+          this.tags.push(this.editForm.tags);
+          this.givenTags[i].value=1;
+          this.editForm.tags='';
+          return true
+        }
+      }
+      else{
+        for(let i=0;i<this.tags.length;i++){
+          if(this.editForm.tags==this.tags[i]){
+             this.$toasted.error('标签写过啦')
+             return false
+        }
+      }
+      }
+      }
         this.tags.push(this.editForm.tags);
         this.editForm.tags = '';
     },
     removetags(tag){
+      for(let i=0;i<this.givenTags.length;i++){
+        if(tag==this.givenTags[i].key){
+          this.givenTags[i].value=0;
+        }
+      }
         this.tags.splice(this.tags.indexOf(tag), 1)
         this.tags = [...this.tags]
          console.log(this.tags)
+
+    },
+    removeExistTags(tag){
+      this.tags.splice(this.tags.indexOf(tag.key), 1)
+        this.tags = [...this.tags]
+        console.log(this.tags)
+        tag.value=0;
     },
     getDraft(id) {
       const formData = new FormData();

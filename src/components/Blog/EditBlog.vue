@@ -37,19 +37,31 @@
 </v-col>
   </v-row>
   <v-row>
-       <div v-for="(tag,index) in givenTags" :key="index">
-          <v-btn v-if="!tag.value" @click="addExistTags(tag)">{{tag.key}}</v-btn>
-          <v-btn v-if="tag.value" color="blue" @click="removeExistTags(tag)" >{{tag.key}}</v-btn>
+  <v-col cols="12" md="12">
+  <div class="d-flex">
+       <div v-for="(tag,index) in givenTags" :key="index"   >
+          <v-btn depressed outlined v-if="!tag.value" @click="addExistTags(tag)"
+          :style="{'border-radius':'20px','margin-right':'5px'}">{{tag.key}}</v-btn>
+          <v-btn depressed v-if="tag.value" @click="removeExistTags(tag)" 
+          :style="{'border-radius':'20px','margin-right':'5px','background-color':'#00AEEC','color':'white'}">{{tag.key}}</v-btn>
        </div>
-       </v-row>
+       </div>
+  </v-col>
+  </v-row>
  <v-row>
-      <v-col cols="12" md="3">
+      <v-col cols="12" md="12">
       
     <label>标签</label>
-      <div class="d-flex my-auto">
-      <v-textarea
+      <div class="d-flex my-auto"  :style="{'width':'1000px'}">
+        <div v-for="(tag,index) in tags" :key="index" >
+      <v-chip   class="ma-2" 
+      close
+     @click:close="removetags(tag)" >
+        {{tag}}
+    </v-chip>
+    </div>
+      <v-text-field
           v-model="editForm.tags"
-          outlined
           row-height="10"
          counter="10"
           rows="1"
@@ -57,22 +69,12 @@
           no-resize
           placeholder=""
           :style="{'margin-top':'10px'}"
+          @keyup.enter="addTags"
       > 
-      
-      </v-textarea>
-       <v-btn @click="addTags" class="my-auto" :style="{'margin-bottom':'30px!important','margin-left':'10px'}">添加</v-btn>
+      </v-text-field>  
         </div>
       </v-col>
-       <v-col cols="12" md="9" class="d-flex my-auto" >
-         <div  v-for="(tag,index) in tags" :key="index" >
-      <v-chip   class="ma-2" 
-      close
-     @click:close="removetags(tag)" >
-        {{tag}}
-    </v-chip>
-    </div>
-    
-       </v-col>
+      
 </v-row>
 
 
@@ -135,7 +137,7 @@ export default {
         {'key':"Python",'value':0},
         {'key':"人工智能",'value':0},
         {'key':"大数据",'value':0},
-        {'key':"数据结构预算法",'value':0},
+        {'key':"数据结构与算法",'value':0},
         {'key':"云平台",'value':0},
         {'key':"运维服务器",'value':0},
         {'key':"操作系统",'value':0},
@@ -216,6 +218,14 @@ export default {
           this.editForm.tags='';
           return true
         }
+      }
+      else{
+        for(let i=0;i<this.tags.length;i++){
+          if(this.editForm.tags==this.tags[i]){
+             this.$toasted.error('标签写过啦')
+             return false
+        }
+      }
       }
       }
       

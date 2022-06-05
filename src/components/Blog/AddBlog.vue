@@ -37,13 +37,31 @@
   </v-row>
      
     <v-row>
-      <v-col cols="12" md="3">
+  <v-col cols="12" md="12">
+  <div class="d-flex">
+       <div v-for="(tag,index) in givenTags" :key="index"   >
+          <v-btn depressed outlined v-if="!tag.value" @click="addExistTags(tag)"
+          :style="{'border-radius':'20px','margin-right':'5px'}">{{tag.key}}</v-btn>
+          <v-btn depressed v-if="tag.value" @click="removeExistTags(tag)" 
+          :style="{'border-radius':'20px','margin-right':'5px','background-color':'#00AEEC','color':'white'}">{{tag.key}}</v-btn>
+       </div>
+       </div>
+  </v-col>
+  </v-row>
+ <v-row>
+      <v-col cols="12" md="12">
       
     <label>标签</label>
-      <div class="d-flex my-auto">
-      <v-textarea
+      <div class="d-flex my-auto"  :style="{'width':'1000px'}">
+        <div v-for="(tag,index) in tags" :key="index" >
+      <v-chip   class="ma-2" 
+      close
+     @click:close="removetags(tag)" >
+        {{tag}}
+    </v-chip>
+    </div>
+      <v-text-field
           v-model="postForm.tags"
-          outlined
           row-height="10"
          counter="10"
           rows="1"
@@ -51,24 +69,14 @@
           no-resize
           placeholder=""
           :style="{'margin-top':'10px'}"
+          @keyup.enter="addTags"
       > 
-      
-      </v-textarea>
-       <v-btn @click="addTags" class="my-auto" :style="{'margin-bottom':'30px!important','margin-left':'10px'}">添加</v-btn>
+      </v-text-field>  
         </div>
       </v-col>
-       <v-col cols="12" md="9" class="d-flex my-auto" >
-         <div  v-for="tag in tags" :key="tag" >
-      <v-chip   class="ma-2" 
-      close
-     @click:close="removetags(tag)" >
-        {{tag}}
-    </v-chip>
-    </div>
-       </v-col>
-     
-
+      
 </v-row>
+
       <label>正文</label>
   <div style="z-index:-10">
         <mavon-editor  ref="md" v-model="postForm.body" :toolbars="tools" @imgAdd="imgAdd" :style="{'min-height':'50hv'}"/>
@@ -151,23 +159,68 @@ export default {
     }
   },
   methods: {
-    addTags(){
+    addExistTags(tag){
       if(this.tags.length >=4){
         this.$toasted.error('最多只能添加4个标签')
         return false;
       }
-      if(this.postForm.tags.length>10){
-        this.$toasted.error('标签太长捏')
+        this.tags.push(tag.key);
+        tag.value=1;
+        console.log(tag)
+        console.log(this.tags)
+        
+    },
+    addTags(){
+      if(this.tags.length >=4){
+        this.$toasted.error('最多只能添加4个标签')
         return false
       }
-      
+      if(this.postForm.tags.length>10){
+        this.$toasted.error('标签太长啦')
+        return false
+      }
+      this.postForm.tags=this.postForm.tags.trim();
+      for(let i=0;i<this.givenTags.length;i++){
+      if(this.postForm.tags==this.givenTags[i].key){
+        if(this.givenTags[i].value==1){
+           this.$toasted.error('标签写过啦')
+           return false
+        }
+        else{
+          this.tags.push(this.postForm.tags);
+          this.givenTags[i].value=1;
+          this.postForm.tags='';
+          return true
+        }
+      }
+      else{
+        for(let i=0;i<this.tags.length;i++){
+          if(this.postForm.tags==this.tags[i]){
+             this.$toasted.error('标签写过啦')
+             return false
+        }
+      }
+      }
+      }
         this.tags.push(this.postForm.tags);
         this.postForm.tags = '';
     },
     removetags(tag){
+      for(let i=0;i<this.givenTags.length;i++){
+        if(tag==this.givenTags[i].key){
+          this.givenTags[i].value=0;
+        }
+      }
         this.tags.splice(this.tags.indexOf(tag), 1)
         this.tags = [...this.tags]
          console.log(this.tags)
+
+    },
+    removeExistTags(tag){
+      this.tags.splice(this.tags.indexOf(tag.key), 1)
+        this.tags = [...this.tags]
+        console.log(this.tags)
+        tag.value=0;
     },
     imgAdd(pos,file){
       let formData=new FormData();
