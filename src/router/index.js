@@ -25,6 +25,7 @@ import PostAdd from '@/components/blog/AddPost'
 import ResourceAdd from '@/components/resource/AddResource'
 import Contribution from '@/components/account/Contribution'
 import Search from '@/components/base/Search'
+import Tag from '@/components/base/TagAll'
 
 // 用户通知
 import Notifications from '@/components/notifications/Notifications'
@@ -42,6 +43,7 @@ import AdminBlogs from '@/components/admin/Blogs'
 import ExaminingBlogs from '@/components/admin/ExaminingBlogs'
 import AdminResources from '@/components/admin/Resources'
 import ExaminingResources from '@/components/admin/ExaminingResources'
+
 Vue.use(VueRouter)
 Vue.use(mavonEditor)
 const router = new VueRouter({
@@ -53,18 +55,18 @@ const router = new VueRouter({
             component: Home,
         },
         {
-            path:'/admin',
+            path: '/admin',
             component: Admin,
-            meta:{
+            meta: {
                 requiresAuth: true,
                 requiresAdmin: true
             },
             children: [
-                {path:'', component:AdminBlogs},
-                {path:'blogs', name: 'AdminBlogs', component: AdminBlogs },
-                {path:'examinblogs', name: 'ExaminingBlogs', component: ExaminingBlogs },
-                {path:'resources', name: 'AdminResources', component: AdminResources },
-                {path:'examinresources', name: 'ExaminingResources', component: ExaminingResources }
+                {path: '', component: AdminBlogs},
+                {path: 'blogs', name: 'AdminBlogs', component: AdminBlogs},
+                {path: 'examinblogs', name: 'ExaminingBlogs', component: ExaminingBlogs},
+                {path: 'resources', name: 'AdminResources', component: AdminResources},
+                {path: 'examinresources', name: 'ExaminingResources', component: ExaminingResources}
             ]
         },
         {
@@ -85,10 +87,10 @@ const router = new VueRouter({
         {
             path: '/addpost/:id',
             component: PostAdd,
-            name:'PostAdd',
+            name: 'PostAdd',
             children: [
-                {path:'blog',name:'BlogAdd',component: BlogAdd},
-                {path:'resource',name:'ResourceAdd',component: ResourceAdd}
+                {path: 'blog', name: 'BlogAdd', component: BlogAdd},
+                {path: 'resource', name: 'ResourceAdd', component: ResourceAdd}
             ]
         },
         {
@@ -159,22 +161,28 @@ const router = new VueRouter({
             children: [
                 {path: '', component: ReceivedComments},
                 {path: 'comments', name: 'ReceivedComments', component: ReceivedComments},
-                {path: 'messages', component: ReceivedMessages,
+                {
+                    path: 'messages', component: ReceivedMessages,
                     children: [
-                        {path:'',component:MessageList},
-                        {path:'message_list', name: 'MessageList', component:MessageList},
-                        {path:'history_message/:id',name: 'HistoryMessage',component: HistoryMessage}
+                        {path: '', component: MessageList},
+                        {path: 'message_list', name: 'MessageList', component: MessageList},
+                        {path: 'history_message/:id', name: 'HistoryMessage', component: HistoryMessage}
                     ]
                 },
                 {path: 'likes', name: 'Likes', component: Likes},
                 {path: 'following-posts', name: 'FollowingPosts', component: FollowingPosts},
-                {path: 'history', name:'History',component: History}
+                {path: 'history', name: 'History', component: History}
             ]
         },
         {
             path: '/search/:keyword',
             name: 'Search',
             component: Search
+        },
+        {
+            path: '/blog/rank/:tag/0',
+            name: 'TagAll',
+            component: Tag,
         }
     ]
 })
@@ -197,9 +205,9 @@ const router = new VueRouter({
 router.beforeEach((to, from, next) => {
     const token = window.localStorage.getItem('token');
     let user_perms = false;
-    if(token){
+    if (token) {
         let str = token.split('$$$');
-        if(str.length>2 && str[2]==='$$admin'){
+        if (str.length > 2 && str[2] === '$$admin') {
             user_perms = true;
         }
     }
@@ -218,23 +226,23 @@ router.beforeEach((to, from, next) => {
     }
     // 404
     else if (to.matched.length === 0) {
-        Vue.toasted.error('404: Not Found', { icon: 'check' })
+        Vue.toasted.error('404: Not Found', {icon: 'check'})
         if (from.name) {
             next({
-              name: from.name
+                name: from.name
             })
-          } else {
+        } else {
             next({
-              path: '/'
+                path: '/'
             })
-          }
+        }
     }
     // 管理员权限界面
-    else if(to.matched.some(record => record.meta.requiresAdmin) && token && !user_perms){
-        Vue.toasted.error('403: Forbidden', { icon: 'fingerprint' });
+    else if (to.matched.some(record => record.meta.requiresAdmin) && token && !user_perms) {
+        Vue.toasted.error('403: Forbidden', {icon: 'fingerprint'});
         next({
             path: '/'
-          })
+        })
     }
     // 无操作
     else {
