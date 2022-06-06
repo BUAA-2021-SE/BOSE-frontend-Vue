@@ -51,9 +51,7 @@
               <v-card outlined class="mx-auto" v-show="showContent" :style="{'position':'absolute','top':'170px','right':'25px','position':'fixed','width':'300px',
               'border-color':'#00AEEC','border-width':'2px','max-height':'60vh','overflow':'scroll','overflow-x':'hidden'}">
                 <div :style="{ 'margin-top': '15px' }">
-                  <div :style="{ 'margin-left': '9px', 'font-size': '30px','color':'#00AEEC'}">
-                    目录
-                  </div>
+                    <a :style="{ 'margin-left': '9px', 'font-size': '30px','color':'#00AEEC'}" href = "#blogHeader">目录</a>
                   <div v-html="topic"></div>
                 </div>
               </v-card>
@@ -64,7 +62,7 @@
           <!-- 博文内容 -->
           <!-- Articles Content -->
           <article>
-            <header class="g-mb-30">
+            <header class="g-mb-30" id="blogHeader">
               <h1 class="g-color-primary g-mb-15">{{ post.title }}</h1>
               <ul class="list-inline d-sm-flex g-color-gray-dark-v4 mb-0">
                 <li v-if="post.author">
@@ -1030,7 +1028,7 @@ export default {
       let cid = comment.author.id;
       let name = comment.author.name;
       this.currentForm.replyId = comment.id;
-      this.currentForm.replyTo = `回复 <a href="/user/${cid}"> @${name}</a>:`;
+      this.currentForm.replyTo = `回复 <a href="/user/${cid}" target="_blank"> @${name}</a>:`;
       // console.log(document.getElementById("replyTo"));
       this.currentForm.body = "";
       this.replyCommentDialog = true;
