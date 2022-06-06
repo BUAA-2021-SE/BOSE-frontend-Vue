@@ -2,18 +2,18 @@
   <section>
     <div class="container">
       <div class="text-center">
-        <h1 v-show="this.loadingProfile"> 努力加载······
+        <h1 v-show="loadingProfile"> 努力加载······
           <v-progress-circular
               class="center"
               indeterminate
               color="primary"
               :size="70"
               :width="7"
-              v-show="this.loadingProfile"
+              v-show="loadingProfile"
           ></v-progress-circular>
         </h1>
       </div>
-      <div class="g-brd-around g-brd-gray-light-v4 g-pa-20 g-mb-40" v-show="!this.loadingProfile">
+      <div class="g-brd-around g-brd-gray-light-v4 g-pa-20 g-mb-40" v-show="!loadingProfile">
         <div class="row" >
           <div class="col-sm-3 g-mb-40 g-mb-0--lg">
             

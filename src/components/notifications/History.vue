@@ -9,7 +9,7 @@
               color="primary"
               :size="40"
               :width="3"
-              v-show="this.loadingHistory"
+              v-show="loadingHistory"
           ></v-progress-circular>
         </h3>
       </div>

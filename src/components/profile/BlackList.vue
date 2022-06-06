@@ -2,19 +2,19 @@
   <section>
     <div class="container">
       <div class="text-center">
-        <h3 v-show="this.loadingProfile"> 小黑屋列表加载中
+        <h3 v-show="loadingProfile"> 小黑屋列表加载中
           <v-progress-circular
               class="center"
               indeterminate
               color="primary"
               :size="40"
               :width="3"
-              v-show="this.loadingProfile"
+              v-show="loadingProfile"
           ></v-progress-circular>
         </h3>
       </div>
     </div>
-    <div v-show="!this.loadingProfile">
+    <div v-show="!loadingProfile">
       <h3 v-show="!blockers" class="text-center">小黑屋里空空如也</h3>
       <v-col cols="12" md="12" v-for="(blockers,index) in blockers" :key="index">
         <block

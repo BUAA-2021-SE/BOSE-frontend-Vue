@@ -3,18 +3,18 @@
     <div class="container">
       <div class="text-center">
 
-        <h1 v-show="this.loadingProfile"> 努力加载······
+        <h1 v-show="loadingProfile"> 努力加载······
           <v-progress-circular
               class="center"
               indeterminate
               color="primary"
               :size="70"
               :width="7"
-              v-show="this.loadingProfile"
+              v-show="loadingProfile"
           ></v-progress-circular>
         </h1>
       </div>
-      <div v-show="!this.loadingProfile">
+      <div v-show="!loadingProfile">
         <div class="row" >
           <v-col cols="12" md="3">
             

@@ -2,7 +2,7 @@
   <section>
     <div class="container">
       <div class="text-center">
-        <h3 v-show="this.loadingProfile"> 收藏列表加载中
+        <h3 v-show="loadingProfile"> 收藏列表加载中
           <v-progress-circular
               class="center"
               indeterminate

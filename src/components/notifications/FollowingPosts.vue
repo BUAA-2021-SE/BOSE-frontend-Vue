@@ -2,20 +2,20 @@
   <section>
     <div class="container">
       <div class="text-center">
-        <h3 v-show="this.loadingFollowings"> 新增粉丝列表加载中
+        <h3 v-show="loadingFollowings"> 新增粉丝列表加载中
           <v-progress-circular
               class="center"
               indeterminate
               color="primary"
               :size="40"
               :width="3"
-              v-show="this.loadingFollowings"
+              v-show="loadingFollowings"
           ></v-progress-circular>
         </h3>
       </div>
     </div>
     <v-container
-        v-if="this.items.length > 0"
+        v-if="items.length > 0"
         fluid>
       <v-row justify="center">
         <v-subheader>
