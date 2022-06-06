@@ -109,7 +109,8 @@ export default {
         preview: true // 预览
       },
       uploadResource:[],
-      totalResource:[]
+      totalResource:[],
+	  select_file_data:''
     }
   },
   methods: {
@@ -117,8 +118,8 @@ export default {
       this.$refs.upload_input.click() // 通过 ref 模拟点击
     },
     select_file(file) {
-      this.select_file_data = file.target.files
-      console.log(this.select_file_data)
+      this.select_file_data = file.target.files[0]
+	  console.log(file.target.files[0]);
       let uploads = new FormData()
       if (this.select_file_data != "") {
         uploads.append("image", this.select_file_data)
