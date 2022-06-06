@@ -145,7 +145,7 @@ export default {
         })
         .catch((error) => {
           console.error(error);
-          if (error.response.status == 401) {
+          if (error.response.status == 454) {
             this.loginForm.errors++;
             this.loginForm.usernameError = error.response.data.detail.error;
           } else {

@@ -21,6 +21,9 @@ service.interceptors.request.use(function (config) {
 })
 // 响应拦截器
 service.interceptors.response.use(function (response) {
+    if(response.status === 251){
+            Vue.toasted.error('很遗憾，您已被对方拉黑，消息无法送达', {icon: 'check'})
+    }
     return response
 }, function (error) {
     // Do something with request error
@@ -45,20 +48,17 @@ service.interceptors.response.use(function (response) {
                 Vue.toasted.error('未找到资源', {icon: 'check'})
                 router.back()
                 break
-            // 453 没有博文编辑权限
+            
             case 401:
-                Vue.toasted.error('请先登录再点赞评论', {icon: 'check'})
+                Vue.toasted.error('身份验证未通过', {icon: 'check'})
                 router.replace({
                     path: '/login',
                     query: {redirect: router.currentRoute.path},
                 })
                 break
+            // 453 没有博文编辑权限
             case 453:
                 Vue.toasted.error('没有编辑权限', {icon: 'check'})
-                router.back()
-                break
-            case 251:
-                Vue.toasted.error('很遗憾，您已被对方拉黑', {icon: 'check'})
                 router.back()
                 break
         }
