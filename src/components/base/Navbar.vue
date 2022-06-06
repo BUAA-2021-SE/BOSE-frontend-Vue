@@ -206,10 +206,10 @@ export default {
       newMessage: 0,
       user: {
         username: "",
-        name: "",
+        name: "---",
         email: "",
-        followed_num: 0,
-        followes_num: 0,
+        followed_num: '-',
+        followes_num: '-',
         have_new_mail: false,
         unread_comments: 0,
         unread_followings: 0,
@@ -221,7 +221,7 @@ export default {
         member_since: "",
         last_seen: "",
         _links: {
-          avatar: "",
+          avatar: "---",
         },
       },
       defaultUser: {},
@@ -239,7 +239,7 @@ export default {
             if (this.sharedState.is_authenticated) {
               this.queryUser();
             }
-          }, 15000);
+          }, 1000);
       },
       deep:true,
       immediate:true
@@ -388,7 +388,7 @@ export default {
       if (this.sharedState.is_authenticated) {
         this.queryUser();
       }
-    }, 15000);
+    }, 1000);
   },
 };
 </script>
