@@ -156,6 +156,21 @@ export default {
         subfield: true, // 单双栏模式
         preview: true // 预览
       },
+      givenTags: [
+        {'key':"后端",'value':0},
+        {'key':"前端",'value':0},
+        {'key':"移动开发",'value':0},
+        {'key':"编程语言",'value':0},
+        {'key':"Java",'value':0},
+        {'key':"Python",'value':0},
+        {'key':"人工智能",'value':0},
+        {'key':"大数据",'value':0},
+        {'key':"数据结构与算法",'value':0},
+        {'key':"云平台",'value':0},
+        {'key':"运维服务器",'value':0},
+        {'key':"操作系统",'value':0},
+        {'key':"数据库管理",'value':0},
+      ],
     }
   },
   methods: {
