@@ -2,8 +2,10 @@ import Vue from 'vue'
 import axios from 'axios'
 import store from '../store.js'
 import router from '../router'
+
 const service = axios.create({
     baseURL: 'http://43.138.58.36:8000/',//服务器
+    // baseURL: 'http://0.0.0.0:8000',//本地
     timeout: 10000 //超时时间
 });
 // 请求拦截器
@@ -14,15 +16,15 @@ service.interceptors.request.use(function (config) {
         config.headers.Authorization = `Bearer ${token}`
     }
     return config
-}, function(error){
+}, function (error) {
     return Promise.reject(error)
 })
 // 响应拦截器
-service.interceptors.response.use(function(response) {
+service.interceptors.response.use(function (response) {
     return response
 }, function (error) {
     // Do something with request error
-    if(error.response){
+    if (error.response) {
         switch (error.response.status) {
             // 450 UNAUTHORIZED token过期,要求用户重新登录
             case 450:

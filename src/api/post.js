@@ -23,10 +23,11 @@ const url = {
     uploadDraft: '/blog/upload_draft',
     createBlog: '/blog/create_new_blog',
     postPicture: '/blog/upload_blog_images',
-    postResource:'/blog/upload_blog_resources',
-    editResource:'/resources/edit_resource',
+    postResource: '/blog/upload_blog_resources',
+    editResource: '/resources/edit_resource',
     getResource: '/resources/all_resources',
-    deleteResource:'/resources/delete_resource',
+    deleteResource: '/resources/delete_resource',
+    rank: '/blog/rank',
 };
 export default class Post {
     static async getBlog(id, data) {
@@ -138,6 +139,16 @@ export default class Post {
 
     static async search(keyword) {
         return service(`${url.titleSearch}/${keyword}`, {
+            method: 'get',
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            },
+            responseType: 'json'
+        })
+    }
+
+    static async tagAll(tag) {
+        return service(`${url.rank}/${tag}/0`, {
             method: 'get',
             headers: {
                 'Content-Type': 'multipart/form-data'
