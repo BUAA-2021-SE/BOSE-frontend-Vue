@@ -30,7 +30,7 @@
 						<v-col cols="12" sm="12" md="12">
 							<v-row>
 								<v-col cols="12" sm="12" md="6">
-									<v-card :style="{'border-radius':'20px','height':'200px',}">
+									<v-card v-if="posts[1]" :style="{'border-radius':'20px','height':'200px',}">
 										<v-img :src="posts[1].cover"
 											:style="{'min-width':'100%','min-height':'100%','border-radius':'20px'}" />
 										<router-link :to="{ name: 'Post', params: { id: posts[1].id } }">
@@ -45,8 +45,8 @@
 									</v-card>
 								</v-col>
 								<v-col cols="12" sm="12" md="6">
-									<v-card :style="{'border-radius':'20px','height':'200px',}">
-										<v-img :src="posts[2].cover"
+									<v-card v-if="posts[2]" :style="{'border-radius':'20px','height':'200px',}">
+										<v-img  :src="posts[2].cover"
 											:style="{'min-width':'100%','min-height':'100%','border-radius':'20px'}" />
 										<router-link :to="{ name: 'Post', params: { id: posts[2].id } }">
 											<div class="mask2 white--text align-end">
