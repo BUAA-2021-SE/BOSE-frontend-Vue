@@ -258,19 +258,19 @@ export default {
       if (this.postForm.title == "") {
         this.postForm.errors++;
         console.log("aaa");
-        this.postForm.titleError = "Please Enter Title"
+        this.postForm.titleError = "请输入标题"
       } else {
         this.postForm.titleError = null
       }
       if (this.postForm.summary == "") {
         this.postForm.errors++;
-        this.postForm.summaryError = "Please Enter Summary"
+        this.postForm.summaryError = "请输入摘要"
       } else {
         this.postForm.summaryError = null
       }
       if (this.postForm.body == "") {
         this.postForm.errors++;
-        this.postForm.bodyError = "You Should Write Something"
+        this.postForm.bodyError = "正文不能为空捏"
       } else {
         this.postForm.bodyError = null
       }

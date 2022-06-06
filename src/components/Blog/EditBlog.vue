@@ -270,19 +270,19 @@ export default {
     onSubmitAdd() {
       if (!this.editForm.title) {
         this.editForm.errors++
-        this.editForm.titleError = 'Title is required.'
+        this.editForm.titleError = '请输入标题'
       } else {
         this.editForm.titleError = null
       }
       if (!this.editForm.body) {
         this.editForm.errors++
-        this.editForm.bodyError = 'Body is required.'
+        this.editForm.bodyError = '正文不能为空捏'
       } else {
         this.editForm.bodyError = null
       }
       if (!this.editForm.summary) {
         this.editForm.errors++
-        this.editForm.summaryError = 'Summary is required.'
+        this.editForm.summaryError = '请输入摘要'
       } else {
         this.editForm.summaryError = null
       }
