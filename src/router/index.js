@@ -24,8 +24,15 @@ import BlogAdd from '@/components/blog/AddBlog'
 import PostAdd from '@/components/blog/AddPost'
 import ResourceAdd from '@/components/resource/AddResource'
 import Contribution from '@/components/account/Contribution'
-import Search from '@/components/base/Search'
 import Tag from '@/components/base/TagAll'
+
+
+// 搜索相关
+import SearchBase from '@/components/search/Index'
+import SearchBlog from '@/components/search/Blog'
+import SearchResource from '@/components/search/Resource'
+import Search from '@/components/search/Search'
+
 
 // 用户通知
 import Notifications from '@/components/notifications/Notifications'
@@ -176,8 +183,13 @@ const router = new VueRouter({
         },
         {
             path: '/search/:keyword',
-            name: 'Search',
-            component: Search
+            component: SearchBase,
+            children: [
+                {path: '', component: Search},
+                {path: 'total', name:'Search',component: Search},
+                {path:  'blog', name:'SearchBlog', component: SearchBlog},
+                {path: 'resource',name:'SearchResource',component: SearchResource},
+            ]
         },
         {
             path: '/blog/rank/:tag/0',
