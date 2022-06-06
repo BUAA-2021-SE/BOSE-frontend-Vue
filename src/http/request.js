@@ -46,6 +46,13 @@ service.interceptors.response.use(function (response) {
                 router.back()
                 break
             // 453 没有博文编辑权限
+            case 401:
+                Vue.toasted.error('请先登录再点赞评论', {icon: 'check'})
+                router.replace({
+                    path: '/login',
+                    query: {redirect: router.currentRoute.path},
+                })
+                break
             case 453:
                 Vue.toasted.error('没有编辑权限', {icon: 'check'})
                 router.back()

@@ -1108,7 +1108,8 @@ export default {
       Account.getUser(this.sharedState.user_id)
         .then((res) => {
           console.log(res.data);
-          this.user.name = res.data.name;
+          if(this.sharedState.is_authenticated){
+            this.user.name = res.data.name;
           this.user.about_me = res.data.about_me;
           this.user._links.avatar = res.data.headshot;
           this.user.last_seen = res.data.last_seen;
@@ -1127,6 +1128,10 @@ export default {
             this.user.unread_followings +
             this.user.unread_likes +
             this.user.unread_messages;
+          }
+          else{
+            this.user._links.avatar = res.data;
+          }
         })
         .catch((error) => {
           console.error(error);
