@@ -10,7 +10,7 @@
               <v-form>
                 <v-text-field
                   v-model="registerForm.username"
-                  label="Username"
+                  label="用户名"
                   type="user"
                   required
                   clearable
@@ -18,24 +18,24 @@
                   filled
                   :disabled="showIDCode"
                   :class="{ 'is-invalid': registerForm.usernameError }"
-                  placeholder="Username"
+                  placeholder="用户名"
                 ></v-text-field>
 
                 <v-text-field
                   v-model="registerForm.email"
-                  label="Email address"
+                  label="邮箱"
                   required
                   clearable
                   dense
                   filled
                   :disabled="showIDCode"
                   :class="{ 'is-invalid': registerForm.emailError }"
-                  placeholder="Email address"
+                  placeholder="邮箱"
                 ></v-text-field>
 
                 <v-text-field
                   v-model="registerForm.password"
-                  label="Password"
+                  label="密码"
                   filled
                   dense
                   :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
@@ -45,12 +45,12 @@
                   autocomplete="new-password"
                   :disabled="showIDCode"
                   :class="{ 'is-invalid': registerForm.passwordError }"
-                  placeholder="Password"
+                  placeholder="密码"
                 ></v-text-field>
 
                 <v-text-field
                   v-model="registerForm.password2"
-                  label="Password Again"
+                  label="重复密码"
                   filled
                   dense
                   required
@@ -60,28 +60,28 @@
                   @click:append="showPassword2 = !showPassword2"
                   :disabled="showIDCode"
                   :class="{ 'is-invalid': registerForm.password2Error }"
-                  placeholder="Password Again"
+                  placeholder="重复密码"
                 ></v-text-field>
                
                 <v-text-field
                   
                   v-model="registerForm.idcode"
-                  label="IDCode"
+                  label="验证码"
                   required
                   dense
                   clearable
                   filled
                   :class="{ 'is-invalid': registerForm.idcodeError }"
-                  placeholder="IDCode"
+                  placeholder="验证码"
                 ></v-text-field>
                 <v-alert dense outlined type="error" v-show="registerForm.errors"
                   >{{ registerForm.usernameError|| registerForm.emailError||registerForm.passwordError|| registerForm.password2Error|| registerForm.idcodeError}}</v-alert>
                 <v-card-actions>
                    <v-card-actions>
-                  <v-btn class="info" v-show="!this.showIDCode" @click="getIDCode">Get IDCode</v-btn>
+                  <v-btn class="info" @click="getIDCode">获取验证码</v-btn>
                 </v-card-actions>
                   <v-btn class="info" v-show="this.showIDCode" @click="register"
-                    >Register</v-btn
+                    >注册</v-btn
                   >
                 </v-card-actions>
               </v-form>
@@ -138,38 +138,38 @@ export default {
 
       if (!this.registerForm.username) {
         this.registerForm.errors++;
-        this.registerForm.usernameError = "Username required.";
+        this.registerForm.usernameError = "用户名未填写";
       } else {
         this.registerForm.usernameError = null;
       }
 
       if (!this.registerForm.email) {
         this.registerForm.errors++;
-        this.registerForm.emailError = "Email required.";
+        this.registerForm.emailError = "邮箱未填写";
       } else if (!this.validEmail(this.registerForm.email)) {
         this.registerForm.errors++;
-        this.registerForm.emailError = "Valid email required.";
+        this.registerForm.emailError = "邮箱格式错误";
       } else {
         this.registerForm.emailError = null;
       }
 
       if (!this.registerForm.password) {
         this.registerForm.errors++;
-        this.registerForm.passwordError = "Password required.";
+        this.registerForm.passwordError = "密码未填写";
       } else {
         this.registerForm.passwordError = null;
       }
 
       if (!this.registerForm.password2) {
         this.registerForm.errors++;
-        this.registerForm.password2Error = "Password again.";
+        this.registerForm.password2Error = "需要再次填写密码";
       } else {
         this.registerForm.password2Error = null;
       }
 
       if (!this.registerForm.idcode) {
         this.registerForm.errors++;
-        this.registerForm.password2Error = "IDCode required.";
+        this.registerForm.password2Error = "验证码未填写";
       } else {
         this.registerForm.password2Error = null;
       }
@@ -222,30 +222,30 @@ export default {
 
       if (!this.registerForm.username) {
         this.registerForm.errors++;
-        this.registerForm.usernameError = "Username required.";
+        this.registerForm.usernameError = "用户名未填写";
       } else {
         this.registerForm.usernameError = null;
       }
 
       if (!this.registerForm.email) {
         this.registerForm.errors++;
-        this.registerForm.emailError = "Email required.";
+        this.registerForm.emailError = "邮箱未填写";
       } else if (!this.validEmail(this.registerForm.email)) {
         this.registerForm.errors++;
-        this.registerForm.emailError = "Valid email required.";
+        this.registerForm.emailError = "邮箱格式错误";
       } else {
         this.registerForm.emailError = null;
       }
 
       if (!this.registerForm.password) {
         this.registerForm.errors++;
-        this.registerForm.passwordError = "Password required.";
+        this.registerForm.passwordError = "密码未填写";
       } else {
         this.registerForm.passwordError = null;
       }
       if (!this.registerForm.password2) {
         this.registerForm.errors++;
-        this.registerForm.password2Error = "Password again.";
+        this.registerForm.password2Error = "需要再次填写密码";
       } else {
         this.registerForm.password2Error = null;
       }

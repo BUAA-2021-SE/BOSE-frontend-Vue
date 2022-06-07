@@ -24,12 +24,12 @@
               <v-form>
                 <v-text-field
                   v-model="loginForm.username"
-                  label="Username"
+                  label="用户名"
                   required
                   clearable
                   filled
                   :class="{ 'is-invalid': loginForm.usernameError }"
-                  placeholder="Username"
+                  placeholder="用户名"
                 ></v-text-field>
                 <v-text-field
                   v-model="loginForm.password"
@@ -37,30 +37,30 @@
                   :type="showPassword ? 'text' : 'password'"
                   @click:append="showPassword = !showPassword"
                   required
-                  label="Password"
+                  label="密码"
                   filled
                   :class="{ 'is-invalid': loginForm.passwordError }"
-                  placeholder="Password"
+                  placeholder="密码"
                 ></v-text-field>
                 <v-alert dense outlined type="error" v-show="loginForm.errors"
                   >{{ loginForm.usernameError || loginForm.passwordError }}
                 </v-alert>
               </v-form>
-              <v-btn @click="onSubmit" class="info">Sign In</v-btn>
+              <v-btn @click="onSubmit" :style="{'background-color':'#00AEEC',color:'white'}">登录</v-btn>
 
               <br />
               <br />
 
               <p>
-                New User?
+                还没账户？
                 <router-link :to="{ name: 'Register' }"
-                  >Click to Register!</router-link
+                  >点我注册</router-link
                 >
               </p>
               <p>
-                Forgot Your Password?
+                忘记密码？
                 <router-link :to="{ name: 'Reset' }"
-                  >Click to Reset It</router-link
+                  >点我重置</router-link
                 >
               </p>
             </div>
@@ -95,8 +95,8 @@ export default {
       showPassword: false,
       sharedState: store.state,
       alertVariant: "info",
-      alertMessage: "You are now registered.",
-      alertMessageReset: "Password reset successfully.",
+      alertMessage: "您已成功登录",
+      alertMessageReset: "密码成功重置",
       loginForm: {
         username: "",
         password: "",
@@ -113,13 +113,13 @@ export default {
       this.loginForm.submitted = true;
       if (!this.loginForm.username) {
         this.loginForm.errors++;
-        this.loginForm.usernameError = "Username required.";
+        this.loginForm.usernameError = "用户名未填写";
       } else {
         this.loginForm.usernameError = null;
       }
       if (!this.loginForm.password) {
         this.loginForm.errors++;
-        this.loginForm.passwordError = "Password required.";
+        this.loginForm.passwordError = "密码未填写";
       } else {
         this.loginForm.passwordError = null;
       }
@@ -147,7 +147,7 @@ export default {
           console.error(error);
           if (error.response.status == 454) {
             this.loginForm.errors++;
-            this.loginForm.usernameError = error.response.data.detail.error;
+            this.loginForm.usernameError ="用户名或密码错误";
           } else {
             console.log(error.response);
           }
