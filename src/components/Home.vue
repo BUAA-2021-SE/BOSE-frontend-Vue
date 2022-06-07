@@ -72,6 +72,20 @@
 				</v-col>
 
 				<v-col cols="12" md="9">
+					<v-card>
+			<v-col  cols="12" sm="6" md="12" class="d-flex justify-space-between">
+			<div v-for="(tag,index) in givenTags1" :key="index"   >
+          	<v-btn depressed outlined v-if="!tag.value" @click="searchTag(tag)"
+          	:style="{'border-radius':'20px','margin-right':'5px','background-color':'#00AEEC','color':'white'}">{{tag.key}}</v-btn>
+       			</div>
+			</v-col>
+			<v-col  cols="12" sm="6" md="12" class="d-flex justify-space-between">
+			<div v-for="(tag,index) in givenTags2" :key="index"   >
+          	<v-btn depressed outlined v-if="!tag.value" @click="searchTag(tag)"
+          :style="{'border-radius':'20px','margin-right':'5px','min-width':'80px','background-color':'#00AEEC','color':'white'}">{{tag.key}}</v-btn>
+       			</div>
+			</v-col>
+					</v-card>
 					<v-col cols="12" sm="6" md="12" v-for="(post,index) in posts" :key="index">
 						<blog :post="post" @delete="getPosts(1)">
 						</blog>
@@ -113,6 +127,30 @@
 		},
 		data() {
 			return {
+		givenTags1: [
+        {'key':"后端",'value':0},
+        {'key':"前端",'value':0},
+        {'key':"移动开发",'value':0},
+        {'key':"编程语言",'value':0},
+        {'key':"Java",'value':0},
+		{'key':"Python",'value':0},
+        {'key':"人工智能",'value':0},
+		{'key':"软件工程",'value':0},
+		{'key':"小程序",'value':0},
+		{'key':"网络",'value':0},
+        
+		],
+		givenTags2:[
+        {'key':"大数据",'value':0},
+        {'key':"数据结构与算法",'value':0},
+        {'key':"云平台",'value':0},
+		{'key':"运维服务器",'value':0},
+        {'key':"操作系统",'value':0},
+        {'key':"数据库管理",'value':0},
+		{'key':"硬件开发",'value':0},
+		{'key':"区块链",'value':0},
+        
+      ],
 				sharedState: store.state,
 				HomeMessage: '主页一期完成',
 				alerts: [{
@@ -194,6 +232,13 @@
 						this.pageTotal = Math.ceil(this.total / this.size);
 					})
 			},
+			searchTag(tag){
+				console.log(tag.key)
+				this.$router.push({
+        name: "TagAll",
+        params: {tag: tag.key},
+      });
+			}
 		},
 		created() {
 			this.getPosts(1)
