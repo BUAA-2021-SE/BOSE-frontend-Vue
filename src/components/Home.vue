@@ -103,6 +103,13 @@
 						<blog :post="post" @delete="getPosts(1)">
 						</blog>
 					</v-col>
+					<span>共有博文{{ total }}篇</span>
+							<v-pagination
+								v-model="page"
+								:length="pageTotal"
+								:total-visible="7"
+								circle
+							></v-pagination>
 				</v-col>
 				<v-col cols="12" md="3">
 					<v-card :style="{'border-radius':'20px',}">
@@ -117,13 +124,6 @@
 				</v-col>
 
 			</v-row>
-			<!-- <span>共有博文{{ total }}篇</span>
-      <v-pagination
-          v-model="page"
-          :length="pageTotal"
-          :total-visible="7"
-          circle
-      ></v-pagination> -->
 		</div>
 	</div>
 </template>
@@ -135,9 +135,7 @@
 	import VueMarkdown from 'vue-markdown'
 	import Post from '@/api/post'
 	import BlogItem from '@/components/base/BlogItem.vue'
-	import Admin from '@/api/admin'
 	export default {
-		
 		name: 'Home',
 		components: {
 			alert: Alert,
@@ -210,14 +208,7 @@
 		},
 		watch: {
 			page: function(newPage, oldPage) {
-				this.getPosts(newPage)
-			}
-		},
-		computed: {
-			alertsFilter: function() {
-				return this.alerts.filter((alert) => {
-					return alert.showAlert;
-				})
+				this.getPosts(newPage);
 			}
 		},
 		methods: {
@@ -234,6 +225,7 @@
 						this.page = res.data.page;
 						this.size = res.data.size;
 						this.pageTotal = Math.ceil(this.total / this.size);
+						if(this.pageTotal===0) this.pageTotal = 1;
 					})
 			},
 			searchTag(tag){
@@ -246,12 +238,11 @@
 		},
 		created() {
 			this.getPosts(1);
-			this.getSelectedBlog();
 		},
 		beforeRouteUpdate(to, from, next) {
 			//要先执行 next() 不然 this.$route.query 还是之前的
 			next()
-			this.getPosts(1)
+			this.getPosts(1);
 		}
 	}
 </script>

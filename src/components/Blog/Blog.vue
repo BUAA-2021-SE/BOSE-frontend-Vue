@@ -983,6 +983,7 @@ export default {
         .then((res) => {
           this.comments = res.data;
           console.log(this.comments, "getComments");
+          this.loadingProfile = false;
         })
         .catch((err) => {
           console.error(err.response.data.detail, "errorMessage");
@@ -1023,7 +1024,6 @@ export default {
         this.$toasted.error("您需要先登录才能回复评论 ...", { icon: "check" });
         this.$router.replace({ name: "Login" });
       }
-      console.log(comment.author.id, "comment");
 
       let cid = comment.author.id;
       let name = comment.author.name;
@@ -1152,9 +1152,8 @@ export default {
     },
   },
   created() {
-    const postId = this.$route.params.id;
-    this.getBlog(postId);
-    this.getPostComments(postId);
+    this.getBlog(this.$route.params.id);
+    this.getPostComments(this.$route.params.id);
   },
   mounted() {
     highlightCode();

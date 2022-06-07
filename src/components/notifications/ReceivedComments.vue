@@ -107,6 +107,13 @@
             </v-expansion-panel-content>
           </v-expansion-panel>
         </v-expansion-panels>
+        <span>共有评论{{ total }}条</span>
+        <v-pagination
+            v-model="page"
+            :length="pageTotal"
+            :total-visible="7"
+            circle
+        ></v-pagination>
       </v-row>
     </v-container>
     <div
@@ -127,16 +134,24 @@ export default {
     return {
       items: [],
       loadingComments: true,
+      total: 0, //总博文数
+      page: 1, //第几页
+      size: 4, //每页总数
+      pageTotal: 1 //总页数
     }
   },
   methods: {
-    getCommentList() {
+    getCommentList(page) {
       let commentId = 0;
       console.log("getCommentList");
-      Notifications.getMailList(commentId)
+      Notifications.getMailList(commentId,page,this.size)
           .then((res) => {
             console.log(res);
             this.items = res.data.items;
+            this.total = res.data.total;
+            this.page = res.data.page;
+            this.size = res.data.size;
+            this.pageTotal = Math.ceil(this.total / this.size);
             this.loadingComments = false;
           })
           .catch((err) => {
@@ -154,12 +169,17 @@ export default {
       Notifications.getMail(id);
     }
   },
+  watch:{
+			page: function(newPage, oldPage) {
+				this.getCommentList(newPage);
+			}
+	},
   created() {
-    this.getCommentList();
+    this.getCommentList(1);
   },
   beforeRouteUpdate(to, from, next) {
     next()
-    this.getCommentList();
+    this.getCommentList(1);
   }
 }
 </script>
