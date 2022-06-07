@@ -158,7 +158,7 @@ export default class Post {
     }
 
     static async search_resource(keyword, page, size) {
-        return service(`${url.titleSearch}/${keyword}/resource?page=${page}&size=${size}`, {
+        return service(`${url.titleSearch}/${keyword}/resource`, {
             method: 'get',
             headers: {
                 'Content-Type': 'multipart/form-data'

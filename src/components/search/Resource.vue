@@ -2,163 +2,141 @@
   <section>
     <div class="container">
       <div class="text-center">
-        <h3 v-show="this.loadingProfile"> 资源列表加载中
+        <h3 v-show="loadingLikes"> 资源列表加载中
           <v-progress-circular
               class="center"
               indeterminate
               color="primary"
               :size="40"
               :width="3"
-              v-show="this.loadingProfile"
+              v-show="loadingLikes"
           ></v-progress-circular>
         </h3>
       </div>
     </div>
-    <div
-        v-if="this.posts.length > 0"
-        class="g-brd-around g-brd-gray-light-v4 g-pa-20 g-mb-40"
-        v-show="!this.loadingProfile">
-      <v-row :style="{width:'80vw'}" class="m-auto">
-        <div class="text-align-center">
-          <h6 class="text-align-center">共有博文{{ total }}篇</h6>
-        </div>
-        <v-col cols="12" sm="2" md="2"></v-col>
-        <v-col sm="8" md="8">
-          <div v-for="(post,index) in posts" :key="index">
-            <blog
-                :post="post"
-                @delete="getSearchPosts(1)">
-            </blog>
-          </div>
-        </v-col>
-        <v-col cols="12" sm="2" md="2"></v-col>
-      </v-row>
-      <div>
+    <v-container
+        v-if="items.length > 0"
+        fluid>
+      <v-row justify="center">
+        <v-subheader>
+          <h3>我的资源</h3>
+        </v-subheader>
 
-        <v-pagination
-            v-model="page"
-            :length="pageTotal"
-            :total-visible="7"
-            circle
-        ></v-pagination>
-      </div>
-    </div>
+        <v-expansion-panels popout>
+          <v-expansion-panel
+              v-for="(item,index) in items"
+              :key="index"
+          >
+            <v-expansion-panel-header>
+              <v-col class="d-flex justify-center" cols="12" md="5">
+                <v-img
+                    :src="item.cover"
+                    class="my-auto"
+                    contain
+                    height="120"
+                    max-width="150"
+                    max-height="120"
+                    :style="{'border-radius':'20px'}"
+                />
+              </v-col>
+              <v-col class="text-left">
+                <v-row align="center">
+                  <v-card-title>
+                    <div v-if="item.title.length <12">{{ item.title }}</div>
+                    <div v-else>{{ item.title.substring(0, 9) + '...' }}</div>
+                  </v-card-title>
+                </v-row>
+                <v-row align="center">
+                  <v-card-text>
+                    <div class="text--primary" v-if="item.summary.length <30">
+                      {{ item.summary }}
+                    </div>
+                    <div class="text--primary" v-else>
+                      {{ item.summary.substring(0, 27) + '...' }}
+                    </div>
+                  </v-card-text>
+                </v-row>
+                <v-row>
+                  <v-col class="grey--text text-truncate hidden-sm-and-down">
+                    {{ $moment(item.timestamp).format("YYYY年MM月DD日 HH:mm:ss") }}
+                  </v-col>
+                </v-row>
+              </v-col>
+
+            </v-expansion-panel-header>
+
+            <v-expansion-panel-content>
+              <v-divider></v-divider>
+              <strong>资源摘要说明 </strong>
+              <v-card-text>
+                {{ item.summary }}
+              </v-card-text>
+              <v-spacer></v-spacer>
+              <strong>资源下载链接 </strong>
+              <div class="resources_url"
+                   v-for="(resource, index) in item.resources"
+                   :key="index"
+              >
+                <a :href="resource.resources_url" target="_blank">
+                  {{ resource.name }}
+                </a>
+              </div>
+
+            </v-expansion-panel-content>
+          </v-expansion-panel>
+        </v-expansion-panels>
+      </v-row>
+    </v-container>
     <div
-        v-else-if="this.posts.length === 0 && !this.loadingProfile"
-        class="text-center"
-    >
-      <h4>这个关键词没有资源呢，换个关键词看看吧～</h4>
+        v-else-if="this.items.length === 0 && !this.loadingLikes"
+        class="text-center">
+      <h3>呜呜呜，你来到了没有资源的荒漠。</h3>
+    </div>
+    <div>
+      {{ items }}
     </div>
   </section>
 </template>
-
 <script>
+import Resource from "@/api/resource";
 import Post from "@/api/post";
-import store from "@/store";
-import BlogItem from '@/components/base/BlogItem.vue'
 
 export default {
   name: 'SearchResource',
-  components: {
-    blog: BlogItem
-  },
   data() {
     return {
-      posts: [],
-      loadingProfile: true,
-      sharedState: store.state,
-      showDelete: false,
-      deleteId: 0,
-      blog: {
-        title: "",
-        summary: "",
-        body: "",
-        views: "",
-        thumbs_up: "",
-        collection: "",
-        last_edit_time: "",
-      },
-      total: 0, //总博文数
-      page: 1, //第几页
-      size: 5, //每页总数
-      pageTotal: 10 //总页数
+      items: [],
+      loadingLikes: true,
     }
   },
   methods: {
-    // 获取用户的博文列表
-    getSearchPosts(page) {
+    getResourcesList() {
       console.log("keyword: " + this.$route.params.keyword + " resource");
-      Post.search_resource(this.$route.params.keyword, page, this.size)
-          .then((res) => {
-            this.posts = res.data.items;
-            this.total = res.data.total
-            this.page = res.data.page
-            this.size = res.data.size
-            this.pageTotal = Math.ceil(this.total / this.size)
-            this.loadingProfile = false;
-          })
-          .catch((err) => {
-            console.log(err, "getSearchPostsError");
-            this.loadingProfile = false;
-          });
-    },
-    showDeleteDialog(id) {
-      this.deleteId = id;
-      this.showDelete = true;
-    },
-    onDeletePost() {
-      console.log("onDelete", this.deleteId);
-      Post.deleteBlog(this.deleteId)
+      Post.search_resource(this.$route.params.keyword)
           .then((res) => {
             console.log(res);
-            this.$emit("delete");
-            this.deleteId = 0;
-            this.showDelete = false;
-            this.$toasted.success(res.data, {
-              icon: "check",
-              fullWidth: true,
-              position: "bottom-center",
-            });
+            this.items = res.data.items;
+            this.loadingLikes = false;
           })
           .catch((err) => {
-            console.error(err, "not deleted");
-          });
+            console.error(err);
+            this.loadingLikes = false;
+          })
     },
   },
-  watch: {
-    page: function (newPage, oldPage) {
-      this.getSearchPosts(newPage)
-    }
-  },
   created() {
-    this.getSearchPosts(1);
+    this.getResourcesList();
   },
   beforeRouteUpdate(to, from, next) {
-    next()
-    this.getSearchPosts(1)
-  },
-};
+    this.getResourcesList();
+  }
+}
 </script>
-<style scoped>
-h3 {
-  margin-top: 0px !important;
-  padding-top: 0px !important;
+
+<style>
+
+.resources_url {
+  margin-top: 10px;
 }
 
-.router-link-active {
-  text-decoration: none;
-}
-
-a {
-  text-decoration: none;
-  color: rgb(255, 255, 255);
-}
-
-.v-card__title {
-  color: #df2d2d;
-}
-
-.search_text {
-  color: #df2d2d;
-}
 </style>

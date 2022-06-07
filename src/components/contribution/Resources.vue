@@ -81,7 +81,14 @@
                   {{ resource.name }}
                 </a>
               </div>
-
+              <v-btn
+                  v-if="item.author.id == sharedState.user_id"
+                  text
+                  color="deep-purple accent-4"
+                  @click="showDeleteDialog(item.id)"
+              >
+                删除
+              </v-btn>
             </v-expansion-panel-content>
           </v-expansion-panel>
         </v-expansion-panels>
@@ -96,6 +103,8 @@
 </template>
 <script>
 import Resource from "@/api/resource";
+import Post from "@/api/post";
+import store from "@/store";
 
 export default {
   name: 'Resource',
@@ -103,9 +112,34 @@ export default {
     return {
       items: [],
       loadingLikes: true,
+      sharedState: store.state,
+      deleteId: 0,
+      showDelete: false,
     }
   },
   methods: {
+    showDeleteDialog(id) {
+      this.deleteId = id;
+      this.showDelete = true;
+    },
+    onDeletePost() {
+      console.log("onDelete", this.deleteId);
+      Post.deleteResource(this.deleteId)
+          .then((res) => {
+            console.log(res);
+            this.$emit("delete");
+            this.deleteId = 0;
+            this.showDelete = false;
+            this.$toasted.success(res.data, {
+              icon: "check",
+              fullWidth: true,
+              position: "bottom-center",
+            });
+          })
+          .catch((err) => {
+            console.error(err, "not deleted");
+          });
+    },
     getResourcesList() {
       console.log("getResourcesList");
       Resource.getResourcesList(this.$route.params.id)
