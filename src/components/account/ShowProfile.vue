@@ -42,7 +42,7 @@
                 class="icon-check g-pos-rel g-top-1 g-color-gray-dark-v5 g-mr-5"
                 v-show="!this.loadingProfile"
               ></i>
-              Verified User
+              认证用户
             </h4>
           </div>
           <!-- End Username -->
@@ -61,7 +61,7 @@
             <i
               class="icon-eye g-pos-rel g-top-1 g-color-gray-dark-v5 g-mr-5"
             ></i>
-            Last seen : {{ $moment(user.last_seen).fromNow() }}
+            上次查看 : {{ $moment(user.last_seen).fromNow() }}
           </h4>
           <!-- End Last seen -->
 
