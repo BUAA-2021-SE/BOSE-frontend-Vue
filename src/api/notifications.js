@@ -48,8 +48,8 @@ export default class Notifications {
         })
     }
 
-    static async getRoomList(){
-        return service(url.getRoomList,{
+    static async getRoomList(page,size){
+        return service(`${url.getRoomList}/?page=${page}&size=${size}`,{
             method: 'get',
             responseType: 'json'
         })
