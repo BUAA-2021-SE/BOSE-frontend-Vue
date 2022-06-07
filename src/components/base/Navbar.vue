@@ -51,26 +51,26 @@
              :style="{'font-weight': 'bold'}"
              @mouseenter="showEnter" @mouseleave="showLeave"> 投稿
       </v-btn>
-      <router-link v-else :to="{ name: 'Login' }" >
-        <v-btn text class="white--text"  :style="{'font-weight': 'bold'}" > 投稿</v-btn>
+      <router-link v-else :to="{ name: 'Login' }">
+        <v-btn text class="white--text" :style="{'font-weight': 'bold'}"> 投稿</v-btn>
       </router-link>
       <v-expand-transition>
-      <v-card
-      mas-width="120px"
-      width="120px"
-      v-show="showAddPost&&sharedState.is_authenticated"
-      @mouseenter="showEnter" @mouseleave="showLeave"
-      class="uploadCard"
-      >
-      
-      <v-card-actions>
-        <v-row class="m-auto">
-      <v-btn text @click="getNewBlog">上传博客</v-btn>
-      <v-btn text @click="getNewResource">上传资源</v-btn>
-      </v-row>
-      </v-card-actions>
-      
-      </v-card>
+        <v-card
+            mas-width="120px"
+            width="120px"
+            v-show="showAddPost&&sharedState.is_authenticated"
+            @mouseenter="showEnter" @mouseleave="showLeave"
+            class="uploadCard"
+        >
+
+          <v-card-actions>
+            <v-row class="m-auto">
+              <v-btn text @click="getNewBlog">上传博客</v-btn>
+              <v-btn text @click="getNewResource">上传资源</v-btn>
+            </v-row>
+          </v-card-actions>
+
+        </v-card>
       </v-expand-transition>
       <router-link v-if="sharedState.is_authenticated" :to="{ name: 'ReceivedComments' }">
         <v-btn text class="white--text" :style="{'font-weight': 'bold'}"> 消息
@@ -141,7 +141,7 @@
                 <h5 class="mx-auto">
                   粉丝
                 </h5>
-                  <h5>{{ user.followes_num }}
+                <h5>{{ user.followes_num }}
                 </h5>
               </v-col>
             </v-row>
@@ -167,15 +167,15 @@
 
               </v-btn>
             </router-link>
-              <v-btn v-if="sharedState.is_admin"
-              text :style="{width:'100%' }" class="mx-auto d-flex justify-start"
-              @click="sharedState.is_hover=false" :to="{ name: 'AdminBlogs'}">
-                <!-- Contribution -->
-                <v-icon class="material-icons" :style="{ color: '#FB8C00' ,'font-size': '20px','margin-top':'2px'}">
-                  drafts
-                </v-icon>
-                管理界面
-              </v-btn>
+            <v-btn v-if="sharedState.is_admin"
+                   text :style="{width:'100%' }" class="mx-auto d-flex justify-start"
+                   @click="sharedState.is_hover=false" :to="{ name: 'AdminBlogs'}">
+              <!-- Contribution -->
+              <v-icon class="material-icons" :style="{ color: '#FB8C00' ,'font-size': '20px','margin-top':'2px'}">
+                drafts
+              </v-icon>
+              管理界面
+            </v-btn>
           </v-card-text>
           <v-divider class="mx-4"></v-divider>
           <v-card-text>
@@ -194,6 +194,7 @@
 import {Account} from "@/api/account.js";
 import store from "../../store.js";
 import Post from "@/api/post.js";
+import search from "@/components/search/Search";
 
 export default {
 
@@ -225,24 +226,24 @@ export default {
         },
       },
       defaultUser: {},
-      showAddPost:false,
-      showTimer:0,
-      timer:{}
+      showAddPost: false,
+      showTimer: 0,
+      timer: {}
     };
   },
   watch: {
-    user:{
-      handler(){
+    user: {
+      handler() {
         clearInterval(this.timer);
         console.log("NEW");
         this.timer = setInterval(() => {
-            if (this.sharedState.is_authenticated) {
-              this.queryUser();
-            }
-          }, 15000);
+          if (this.sharedState.is_authenticated) {
+            this.queryUser();
+          }
+        }, 15000);
       },
-      deep:true,
-      immediate:true
+      deep: true,
+      immediate: true
     }
   },
   methods: {
@@ -257,14 +258,14 @@ export default {
         console.log("false")
       }, 500);
     },
-    showEnter(){
+    showEnter() {
       this.showAddPost = true;
       clearTimeout(this.showTimer);
     },
-    showLeave(){
+    showLeave() {
       this.showTimer = setTimeout(() => {
         this.showAddPost = false;
-      },500);
+      }, 500);
     },
     handlerLogout() {
       store.logoutAction();
@@ -273,9 +274,8 @@ export default {
     },
     searchBlog() {
       console.log("searchBlog");
-      store.keyword = this.search;
       this.$router.push({
-        path: `/search/${this.search}`
+        path: `/search/${this.search}/total`
       });
     },
     drawLogo() {
@@ -342,7 +342,7 @@ export default {
             console.log(err);
           })
     },
-    getNewResource(){
+    getNewResource() {
       Post.createBlog()
           .then((res) => {
             console.log(res);
@@ -379,7 +379,7 @@ export default {
     }
   },
   created() {
-      this.defaultUser = Object.assign({},this.user);
+    this.defaultUser = Object.assign({}, this.user);
   },
   mounted() {
     this.drawLogo();
@@ -419,12 +419,13 @@ a {
 
 }
 
-.pcard .myCard{
+.pcard .myCard {
   position: absolute;
   margin-right: 225px;
   margin-top: 35px;
 }
-.pcard .uploadCard{
+
+.pcard .uploadCard {
   position: absolute;
   margin-right: 90px;
   margin-top: 35px;

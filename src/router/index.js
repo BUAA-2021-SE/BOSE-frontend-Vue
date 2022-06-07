@@ -186,9 +186,9 @@ const router = new VueRouter({
             component: SearchBase,
             children: [
                 {path: '', component: Search},
-                {path: 'total', name:'Search',component: Search},
-                {path:  'blog', name:'SearchBlog', component: SearchBlog},
-                {path: 'resource',name:'SearchResource',component: SearchResource},
+                {path: 'total', name: 'Search', component: Search},
+                {path: 'blog', name: 'SearchBlog', component: SearchBlog},
+                {path: 'resource', name: 'SearchResource', component: SearchResource},
             ]
         },
         {

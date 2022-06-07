@@ -137,8 +137,8 @@ export default class Post {
         })
     }
 
-    static async search(keyword) {
-        return service(`${url.titleSearch}/${keyword}`, {
+    static async search_total(keyword, page, size) {
+        return service(`${url.titleSearch}/${keyword}/total?page=${page}&size=${size}`, {
             method: 'get',
             headers: {
                 'Content-Type': 'multipart/form-data'
@@ -147,8 +147,28 @@ export default class Post {
         })
     }
 
-    static async tagAll(tag) {
-        return service(`${url.rank}/${tag}/0`, {
+    static async search_blog(keyword, page, size) {
+        return service(`${url.titleSearch}/${keyword}/blog?page=${page}&size=${size}`, {
+            method: 'get',
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            },
+            responseType: 'json'
+        })
+    }
+
+    static async search_resource(keyword, page, size) {
+        return service(`${url.titleSearch}/${keyword}/resource?page=${page}&size=${size}`, {
+            method: 'get',
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            },
+            responseType: 'json'
+        })
+    }
+
+    static async tagAll(tag, page, size) {
+        return service(`${url.rank}/${tag}/0?page=${page}&size=${size}`, {
             method: 'get',
             headers: {
                 'Content-Type': 'multipart/form-data'

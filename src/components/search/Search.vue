@@ -2,7 +2,7 @@
   <section>
     <div class="container">
       <div class="text-center">
-        <h3 v-show="this.loadingProfile"> 博客列表加载中
+        <h3 v-show="this.loadingProfile"> 博文资源列表加载中
           <v-progress-circular
               class="center"
               indeterminate
@@ -20,7 +20,7 @@
         v-show="!this.loadingProfile">
       <v-row :style="{width:'80vw'}" class="m-auto">
         <div class="text-align-center">
-          <h6 class="text-align-center">共有博文{{ total }}篇</h6>
+          <h6 class="text-align-center">共有博文和资源{{ total }}篇</h6>
         </div>
         <v-col cols="12" sm="2" md="2"></v-col>
         <v-col sm="8" md="8">
@@ -47,7 +47,7 @@
         v-else-if="this.posts.length === 0 && !this.loadingProfile"
         class="text-center"
     >
-      <h4>这个关键词没有博文呢，换个关键词看看吧～</h4>
+      <h4>这个关键词没有博文或者资源呢，换个关键词看看吧～</h4>
     </div>
   </section>
 </template>
@@ -64,7 +64,6 @@ export default {
   },
   data() {
     return {
-      keywords: this.$route.params.keyword,
       posts: [],
       loadingProfile: true,
       sharedState: store.state,
@@ -81,17 +80,16 @@ export default {
       },
       total: 0, //总博文数
       page: 1, //第几页
-      size: 6, //每页总数
+      size: 5, //每页总数
       pageTotal: 10 //总页数
     }
   },
   methods: {
     // 获取用户的博文列表
     getSearchPosts(page) {
-      console.log("keyword: " + this.$route.params.keyword);
-      Post.search(this.$route.params.keyword, page, this.size)
+      console.log("keyword: " + this.$route.params.keyword + " total");
+      Post.search_total(this.$route.params.keyword, page, this.size)
           .then((res) => {
-            console.log(res.data, "getSearchPosts");
             this.posts = res.data.items;
             this.total = res.data.total
             this.page = res.data.page
@@ -103,17 +101,6 @@ export default {
             console.log(err, "getSearchPostsError");
             this.loadingProfile = false;
           });
-    },
-    brightSearch(post) {
-      console.log("brightSearch", post);
-      if (this.$route.params.keyword && this.$route.params.keyword.length > 0) {
-        let replaceReg = new RegExp(this.$route.params.keyword, 'g')
-        let replaceString = '<span class="search-text">' + this.$route.params.keyword + '</span>'
-        post.title = post.title.replace(replaceReg, replaceString)
-        post.summary = post.summary.replace(replaceReg, replaceString)
-        post.body = post.body.replace(replaceReg, replaceString)
-        return post
-      }
     },
     showDeleteDialog(id) {
       this.deleteId = id;
