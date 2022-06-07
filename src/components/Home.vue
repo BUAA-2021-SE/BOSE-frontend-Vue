@@ -1,8 +1,8 @@
-<template>
+<template :style="{'overscroll-behavior-y': 'none','overflow-x':auto}">
 	<div class="container" width="80vw" min-width="1000px">
 		<div class=" mx-auto" width="80vw" min-width="1000px">
 			<v-row>
-				<v-col cols="12" sm="12" md="9">
+				<v-col cols="12" sm="12" md="7">
 					<v-card :style="{'border-radius':'20px'}">
 						<v-carousel  hide-delimiter-background show-arrows-on-hover>
 							<v-carousel-item v-for="(post,index) in templatePosts" :key="index">
@@ -23,8 +23,9 @@
 							</v-carousel-item>
 						</v-carousel>
 					</v-card>
+					
 				</v-col>
-				<v-col cols="12" sm="12" md="3">
+				<v-col cols="12" sm="12" md="5">
 					<v-row>
 						<v-col cols="12" sm="12" md="12">
 							<v-row>
@@ -61,8 +62,35 @@
 								</v-col>
 							</v-row>
 						</v-col>
-						<v-col cols="12" md="12">
-							<v-card :style="{'border-radius':'20px',height:'225px'}">
+						<v-col cols="12" sm="6" md="12"  ref="tagbtn">
+			<v-card outlined :style="{'margin-top':'20px','border-radius':'20px','border-color':'#00AEEC','border-width':'3px'}" >
+						
+			<v-col  cols="12" sm="6" md="12" class="d-flex justify-space-between" v-for="(gTags,index) in givenTags" :key="index">
+			<div  v-for="(tag,index) in gTags" :key="index"   >
+          	<v-btn depressed outlined v-if="!tag.value" @click="searchTag(tag)"
+          	:style="{'border-radius':'20px','margin-right':'5px','background-color':'#00AEEC','color':'white'}">{{tag.key}}</v-btn>
+       			</div>
+			</v-col>
+			<!-- <v-col  cols="12" sm="6" md="12" class="d-flex justify-space-between">
+			<div   class="tagbtn" v-for="(tag,index) in givenTags2" :key="index"   >
+          	<v-btn depressed outlined v-if="!tag.value" @click="searchTag(tag)"
+          :style="{'border-radius':'20px','margin-right':'5px','min-width':'80px','background-color':'#00AEEC','color':'white'}">{{tag.key}}</v-btn>
+       			</div>
+			</v-col> -->
+					</v-card>
+						</v-col>
+					</v-row>
+				</v-col>
+				<v-col cols="12" md="9">
+					
+					<v-col cols="12" sm="6" md="12" v-for="(post,index) in posts" :key="index">
+						<blog :post="post" @delete="getPosts(1)">
+						</blog>
+					</v-col>
+				</v-col>
+				<v-col cols="12" md="3">
+					<v-col cols="12" md="12">
+							<v-card  :style="{'border-radius':'20px',height:'225px'}">
 								<v-card-title>公告</v-card-title>
 								<v-card-subtitle :style="{'margin-left':'20px'}">{{HomeMessage}}</v-card-subtitle>
 							</v-card>
@@ -82,29 +110,6 @@
 
 							</v-card>
 						</v-col>
-					</v-row>
-				</v-col>
-				<v-col cols="12" md="9">
-					<v-card outlined>
-			<v-col  cols="12" sm="6" md="12" class="d-flex justify-space-between">
-			<div v-for="(tag,index) in givenTags1" :key="index"   >
-          	<v-btn depressed outlined v-if="!tag.value" @click="searchTag(tag)"
-          	:style="{'border-radius':'20px','margin-right':'5px','background-color':'#00AEEC','color':'white'}">{{tag.key}}</v-btn>
-       			</div>
-			</v-col>
-			<v-col  cols="12" sm="6" md="12" class="d-flex justify-space-between">
-			<div v-for="(tag,index) in givenTags2" :key="index"   >
-          	<v-btn depressed outlined v-if="!tag.value" @click="searchTag(tag)"
-          :style="{'border-radius':'20px','margin-right':'5px','min-width':'80px','background-color':'#00AEEC','color':'white'}">{{tag.key}}</v-btn>
-       			</div>
-			</v-col>
-					</v-card>
-					<v-col cols="12" sm="6" md="12" v-for="(post,index) in posts" :key="index">
-						<blog :post="post" @delete="getPosts(1)">
-						</blog>
-					</v-col>
-				</v-col>
-				<v-col cols="12" md="3">
 					<v-card :style="{'border-radius':'20px',}">
 						<v-card-title>通知</v-card-title>
 						<v-card-subtitle :style="{'margin-left':'20px'}">{{HomeMessage}}</v-card-subtitle>
@@ -146,36 +151,35 @@
 		},
 		data() {
 			return {
+		givenTags:[],
+		givenTags2:[],
 		givenTags1: [
-        {'key':"后端",'value':0},
-        {'key':"前端",'value':0},
-        {'key':"移动开发",'value':0},
-        {'key':"编程语言",'value':0},
-        {'key':"Java",'value':0},
-		{'key':"Python",'value':0},
-        {'key':"人工智能",'value':0},
-		{'key':"软件工程",'value':0},
-		{'key':"小程序",'value':0},
-		{'key':"网络",'value':0},
-        
+        {'key':"后端",'value':0,'length':71},
+        {'key':"前端",'value':0,'length':71},
+        {'key':"移动开发",'value':0,'length':101},
+        {'key':"编程语言",'value':0,'length':101},
+        {'key':"Java",'value':0,'length':76},
+		{'key':"Python",'value':0,'length':94},
+        {'key':"人工智能",'value':0,'length':101},
+		{'key':"软件工程",'value':0,'length':101},
+		{'key':"小程序",'value':0,'length':86},
+		{'key':"网络",'value':0,'length':71},
+		{'key':"大数据",'value':0,'length':86},
+        {'key':"数据结构与算法",'value':0,'length':147},
+        {'key':"云平台",'value':0,'length':86},
+		{'key':"运维服务器",'value':0,'length':117},
+        {'key':"操作系统",'value':0,'length':101},
+        {'key':"数据库管理",'value':0,'length':117},
+		{'key':"硬件开发",'value':0,'length':101},
+		{'key':"区块链",'value':0,'length':86},
 		],
-		givenTags2:[
-        {'key':"大数据",'value':0},
-        {'key':"数据结构与算法",'value':0},
-        {'key':"云平台",'value':0},
-		{'key':"运维服务器",'value':0},
-        {'key':"操作系统",'value':0},
-        {'key':"数据库管理",'value':0},
-		{'key':"硬件开发",'value':0},
-		{'key':"区块链",'value':0},
-        
-      ],
-				sharedState: store.state,
-				HomeMessage: '主页一期完成',
-				templatePosts:[],
-				posts: '',
-				selectPost:{},
-				tools: {
+			sharedState: store.state,
+			HomeMessage: '主页一期完成',
+			templatePosts:[],
+			posts: '',
+			selectPost:{},
+			clientWidth: '',
+			tools: {
 					bold: true, // 粗体
 					italic: true, // 斜体
 					header: true, // 标题
@@ -208,10 +212,24 @@
 				pageTotal: 1 //总页数
 			}
 		},
+		
 		watch: {
 			page: function(newPage, oldPage) {
 				this.getPosts(newPage)
-			}
+			},
+			clientWidth(val) {
+    if(!this.timer) {
+      this.clientWidth= val
+      this.timer = true
+      let _this = this
+      setTimeout(function () {
+        _this.timer = false
+      }, 500)
+    }
+    // 这里可以添加修改时的方法
+	this.computeTags();
+    this.windowWidth(val);
+  }
 		},
 		computed: {
 			alertsFilter: function() {
@@ -242,12 +260,59 @@
 				name: "TagAll",
 				params: {tag: tag.key},
 			});
+			},
+			windowWidth(value) {
+           this.clientWidth = value;
+      		},
+			computeTags(){
+				// const el = document.getElementById("tagbtn");
+				// let width=  this.$refs['tagbtn'].style.width;
+				let width=(this.clientWidth>1400?1400:this.clientWidth)/3;
+				console.log(width);
+				let h=[];
+				this.givenTags2=[];
+				let len=0;
+				console.log(this.givenTags1.length);
+				for(let i = 0; i < this.givenTags1.length; i++){
+					console.log(width,len,h,i)
+					if(len+this.givenTags1[i].length>=width){
+						console.log(h);
+						this.givenTags2.push(h);
+						h=[];
+						len=0;
+						console.log("yyy");
+						len+=this.givenTags1[i].length;
+						h.push(this.givenTags1[i]);
+					}
+					else{
+						len+=this.givenTags1[i].length;
+						h.push(this.givenTags1[i]);
+					}
+			}
+			this.givenTags2.push(h);
+			this.givenTags=[];
+			this.givenTags=this.givenTags2;
+			console.log(this.givenTags2);
 			}
 		},
 		created() {
 			this.getPosts(1);
 			this.getSelectedBlog();
+			this.windowWidth(document.documentElement.clientWidth);
+			this.computeTags();
+			
 		},
+		mounted() {
+			this.computeTags();
+			 window.onresize = () => {
+    return (() => {
+      this.clientWidth= `${document.documentElement.clientWidth}`;
+    })();
+  };
+		},
+		
+  
+
 		beforeRouteUpdate(to, from, next) {
 			//要先执行 next() 不然 this.$route.query 还是之前的
 			next()
@@ -269,4 +334,5 @@
 		background-image: var(--mask-gradient, linear-gradient(to top, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0) 76px));
 		border-radius: 20px;
 	}
+ 
 </style>

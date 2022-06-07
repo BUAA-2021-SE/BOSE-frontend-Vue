@@ -91,6 +91,26 @@
               </v-btn>
             </v-expansion-panel-content>
           </v-expansion-panel>
+          <v-dialog
+        style="z-index: 2000"
+        v-model="showDelete"
+        width="25vw"
+        height="20vh"
+    >
+      <v-card
+          :style="{ width: '25vw', height: '20vh' }"
+          class="d-flex align-center flex-wrap"
+      >
+        <v-row class="mx-auto d-flex justify-center">
+          <v-card-title class="mx-auto"><h3 class="mx-auto">确定删除？</h3></v-card-title>
+          <v-card-actions>
+            <v-btn color="primary" text @click="showDelete = false"> 取消</v-btn>
+            <v-spacer></v-spacer>
+            <v-btn color="error" text @click="onDeletePost"> 确认</v-btn>
+          </v-card-actions>
+        </v-row>
+      </v-card>
+    </v-dialog>
         </v-expansion-panels>
         <span>共有资源{{ total }}篇</span>
         <v-pagination
