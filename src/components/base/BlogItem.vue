@@ -25,6 +25,12 @@
             <div class="text--primary">
               {{ post.summary }}
             </div>
+            <div>
+               <v-chip :style="{'background-color':'#00AEEC','color':'white'}" v-show="post.tag1!='none'" class="ma-2" small>{{post.tag1}}</v-chip>
+               <v-chip :style="{'background-color':'#00AEEC','color':'white'}" v-show="post.tag2!='none'" class="ma-2" small>{{post.tag2}}</v-chip>
+               <v-chip :style="{'background-color':'#00AEEC','color':'white'}" v-show="post.tag3!='none'" class="ma-2" small>{{post.tag3}}</v-chip>
+               <v-chip :style="{'background-color':'#00AEEC','color':'white'}" v-show="post.tag4!='none'" class="ma-2" small>{{post.tag4}}</v-chip>
+            </div>
           </v-card-text>
           <v-card-actions>
             <router-link :to="{ name: 'Post', params: { id: post.id } }">

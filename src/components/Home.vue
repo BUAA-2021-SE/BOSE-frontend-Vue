@@ -1,10 +1,10 @@
-<template :style="{'overscroll-behavior-y': 'none','overflow-x':auto}">
+<template>
 	<div class="container" width="80vw" min-width="1000px">
 		<div class=" mx-auto" width="80vw" min-width="1000px">
 			<v-row>
 				<v-col cols="12" sm="12" md="7">
 					<v-card :style="{'border-radius':'20px'}">
-						<v-carousel  hide-delimiter-background show-arrows-on-hover>
+						<v-carousel  cycle="4" hide-delimiter-background show-arrows-on-hover>
 							<v-carousel-item v-for="(post,index) in templatePosts" :key="index">
 								<v-sheet height="100%">
 									<v-img :src="post.cover" :style="{'min-width':'100%','min-height':'80%',}" />
@@ -65,8 +65,8 @@
 						<v-col cols="12" sm="6" md="12"  ref="tagbtn">
 			<v-card outlined :style="{'margin-top':'20px','border-radius':'20px','border-color':'#00AEEC','border-width':'3px'}" >
 						
-			<v-col  cols="12" sm="6" md="12" class="d-flex justify-space-between" v-for="(gTags,index) in givenTags" :key="index">
-			<div  v-for="(tag,index) in gTags" :key="index"   >
+			<v-col  cols="12" sm="6" md="12" class="d-flex justify-space-between" v-for="(gTags,index) in givenTags" :key="index" :style="{padding:'5px 10px 5px 10px'}">
+			<div  v-for="(tag,index) in gTags" :key="index"  >
           	<v-btn depressed outlined v-if="!tag.value" @click="searchTag(tag)"
           	:style="{'border-radius':'20px','margin-right':'5px','background-color':'#00AEEC','color':'white'}">{{tag.key}}</v-btn>
        			</div>
@@ -83,7 +83,7 @@
 				</v-col>
 				<v-col cols="12" md="9">
 					
-					<v-col cols="12" sm="6" md="12" v-for="(post,index) in posts" :key="index">
+					<v-col cols="12" sm="6" md="12" v-for="(post,index) in posts" :key="index" :style="{padding:'0px'}">
 						<blog :post="post" @delete="getPosts(1)">
 						</blog>
 					</v-col>
@@ -97,10 +97,10 @@
 				</v-col>
 				<v-col cols="12" md="3">
 					<v-col cols="12" md="12">
-							<v-card  :style="{'border-radius':'20px',height:'225px'}">
+							<!-- <v-card  :style="{'border-radius':'20px',height:'225px'}">
 								<v-card-title>公告</v-card-title>
 								<v-card-subtitle :style="{'margin-left':'20px'}">{{HomeMessage}}</v-card-subtitle>
-							</v-card>
+							</v-card> -->
 						</v-col>
 						<v-col cols="12" sm="12" md="12">
 							<v-card v-if="selectPost" :style="{'border-radius':'20px','height':'225px',}">
@@ -118,12 +118,35 @@
 							</v-card>
 						</v-col>
 					<v-card :style="{'border-radius':'20px',}">
-						<v-card-title>通知</v-card-title>
-						<v-card-subtitle :style="{'margin-left':'20px'}">{{HomeMessage}}</v-card-subtitle>
+						<v-card-title>全站热门</v-card-title>
+							<v-row >
+								<v-row  :style="{'margin-left':'0px','margin-bottom':'10px'}">
+									<v-col cols="12" md="5" :style="{ position:'relative'}">
+										<router-link :to="{name: 'Post', params: {id: topHotPost.id} }">
+									<v-img :src="topHotPost.cover"  :style="{'max-height':'90px','max-width':'160px','margin-left':'5px','border-radius':'10px'}"/> 
+										</router-link>
+									<div class="sign" :style="{'background-color':'#fe2d46','position':'absolute','z-index':'1','width':'24px','height':'24px','top':'0px','border-radius': '10px 1px 10px 1px',
+								    'font-size': '14px','line-height': '24px','text-align':' center','color': '#fff'}">1</div>
+									</v-col>
+									<v-col cols="12" md="7" :style="{'padding':'5px 12px 5px 12px'}">
+									<router-link :to="{name: 'Post', params: {id: topHotPost.id} }">
+									<v-card-subtitle  :style="{'margin-left':'20px','padding':'3px','font-size':'18px'}">{{topHotPost.title}}</v-card-subtitle></router-link>
+									</v-col>
+									<v-col cols="12" md="12" v-for="(post,index) in hotPosts" :key="index"  class="d-flex justify-start" :style="{'padding':'5px 2px 5px 12px'}">
+									<div :style="{'color':'#FF9900','margin-left':'10px','width':'20px','font-size':'18px'}" v-show="index==0">{{index+2}}</div>
+									<div :style="{'color':'#FFCC00','margin-left':'10px','width':'20px','font-size':'18px'}" v-show="index==1">{{index+2}}</div>
+									<div :style="{'color':'grey','margin-left':'10px','width':'20px','font-size':'18px'}" v-show="index!=0&&index!=1">{{index+2}}</div>
+										<router-link :to="{name: 'Post', params: {id: post.id} }">
+										<v-card-subtitle :style="{'margin-left':'20px','padding':'3px','font-size':'16px'}">{{post.title}}</v-card-subtitle>
+										</router-link>
+										</v-col>
+
+							</v-row>
+							</v-row>
 					</v-card>
 					<br/>
 					<v-card :style="{'border-radius':'20px',}">
-						<v-card-title>通知</v-card-title>
+						<v-card-title>近期热门</v-card-title>
 						<v-card-subtitle :style="{'margin-left':'20px'}">{{HomeMessage}}</v-card-subtitle>
 					</v-card>
 				</v-col>
@@ -175,6 +198,9 @@
 			HomeMessage: '主页一期完成',
 			templatePosts:[],
 			posts: '',
+			hotPosts:[],
+			topHotPost:{},
+			
 			selectPost:{},
 			clientWidth: '',
 			tools: {
@@ -268,19 +294,19 @@
 				// const el = document.getElementById("tagbtn");
 				// let width=  this.$refs['tagbtn'].style.width;
 				let width=(this.clientWidth>1400?1400:this.clientWidth)/3;
-				console.log(width);
+				// console.log(width);
 				let h=[];
 				this.givenTags2=[];
 				let len=0;
-				console.log(this.givenTags1.length);
+				// console.log(this.givenTags1.length);
 				for(let i = 0; i < this.givenTags1.length; i++){
-					console.log(width,len,h,i)
+					// console.log(width,len,h,i)
 					if(len+this.givenTags1[i].length>=width){
-						console.log(h);
+						// console.log(h);
 						this.givenTags2.push(h);
 						h=[];
 						len=0;
-						console.log("yyy");
+						// console.log("yyy");
 						len+=this.givenTags1[i].length;
 						h.push(this.givenTags1[i]);
 					}
@@ -292,14 +318,28 @@
 			this.givenTags2.push(h);
 			this.givenTags=[];
 			this.givenTags=this.givenTags2;
-			console.log(this.givenTags2);
+			// console.log(this.givenTags2);
+			},
+		getHotPosts(page) {
+      		Post.tagAll("allallallall", page, 10)
+          	.then((res) => {
+            console.log(res.data, "getTagPosts");
+			this.topHotPost = res.data.items[0];
+            for (let i=1; i<10;i++){
+				this.hotPosts.push(res.data.items[i]);
 			}
+          })
+          .catch((err) => {
+            console.log(err, "getTagPostsError");
+            this.loadingProfile = false;
+          });
+    },
 		},
 		created() {
 			this.getPosts(1);
-			this.getSelectedBlog();
 			this.windowWidth(document.documentElement.clientWidth);
 			this.computeTags();
+			this.getHotPosts(1);
 			
 		},
 		mounted() {
@@ -334,5 +374,16 @@
 		background-image: var(--mask-gradient, linear-gradient(to top, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0) 76px));
 		border-radius: 20px;
 	}
+.router-link-active {
+  text-decoration: none;
+}
+.v-application a {
+  text-decoration: none;
+  color: rgb(0, 0, 0);
+}
+.v-application a:hover {
+  text-decoration: none;
+  color: rgb(120, 184, 241);
+}
  
 </style>

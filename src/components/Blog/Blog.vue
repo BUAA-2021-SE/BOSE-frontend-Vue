@@ -106,7 +106,7 @@
               <hr class="g-brd-gray-light-v4 g-my-15" />
             </header>
 
-            <div class="postBody">
+            <div class="postBody" :style="{hyphens: 'auto','word-break':'break-all'}">
               <vue-markdown
                 :source="post.body"
                 v-highlight
