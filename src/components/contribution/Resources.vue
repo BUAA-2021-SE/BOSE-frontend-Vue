@@ -122,7 +122,7 @@ export default {
       total: 0, //总博文数
       page: 1, //第几页
       size: 3, //每页总数
-      pageTotal: 1 //总页数
+      pageTotal: 1, //总页数
       sharedState: store.state,
       deleteId: 0,
       showDelete: false,
