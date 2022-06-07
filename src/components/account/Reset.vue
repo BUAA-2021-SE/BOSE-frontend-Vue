@@ -10,18 +10,18 @@
             <v-form>
               <v-text-field
                   v-model="resetForm.email"
-                  label="Email address"
+                  label="邮箱"
                   required
                   clearable
                   filled
                   :disabled="showIDCode"
-                  :class="{'is-invalid': resetForm.emailError}" placeholder="Email address"
+                  :class="{'is-invalid': resetForm.emailError}" placeholder="邮箱"
               ></v-text-field>
               
             
               <v-text-field 
                             v-model="resetForm.password"
-                            label="Password"
+                            label="密码"
                            
                             filled
                             clearable
@@ -30,12 +30,12 @@
                             :type="showPassword ? 'text' : 'password'"
                             @click:append="showPassword = !showPassword"
                             autocomplete="new-password"
-                            :class="{'is-invalid': resetForm.passwordError}" placeholder="Password"
+                            :class="{'is-invalid': resetForm.passwordError}" placeholder="密码"
               ></v-text-field>
          
               <v-text-field 
                             v-model="resetForm.password2"
-                            label="Password Again"
+                            label="再次输入密码"
                             filled
                             required
                             clearable
@@ -44,22 +44,22 @@
                             @click:append="showPassword2 = !showPassword2"
                             autocomplete="new-password"
                             
-                            :class="{'is-invalid': resetForm.password2Error}" placeholder="Password Again"
+                            :class="{'is-invalid': resetForm.password2Error}" placeholder="再次输入密码"
               ></v-text-field>
      
               <v-text-field 
                             v-model="resetForm.idcode"
-                            label="IDCode"
+                            label="验证码"
                             required
                             clearable
                             filled
                             
-                            :class="{'is-invalid': resetForm.idcodeError}" placeholder="IDCode"
+                            :class="{'is-invalid': resetForm.idcodeError}" placeholder="验证码"
               ></v-text-field>
               <v-alert dense outlined type="error" v-show="resetForm.errors">{{ resetForm.emailError||resetForm.passwordError||resetForm.password2Error||resetForm.idcodeError }}</v-alert>
                 </v-form>
-                <v-btn class="info" v-show="!this.showIDCode" @click="getIDCode">Get IDCode</v-btn>
-              <v-btn class="info" v-show="this.showIDCode" @click="reset">Reset</v-btn>
+                <v-btn class="info"  @click="getIDCode">获取验证码</v-btn>
+              <v-btn class="info" v-show="this.showIDCode" @click="reset">重置密码</v-btn>
             
          </div>
             <div class="col-md-2">
@@ -108,20 +108,20 @@ export default {
       this.resetForm.errors = 0
       if (!this.resetForm.password) {
         this.resetForm.errors++
-        this.resetForm.passwordError = 'Password required.'
+        this.resetForm.passwordError = '未填写密码'
       } else {
         this.resetForm.passwordError = null
       }
 
       if (!this.resetForm.password2) {
         this.resetForm.errors++
-        this.resetForm.password2Error = 'Password again.'
+        this.resetForm.password2Error = '请再次填写密码'
       } else {
         this.resetForm.password2Error = null
       }
       if (!this.resetForm.idcode) {
         this.resetForm.errors++
-        this.resetForm.password2Error = 'IDCode required.'
+        this.resetForm.password2Error = '未填写验证码'
       } else {
         this.resetForm.password2Error = null
       }
@@ -161,10 +161,10 @@ export default {
 
       if (!this.resetForm.email) {
         this.resetForm.errors++
-        this.resetForm.emailError = 'Email required.'
+        this.resetForm.emailError = '未填写邮箱'
       } else if (!this.validEmail(this.resetForm.email)) {
         this.resetForm.errors++
-        this.resetForm.emailError = 'Valid email required.'
+        this.resetForm.emailError = '邮箱格式错误'
       } else {
         this.resetForm.emailError = null
       }
