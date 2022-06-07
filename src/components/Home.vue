@@ -2,18 +2,17 @@
 	<div class="container" width="80vw" min-width="1000px">
 		<div class=" mx-auto" width="80vw" min-width="1000px">
 			<v-row>
-				<v-col cols="12" sm="12" md="6">
+				<v-col cols="12" sm="12" md="9">
 					<v-card :style="{'border-radius':'20px'}">
-						<v-carousel cycle height="400" hide-delimiter-background show-arrows-on-hover>
+						<v-carousel  hide-delimiter-background show-arrows-on-hover>
 							<v-carousel-item v-for="(post,index) in posts" :key="index">
 								<v-sheet height="100%">
-									<v-img :src="post.cover" :style="{'min-width':'100%','min-height':'100%',}" />
-
+									<v-img :src="post.cover" :style="{'min-width':'100%','min-height':'80%',}" />
 									<router-link :to="{ name: 'Post', params: { id: post.id } }">
 										<div class="mask white--text align-end">
 											<router-link :to="{ name: 'Post', params: { id: post.id } }">
 												<h2
-													:style="{'margin-bottom':'50px','margin-left':'15px',color:'white'}">
+													:style="{'margin-bottom':'30px','margin-left':'15px',color:'white'}">
 													{{post.title}}
 												</h2>
 											</router-link>
@@ -25,7 +24,7 @@
 						</v-carousel>
 					</v-card>
 				</v-col>
-				<v-col cols="12" sm="12" md="6">
+				<v-col cols="12" sm="12" md="3">
 					<v-row>
 						<v-col cols="12" sm="12" md="12">
 							<v-row>
@@ -78,6 +77,11 @@
 					</v-col>
 				</v-col>
 				<v-col cols="12" md="3">
+					<v-card :style="{'border-radius':'20px',}">
+						<v-card-title>通知</v-card-title>
+						<v-card-subtitle :style="{'margin-left':'20px'}">{{HomeMessage}}</v-card-subtitle>
+					</v-card>
+					<br/>
 					<v-card :style="{'border-radius':'20px',}">
 						<v-card-title>通知</v-card-title>
 						<v-card-subtitle :style="{'margin-left':'20px'}">{{HomeMessage}}</v-card-subtitle>
