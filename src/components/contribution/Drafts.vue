@@ -57,7 +57,7 @@ export default {
       sharedState: store.state,
       total: 0, //总博文数
       page: 1, //第几页
-      size: 5, //每页总数
+      size: 4, //每页总数
       pageTotal: 1 //总页数
     }
   },
@@ -84,6 +84,11 @@ export default {
   created() {
     this.getUserDrafts(1);
   },
+  watch:{
+			page: function(newPage, oldPage) {
+				this.getUserDrafts(newPage);
+			}
+	},
   beforeRouteUpdate(to, from, next) {
     next()
     this.getUserDrafts(1)

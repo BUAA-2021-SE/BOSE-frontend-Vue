@@ -149,7 +149,7 @@ export default {
         Admin.failExamination(this.editedItem.id)
         .then((res)=>{
           console.log(res.data);
-          this.$toasted.success(`博文${this.editedItem.title}被成功打回`);
+          this.$toasted.success(`《${this.editedItem.title}》被成功打回`);
           this.closeDelete()
           this.initialize()
           
@@ -163,13 +163,13 @@ export default {
           Admin.passExamination(this.passedItem.id)
           .then((res)=>{
                 console.log(res.data);
-                this.$toasted.success(`博文${this.passedItem.title}已通过审核`);
+                this.$toasted.success(`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             《${this.passedItem.title}》已通过审核`);
                 this.close()
                 this.initialize()
           })
-          .catch((err)=>[
-              console.error(err)
-          ])
+          .catch((err)=>{
+            console.error(err);
+          })
       },
       closeDelete () {
         this.dialogDelete = false

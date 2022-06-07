@@ -2,18 +2,17 @@
 	<div class="container" width="80vw" min-width="1000px">
 		<div class=" mx-auto" width="80vw" min-width="1000px">
 			<v-row>
-				<v-col cols="12" sm="12" md="6">
+				<v-col cols="12" sm="12" md="9">
 					<v-card :style="{'border-radius':'20px'}">
-						<v-carousel cycle height="400" hide-delimiter-background show-arrows-on-hover>
-							<v-carousel-item v-for="(post,index) in posts" :key="index">
+						<v-carousel  hide-delimiter-background show-arrows-on-hover>
+							<v-carousel-item v-for="(post,index) in templatePosts" :key="index">
 								<v-sheet height="100%">
-									<v-img :src="post.cover" :style="{'min-width':'100%','min-height':'100%',}" />
-
+									<v-img :src="post.cover" :style="{'min-width':'100%','min-height':'80%',}" />
 									<router-link :to="{ name: 'Post', params: { id: post.id } }">
 										<div class="mask white--text align-end">
 											<router-link :to="{ name: 'Post', params: { id: post.id } }">
 												<h2
-													:style="{'margin-bottom':'50px','margin-left':'15px',color:'white'}">
+													:style="{'margin-bottom':'30px','margin-left':'15px',color:'white'}">
 													{{post.title}}
 												</h2>
 											</router-link>
@@ -25,7 +24,7 @@
 						</v-carousel>
 					</v-card>
 				</v-col>
-				<v-col cols="12" sm="12" md="6">
+				<v-col cols="12" sm="12" md="3">
 					<v-row>
 						<v-col cols="12" sm="12" md="12">
 							<v-row>
@@ -63,14 +62,28 @@
 							</v-row>
 						</v-col>
 						<v-col cols="12" md="12">
-							<v-card :style="{'border-radius':'20px',height:'150px'}">
-								<v-card-title>通知</v-card-title>
+							<v-card :style="{'border-radius':'20px',height:'225px'}">
+								<v-card-title>公告</v-card-title>
 								<v-card-subtitle :style="{'margin-left':'20px'}">{{HomeMessage}}</v-card-subtitle>
+							</v-card>
+						</v-col>
+						<v-col cols="12" sm="12" md="12">
+							<v-card v-if="selectPost" :style="{'border-radius':'20px','height':'225px',}">
+								<v-img :src="selectPost.cover"
+									:style="{'min-width':'100%','min-height':'100%','border-radius':'20px'}" />
+								<router-link :to="{ name: 'Post', params: { id: selectPost.id } }">
+									<div class="mask2 white--text align-end">
+										<h4
+											:style="{'margin-bottom':'20px','margin-left':'15px',color:'white'}">
+											编辑推荐
+										</h4>
+									</div>
+								</router-link>
+
 							</v-card>
 						</v-col>
 					</v-row>
 				</v-col>
-
 				<v-col cols="12" md="9">
 					<v-card outlined>
 			<v-col  cols="12" sm="6" md="12" class="d-flex justify-space-between">
@@ -96,6 +109,11 @@
 						<v-card-title>通知</v-card-title>
 						<v-card-subtitle :style="{'margin-left':'20px'}">{{HomeMessage}}</v-card-subtitle>
 					</v-card>
+					<br/>
+					<v-card :style="{'border-radius':'20px',}">
+						<v-card-title>通知</v-card-title>
+						<v-card-subtitle :style="{'margin-left':'20px'}">{{HomeMessage}}</v-card-subtitle>
+					</v-card>
 				</v-col>
 
 			</v-row>
@@ -117,6 +135,7 @@
 	import VueMarkdown from 'vue-markdown'
 	import Post from '@/api/post'
 	import BlogItem from '@/components/base/BlogItem.vue'
+	import Admin from '@/api/admin'
 	export default {
 		
 		name: 'Home',
@@ -153,28 +172,9 @@
       ],
 				sharedState: store.state,
 				HomeMessage: '主页一期完成',
-				alerts: [{
-						showAlert: true,
-						alertVariant: 'danger',
-						alertMessage: 'Account相关初步完工'
-					},
-					{
-						showAlert: true,
-						alertVariant: 'dark',
-						alertMessage: 'Profile, Home初步完工，Blog，Contribution差样式'
-					},
-					{
-						showAlert: true,
-						alertVariant: 'primary',
-						alertMessage: '这周写Messages'
-					},
-					{
-						showAlert: true,
-						alertVariant: 'warning',
-						alertMessage: '花开一季 叶落一地'
-					},
-				],
+				templatePosts:[],
 				posts: '',
+				selectPost:{},
 				tools: {
 					bold: true, // 粗体
 					italic: true, // 斜体
@@ -204,7 +204,7 @@
 				},
 				total: 0, //总博文数
 				page: 1, //第几页
-				size: 6, //每页总数
+				size: 5, //每页总数
 				pageTotal: 1 //总页数
 			}
 		},
@@ -225,6 +225,10 @@
 				Post.getAllBlog(page, this.size)
 					.then((res) => {
 						console.log(res.data, "getPosts");
+						for(let i = 0; i < res.data.items.length; i++){
+							if(i>3) break;
+							this.templatePosts.push(res.data.items[i]);
+						}
 						this.posts = res.data.items;
 						this.total = res.data.total;
 						this.page = res.data.page;
@@ -235,13 +239,14 @@
 			searchTag(tag){
 				console.log(tag.key)
 				this.$router.push({
-        name: "TagAll",
-        params: {tag: tag.key},
-      });
+				name: "TagAll",
+				params: {tag: tag.key},
+			});
 			}
 		},
 		created() {
-			this.getPosts(1)
+			this.getPosts(1);
+			this.getSelectedBlog();
 		},
 		beforeRouteUpdate(to, from, next) {
 			//要先执行 next() 不然 this.$route.query 还是之前的

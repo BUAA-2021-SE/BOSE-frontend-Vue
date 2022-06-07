@@ -15,13 +15,22 @@
       </div>
     </div>
     <div v-show="!loadingProfile">
-      <h3 v-show="!blockers" class="text-center">小黑屋里空空如也</h3>
-      <v-col cols="12" md="12" v-for="(blockers,index) in blockers" :key="index">
+      <h3 v-if="!blockers" class="text-center">小黑屋里空空如也</h3>
         <block
-            :blockers="blockers"
+            v-for="(blocker,index) in blockers" :key="index"
+            :blocks="blocker" 
+            @unblockUser="getUserBlockers(1)"
         >
         </block>
-      </v-col>
+      <div v-show="blockers">
+      <span>黑名单数量:{{ total }}</span>
+      <!-- <v-pagination
+          v-model="page"
+          :length="pageTotal"
+          :total-visible="7"
+          circle
+      ></v-pagination> -->
+      </div>
     </div>
   </section>
 </template>
@@ -38,19 +47,28 @@ export default {
     return {
       blockers: [],
       loadingProfile: true,
-      sharedState: store.state
+      sharedState: store.state,
+      total: 0, //总博文数
+      page: 1, //第几页
+      size: 4, //每页总数
+      pageTotal: 1 //总页数
     }
   },
   methods: {
-    getUserBlockers() {
-      Followers.getUserBlockers()
+    getUserBlockers(page) {
+      Followers.getUserBlockers(page,this.size)
           .then((res) => {
-
-            this.blockers = res.data;
-            this.loadingProfile = false;
-            if (res.data.length == 0) {
+            console.log(res);
+            this.blockers = res.data.items;
+            this.total = res.data.total;
+            this.page = res.data.page;
+            this.size = res.data.size;
+            this.pageTotal = Math.ceil(this.total / this.size);
+            if(this.pageTotal===0) this.pageTotal = 1;
+            if (res.data.items.length == 0) {
               this.blockers = null;
             }
+            this.loadingProfile = false;
           })
           .catch((err) => {
             console.log((err, "getUserFollowersError"));
@@ -60,11 +78,16 @@ export default {
     },
   },
   created() {
-    this.getUserBlockers()
+    this.getUserBlockers(1)
   },
+  watch: {
+			page: function(newPage, oldPage) {
+				this.getUserBlockers(newPage);
+			}
+	},
   beforeRouteUpdate(to, from, next) {
     next()
-    this.getUserBlockers()
+    this.getUserBlockers(1)
   }
 }
 </script>

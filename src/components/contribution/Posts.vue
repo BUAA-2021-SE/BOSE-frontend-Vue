@@ -67,7 +67,7 @@ export default {
       },
       total: 0, //总博文数
       page: 1, //第几页
-      size: 6, //每页总数
+      size: 4, //每页总数
       pageTotal: 1 //总页数
     }
   },
@@ -78,9 +78,9 @@ export default {
           .then((res) => {
             console.log(res.data, "getUserPosts");
             this.posts = res.data.items;
-            this.total = res.data.total
-            this.page = res.data.page
-            this.size = res.data.size
+            this.total = res.data.total;
+            this.page = res.data.page;
+            this.size = res.data.size;
             this.pageTotal = Math.ceil(this.total / this.size)
             this.loadingProfile = false;
           })
@@ -94,6 +94,11 @@ export default {
   created() {
     this.getUserPosts(1);
   },
+  watch:{
+			page: function(newPage, oldPage) {
+				this.getUserPosts(newPage);
+			}
+	},
   beforeRouteUpdate(to, from, next) {
     next()
     this.getUserPosts(1)

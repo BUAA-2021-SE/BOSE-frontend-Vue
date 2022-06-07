@@ -22,6 +22,13 @@
             :followings="followings">
         </following>
       </v-col>
+      <span>粉丝数量:{{ total }}</span>
+      <v-pagination
+          v-model="page"
+          :length="pageTotal"
+          :total-visible="7"
+          circle
+      ></v-pagination>
     </div>
     <div
         v-else-if="followings.length === 0 && !loadingProfile"
@@ -44,14 +51,23 @@ export default {
     return {
       followings: [],
       loadingProfile: true,
-      sharedState: store.state
+      sharedState: store.state,
+      total: 0, //总博文数
+      page: 1, //第几页
+      size: 4, //每页总数
+      pageTotal: 1 //总页数
     }
   },
   methods: {
-    getUserFollowings() {
-      Followers.getUserFollowings(this.$route.params.id)
+    getUserFollowings(page) {
+      Followers.getUserFollowings(this.$route.params.id,page,this.size)
           .then((res) => {
-            this.followings = res.data;
+            console.log(res);
+            this.followings = res.data.items;
+            this.page = res.data.page;
+            this.total = res.data.total;
+            this.pageTotal = Math.ceil(this.total / this.size);
+            if(this.pageTotal===0) this.pageTotal = 1;
             this.loadingProfile = false;
           })
           .catch((err) => {
@@ -61,12 +77,17 @@ export default {
           });
     },
   },
+  watch: {
+			page: function(newPage, oldPage) {
+				this.getUserFollowings(newPage);
+			}
+	},
   created() {
-    this.getUserFollowings();
+    this.getUserFollowings(1);
   },
   beforeRouteUpdate(to, from, next) {
     next()
-    this.getUserFollowings()
+    this.getUserFollowings(1)
   }
 }
 </script>

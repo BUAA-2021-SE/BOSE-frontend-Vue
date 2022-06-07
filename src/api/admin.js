@@ -5,7 +5,9 @@ const url = {
     getExaminedBlogs:'controller/examined_list_blog',
     getExaminingBlogs:'controller/examining_list_blog',
     failExamination:'controller/fail_examination',
-    passExamination:'controller/pass_examination'
+    passExamination:'controller/pass_examination',
+    selectBlog:'controller/select_blog',
+    getSelectedBlog:'controller/get_select_blog'
 }
 export default class Admin{
     static async getExaminedResources() {
@@ -59,6 +61,21 @@ export default class Admin{
             headers: {
                 'Content-Type': 'multipart/form-data'
             },
+            responseType: 'json'
+        })
+    }
+    static async selectBlog(id) {
+        return service(`${url.selectBlog}/${id}`, {
+            method: 'put',
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            },
+            responseType: 'json'
+        })
+    }
+    static async getSelectedBlog() {
+        return service(url.getSelectedBlog,{
+            method:'get',
             responseType: 'json'
         })
     }
