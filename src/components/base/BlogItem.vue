@@ -112,6 +112,10 @@ export default {
           })
           .catch((err) => {
             console.error(err, "not deleted");
+            if(err.response.status === 461){
+              this.showDelete = false;
+              this.$toasted.error("被编辑精选，不能删除",{icon: "check"});
+            }
           });
     },
   },

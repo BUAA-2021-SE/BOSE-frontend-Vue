@@ -9,8 +9,8 @@ const url = {
     getRoomList:'/chat/chat_room_list',
 };
 export default class Notifications {
-    static async getMailList(id) {
-        return service(`${url.getMailList}/${id}`, {
+    static async getMailList(id,page,size) {
+        return service(`${url.getMailList}/${id}/?page=${page}&size=${size}`, {
             method: 'post',
             responseType: 'json'
         })
@@ -48,8 +48,8 @@ export default class Notifications {
         })
     }
 
-    static async getRoomList(){
-        return service(url.getRoomList,{
+    static async getRoomList(page,size){
+        return service(`${url.getRoomList}/?page=${page}&size=${size}`,{
             method: 'get',
             responseType: 'json'
         })

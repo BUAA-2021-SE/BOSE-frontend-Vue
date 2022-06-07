@@ -81,6 +81,7 @@
                     class="ml-0 mr-2 black--text"
                     label
                     small
+                    @click="item.is_read = true"
                 >
                   new
                 </v-chip>
@@ -109,6 +110,13 @@
             </v-expansion-panel-content>
           </v-expansion-panel>
         </v-expansion-panels>
+                <span>共有点赞{{ total }}条</span>
+        <v-pagination
+            v-model="page"
+            :length="pageTotal"
+            :total-visible="7"
+            circle
+        ></v-pagination>
       </v-row>
     </v-container>
     <div
@@ -127,16 +135,24 @@ export default {
     return {
       items: [],
       loadingLikes: true,
+      total: 0, //总博文数
+      page: 1, //第几页
+      size: 4, //每页总数
+      pageTotal: 1 //总页数
     }
   },
   methods: {
-    getLikeList() {
+    getLikeList(page) {
       let likeId = 2;
       console.log("getLikeList");
-      Notifications.getMailList(likeId)
+      Notifications.getMailList(likeId,page, this.size)
           .then((res) => {
             console.log(res);
             this.items = res.data.items;
+            this.total = res.data.total;
+            this.page = res.data.page;
+            this.size = res.data.size;
+            this.pageTotal = Math.ceil(this.total / this.size);
             this.loadingLikes = false;
           })
           .catch((err) => {
@@ -149,11 +165,16 @@ export default {
       Notifications.getMail(id);
     }
   },
+  watch:{
+			page: function(newPage, oldPage) {
+				this.getLikeList(newPage);
+			}
+	},
   created() {
-    this.getLikeList();
+    this.getLikeList(1);
   },
   beforeRouteUpdate(to, from, next) {
-    this.getLikeList();
+    this.getLikeList(1);
   }
 }
 </script>
