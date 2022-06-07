@@ -64,18 +64,21 @@ export default {
       },
       total: 0, //总博文数
       page: 1, //第几页
-      size: 5, //每页总数
+      size: 3, //每页总数
       pageTotal: 1 //总页数
     }
   },
   methods: {
-    getStarPosts() {
+    getStarPosts(page) {
       console.log("getStarPosts");
-      Star.getStarList()
+      Star.getStarList(page,this.size)
           .then((res) => {
             console.log(res);
-            this.stars = res.data;
-            this.total = res.data.length;
+            this.stars = res.data.items;
+            this.total = res.data.total;
+            this.page = res.data.page;
+            this.size = res.data.size;
+            this.pageTotal = Math.ceil(this.total / this.size);
             this.loadingProfile = false;
           })
           .catch((err) => {
@@ -95,11 +98,16 @@ export default {
     }
   },
   created() {
-    this.getStarPosts();
+    this.getStarPosts(1);
   },
+  watch:{
+			page: function(newPage, oldPage) {
+				this.getStarPosts(newPage);
+			}
+	},
   beforeRouteUpdate(to, from, next) {
     next()
-    this.getStarPosts();
+    this.getStarPosts(1);
   },
 }
 </script>

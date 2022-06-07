@@ -85,6 +85,13 @@
             </v-expansion-panel-content>
           </v-expansion-panel>
         </v-expansion-panels>
+        <span>共有资源{{ total }}篇</span>
+        <v-pagination
+            v-model="page"
+            :length="pageTotal"
+            :total-visible="7"
+            circle
+        ></v-pagination>
       </v-row>
     </v-container>
     <div
@@ -103,15 +110,23 @@ export default {
     return {
       items: [],
       loadingLikes: true,
+      total: 0, //总博文数
+      page: 1, //第几页
+      size: 3, //每页总数
+      pageTotal: 1 //总页数
     }
   },
   methods: {
-    getResourcesList() {
+    getResourcesList(page) {
       console.log("getResourcesList");
-      Resource.getResourcesList(this.$route.params.id)
+      Resource.getResourcesList(this.$route.params.id,page,this.size)
           .then((res) => {
             console.log(res);
             this.items = res.data.items;
+            this.total = res.data.total;
+            this.page = res.data.page;
+            this.size = res.data.size;
+            this.pageTotal = Math.ceil(this.total / this.size);
             this.loadingLikes = false;
           })
           .catch((err) => {
@@ -121,10 +136,15 @@ export default {
     },
   },
   created() {
-    this.getResourcesList();
+    this.getResourcesList(1);
   },
+  watch:{
+			page: function(newPage, oldPage) {
+				this.getResourcesList(newPage);
+			}
+	},
   beforeRouteUpdate(to, from, next) {
-    this.getResourcesList();
+    this.getResourcesList(1);
   }
 }
 </script>

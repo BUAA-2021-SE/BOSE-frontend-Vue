@@ -18,8 +18,8 @@ export default class Star{
             responseType: 'json'
         })
     }
-    static async getStarList() {
-        return service(url.getStarList, {
+    static async getStarList(page,size) {
+        return service(`${url.getStarList}/?page=${page}&size=${size}`, {
             method: 'post',
             responseType: 'json'
         })

@@ -33,8 +33,8 @@ export default class Followers {
         })
     }
 
-    static async getUserFollowers(id) {
-        return service(`${url.followers}/${id}`, {
+    static async getUserFollowers(id,page,size) {
+        return service(`${url.followers}/${id}/?page=${page}&size=${size}`, {
             method: 'post',
             responseType: 'json',
         })
@@ -61,22 +61,16 @@ export default class Followers {
         })
     }
 
-    static async getUserFollowers(id) {
-        return service(`${url.followers}/${id}`, {
+
+    static async getUserFollowings(id,page,size) {
+        return service(`${url.followings}/${id}/?page=${page}&size=${size}`, {
             method: 'post',
             responseType: 'json',
         })
     }
 
-    static async getUserFollowings(id) {
-        return service(`${url.followings}/${id}`, {
-            method: 'post',
-            responseType: 'json',
-        })
-    }
-
-    static async getUserBlockers() {
-        return service(`${url.blacklist}`, {
+    static async getUserBlockers(page,size) {
+        return service(`${url.blacklist}/?page=${page}&size=${size}`, {
             method: 'post',
             responseType: 'json',
         })

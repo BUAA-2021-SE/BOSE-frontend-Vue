@@ -3,12 +3,12 @@
     <v-card outlined class="mx-auto" v-show="isBlock">
       <v-row>
           <v-col class="d-flex justify-center my-auto" cols="12" md="2" >
-              <router-link :to="{ name: 'ShowProfile',params: { id:blockers.id} }">
+              <router-link :to="{ name: 'ShowProfile',params: { id:blocks.id} }">
                <v-avatar
                       size="70px"
                   >
        <v-img
-          :src="blockers.headshot"
+          :src="blocks.headshot"
           class="my-auto"
           contain
           height="70"
@@ -24,25 +24,25 @@
         <v-col cols="12" md="6">
         
         <v-card-title>
-             <router-link :to="{ name: 'ShowProfile',params: { id:blockers.id} }">
-          <h3>{{ blockers.name||blockers.username }}</h3>
+             <router-link :to="{ name: 'ShowProfile',params: { id:blocks.id} }">
+          <h3>{{ blocks.name||blocks.username }}</h3>
           </router-link>
         </v-card-title>
       
       <v-card-text>
       
-        <div class="text--primary" v-if="blockers.about_me.length<30">
-          {{ blockers.about_me }}
+        <div class="text--primary" v-if="blocks.about_me.length<30">
+          {{ blocks.about_me }}
         </div>
         <div class="text--primary" v-else>
-          {{ blockers.about_me.substring(0, 27)+'...'}}
+          {{ blocks.about_me.substring(0, 27)+'...'}}
         </div>
       </v-card-text>
       </v-col>
     
         <v-col cols="12" md="2"></v-col>
           <v-col cols="12" md="2" class="my-auto">
-             <v-btn depressed :style="{color: 'DimGray',width:'100px'}"  @click="onUnblockUser(blockers.id)">
+             <v-btn depressed :style="{color: 'DimGray',width:'100px'}"  @click="onUnblockUser(blocks.id)">
                 <v-icon class="material-icons" >tag_faces</v-icon>解除误会
             </v-btn>
           </v-col>
@@ -57,7 +57,7 @@ import store from "@/store.js";
 import Followers from "@/api/follower.js";
 export default {
   name: "BlockItem",
-  props: ["blockers"],
+  props: ["blocks"],
   data() {
     return {
       sharedState: store.state,
@@ -76,7 +76,7 @@ export default {
             this.$toasted.success("误会解除~", {
               icon: "check",
             });
-         
+            this.$emit("unblockUser");
           })
           .catch((err) => {
             console.error(err);

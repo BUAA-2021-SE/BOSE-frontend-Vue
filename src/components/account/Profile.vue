@@ -228,9 +228,7 @@ export default {
       console.log("Get if-follow")
       Followers.isBlock(id)
           .then((res) => {
-            console.log(res.data);
             this.ifBlock = res.data;
-            console.log(res, "getIfBlock");
           })
           .catch((err) => {
             console.error(err);

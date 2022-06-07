@@ -23,6 +23,13 @@
         >
         </follower>
       </v-col>
+      <span>粉丝数量:{{ total }}</span>
+      <v-pagination
+          v-model="page"
+          :length="pageTotal"
+          :total-visible="7"
+          circle
+      ></v-pagination>
     </div>
     <div
         v-else-if="followers.length === 0 && !loadingProfile"
@@ -45,29 +52,43 @@ export default {
     return {
       followers: [],
       loadingProfile: true,
-      sharedState: store.state
+      sharedState: store.state,
+      total: 0, //总博文数
+      page: 1, //第几页
+      size: 4, //每页总数
+      pageTotal: 1 //总页数
     }
   },
   methods: {
-    getUserFollowers() {
-      Followers.getUserFollowers(this.$route.params.id)
+    getUserFollowers(page) {
+      Followers.getUserFollowers(this.$route.params.id,page,this.size)
           .then((res) => {
-            this.followers = res.data;
+            console.log(res);
+            this.followers = res.data.items;
+            this.total = res.data.total;
+            this.page = res.data.page;
             this.loadingProfile = false;
+            this.pageTotal = Math.ceil(this.total / this.size);
+            if(this.pageTotal===0) this.pageTotal = 1;
           })
           .catch((err) => {
             console.log((err, "getUserFollowersError"));
-            this.followers = "暂无用户"
+            this.followers = "暂无用户";
             this.loadingProfile = false;
           });
     },
   },
   created() {
-    this.getUserFollowers()
+    this.getUserFollowers(1);
   },
+  watch: {
+			page: function(newPage, oldPage) {
+				this.getUserFollowers(newPage);
+			}
+	},
   beforeRouteUpdate(to, from, next) {
     next()
-    this.getUserFollowers()
+    this.getUserFollowers(1);
   }
 }
 </script>
