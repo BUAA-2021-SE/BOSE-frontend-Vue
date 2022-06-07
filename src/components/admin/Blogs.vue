@@ -38,6 +38,17 @@
             </v-card-actions>
           </v-card>
         </v-dialog>
+        <v-dialog v-model="dialogSelect" max-width="500px">
+          <v-card>
+            <v-card-title class="text-h5">确定精选博文？</v-card-title>
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn color="blue darken-1" text @click="closeSelect">取消</v-btn>
+              <v-btn color="blue darken-1" text @click="selectItemConfirm">确定</v-btn>
+              <v-spacer></v-spacer>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
       </v-toolbar>
     </template>
     <template v-slot:item.actions="{item}">
@@ -54,6 +65,13 @@
         @click="passItem(item)"
       >
         通过
+      </v-btn>
+      <v-btn
+          color="warning"
+          text
+        @click="selectItemFunc(item)"
+      >
+        精选
       </v-btn>
     </template>
     <template v-slot:expanded-item="{ headers, item }">
@@ -98,6 +116,7 @@ export default {
       sharedState: store.state,
       dialogDelete: false,
       dialog:false,
+      dialogSelect:false,
       headers: [
         {
           text: '标题',
@@ -110,7 +129,8 @@ export default {
       ],
       posts:[],
       editedItem:{},
-      passedItem:{}
+      passedItem:{},
+      selectItem:{}
     }),
     computed: {
       formTitle () {
@@ -122,6 +142,9 @@ export default {
         val || this.closeDelete()
       },
       dialog(val){
+          val || this.close()
+      },
+      dialogSelect(val){
           val || this.close()
       }
     },
@@ -144,12 +167,16 @@ export default {
         this.editedItem = Object.assign({}, item)
         this.dialogDelete = true
       },
+      selectItemFunc (item){
+        this.selectItem = Object.assign({},item)
+        this.dialogSelect = true
+      },
       deleteItemConfirm () {
         console.log(this.editedItem);
         Admin.failExamination(this.editedItem.id)
         .then((res)=>{
           console.log(res.data);
-          this.$toasted.success(`博文${this.editedItem.title}被成功打回`);
+          this.$toasted.success(`《${this.editedItem.title}》被成功打回`);
           this.closeDelete()
           this.initialize()
           
@@ -163,8 +190,20 @@ export default {
           Admin.passExamination(this.passedItem.id)
           .then((res)=>{
                 console.log(res.data);
-                this.$toasted.success(`博文${this.passedItem.title}已通过审核`);
+                this.$toasted.success(`《${this.passedItem.title}》已通过审核`);
                 this.close()
+                this.initialize()
+          })
+          .catch((err)=>[
+              console.error(err)
+          ])
+      },
+      selectItemConfirm () {
+          Admin.selectBlog(this.selectItem.id)
+          .then((res)=>{
+                console.log(res.data);
+                this.$toasted.success(`《${this.selectItem.title}》已被精选`);
+                this.closeSelect()
                 this.initialize()
           })
           .catch((err)=>[
@@ -176,6 +215,9 @@ export default {
       },
       close(){
           this.dialog = false
+      },
+      closeSelect(){
+        this.dialogSelect = false
       }
     },
 }
