@@ -97,7 +97,7 @@
             >
               <i
                 class="u-divider__icon u-divider__icon--indented g-bg-gray-light-v4 g-color-gray-light-v1 rounded-circle"
-                >Me</i
+                >我</i
               >
             </div>
             <p class="lead g-line-height-1_8">{{ user.about_me }}</p>

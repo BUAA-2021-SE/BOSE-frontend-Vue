@@ -31,8 +31,8 @@
       <v-col  md="6" class="my-auto">
           <v-btn @click="addFile">上传封面</v-btn>
           <input type="file" ref="upload_input" style="display: none;" @change="select_file" accept=".png,.jpg,.jpeg">
-          <img v-if="postForm.cover" :src="postForm.cover" max-width="300px" max-height="150px" width="300px" height="150px"
-          :style="{'margin-left':'50px','border-radius':'20px'}">
+          <img v-if="postForm.cover" :src="postForm.cover" 
+          :style="{'margin-left':'50px','border-radius':'20px','max-width':'250px','min-height':'100%','max-height':'150px'}">
       </v-col>
   </v-row>
      
@@ -91,8 +91,8 @@
           <v-btn>返回</v-btn>
         </router-link>
         <v-spacer></v-spacer>
-        <v-btn @click="onCommitBlog">保存</v-btn>
-        <v-btn @click="onSubmitAdd">发布</v-btn>
+        <v-btn @click="onCommitDraft" :style="{'background-color':'#00AEEC',color:'white'}">保存</v-btn>
+        <v-btn @click="onSubmitAdd" :style="{'background-color':'#00AEEC',color:'white'}">发布</v-btn>
       </v-card-actions>
      
      
