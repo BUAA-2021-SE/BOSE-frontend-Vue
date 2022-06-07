@@ -32,11 +32,11 @@
 								<v-col cols="12" sm="12" md="6">
 									<v-card v-if="posts[1]" :style="{'border-radius':'20px','height':'200px',}">
 										<v-img :src="posts[1].cover"
-											:style="{'min-width':'100%','min-height':'100%','border-radius':'20px'}" />
+											:style="{'min-width':'100%','min-height':'100%','max-height':'200px','border-radius':'20px'}" />
 										<router-link :to="{ name: 'Post', params: { id: posts[1].id } }">
 											<div class="mask2 white--text align-end">
 												<h4
-													:style="{'margin-bottom':'20px','margin-left':'15px',color:'white'}">
+													:style="{'margin-bottom':'20px','margin-left':'15px','max-height':'200px',color:'white'}">
 													{{posts[1].title}}
 												</h4>
 											</div>
@@ -72,7 +72,7 @@
 				</v-col>
 
 				<v-col cols="12" md="9">
-					<v-card>
+					<v-card outlined>
 			<v-col  cols="12" sm="6" md="12" class="d-flex justify-space-between">
 			<div v-for="(tag,index) in givenTags1" :key="index"   >
           	<v-btn depressed outlined v-if="!tag.value" @click="searchTag(tag)"

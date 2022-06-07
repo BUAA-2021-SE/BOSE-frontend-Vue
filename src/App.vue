@@ -1,5 +1,5 @@
-<template>
-  <v-app>
+<template >
+  <v-app >
     <navbar style="z-index:2000 "></navbar>
 <br/>
 <br/>
