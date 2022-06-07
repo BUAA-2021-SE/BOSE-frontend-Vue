@@ -1,8 +1,8 @@
 <template>
   <div class="mx-5">
     
-    <div class="text-center" v-show="this.loadingProfile">
-      <h3 v-show="this.loadingProfile">
+    <div class="text-center" v-show="loadingProfile">
+      <h3 v-show="loadingProfile">
         博客加载中······
         <v-progress-circular
           class="center"
@@ -10,11 +10,11 @@
           color="primary"
           :size="40"
           :width="3"
-          v-show="this.loadingProfile"
+          v-show="loadingProfile"
         ></v-progress-circular>
       </h3>
     </div>
-    <v-container v-show="!this.loadingProfile" grid-list-xl>
+    <v-container v-show="!loadingProfile" grid-list-xl>
       
       <!-- 目录 -->
       <!-- Sidebar -->
@@ -51,9 +51,7 @@
               <v-card outlined class="mx-auto" v-show="showContent" :style="{'position':'absolute','top':'170px','right':'25px','position':'fixed','width':'300px',
               'border-color':'#00AEEC','border-width':'2px','max-height':'60vh','overflow':'scroll','overflow-x':'hidden'}">
                 <div :style="{ 'margin-top': '15px' }">
-                  <div :style="{ 'margin-left': '9px', 'font-size': '30px','color':'#00AEEC'}">
-                    目录
-                  </div>
+                    <a :style="{ 'margin-left': '9px', 'font-size': '30px','color':'#00AEEC'}" href = "#blogHeader">目录</a>
                   <div v-html="topic"></div>
                 </div>
               </v-card>
@@ -64,7 +62,7 @@
           <!-- 博文内容 -->
           <!-- Articles Content -->
           <article>
-            <header class="g-mb-30">
+            <header class="g-mb-30" id="blogHeader">
               <h1 class="g-color-primary g-mb-15">{{ post.title }}</h1>
               <ul class="list-inline d-sm-flex g-color-gray-dark-v4 mb-0">
                 <li v-if="post.author">
@@ -1030,7 +1028,7 @@ export default {
       let cid = comment.author.id;
       let name = comment.author.name;
       this.currentForm.replyId = comment.id;
-      this.currentForm.replyTo = `回复 <a href="/user/${cid}"> @${name}</a>:`;
+      this.currentForm.replyTo = `回复 <a href="/user/${cid}" target="_blank"> @${name}</a>:`;
       // console.log(document.getElementById("replyTo"));
       this.currentForm.body = "";
       this.replyCommentDialog = true;
@@ -1109,7 +1107,7 @@ export default {
         .then((res) => {
           console.log(res.data);
           if(this.sharedState.is_authenticated){
-            this.user.name = res.data.name;
+			this.user.name = res.data.name;
           this.user.about_me = res.data.about_me;
           this.user._links.avatar = res.data.headshot;
           this.user.last_seen = res.data.last_seen;
@@ -1122,7 +1120,6 @@ export default {
           this.user.unread_followings = res.data.unread_followings;
           this.user.unread_likes = res.data.unread_likes;
           this.user.unread_messages = res.data.unread_messages;
-          this.loadingProfile = false;
           this.newMessage =
             this.user.unread_comments +
             this.user.unread_followings +

@@ -2,21 +2,21 @@
   <section>
     <div class="container">
       <div class="text-center">
-        <h3 v-show="this.loadingProfile"> 粉丝列表加载中
+        <h3 v-show="loadingProfile"> 粉丝列表加载中
           <v-progress-circular
               class="center"
               indeterminate
               color="primary"
               :size="40"
               :width="3"
-              v-show="this.loadingProfile"
+              v-show="loadingProfile"
           ></v-progress-circular>
         </h3>
       </div>
     </div>
     <div class="g-brd-around g-brd-gray-light-v4 g-pa-20 g-mb-40"
          v-if="followers.length > 0"
-         v-show="!this.loadingProfile">
+         v-show="!loadingProfile">
       <v-col cols="12" md="12" v-for="(followers,index) in followers" :key="index">
         <follower
             :followers="followers"
@@ -25,7 +25,7 @@
       </v-col>
     </div>
     <div
-        v-else-if="followers.length === 0 && !this.loadingProfile"
+        v-else-if="followers.length === 0 && !loadingProfile"
         class="text-center">
       <h3>呜呜呜，居然没有粉丝呢</h3>
     </div>

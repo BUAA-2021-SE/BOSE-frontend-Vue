@@ -2,7 +2,7 @@
   <section>
     <div class="container">
       <div class="text-center">
-        <h3 v-show="this.loadingProfile">
+        <h3 v-show="loadingProfile">
           个人信息加载中
           <v-progress-circular
             class="center"
@@ -16,7 +16,7 @@
       <v-card shaped elevation='12'>
         <div
           class="g-brd-around g-brd-gray-light-v4 g-pa-20 g-mb-40"
-          v-show="!this.loadingProfile"
+          v-show="!loadingProfile"
         >
           <!-- v-divider vertical useless -->
           <div class="col-sm-9">

@@ -9,7 +9,7 @@
               color="primary"
               :size="40"
               :width="3"
-              v-show="this.loadingProfile"
+              v-show="loadingProfile"
           ></v-progress-circular>
         </h3>
       </div>
