@@ -5,7 +5,7 @@
 				<v-col cols="12" sm="12" md="7">
 					<v-card :style="{'border-radius':'20px'}">
 						<v-carousel  cycle hide-delimiter-background show-arrows-on-hover>
-							<v-carousel-item v-for="(post,index) in templatePosts" :key="index">
+							<v-carousel-item v-for="(post,index) in recommendPosts" :key="index">
 								<v-sheet height="100%">
 									<v-img :src="post.cover" :style="{'min-width':'100%','min-height':'80%',}" />
 									<router-link :to="{ name: 'Post', params: { id: post.id } }">
@@ -30,14 +30,14 @@
 						<v-col cols="12" sm="12" md="12">
 							<v-row>
 								<v-col cols="12" sm="12" md="6">
-									<v-card v-if="posts[1]" :style="{'border-radius':'20px','height':'200px',}">
-										<v-img :src="posts[1].cover"
+									<v-card v-if="recommendPosts1" :style="{'border-radius':'20px','height':'200px','max-height':'200px'}">
+										<v-img :src="recommendPosts1.cover"
 											:style="{'min-width':'100%','min-height':'100%','max-height':'200px','border-radius':'20px'}" />
-										<router-link :to="{ name: 'Post', params: { id: posts[1].id } }">
+										<router-link :to="{ name: 'Post', params: { id: recommendPosts1.id } }">
 											<div class="mask2 white--text align-end">
 												<h4
 													:style="{'margin-bottom':'20px','margin-left':'15px','max-height':'200px',color:'white'}">
-													{{posts[1].title}}
+													{{recommendPosts1.title}}
 												</h4>
 											</div>
 										</router-link>
@@ -45,14 +45,14 @@
 									</v-card>
 								</v-col>
 								<v-col cols="12" sm="12" md="6">
-									<v-card v-if="posts[2]" :style="{'border-radius':'20px','height':'200px',}">
-										<v-img  :src="posts[2].cover"
-											:style="{'min-width':'100%','min-height':'100%','border-radius':'20px'}" />
-										<router-link :to="{ name: 'Post', params: { id: posts[2].id } }">
+									<v-card v-if="recommendPosts2" :style="{'border-radius':'20px','height':'200px','max-height':'200px'}">
+										<v-img  :src="recommendPosts2.cover"
+											:style="{'min-width':'100%','min-height':'100%','max-height':'200px','border-radius':'20px'}" />
+										<router-link :to="{ name: 'Post', params: { id: recommendPosts2.id } }">
 											<div class="mask2 white--text align-end">
 												<h4
 													:style="{'margin-bottom':'20px','margin-left':'15px',color:'white'}">
-													{{posts[2].title}}
+													{{recommendPosts2.title}}
 												</h4>
 											</div>
 										</router-link>
@@ -173,6 +173,9 @@
 		},
 		data() {
 			return {
+		recommendPosts: [],
+		recommendPosts1:{},
+		recommendPosts2:{},
 		givenTags:[],
 		givenTags2:[],
 		givenTags1: [
@@ -284,6 +287,17 @@
 						if(this.pageTotal===0) this.pageTotal = 1;
 					})
 			},
+			getRecommendPosts(number) {
+				Post.getRecommendPosts(0,number)
+					.then((res) => {
+						console.log(res.data, "getRecommendPosts");
+						for(let i = 0; i < 5; i++){
+							this.recommendPosts.push(res.data.items[i]);
+						}
+						this.recommendPosts1= res.data.items[5];
+						this.recommendPosts2= res.data.items[6];
+					})
+			},
 			searchTag(tag){
 				console.log(tag.key)
 				this.$router.push({
@@ -355,6 +369,7 @@
 			this.computeTags();
 			this.getHotPosts(1);
 			this.getSelectedPost();
+			this.getRecommendPosts(7);
 		},
 		mounted() {
 			this.computeTags();

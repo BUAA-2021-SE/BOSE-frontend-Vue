@@ -28,6 +28,7 @@ const url = {
     getResource: '/resources/all_resources',
     deleteResource: '/resources/delete_resource',
     rank: '/blog/rank',
+    recommendPosts:'/blog/recommend'
 };
 export default class Post {
     static async getBlog(id, data) {
@@ -249,6 +250,15 @@ export default class Post {
     static async deleteResource(id) {
         return service(`${url.deleteResource}/${id}`, {
             method: 'delete',
+            responseType: 'json',
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            },
+        })
+    }
+    static async getRecommendPosts(id,number) {
+        return service(`${url.recommendPosts}/${id}/allallallall/${number}`, {
+            method: 'get',
             responseType: 'json',
             headers: {
                 'Content-Type': 'multipart/form-data'
