@@ -197,25 +197,22 @@
 		],
 			sharedState: store.state,
 			HomeMessage: '主页一期完成',
-			templatePosts:[
-				{
-					id: 0,
-					author:{},
-					title:{},
-				}
-			],
+			templatePosts:[],
 			posts: [{	
 				id: 0,
 				author:{},
-				title:{},
+				title:"",
+				body:"",
+				cover:""
 			}],
 			hotPosts:[{
 				id: 0,
 				author:{},
-				title:{},
+				title:"",
+				body:"",
+				cover:""
 			}],
 			topHotPost:{},
-			
 			selectPost:{},
 			clientWidth: '',
 			tools: {
@@ -257,25 +254,17 @@
 				this.getPosts(newPage)
 			},
 			clientWidth(val) {
-    if(!this.timer) {
-      this.clientWidth= val
-      this.timer = true
-      let _this = this
-      setTimeout(function () {
-        _this.timer = false
-      }, 500)
-    }
-    // 这里可以添加修改时的方法
-	this.computeTags();
-    this.windowWidth(val);
-  }
-		},
-		computed: {
-			alertsFilter: function() {
-				return this.alerts.filter((alert) => {
-					return alert.showAlert;
-				})
-				this.getPosts(newPage);
+				if(!this.timer) {
+				this.clientWidth= val
+				this.timer = true
+				let _this = this
+				setTimeout(function () {
+					_this.timer = false
+				}, 500)
+				}
+				// 这里可以添加修改时的方法
+				this.computeTags();
+				this.windowWidth(val);
 			}
 		},
 		methods: {
@@ -349,6 +338,7 @@
           	.then((res) => {
             console.log(res.data, "getTagPosts");
 			this.topHotPost = res.data.items[0];
+			this.hotPosts.splice(0);
             for (let i=1; i<10;i++){
 				this.hotPosts.push(res.data.items[i]);
 			}

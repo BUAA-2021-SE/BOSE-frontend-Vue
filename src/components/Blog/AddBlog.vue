@@ -91,7 +91,7 @@
           <v-btn>返回</v-btn>
         </router-link>
         <v-spacer></v-spacer>
-        <v-btn @click="onCommitDraft" :style="{'background-color':'#00AEEC',color:'white'}">保存</v-btn>
+        <v-btn @click="onCommitBlog" :style="{'background-color':'#00AEEC',color:'white'}">保存</v-btn>
         <v-btn @click="onSubmitAdd" :style="{'background-color':'#00AEEC',color:'white'}">发布</v-btn>
       </v-card-actions>
      
@@ -289,7 +289,7 @@ export default {
       Post.editBlog(this.$route.params.id,payload)
           .then((res) => {
             console.log(res);
-            this.$toasted.success(`${this.postForm.title} is submitted successfully!`,
+            this.$toasted.success(`《${this.postForm.title}》成功提交`,
                 {
                   icon: 'check',
                   fullWidth: true,
@@ -345,7 +345,7 @@ export default {
       Post.editDraft(this.$route.params.id,payload)
       .then((res)=>{
         console.log(res);
-        this.$toasted.success(`${this.postForm.title} is committed successfully!`,
+        this.$toasted.success(`《${this.postForm.title}》成功保存！`,
         {
                   icon: 'check',
                   fullWidth: true,

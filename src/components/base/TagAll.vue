@@ -96,9 +96,9 @@ export default {
           .then((res) => {
             console.log(res.data, "getTagPosts");
             this.posts = res.data.items;
-            this.total = res.data.total
-            this.page = res.data.page
-            this.size = res.data.size
+            this.total = res.data.total;
+            this.page = res.data.page;
+            this.size = res.data.size;
             this.pageTotal = Math.ceil(this.total / this.size)
             this.loadingProfile = false;
           })
