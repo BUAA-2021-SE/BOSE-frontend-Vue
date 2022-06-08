@@ -22,14 +22,15 @@
               <v-btn v-if="post.status===1" color="error" text small>待审核</v-btn>
             </v-card-title>
           </router-link>
-            <v-card-title v-else>
-              <h3 v-if="post.title.length <12">{{ post.title }}</h3>
-              <h3 v-else>{{ post.title.substring(0, 9) + '...' }}</h3>
-              <v-btn v-if="post.status===-1" color="error" text small>被打回</v-btn>
-              <v-btn v-if="post.status===1" color="error" text small>待审核</v-btn>
-            </v-card-title>
+          <v-card-title v-else>
+            <h3 v-if="post.title.length <12">{{ post.title }}</h3>
+            <h3 v-else>{{ post.title.substring(0, 9) + '...' }}</h3>
+            <v-btn v-if="post.status===-1" color="error" text small>被打回</v-btn>
+            <v-btn v-if="post.status===1" color="error" text small>待审核</v-btn>
+          </v-card-title>
           <v-card-text>
-            <strong v-html="post.author.name || post.author.username"></strong>
+            <router-link :to="{name:'ShowProfile',params:{id: post.author.id}}"><strong
+                v-html="post.author.name || post.author.username"></strong></router-link>
             <div class="text--primary">
               {{ post.summary }}
             </div>

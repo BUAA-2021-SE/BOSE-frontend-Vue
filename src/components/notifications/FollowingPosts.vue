@@ -87,7 +87,10 @@
             <v-expansion-panel-content>
               <v-divider></v-divider>
               <v-card-text>
-                用户 <strong v-html="item.sender.name||item.sender.username"></strong> 关注了您！
+                用户
+                <router-link :to="{name:'ShowProfile',params:{id: item.sender.id}}"><strong
+                    v-html="item.sender.name||item.sender.username"></strong></router-link>
+                关注了您！
               </v-card-text>
             </v-expansion-panel-content>
           </v-expansion-panel>
@@ -128,7 +131,7 @@ export default {
     getFollowList(page) {
       let followId = 1;
       console.log("getFollowList");
-      Notifications.getMailList(followId,page,this.size)
+      Notifications.getMailList(followId, page, this.size)
           .then((res) => {
             console.log(res);
             this.items = res.data.items;
@@ -148,11 +151,11 @@ export default {
       Notifications.getMail(id);
     }
   },
-  watch:{
-			page: function(newPage, oldPage) {
-				this.getFollowList(newPage);
-			}
-	},
+  watch: {
+    page: function (newPage, oldPage) {
+      this.getFollowList(newPage);
+    }
+  },
   created() {
     this.getFollowList(1);
   },

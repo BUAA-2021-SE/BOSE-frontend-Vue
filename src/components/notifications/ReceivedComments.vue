@@ -59,7 +59,10 @@
                   <v-col
                       class="hidden-xs-only"
                   >
-                    来自用户 <strong v-html="item.sender.name||item.sender.username"></strong> 的评论通知
+                    来自用户
+                    <router-link :to="{name:'ShowProfile',params:{id: item.sender.id}}"><strong
+                        v-html="item.sender.name||item.sender.username"></strong></router-link>
+                    的评论通知
                   </v-col>
                 </v-row>
                 <v-row>
