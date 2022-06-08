@@ -17,10 +17,10 @@
     <v-container
         v-if="items.length > 0"
         fluid>
-      <v-row justify="center">
-        <v-subheader>
-          <h3>我的资源</h3>
-        </v-subheader>
+      <v-row justify="center" :style="{width:'80vw'}" class="m-auto">
+        <div class="text-align-center">
+          <h6 class="text-align-center">共有资源{{ total }}篇</h6>
+        </div>
 
         <v-expansion-panels popout>
           <v-expansion-panel
@@ -81,10 +81,43 @@
                   {{ resource.name }}
                 </a>
               </div>
-
+              <v-btn
+                  v-if="item.author.id == sharedState.user_id"
+                  text
+                  color="deep-purple accent-4"
+                  @click="showDeleteDialog(item.id)"
+              >
+                删除
+              </v-btn>
             </v-expansion-panel-content>
           </v-expansion-panel>
+          <v-dialog
+              style="z-index: 2000"
+              v-model="showDelete"
+              width="25vw"
+              height="20vh"
+          >
+            <v-card
+                :style="{ width: '25vw', height: '20vh' }"
+                class="d-flex align-center flex-wrap"
+            >
+              <v-row class="mx-auto d-flex justify-center">
+                <v-card-title class="mx-auto"><h3 class="mx-auto">确定删除？</h3></v-card-title>
+                <v-card-actions>
+                  <v-btn color="primary" text @click="showDelete = false"> 取消</v-btn>
+                  <v-spacer></v-spacer>
+                  <v-btn color="error" text @click="onDeletePost"> 确认</v-btn>
+                </v-card-actions>
+              </v-row>
+            </v-card>
+          </v-dialog>
         </v-expansion-panels>
+        <v-pagination
+            v-model="page"
+            :length="pageTotal"
+            :total-visible="7"
+            circle
+        ></v-pagination>
       </v-row>
     </v-container>
     <div
@@ -92,14 +125,12 @@
         class="text-center">
       <h3>呜呜呜，你来到了没有资源的荒漠。</h3>
     </div>
-    <div>
-      {{ items }}
-    </div>
   </section>
 </template>
 <script>
 import Resource from "@/api/resource";
 import Post from "@/api/post";
+import store from "@/store";
 
 export default {
   name: 'SearchResource',
@@ -107,15 +138,48 @@ export default {
     return {
       items: [],
       loadingLikes: true,
+      total: 0, //总博文数
+      page: 1, //第几页
+      size: 5, //每页总数
+      pageTotal: 1, //总页数
+      sharedState: store.state,
+      deleteId: 0,
+      showDelete: false,
     }
   },
   methods: {
-    getResourcesList() {
-      console.log("keyword: " + this.$route.params.keyword + " resource");
-      Post.search_resource(this.$route.params.keyword)
+    showDeleteDialog(id) {
+      this.deleteId = id;
+      this.showDelete = true;
+    },
+    onDeletePost() {
+      console.log("onDelete", this.deleteId);
+      Post.deleteBlog(this.deleteId)
+          .then((res) => {
+            console.log(res);
+            this.$emit("delete");
+            this.deleteId = 0;
+            this.showDelete = false;
+            this.$toasted.success(res.data, {
+              icon: "check",
+              fullWidth: true,
+              position: "bottom-center",
+            });
+          })
+          .catch((err) => {
+            console.error(err, "not deleted");
+          });
+    },
+    getResourcesList(page) {
+      console.log("getResourcesList");
+      Post.search_resource(this.$route.params.keyword, page, this.size)
           .then((res) => {
             console.log(res);
             this.items = res.data.items;
+            this.total = res.data.total;
+            this.page = res.data.page;
+            this.size = res.data.size;
+            this.pageTotal = Math.ceil(this.total / this.size);
             this.loadingLikes = false;
           })
           .catch((err) => {
@@ -125,10 +189,15 @@ export default {
     },
   },
   created() {
-    this.getResourcesList();
+    this.getResourcesList(1);
+  },
+  watch: {
+    page: function (newPage, oldPage) {
+      this.getResourcesList(newPage);
+    }
   },
   beforeRouteUpdate(to, from, next) {
-    this.getResourcesList();
+    this.getResourcesList(1);
   }
 }
 </script>
