@@ -50,26 +50,26 @@
               <v-btn
                 :to="{name: 'Drafts', params: {id: this.$route.params.id} }" class="d-flex justify-start"
                 text >
-                <v-icon :style="{ color: 'grey' ,'font-size': '20px','margin-top':'2px','margin-right':'3px'}">notes</v-icon>
+                <v-icon :style="{ color: 'orange' ,'font-size': '20px','margin-top':'2px','margin-right':'3px'}">drafts</v-icon>
               草稿
             </v-btn>
             <v-btn
                 :to="{name: 'DraftPosts', params: {id: this.$route.params.id}}" class="d-flex justify-start"
                 text >
-               <v-icon  :style="{ color: 'pink' ,'font-size': '20px','margin-top':'2px','margin-right':'3px'}">textsms</v-icon>
+               <v-icon  :style="{ color: 'grey' ,'font-size': '20px','margin-top':'2px','margin-right':'3px'}">article</v-icon>
               博文
             </v-btn>
 
             <v-btn
                 :to="{name: 'Resources', params: {id: this.$route.params.id}}" class="d-flex justify-start"
                 text >
-               <v-icon :style="{ color: 'grey' ,'font-size': '20px','margin-top':'2px','margin-right':'3px'}">thumb_up</v-icon>
+               <v-icon :style="{ color: 'brown' ,'font-size': '20px','margin-top':'2px','margin-right':'3px'}">link</v-icon>
               资源
             </v-btn>
             <v-btn
                 :to="{name: 'Stars', params: {id: this.$route.params.id}}" class="d-flex justify-start"
                 text >
-               <v-icon :style="{ color: 'grey' ,'font-size': '20px','margin-top':'2px','margin-right':'3px'}">bookmarks</v-icon>
+               <v-icon :style="{ color: 'red' ,'font-size': '20px','margin-top':'2px','margin-right':'3px'}">bookmarks</v-icon>
               收藏
             </v-btn>
             <v-btn v-if="ifFollow && $route.params.id != sharedState.user_id" @click="onUnFollowUser()" text class="d-flex justify-start">
