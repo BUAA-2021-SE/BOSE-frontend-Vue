@@ -2,7 +2,7 @@
   <div class=" my-auto container">
     <div v-if="sharedState.is_authenticated" class="mx-auto" width="80vw">
       <v-row>
-        <v-col cols="12" md="6">
+        <v-col cols="12" md="7">
           <label>标题</label>
           <br/>
           <v-text-field
@@ -12,7 +12,7 @@
               placeholder=""
               counter="20"
               :class="{'is-invalid': postForm.titleError}"
-              :style="{width:'30vw' ,'margin-top':'10px'}"
+              :style="{width:'50vw' ,'margin-top':'10px'}"
           ></v-text-field>
           <label>摘要</label>
           <v-textarea
@@ -24,15 +24,27 @@
               rows="3"
               placeholder=""
               :class="{'is-invalid': postForm.summaryError}"
-              :style="{width:'30vw' ,'margin-top':'10px'}"
+              :style="{width:'50vw' ,'margin-top':'10px'}"
           ></v-textarea>
 
         </v-col>
-        <v-col md="6" class="my-auto">
-          <v-btn @click="addFile">上传封面</v-btn>
+        <v-col md="5" class="my-auto">
+          <v-card>
+          <v-card-title>
+           封面预览
+          </v-card-title>
+          <v-card-content>
+          <img v-if="postForm.cover" :src="postForm.cover" :style="{'margin-left':'20px','border-radius':'20px','max-width':'350px','min-height':'100%','max-height':'150px'}">
+          <div v-else>
+          <br><br><br><br><br><br>
+          </div>
+          </v-card-content>
+          <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn @click="addFile" text>上传封面</v-btn>
           <input type="file" ref="upload_input" style="display: none;" @change="select_file" accept=".png,.jpg,.jpeg">
-          <img v-if="postForm.cover" :src="postForm.cover"
-               :style="{'margin-left':'50px','border-radius':'20px','max-width':'250px','min-height':'100%','max-height':'150px'}">
+          </v-card-actions>
+          </v-card>
         </v-col>
       </v-row>
 
