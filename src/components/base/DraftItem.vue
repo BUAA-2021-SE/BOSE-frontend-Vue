@@ -87,7 +87,7 @@ export default {
               this.$emit('delete');
               this.deleteId = 0;
               this.showDelete = false;
-              this.$toasted.success(res.data,
+              this.$toasted.success("删除成功",
                   {
                     icon: 'check',
                     fullWidth: true,
@@ -96,7 +96,7 @@ export default {
             })
             .catch((err) => {
               console.error(err, "not deleted");
-              this.$toasted.error("not deleted",{icon:'check'});
+              this.$toasted.error("无法删除",{icon:'check'});
             })
       }
     }

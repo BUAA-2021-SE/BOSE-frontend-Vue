@@ -941,7 +941,7 @@ export default {
         .then((res) => {
           console.log(res);
           this.deleteBlogDialog = false;
-          this.$toasted.success(res.data, {
+          this.$toasted.success("删除成功", {
             icon: "check",
             fullWidth: true,
             position: "bottom-center",

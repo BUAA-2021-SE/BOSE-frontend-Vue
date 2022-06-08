@@ -100,7 +100,7 @@ export default {
       Account.editUser(formData)
           .then((res) => {
             console.log(res);
-            this.$toasted.success("Successfully modify your profile.", {
+            this.$toasted.success("修改个人信息成功！", {
               icon: "check",
             });
             this.$router.push({

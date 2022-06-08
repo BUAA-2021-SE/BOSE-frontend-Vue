@@ -99,7 +99,7 @@ export default {
             this.$emit("delete");
             this.deleteId = 0;
             this.showDelete = false;
-            this.$toasted.success(res.data, {
+            this.$toasted.success("删除成功", {
               icon: "check",
               fullWidth: true,
               position: "bottom-center",
