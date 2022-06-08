@@ -4,7 +4,7 @@
 			<v-row>
 				<v-col cols="12" sm="12" md="7">
 					<v-card :style="{'border-radius':'20px'}">
-						<v-carousel  cycle="4" hide-delimiter-background show-arrows-on-hover>
+						<v-carousel  cycle hide-delimiter-background show-arrows-on-hover>
 							<v-carousel-item v-for="(post,index) in templatePosts" :key="index">
 								<v-sheet height="100%">
 									<v-img :src="post.cover" :style="{'min-width':'100%','min-height':'80%',}" />
@@ -163,6 +163,7 @@
 	import VueMarkdown from 'vue-markdown'
 	import Post from '@/api/post'
 	import BlogItem from '@/components/base/BlogItem.vue'
+	import Admin from '@/api/admin'
 	export default {
 		name: 'Home',
 		components: {
@@ -196,9 +197,23 @@
 		],
 			sharedState: store.state,
 			HomeMessage: '主页一期完成',
-			templatePosts:[],
-			posts: '',
-			hotPosts:[],
+			templatePosts:[
+				{
+					id: 0,
+					author:{},
+					title:{},
+				}
+			],
+			posts: [{	
+				id: 0,
+				author:{},
+				title:{},
+			}],
+			hotPosts:[{
+				id: 0,
+				author:{},
+				title:{},
+			}],
 			topHotPost:{},
 			
 			selectPost:{},
@@ -269,7 +284,7 @@
 					.then((res) => {
 						console.log(res.data, "getPosts");
 						for(let i = 0; i < res.data.items.length; i++){
-							if(i>3) break;
+							if(i>3||this.templatePosts.length>3) break;
 							this.templatePosts.push(res.data.items[i]);
 						}
 						this.posts = res.data.items;
@@ -290,6 +305,15 @@
 			windowWidth(value) {
            this.clientWidth = value;
       		},
+			getSelectedPost(){
+				Admin.getSelectedBlog()
+				.then((res)=>{
+					this.selectPost = res.data;
+				})
+				.catch((err)=>{
+					console.error(err);
+				})
+			},
 			computeTags(){
 				// const el = document.getElementById("tagbtn");
 				// let width=  this.$refs['tagbtn'].style.width;
@@ -340,7 +364,7 @@
 			this.windowWidth(document.documentElement.clientWidth);
 			this.computeTags();
 			this.getHotPosts(1);
-			
+			this.getSelectedPost();
 		},
 		mounted() {
 			this.computeTags();

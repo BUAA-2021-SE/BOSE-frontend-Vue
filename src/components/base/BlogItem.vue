@@ -15,7 +15,7 @@
         </v-col>
         <v-col cols="12" md="7">
           <router-link :to="{ name: 'Post', params: { id: post.id } }">
-            <v-card-title>
+            <v-card-title v-if="post.title">
               <h3 v-if="post.title.length <12">{{ post.title }}</h3>
               <h3 v-else>{{ post.title.substring(0, 9) + '...' }}</h3>
             </v-card-title>
