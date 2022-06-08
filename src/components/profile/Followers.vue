@@ -17,13 +17,15 @@
     <div class="g-brd-around g-brd-gray-light-v4 g-pa-20 g-mb-40"
          v-if="followers.length > 0"
          v-show="!loadingProfile">
+      <div class="text-align-center">
+        <h6 class="text-align-center">粉丝数量: {{ total }}</h6>
+      </div>
       <v-col cols="12" md="12" v-for="(followers,index) in followers" :key="index">
         <follower
             :followers="followers"
         >
         </follower>
       </v-col>
-      <span>粉丝数量:{{ total }}</span>
       <v-pagination
           v-model="page"
           :length="pageTotal"
@@ -61,7 +63,7 @@ export default {
   },
   methods: {
     getUserFollowers(page) {
-      Followers.getUserFollowers(this.$route.params.id,page,this.size)
+      Followers.getUserFollowers(this.$route.params.id, page, this.size)
           .then((res) => {
             console.log(res);
             this.followers = res.data.items;
@@ -69,7 +71,7 @@ export default {
             this.page = res.data.page;
             this.loadingProfile = false;
             this.pageTotal = Math.ceil(this.total / this.size);
-            if(this.pageTotal===0) this.pageTotal = 1;
+            if (this.pageTotal === 0) this.pageTotal = 1;
           })
           .catch((err) => {
             console.log((err, "getUserFollowersError"));
@@ -82,10 +84,10 @@ export default {
     this.getUserFollowers(1);
   },
   watch: {
-			page: function(newPage, oldPage) {
-				this.getUserFollowers(newPage);
-			}
-	},
+    page: function (newPage, oldPage) {
+      this.getUserFollowers(newPage);
+    }
+  },
   beforeRouteUpdate(to, from, next) {
     next()
     this.getUserFollowers(1);
