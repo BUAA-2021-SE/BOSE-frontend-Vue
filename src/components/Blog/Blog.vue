@@ -64,6 +64,8 @@
           <article>
             <header class="g-mb-30" id="blogHeader">
               <h1 class="g-color-primary g-mb-15">{{ post.title }}</h1>
+              <v-btn v-if="post.status===-1" color="error" text small>被打回</v-btn>
+              <v-btn v-if="post.status===1" color="error" text small>待审核</v-btn>
               <ul class="list-inline d-sm-flex g-color-gray-dark-v4 mb-0">
                 <li v-if="post.author">
                   <router-link
@@ -102,6 +104,20 @@
                 <v-btn @click="deleteBlogDialog = true" color="error" text
                   >删除</v-btn
                 >
+              </div>
+              <div>
+                <v-chip :style="{'background-color':'#00AEEC','color':'white'}" v-show="post.tag1!='none'" class="ma-2"
+                        small>{{ post.tag1 }}
+                </v-chip>
+                <v-chip :style="{'background-color':'#00AEEC','color':'white'}" v-show="post.tag2!='none'" class="ma-2"
+                        small>{{ post.tag2 }}
+                </v-chip>
+                <v-chip :style="{'background-color':'#00AEEC','color':'white'}" v-show="post.tag3!='none'" class="ma-2"
+                        small>{{ post.tag3 }}
+                </v-chip>
+                <v-chip :style="{'background-color':'#00AEEC','color':'white'}" v-show="post.tag4!='none'" class="ma-2"
+                        small>{{ post.tag4 }}
+                </v-chip>
               </div>
               <hr class="g-brd-gray-light-v4 g-my-15" />
             </header>
