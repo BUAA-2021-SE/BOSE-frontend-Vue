@@ -484,7 +484,7 @@
                     </router-link>
 
                     <v-btn
-                      v-if="comment.author.id == post.author.id"
+                      v-if="post.author.id && comment.author.id === post.author.id"
                       x-small
                       text
                       :style="{ 'pointer-events': 'none' }"
@@ -810,19 +810,6 @@
             <span class="mx-auto">没有更多评论了捏~</span>
             <!-- End Panel Body -->
           </div>
-          <!-- Pagination #04 -->
-          <!-- <div v-if="comments && comments._meta.total_pages > 1">
-          <v-pagination
-          v-model="comments._meta.page"
-          :length="comments._meta.total_pages"
-          :total-visible="7"
-          circle
-          ></v-pagination>
-        </div> -->
-          <!-- End Pagination #04 -->
-
-          <!-- end Articles Content -->
-        <!-- </v-col> -->
         </div>
       
       </div>
@@ -863,7 +850,11 @@ export default {
         { title: "Users", icon: "mdi-account-group-outline" },
       ],
       sharedState: store.state,
-      post: {},
+      post: {
+        author:{
+          id:0
+        }
+      },
       rules: [(v) => v.length <= 50 || "Max 50 characters"],
       comments: [],
       commentForm: {

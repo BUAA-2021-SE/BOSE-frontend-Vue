@@ -77,7 +77,7 @@ const router = new VueRouter({
             ]
         },
         {
-            path: '/post/:id',
+            path: '/post/:id?',
             name: 'Post',
             component: Post,
         },

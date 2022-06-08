@@ -88,12 +88,10 @@
         {{ editForm.titleError || editForm.summaryError || editForm.bodyError }}
       </v-alert>
       <v-card-actions>
-        <router-link :to="{name: 'Home'}">
-          <v-btn>返回</v-btn>
-        </router-link>
+          <v-btn :to="{name: 'Home'}">返回</v-btn>
         <v-spacer></v-spacer>
       <v-btn @click="onCommitDraft" :style="{'background-color':'#00AEEC',color:'white'}">保存</v-btn>
-        <v-btn @click="onSubmitAdd" :style="{'background-color':'#00AEEC',color:'white'}">发布</v-btn>
+      <v-btn @click="onSubmitAdd" :style="{'background-color':'#00AEEC',color:'white'}">发布</v-btn>
       </v-card-actions>
      
      
@@ -112,7 +110,7 @@ const highlightCode = () => {
 }
 export default {
   name: 'EditBlog',
-  data() {
+  data(){
     return {
       sharedState: store.state,
       post: {},
@@ -249,7 +247,6 @@ export default {
         console.log(this.tags)
         tag.value=0;
     },
-
     getBlog(id) {
       const formData = new FormData();
       formData.append('view_id',0);
