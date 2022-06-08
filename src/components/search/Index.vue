@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="container">
     <v-tabs>
       <v-tab :to="{name:'Search'}">综合</v-tab>
       <v-tab :to="{name:'SearchBlog'}">博文</v-tab>
