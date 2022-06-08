@@ -3,7 +3,7 @@
     <div class="container">
       <div class="text-center">
         <h3>
-          {{ tag }}
+          {{$route.params.tag}}
         </h3>
         <h3 v-show="this.loadingProfile"> 博客列表加载中
           <v-progress-circular
@@ -58,12 +58,12 @@
 <script>
 import Post from "@/api/post";
 import store from "@/store";
-import BlogItem from '@/components/base/BlogItem.vue'
+import BlogItemForHome from '@/components/base/BlogItemForHome.vue'
 
 export default {
   name: 'TagAll',
   components: {
-    blog: BlogItem
+    blog: BlogItemForHome
   },
   data() {
     return {
@@ -134,6 +134,7 @@ export default {
     page: function (newPage, oldPage) {
       this.getTagPosts(newPage)
     }
+    
   },
   created() {
     this.getTagPosts(1);
