@@ -54,7 +54,7 @@
           </v-card-content>
           <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn @click="addFile">修改封面</v-btn>
+          <v-btn @click="addFile" text>修改封面</v-btn>
           <input type="file" ref="upload_input" style="display: none;" @change="select_file" accept=".png,.jpg,.jpeg">
           </v-card-actions>
           </v-card>

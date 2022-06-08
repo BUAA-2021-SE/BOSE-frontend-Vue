@@ -2,7 +2,7 @@
   <div class=" my-auto container">
     <div v-if="sharedState.is_authenticated" class="mx-auto" width="80vw">
       <v-row>
-        <v-col cols="12" md="5">
+        <v-col cols="12" md="7">
           <label>标题</label>
           <br/>
           <v-text-field
@@ -29,7 +29,7 @@
           ></v-textarea>
 
         </v-col>
-        <v-col md="7" class="my-auto">
+        <v-col md="5" class="my-auto">
           <v-card>
           <v-card-title>
            封面预览
@@ -42,7 +42,7 @@
           </v-card-content>
           <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn @click="addFile">修改封面</v-btn>
+          <v-btn @click="addFile" text>修改封面</v-btn>
           <input type="file" ref="upload_input" style="display: none;" @change="select_file" accept=".png,.jpg,.jpeg">
           </v-card-actions>
           </v-card>
