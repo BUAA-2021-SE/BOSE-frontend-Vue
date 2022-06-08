@@ -296,7 +296,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 input:-webkit-autofill,
 textarea:-webkit-autofill,
 select:-webkit-autofill {
