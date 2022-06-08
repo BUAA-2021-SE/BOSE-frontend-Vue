@@ -59,7 +59,7 @@
                  class="d-flex justify-start"
                 :to="{name: 'Followers', params: {id: this.$route.params.id}}"
                 text >
-               <v-icon class="material-icons" :style="{ color: 'LightPink' ,'font-size': '20px','margin-top':'2px','margin-right':'3px'}">groups</v-icon>
+               <v-icon :style="{ color: 'LightPink' ,'font-size': '20px','margin-top':'2px','margin-right':'3px'}">groups</v-icon>
               粉丝
             </v-btn>
 
@@ -67,7 +67,7 @@
                  class="d-flex justify-start"
                 :to="{name: 'Following', params: {id: this.$route.params.id}}"
                 text >
-               <v-icon class="material-icons"  :style="{ color: 'Gold' ,'font-size': '20px','margin-top':'2px','margin-right':'3px'}">tips_and_updates</v-icon>
+               <v-icon  :style="{ color: 'Gold' ,'font-size': '20px','margin-top':'2px','margin-right':'3px'}">tips_and_updates</v-icon>
               关注
             </v-btn>
 
@@ -75,17 +75,17 @@
                 v-if="sharedState.user_id!=$route.params.id" :to="{name: 'ProfilePosts', params: {id: this.$route.params.id}}"
                 text
                 class="d-flex justify-start" >
-               <v-icon class="material-icons"  :style="{ color: 'DarkMagenta' ,'font-size': '20px','margin-top':'2px','margin-right':'3px'}">bookmarks</v-icon>
+               <v-icon :style="{ color: 'DarkMagenta' ,'font-size': '20px','margin-top':'2px','margin-right':'3px'}">bookmarks</v-icon>
               博文
             </v-btn>
             <v-btn v-if="ifFollow && $route.params.id != sharedState.user_id" @click="onUnFollowUser()" text class="d-flex justify-start">
-           <v-icon class="material-icons"  :style="{ color: 'DarkSeaGreen' ,'font-size': '20px','margin-top':'2px','margin-right':'3px'}">
+           <v-icon  :style="{ color: 'DarkSeaGreen' ,'font-size': '20px','margin-top':'2px','margin-right':'3px'}">
             person_remove_alt_1
             </v-icon>
               取消关注
             </v-btn>
             <v-btn v-if="!ifFollow && $route.params.id != sharedState.user_id" @click="onFollowUser()" text class="d-flex justify-start">
-              <v-icon class="material-icons"  :style="{ color: 'DarkTurquoise' ,'font-size': '20px','margin-top':'2px','margin-right':'3px'}">
+              <v-icon :style="{ color: 'DarkTurquoise' ,'font-size': '20px','margin-top':'2px','margin-right':'3px'}">
             person_add_alt_1
             </v-icon>
               立刻关注
@@ -93,27 +93,27 @@
             <v-btn v-if="$route.params.id != sharedState.user_id" text class="d-flex justify-start"
             :to="{name: 'HistoryMessage',params: {id: this.$route.params.id}}"
             >
-            <v-icon class="material-icons"  :style="{ color: 'DarkTurquoise' ,'font-size': '20px','margin-top':'2px','margin-right':'3px'}">
+            <v-icon :style="{ color: 'DarkTurquoise' ,'font-size': '20px','margin-top':'2px','margin-right':'3px'}">
             message
             </v-icon>
               私信交流
             </v-btn>
 
            <v-btn v-if="ifBlock && $route.params.id != sharedState.user_id" @click="onUnblockUser()" text class="d-flex justify-start">
-           <v-icon class="material-icons"  :style="{ color: 'DarkSeaGreen' ,'font-size': '20px','margin-top':'2px','margin-right':'3px'}">
+           <v-icon  :style="{ color: 'DarkSeaGreen' ,'font-size': '20px','margin-top':'2px','margin-right':'3px'}">
             supervised_user_circle
             </v-icon>
               取消拉黑
             </v-btn>
             <v-btn v-if="!ifBlock && $route.params.id != sharedState.user_id" @click="onBlockUser()" text class="d-flex justify-start">
-              <v-icon class="material-icons"  :style="{ color: 'red' ,'font-size': '20px','margin-top':'2px','margin-right':'3px'}">
+              <v-icon :style="{ color: 'red' ,'font-size': '20px','margin-top':'2px','margin-right':'3px'}">
             block
             </v-icon>
               果断拉黑
             </v-btn>
 
               <v-btn v-if="$route.params.id == sharedState.user_id"  :to="{name: 'BlackList', params: {id: this.$route.params.id}}" text class="d-flex justify-start">
-              <v-icon class="material-icons"  :style="{ color: 'red' ,'font-size': '20px','margin-top':'2px','margin-right':'3px'}">
+              <v-icon :style="{ color: 'red' ,'font-size': '20px','margin-top':'2px','margin-right':'3px'}">
             block
             </v-icon>
               黑名单

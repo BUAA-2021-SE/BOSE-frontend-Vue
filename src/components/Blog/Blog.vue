@@ -127,7 +127,7 @@
             >
               <span v-if="post.likers_id && post.likers_id.length > 0"
                 ><v-icon
-                  class="material-icons my-auto"
+                  class="my-auto"
                   :style="{
                     color: '#1976D2',
                     'font-size': '20px',
@@ -140,7 +140,7 @@
               >
                <span v-else
                 ><v-icon
-                  class="material-icons my-auto"
+                  class="my-auto"
                   :style="{
                     color: '#1976D2',
                     'font-size': '20px',
@@ -159,7 +159,7 @@
             >
               <span v-if="post.likers_id && post.likers_id.length > 0"
                 ><v-icon
-                  class="material-icons my-auto"
+                  class="my-auto"
                   :style="{
                     'margin-right': '10px',
                     'margin-top': '-4px!important',
@@ -170,7 +170,7 @@
               >
               <span v-else
                 ><v-icon
-                  class="material-icons my-auto"
+                  class="my-auto"
                   :style="{
                     'margin-right': '10px',
                     'margin-top': '-4px!important',
@@ -523,7 +523,7 @@
                     >
                       <span v-if="comment.likers_id.length > 0">
                         <v-icon
-                          class="material-icons my-auto"
+                          class="my-auto"
                           :style="{
                             color: '#1976D2',
                             'font-size': '20px',
@@ -536,7 +536,7 @@
                       >
                       <span v-else
                         ><v-icon
-                          class="material-icons my-auto"
+                          class="my-auto"
                           :style="{
                             color: '#1976D2',
                             'font-size': '20px',
@@ -556,7 +556,7 @@
                     >
                       <span v-if="comment.likers_id.length > 0">
                         <v-icon
-                          class="material-icons my-auto"
+                          class="my-auto"
                           :style="{
                             'margin-right': '10px',
                             'margin-top': '-4px!important',
@@ -567,7 +567,7 @@
                       >
                       <span v-else>
                         <v-icon
-                          class="material-icons my-auto"
+                          class="my-auto"
                           :style="{
                             'margin-right': '10px',
                             'margin-top': '-4px!important',
@@ -695,7 +695,7 @@
                     >
                       <span v-if="child.likers_id.length > 0">
                         <v-icon
-                          class="material-icons my-auto"
+                          class="my-auto"
                           :style="{
                             color: '#1976D2',
                             'font-size': '20px',
@@ -708,7 +708,7 @@
                       >
                       <span v-else
                         ><v-icon
-                          class="material-icons my-auto"
+                          class="my-auto"
                           :style="{
                             color: '#1976D2',
                             'font-size': '20px',
@@ -728,7 +728,7 @@
                     >
                       <span v-if="child.likers_id.length > 0">
                         <v-icon
-                          class="material-icons my-auto"
+                          class=" my-auto"
                           :style="{
                             'margin-right': '10px',
                             'margin-top': '-4px!important',
@@ -739,7 +739,7 @@
                       >
                       <span v-else>
                         <v-icon
-                          class="material-icons my-auto"
+                          class=" my-auto"
                           :style="{
                             'margin-right': '10px',
                             'margin-top': '-4px!important',

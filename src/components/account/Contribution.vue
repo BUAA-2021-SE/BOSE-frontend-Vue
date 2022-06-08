@@ -35,44 +35,41 @@
             <v-card-subtitle><p>{{user.about_me}}</p></v-card-subtitle>
              <v-divider class="mx-4"></v-divider>
             <v-row class="justify-center">
-            <v-btn  v-if="$route.params.id == sharedState.user_id" 
-            text @click="toEditProfile" class="d-flex justify-start"
-            >
-               <v-icon>edit</v-icon>
+           <v-btn  v-if="$route.params.id == sharedState.user_id" text @click="toEditProfile" class="d-flex justify-start">
+               <v-icon :style="{ color: 'brown' ,'font-size': '20px','margin-top':'2px','margin-right':'3px'}">edit</v-icon>
                 修改信息
             </v-btn>
             <v-btn
-                v-if="$route.params.id == sharedState.user_id" 
-                class="d-flex justify-start"
+                v-if="$route.params.id == sharedState.user_id" class="d-flex justify-start"
                 text @click="addFile">
-               <v-icon>image</v-icon>
+               <v-icon :style="{ color: 'CornflowerBlue' ,'font-size': '20px','margin-top':'2px','margin-right':'3px'}">image</v-icon>
               更换头像
             </v-btn>
             <input type="file" ref="upload_input" style="display: none;" @change="select_file" accept=".png,.jpg,.jpeg">
 
               <v-btn
-                :to="{name: 'Drafts', params: {id: this.$route.params.id}}" class="d-flex justify-start"
+                :to="{name: 'Drafts', params: {id: this.$route.params.id} }" class="d-flex justify-start"
                 text >
-               <v-icon>notes</v-icon>
+                <v-icon :style="{ color: 'grey' ,'font-size': '20px','margin-top':'2px','margin-right':'3px'}">notes</v-icon>
               草稿
             </v-btn>
             <v-btn
                 :to="{name: 'DraftPosts', params: {id: this.$route.params.id}}" class="d-flex justify-start"
                 text >
-               <v-icon class="material-icons">textsms</v-icon>
+               <v-icon  :style="{ color: 'pink' ,'font-size': '20px','margin-top':'2px','margin-right':'3px'}">textsms</v-icon>
               博文
             </v-btn>
 
             <v-btn
                 :to="{name: 'Resources', params: {id: this.$route.params.id}}" class="d-flex justify-start"
                 text >
-               <v-icon class="material-icons">thumb_up</v-icon>
+               <v-icon :style="{ color: 'grey' ,'font-size': '20px','margin-top':'2px','margin-right':'3px'}">thumb_up</v-icon>
               资源
             </v-btn>
             <v-btn
                 :to="{name: 'Stars', params: {id: this.$route.params.id}}" class="d-flex justify-start"
                 text >
-               <v-icon class="material-icons">bookmarks</v-icon>
+               <v-icon :style="{ color: 'grey' ,'font-size': '20px','margin-top':'2px','margin-right':'3px'}">bookmarks</v-icon>
               收藏
             </v-btn>
             <v-btn v-if="ifFollow && $route.params.id != sharedState.user_id" @click="onUnFollowUser()" text class="d-flex justify-start">
