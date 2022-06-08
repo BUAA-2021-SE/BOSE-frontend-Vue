@@ -85,6 +85,12 @@
         {{ item.author.name||item.author.username}}
       </v-btn>
     </template>
+    <template v-slot:item.resources="{ item }">
+       <div v-for="(resource,index) in item.resources" :key="index" >
+      <a href="resource.resources_url">{{resource.name ||resource.filename}}</a>
+      <br/>
+      </div>
+    </template>
   </v-data-table>
 </template>
 
@@ -106,7 +112,9 @@ export default {
         },
         { text: '作者', value: 'author' },
         { text: '上传时间', value: 'timestamp' },
+        { text: '文件',value:'resources'},
         { text: '操作', value: 'actions'},
+        
       ],
       posts:[],
       editedItem:{},

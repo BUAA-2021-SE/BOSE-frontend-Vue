@@ -7,7 +7,7 @@ const url = {
     failExamination:'controller/fail_examination',
     passExamination:'controller/pass_examination',
     selectBlog:'controller/select_blog',
-    getSelectedBlog:'controller/get_select_blog'
+    getSelectedBlog:'controller/get_select_blog',
 }
 export default class Admin{
     static async getExaminedResources() {

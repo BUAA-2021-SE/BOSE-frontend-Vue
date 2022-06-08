@@ -69,7 +69,6 @@
                <v-icon class="material-icons">thumb_up</v-icon>
               资源
             </v-btn>
-
             <v-btn
                 :to="{name: 'Stars', params: {id: this.$route.params.id}}" class="d-flex justify-start"
                 text >

@@ -14,16 +14,21 @@
           />
         </v-col>
         <v-col cols="12" md="7">
-          <router-link :to="{ name: 'Post', params: { id: post.id } }">
+          <router-link v-if="!post.if_resource" :to="{ name: 'Post', params: { id: post.id } }">
             <v-card-title>
               <h3 v-if="post.title.length <12">{{ post.title }}</h3>
               <h3 v-else>{{ post.title.substring(0, 9) + '...' }}</h3>
+              <v-btn v-if="post.status===-1" color="error" text small>被打回</v-btn>
+              <v-btn v-if="post.status===1" color="error" text small>待审核</v-btn>
             </v-card-title>
           </router-link>
+            <v-card-title v-else>
+              <h3 v-if="post.title.length <12">{{ post.title }}</h3>
+              <h3 v-else>{{ post.title.substring(0, 9) + '...' }}</h3>
+              <v-btn v-if="post.status===-1" color="error" text small>被打回</v-btn>
+              <v-btn v-if="post.status===1" color="error" text small>待审核</v-btn>
+            </v-card-title>
           <v-card-text>
-            <!--            <div>-->
-            <!--              {{ post }}-->
-            <!--            </div>-->
             <strong v-html="post.author.name || post.author.username"></strong>
             <div class="text--primary">
               {{ post.summary }}
@@ -72,13 +77,22 @@
             >
               删除
             </v-btn>
-            <router-link :to="{ name: 'PostEdit', params: { id: post.id } }">
+            <router-link v-if="!post.if_resource" :to="{ name: 'PostEdit', params: { id: post.id } }">
               <v-btn
                   v-if="post.author.id == sharedState.user_id"
                   text
                   color="deep-purple accent-4"
               >
-                编辑
+                编辑博文
+              </v-btn>
+            </router-link>
+            <router-link v-else :to="{ name: 'EditResource', params: { id: post.id } }">
+              <v-btn
+                  v-if="post.author.id == sharedState.user_id"
+                  text
+                  color="deep-purple accent-4"
+              >
+                编辑资源
               </v-btn>
             </router-link>
           </v-card-actions>

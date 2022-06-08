@@ -14,13 +14,8 @@
         </h3>
       </div>
     </div>
-    <v-container
-        v-if="items.length > 0"
-        fluid>
+    <v-container v-if="items.length > 0" fluid>
       <v-row justify="center">
-        <v-subheader>
-          <h3>我的资源</h3>
-        </v-subheader>
         <v-col cols="12" sm="1" md="1"></v-col>
         <v-col sm="10" md="10">
           <div v-for="(post,index) in items" :key="index">

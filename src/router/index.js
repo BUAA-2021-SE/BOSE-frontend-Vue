@@ -16,13 +16,16 @@ import ShowProfile from '@/components/account/ShowProfile'
 import Followers from '@/components/profile/Followers'
 import Following from '@/components/profile/Following'
 import BlackList from '@/components/profile/BlackList'
+// 发布
 import Posts from '@/components/contribution/Posts'
 import Drafts from '@/components/contribution/Drafts'
 import Resources from '@/components/contribution/Resources'
 import Stars from '@/components/contribution/Stars'
+
 import BlogAdd from '@/components/blog/AddBlog'
 import PostAdd from '@/components/blog/AddPost'
 import ResourceAdd from '@/components/resource/AddResource'
+import EditResource from '@/components/resource/EditResource'
 import Contribution from '@/components/account/Contribution'
 import Tag from '@/components/base/TagAll'
 
@@ -99,6 +102,11 @@ const router = new VueRouter({
                 {path: 'blog', name: 'BlogAdd', component: BlogAdd},
                 {path: 'resource', name: 'ResourceAdd', component: ResourceAdd}
             ]
+        },
+        {   
+            path:'/editresource/:id',
+            component: EditResource,
+            name: 'EditResource',
         },
         {
             path: '/ping',
