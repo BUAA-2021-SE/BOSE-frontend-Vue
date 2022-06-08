@@ -87,7 +87,7 @@
     </template>
     <template v-slot:item.resources="{ item }">
     <div v-for="(resource,index) in item.resources" :key="index" >
-      <a href="resource.resources_url">{{resource.name ||resource.filename}}</a>
+      <a :href="resource.resources_url" target="_blank">{{resource.name ||resource.filename}}</a>
       <br/>
       </div>
     </template>

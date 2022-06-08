@@ -172,7 +172,7 @@
                    @click="sharedState.is_hover=false" :to="{ name: 'AdminBlogs'}">
               <!-- Contribution -->
               <v-icon class="material-icons" :style="{ color: '#FB8C00' ,'font-size': '20px','margin-top':'2px'}">
-                drafts
+                check
               </v-icon>
               管理界面
             </v-btn>
