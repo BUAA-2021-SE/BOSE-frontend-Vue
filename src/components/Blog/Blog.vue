@@ -14,7 +14,7 @@
         ></v-progress-circular>
       </h3>
     </div>
-    <v-container v-show="!loadingProfile" grid-list-xl>
+    <v-container v-if="!loadingProfile" grid-list-xl>
       
       <!-- 目录 -->
       <!-- Sidebar -->
