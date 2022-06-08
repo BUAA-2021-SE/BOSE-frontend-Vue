@@ -28,7 +28,7 @@
               :key="index"
           >
             <v-expansion-panel-header
-                @click="readMail(item.id)"
+                @click="item.is_read = true, readMail(item.id)"
             >
               <v-col
                   cols="4"
@@ -80,7 +80,7 @@
                   class="text-right"
               >
                 <v-chip
-                    v-if="item.is_read == false"
+                    v-show="item.is_read == false"
                     :color="`${item.color} light-blue`"
                     class="ml-0 mr-2 black--text"
                     label
