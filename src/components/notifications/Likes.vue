@@ -57,7 +57,8 @@
                       class="hidden-xs-only"
                   >
                     来自用户
-                    <strong v-html="item.sender.name||item.sender.username"></strong>
+                    <router-link :to="{name:'ShowProfile',params:{id: item.sender.id}}">
+                      <strong v-html="item.sender.name||item.sender.username"></strong></router-link>
                     的点赞通知
                   </v-col>
                 </v-row>
@@ -92,7 +93,9 @@
             <v-expansion-panel-content>
               <v-divider></v-divider>
               <v-card-text>
-                用户 <strong v-html="item.sender.name||item.sender.username"></strong>
+                用户
+                <router-link :to="{name:'ShowProfile',params:{id: item.sender.id}}"><strong
+                    v-html="item.sender.name||item.sender.username"></strong></router-link>
                 给您的博文 《 <strong v-html="item.blog_title"></strong> 》 点了一个赞
               </v-card-text>
               <router-link
@@ -110,7 +113,7 @@
             </v-expansion-panel-content>
           </v-expansion-panel>
         </v-expansion-panels>
-                <span>共有点赞{{ total }}条</span>
+        <span>共有点赞{{ total }}条</span>
         <v-pagination
             v-model="page"
             :length="pageTotal"
@@ -145,7 +148,7 @@ export default {
     getLikeList(page) {
       let likeId = 2;
       console.log("getLikeList");
-      Notifications.getMailList(likeId,page, this.size)
+      Notifications.getMailList(likeId, page, this.size)
           .then((res) => {
             console.log(res);
             this.items = res.data.items;
@@ -165,11 +168,11 @@ export default {
       Notifications.getMail(id);
     }
   },
-  watch:{
-			page: function(newPage, oldPage) {
-				this.getLikeList(newPage);
-			}
-	},
+  watch: {
+    page: function (newPage, oldPage) {
+      this.getLikeList(newPage);
+    }
+  },
   created() {
     this.getLikeList(1);
   },
