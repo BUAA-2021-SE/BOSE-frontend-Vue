@@ -159,14 +159,14 @@
 	import store from '../store.js'
 	import VueMarkdown from 'vue-markdown'
 	import Post from '@/api/post'
-	import BlogItem from '@/components/base/BlogItem.vue'
+	import BlogItemForHome from '@/components/base/BlogItemForHome.vue'
 	import Admin from '@/api/admin'
 	export default {
 		name: 'Home',
 		components: {
 			alert: Alert,
 			VueMarkdown,
-			blog: BlogItem
+			blog: BlogItemForHome
 		},
 		data() {
 			return {
