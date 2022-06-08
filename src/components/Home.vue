@@ -35,10 +35,10 @@
 											:style="{'min-width':'100%','min-height':'100%','max-height':'200px','border-radius':'20px'}" />
 										<router-link :to="{ name: 'Post', params: { id: recommendPosts1.id } }">
 											<div class="mask2 white--text align-end">
-												<h4
+												<h5
 													:style="{'margin-bottom':'20px','margin-left':'15px','max-height':'200px',color:'white'}">
 													{{recommendPosts1.title}}
-												</h4>
+												</h5>
 											</div>
 										</router-link>
 
@@ -50,10 +50,10 @@
 											:style="{'min-width':'100%','min-height':'100%','max-height':'200px','border-radius':'20px'}" />
 										<router-link :to="{ name: 'Post', params: { id: recommendPosts2.id } }">
 											<div class="mask2 white--text align-end">
-												<h4
+												<h5
 													:style="{'margin-bottom':'20px','margin-left':'15px',color:'white'}">
 													{{recommendPosts2.title}}
-												</h4>
+												</h5>
 											</div>
 										</router-link>
 
@@ -108,10 +108,10 @@
 									:style="{'min-width':'100%','min-height':'100%','border-radius':'20px'}" />
 								<router-link :to="{ name: 'Post', params: { id: selectPost.id } }">
 									<div class="mask2 white--text align-end">
-										<h4
+										<h5
 											:style="{'margin-bottom':'20px','margin-left':'15px',color:'white'}">
-											编辑推荐
-										</h4>
+											编辑推荐:{{selectPost.title}}
+										</h5>
 									</div>
 								</router-link>
 
@@ -145,10 +145,7 @@
 							</v-row>
 					</v-card>
 					<br/>
-					<v-card :style="{'border-radius':'20px',}">
-						<v-card-title>近期热门</v-card-title>
-						<v-card-subtitle :style="{'margin-left':'20px'}">{{HomeMessage}}</v-card-subtitle>
-					</v-card>
+					
 				</v-col>
 
 			</v-row>
@@ -162,14 +159,14 @@
 	import store from '../store.js'
 	import VueMarkdown from 'vue-markdown'
 	import Post from '@/api/post'
-	import BlogItem from '@/components/base/BlogItem.vue'
+	import BlogItemForHome from '@/components/base/BlogItemForHome.vue'
 	import Admin from '@/api/admin'
 	export default {
 		name: 'Home',
 		components: {
 			alert: Alert,
 			VueMarkdown,
-			blog: BlogItem
+			blog: BlogItemForHome
 		},
 		data() {
 			return {
@@ -294,6 +291,12 @@
 						for(let i = 0; i < 5; i++){
 							this.recommendPosts.push(res.data.items[i]);
 						}
+						if(res.data.items[5].title.length>12)
+						{ res.data.items[5].title=res.data.items[5].title.substring(0, 10) + '...' }
+					
+						if(res.data.items[6].title.length>12)
+						{ res.data.items[6].title=res.data.items[6].title.substring(0, 10) + '...' }
+						
 						this.recommendPosts1= res.data.items[5];
 						this.recommendPosts2= res.data.items[6];
 					})
@@ -311,7 +314,11 @@
 			getSelectedPost(){
 				Admin.getSelectedBlog()
 				.then((res)=>{
+					if(res.data.title.length>12)
+						{ res.data.title=res.data.title.substring(0, 9) + '...' }
+						
 					this.selectPost = res.data;
+					
 				})
 				.catch((err)=>{
 					console.error(err);
@@ -354,6 +361,8 @@
 			this.topHotPost = res.data.items[0];
 			this.hotPosts.splice(0);
             for (let i=1; i<10;i++){
+				if(res.data.items[i].title.length>14)
+				{ res.data.items[i].title=res.data.items[i].title.substring(0, 11) + '...' }
 				this.hotPosts.push(res.data.items[i]);
 			}
           })

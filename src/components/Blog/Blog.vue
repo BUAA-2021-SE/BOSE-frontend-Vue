@@ -79,20 +79,20 @@
                   >
                 </li>
                 <li>/</li>
-                <li>
-                  <i class="icon-clock"></i>
+                <li class="my-auto">
+                  <v-icon :style="{'font-size':'20px'}">schedule</v-icon>
                   {{ $moment(post.timestamp).format("LLL") }}
                 </li>
                 <li>/</li>
-                <li>
+                <li class="my-auto">
                   <a
                     class="u-link-v5 g-color-gray-dark-v4 g-color-primary--hover g-text-underline--none--hover"
                     href="#comment-list-wrap"
                   >
-                    <i class="icon-bubble"></i> {{ comments.length }}
+                   <v-icon :style="{'font-size':'20px',color:'#00AEEC'}">message</v-icon> {{ comments.length }}
                   </a>
                 </li>
-                <li><i class="icon-eye"></i> {{ post.views }} 次阅读</li>
+                <li><v-icon :style="{'font-size':'20px'}">visibility</v-icon>{{ post.views }} 次阅读</li>
               </ul>
               <div v-if="post.author && post.author.id == sharedState.user_id">
                 <v-btn
@@ -505,10 +505,9 @@
                       text
                       :style="{ 'pointer-events': 'none' }"
                     >
-                      <i
-                        class="icon-check g-pos-rel g-top-1 g-color-gray-dark-v5 g-mr-5"
-                      ></i
-                      >博文作者
+                      <v-icon>verified
+              </v-icon >
+                      博文作者
                     </v-btn>
                   </p>
                 </v-card-title>
@@ -596,7 +595,11 @@
                   </li>
                   <li v-if="!comment.disabled" class="list-inline-item g-mr-20">
                     <v-btn @click="onClickReply(comment)" text>
-                      <i class="icon-note g-pos-rel g-top-1 g-mr-3"></i>
+                      <v-icon  class="my-auto"
+                          :style="{
+                            'margin-right': '10px',
+                            'margin-top': '-4px!important',
+                          }">reply</v-icon>
                       回复
                     </v-btn>
                   </li>
@@ -680,10 +683,8 @@
                       text
                       :style="{ 'pointer-events': 'none' }"
                     >
-                      <i
-                        class="icon-check g-pos-rel g-top-1 g-color-gray-dark-v5 g-mr-5"
-                      ></i
-                      >博文作者
+                         <v-icon>verified
+              </v-icon >博文作者
                     </v-btn>
                   </p>
                 </v-card-title>
@@ -771,8 +772,11 @@
                       @click="onClickReply(child)"
                       class="comment-reply-link"
                       text
-                    >
-                      <i class="icon-note g-pos-rel g-top-1 g-mr-3"></i>
+                    ><v-icon  class="my-auto"
+                          :style="{
+                            'margin-right': '10px',
+                            'margin-top': '-4px!important',
+                          }">reply</v-icon>
                       回复
                     </v-btn>
                   </li>

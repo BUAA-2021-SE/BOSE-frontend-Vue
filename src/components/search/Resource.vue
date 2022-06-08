@@ -70,7 +70,7 @@
 import Resource from "@/api/resource";
 import Post from "@/api/post";
 import store from "@/store";
-import BlogItem from "@/components/base/BlogItem";
+import BlogItem from "@/components/base/BlogItem.vue";
 
 export default {
   name: 'SearchResource',
