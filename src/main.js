@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import App from './App.vue'
-import router from './router'
 import store from './store'
 import VueToasted from 'vue-toasted'
 import moment from 'moment'
@@ -23,6 +22,7 @@ import './assets/markdown-styles/github-markdown.css'
 import vuetify from "./plugins/vuetify";
 import * as hljs from 'highlight.js';
 // 关闭production模式
+import router from './router'
 Vue.config.productionTip = false
 // 使用moment.js库将后端UTC时间格式化成本地时间
 Vue.prototype.$moment = moment
