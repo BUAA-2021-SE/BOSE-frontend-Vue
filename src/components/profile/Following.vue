@@ -14,6 +14,9 @@
         </h3>
       </div>
     </div>
+    <div class="text-align-center">
+      <h6 class="text-align-center">关注数量: {{ total }}</h6>
+    </div>
     <div class="g-brd-around g-brd-gray-light-v4 g-pa-20 g-mb-40"
          v-if="followings.length > 0"
          v-show="!loadingProfile">
@@ -22,7 +25,6 @@
             :followings="followings">
         </following>
       </v-col>
-      <span>粉丝数量:{{ total }}</span>
       <v-pagination
           v-model="page"
           :length="pageTotal"
