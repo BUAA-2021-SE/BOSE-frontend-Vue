@@ -21,97 +21,36 @@
         <div class="text-align-center">
           <h6 class="text-align-center">共有资源{{ total }}篇</h6>
         </div>
-
-        <v-expansion-panels popout>
-          <v-expansion-panel
-              v-for="(item,index) in items"
-              :key="index"
+        <v-col cols="12" sm="2" md="2"></v-col>
+        <v-col sm="8" md="8">
+          <div v-for="(post,index) in items" :key="index">
+            <blog
+                :post="post"
+                @delete="getResourcesList(1)">
+            </blog>
+          </div>
+        </v-col>
+        <v-col cols="12" sm="2" md="2"></v-col>
+        <v-dialog
+            style="z-index: 2000"
+            v-model="showDelete"
+            width="25vw"
+            height="20vh"
+        >
+          <v-card
+              :style="{ width: '25vw', height: '20vh' }"
+              class="d-flex align-center flex-wrap"
           >
-            <v-expansion-panel-header>
-              <v-col class="d-flex justify-center" cols="12" md="5">
-                <v-img
-                    :src="item.cover"
-                    class="my-auto"
-                    contain
-                    height="120"
-                    max-width="150"
-                    max-height="120"
-                    :style="{'border-radius':'20px'}"
-                />
-              </v-col>
-              <v-col class="text-left">
-                <v-row align="center">
-                  <v-card-title>
-                    <div v-if="item.title.length <12">{{ item.title }}</div>
-                    <div v-else>{{ item.title.substring(0, 9) + '...' }}</div>
-                  </v-card-title>
-                </v-row>
-                <v-row align="center">
-                  <v-card-text>
-                    <div class="text--primary" v-if="item.summary.length <30">
-                      {{ item.summary }}
-                    </div>
-                    <div class="text--primary" v-else>
-                      {{ item.summary.substring(0, 27) + '...' }}
-                    </div>
-                  </v-card-text>
-                </v-row>
-                <v-row>
-                  <v-col class="grey--text text-truncate hidden-sm-and-down">
-                    {{ $moment(item.timestamp).format("YYYY年MM月DD日 HH:mm:ss") }}
-                  </v-col>
-                </v-row>
-              </v-col>
-
-            </v-expansion-panel-header>
-
-            <v-expansion-panel-content>
-              <v-divider></v-divider>
-              <strong>资源摘要说明 </strong>
-              <v-card-text>
-                {{ item.summary }}
-              </v-card-text>
-              <v-spacer></v-spacer>
-              <strong>资源下载链接 </strong>
-              <div class="resources_url"
-                   v-for="(resource, index) in item.resources"
-                   :key="index"
-              >
-                <a :href="resource.resources_url" target="_blank">
-                  {{ resource.name }}
-                </a>
-              </div>
-              <v-btn
-                  v-if="item.author.id == sharedState.user_id"
-                  text
-                  color="deep-purple accent-4"
-                  @click="showDeleteDialog(item.id)"
-              >
-                删除
-              </v-btn>
-            </v-expansion-panel-content>
-          </v-expansion-panel>
-          <v-dialog
-              style="z-index: 2000"
-              v-model="showDelete"
-              width="25vw"
-              height="20vh"
-          >
-            <v-card
-                :style="{ width: '25vw', height: '20vh' }"
-                class="d-flex align-center flex-wrap"
-            >
-              <v-row class="mx-auto d-flex justify-center">
-                <v-card-title class="mx-auto"><h3 class="mx-auto">确定删除？</h3></v-card-title>
-                <v-card-actions>
-                  <v-btn color="primary" text @click="showDelete = false"> 取消</v-btn>
-                  <v-spacer></v-spacer>
-                  <v-btn color="error" text @click="onDeletePost"> 确认</v-btn>
-                </v-card-actions>
-              </v-row>
-            </v-card>
-          </v-dialog>
-        </v-expansion-panels>
+            <v-row class="mx-auto d-flex justify-center">
+              <v-card-title class="mx-auto"><h3 class="mx-auto">确定删除？</h3></v-card-title>
+              <v-card-actions>
+                <v-btn color="primary" text @click="showDelete = false"> 取消</v-btn>
+                <v-spacer></v-spacer>
+                <v-btn color="error" text @click="onDeletePost"> 确认</v-btn>
+              </v-card-actions>
+            </v-row>
+          </v-card>
+        </v-dialog>
         <v-pagination
             v-model="page"
             :length="pageTotal"
@@ -131,9 +70,13 @@
 import Resource from "@/api/resource";
 import Post from "@/api/post";
 import store from "@/store";
+import BlogItem from "@/components/base/BlogItem";
 
 export default {
   name: 'SearchResource',
+  components: {
+    blog: BlogItem
+  },
   data() {
     return {
       items: [],
