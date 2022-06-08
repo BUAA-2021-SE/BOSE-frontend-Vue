@@ -21,20 +21,48 @@
             </v-card-title>
           </router-link>
           <v-card-text>
+            <!--            <div>-->
+            <!--              {{ post }}-->
+            <!--            </div>-->
             <strong v-html="post.author.name || post.author.username"></strong>
             <div class="text--primary">
               {{ post.summary }}
             </div>
             <div>
-               <v-chip :style="{'background-color':'#00AEEC','color':'white'}" v-show="post.tag1!='none'" class="ma-2" small>{{post.tag1}}</v-chip>
-               <v-chip :style="{'background-color':'#00AEEC','color':'white'}" v-show="post.tag2!='none'" class="ma-2" small>{{post.tag2}}</v-chip>
-               <v-chip :style="{'background-color':'#00AEEC','color':'white'}" v-show="post.tag3!='none'" class="ma-2" small>{{post.tag3}}</v-chip>
-               <v-chip :style="{'background-color':'#00AEEC','color':'white'}" v-show="post.tag4!='none'" class="ma-2" small>{{post.tag4}}</v-chip>
+              <v-chip :style="{'background-color':'#00AEEC','color':'white'}" v-show="post.tag1!='none'" class="ma-2"
+                      small>{{ post.tag1 }}
+              </v-chip>
+              <v-chip :style="{'background-color':'#00AEEC','color':'white'}" v-show="post.tag2!='none'" class="ma-2"
+                      small>{{ post.tag2 }}
+              </v-chip>
+              <v-chip :style="{'background-color':'#00AEEC','color':'white'}" v-show="post.tag3!='none'" class="ma-2"
+                      small>{{ post.tag3 }}
+              </v-chip>
+              <v-chip :style="{'background-color':'#00AEEC','color':'white'}" v-show="post.tag4!='none'" class="ma-2"
+                      small>{{ post.tag4 }}
+              </v-chip>
             </div>
+            <v-row
+                v-if="post.if_resource==true"
+            >
+              <v-spacer></v-spacer>
+              <strong>资源下载链接 </strong>
+              <div class="resources_url"
+                   v-for="(resource, index) in post.resources"
+                   :key="index"
+              >
+                <a :href="resource.resources_url" target="_blank">
+                  {{ resource.name }}
+                </a>
+              </div>
+            </v-row>
           </v-card-text>
           <v-card-actions>
             <router-link :to="{ name: 'Post', params: { id: post.id } }">
-              <v-btn text color="deep-purple accent-4"> 阅读全文</v-btn>
+              <v-btn
+                  v-if="post.if_resource==false"
+                  text color="deep-purple accent-4"> 阅读全文
+              </v-btn>
             </router-link>
             <v-btn
                 v-if="post.author.id == sharedState.user_id"
@@ -118,9 +146,9 @@ export default {
           })
           .catch((err) => {
             console.error(err, "not deleted");
-            if(err.response.status === 461){
+            if (err.response.status === 461) {
               this.showDelete = false;
-              this.$toasted.error("被编辑精选，不能删除",{icon: "check"});
+              this.$toasted.error("被编辑精选，不能删除", {icon: "check"});
             }
           });
     },
