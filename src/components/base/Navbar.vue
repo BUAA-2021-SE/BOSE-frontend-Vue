@@ -273,6 +273,7 @@ export default {
       this.$router.push("/login");
     },
     searchBlog() {
+      if(this.search=='') return false;
       console.log("searchBlog");
       this.$router.push({
         path: `/search/${this.search}/total`
