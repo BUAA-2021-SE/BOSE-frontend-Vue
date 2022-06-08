@@ -14,6 +14,16 @@
               :style="{'border-radius':'20px'}"
           />
           </router-link>
+           <v-img
+              v-if="post.if_resource"
+              :src="post.cover"
+              class="my-auto"
+              contain
+              height="180"
+              max-width="240"
+              max-height="180"
+              :style="{'border-radius':'20px'}"
+          />
         </v-col>
         <v-col cols="12" md="7">
           <router-link v-if="!post.if_resource" :to="{ name: 'Post', params: { id: post.id } }">
