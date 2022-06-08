@@ -306,7 +306,7 @@ export default {
           .then((res) => {
             console.log(res);
             this.getDraft(this.editForm.id);
-            this.$toasted.success('Successfully upload the Draft.', {icon: 'check'});
+            this.$toasted.success("保存成功", {icon: 'check'});
             this.editForm.title = ''
             this.editForm.summary = ''
             this.editForm.body = ''
@@ -346,7 +346,7 @@ export default {
       Post.editDraft(this.$route.params.id, formData)
       .then((res)=>{
         console.log(res);
-        this.$toasted.success('Successfully commit the draft.', {icon: 'check'});
+        this.$toasted.success('保存成功.', {icon: 'check'});
       })
       .catch((err)=>{
         console.log(err);
