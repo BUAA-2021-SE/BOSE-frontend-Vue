@@ -34,6 +34,7 @@ import Tag from '@/components/base/TagAll'
 import SearchBase from '@/components/search/Index'
 import SearchBlog from '@/components/search/Blog'
 import SearchResource from '@/components/search/Resource'
+import SearchTag from '@/components/search/Tag'
 import Search from '@/components/search/Search'
 
 
@@ -56,6 +57,7 @@ import ExaminingResources from '@/components/admin/ExaminingResources'
 
 Vue.use(VueRouter)
 Vue.use(mavonEditor)
+
 const router = new VueRouter({
     mode: 'history',
     routes: [
@@ -197,6 +199,7 @@ const router = new VueRouter({
                 {path: 'total', name: 'Search', component: Search},
                 {path: 'blog', name: 'SearchBlog', component: SearchBlog},
                 {path: 'resource', name: 'SearchResource', component: SearchResource},
+                {path: 'tag', name: 'SearchTag', component: SearchTag},
             ]
         },
         {
