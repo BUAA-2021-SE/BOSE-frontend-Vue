@@ -1,67 +1,70 @@
 <template>
   <div class="container my-auto" height="50vh">
-     <div class="my-auto" width="80vw" height="50vh">
+    <div class="my-auto" width="80vw" height="50vh">
       <div>
         <div class="cardTitle"><h1 class="midText">重置密码</h1></div>
 
         <div>
           <div class="row col-md-12 m-auto">
             <div class="col-md-5">
-            <v-form>
-              <v-text-field
-                  v-model="resetForm.email"
-                  label="邮箱"
-                  required
-                  clearable
-                  filled
-                  :disabled="showIDCode"
-                  :class="{'is-invalid': resetForm.emailError}" placeholder="邮箱"
-              ></v-text-field>
-              
-            
-              <v-text-field 
-                            v-model="resetForm.password"
-                            label="密码"
-                           
-                            filled
-                            clearable
-                            required
-                            :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
-                            :type="showPassword ? 'text' : 'password'"
-                            @click:append="showPassword = !showPassword"
-                            autocomplete="new-password"
-                            :class="{'is-invalid': resetForm.passwordError}" placeholder="密码"
-              ></v-text-field>
-         
-              <v-text-field 
-                            v-model="resetForm.password2"
-                            label="再次输入密码"
-                            filled
-                            required
-                            clearable
-                            :append-icon="showPassword2 ? 'mdi-eye' : 'mdi-eye-off'"
-                            :type="showPassword2 ? 'text' : 'password'"
-                            @click:append="showPassword2 = !showPassword2"
-                            autocomplete="new-password"
-                            
-                            :class="{'is-invalid': resetForm.password2Error}" placeholder="再次输入密码"
-              ></v-text-field>
-     
-              <v-text-field 
-                            v-model="resetForm.idcode"
-                            label="验证码"
-                            required
-                            clearable
-                            filled
-                            
-                            :class="{'is-invalid': resetForm.idcodeError}" placeholder="验证码"
-              ></v-text-field>
-              <v-alert dense outlined type="error" v-show="resetForm.errors">{{ resetForm.emailError||resetForm.passwordError||resetForm.password2Error||resetForm.idcodeError }}</v-alert>
-                </v-form>
-                <v-btn class="info"  @click="getIDCode">获取验证码</v-btn>
+              <v-form>
+                <v-text-field
+                    v-model="resetForm.email"
+                    label="邮箱"
+                    required
+                    clearable
+                    filled
+                    :disabled="showIDCode"
+                    :class="{'is-invalid': resetForm.emailError}" placeholder="邮箱"
+                ></v-text-field>
+
+
+                <v-text-field
+                    v-model="resetForm.password"
+                    label="密码"
+
+                    filled
+                    clearable
+                    required
+                    :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
+                    :type="showPassword ? 'text' : 'password'"
+                    @click:append="showPassword = !showPassword"
+                    autocomplete="new-password"
+                    :class="{'is-invalid': resetForm.passwordError}" placeholder="密码"
+                ></v-text-field>
+
+                <v-text-field
+                    v-model="resetForm.password2"
+                    label="再次输入密码"
+                    filled
+                    required
+                    clearable
+                    :append-icon="showPassword2 ? 'mdi-eye' : 'mdi-eye-off'"
+                    :type="showPassword2 ? 'text' : 'password'"
+                    @click:append="showPassword2 = !showPassword2"
+                    autocomplete="new-password"
+
+                    :class="{'is-invalid': resetForm.password2Error}" placeholder="再次输入密码"
+                ></v-text-field>
+
+                <v-text-field
+                    v-model="resetForm.idcode"
+                    label="验证码"
+                    required
+                    clearable
+                    filled
+
+                    :class="{'is-invalid': resetForm.idcodeError}" placeholder="验证码"
+                ></v-text-field>
+                <v-alert dense outlined type="error" v-show="resetForm.errors">{{
+                    resetForm.emailError || resetForm.passwordError || resetForm.password2Error || resetForm.idcodeError
+                  }}
+                </v-alert>
+              </v-form>
+              <v-btn class="info" @click="getIDCode">获取验证码</v-btn>
               <v-btn class="info" v-show="this.showIDCode" @click="reset">重置密码</v-btn>
-            
-         </div>
+
+            </div>
             <div class="col-md-2">
               <div class="midLine"></div>
             </div>
@@ -79,16 +82,17 @@
 import store from '../../store'
 import {Account} from '@/api/account.js'
 import Logo from "../base/Logo";
+
 export default {
   name: 'Reset',
-  components:{
-    logo:Logo
+  components: {
+    logo: Logo
   },
   data() {
     return {
       showIDCode: false,
-      showPassword:false,
-      showPassword2:false,
+      showPassword: false,
+      showPassword2: false,
       resetForm: {
         email: '',
         password: '',
@@ -106,6 +110,15 @@ export default {
   methods: {
     reset() {
       this.resetForm.errors = 0
+      if (!this.resetForm.email) {
+        this.resetForm.errors++
+        this.resetForm.emailError = '未填写邮箱'
+      } else if (!this.validEmail(this.resetForm.email)) {
+        this.resetForm.errors++
+        this.resetForm.emailError = '邮箱格式错误'
+      } else {
+        this.resetForm.emailError = null
+      }
       if (!this.resetForm.password) {
         this.resetForm.errors++
         this.resetForm.passwordError = '未填写密码'
@@ -118,6 +131,10 @@ export default {
         this.resetForm.password2Error = '请再次填写密码'
       } else {
         this.resetForm.password2Error = null
+      }
+      if (this.resetForm.password != this.resetForm.password2) {
+        this.resetForm.errors++
+        this.resetForm.password2Error = '两次密码不一致'
       }
       if (!this.resetForm.idcode) {
         this.resetForm.errors++
@@ -141,7 +158,7 @@ export default {
             store.setResetAction();
           })
           .catch((error) => {
-             this.resetForm.errors++;
+            this.resetForm.errors++;
             console.log(error.data);
             for (let field in error.response.data.detail) {
               if (field == 'password') {
@@ -167,6 +184,23 @@ export default {
         this.resetForm.emailError = '邮箱格式错误'
       } else {
         this.resetForm.emailError = null
+      }
+      if (!this.resetForm.password) {
+        this.resetForm.errors++
+        this.resetForm.passwordError = '未填写密码'
+      } else {
+        this.resetForm.passwordError = null
+      }
+
+      if (!this.resetForm.password2) {
+        this.resetForm.errors++
+        this.resetForm.password2Error = '请再次填写密码'
+      } else {
+        this.resetForm.password2Error = null
+      }
+      if (this.resetForm.password != this.resetForm.password2) {
+        this.resetForm.errors++
+        this.resetForm.password2Error = '两次密码不一致'
       }
       if (this.resetForm.errors > 0) {
         // 表单验证没通过时，不继续往下执行，即不会通过 axios 调用后端API

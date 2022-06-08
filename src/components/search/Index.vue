@@ -5,6 +5,7 @@
       <v-tab :to="{name:'SearchBlog'}">博文</v-tab>
       <v-tab :to="{name:'SearchResource'}">资源</v-tab>
       <v-tab :to="{name:'SearchTag'}">标签</v-tab>
+      <v-tab :to="{name:'SearchUser'}">用户</v-tab>
     </v-tabs>
     <router-view/>
   </div>

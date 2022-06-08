@@ -34,6 +34,7 @@ import Tag from '@/components/base/TagAll'
 import SearchBase from '@/components/search/Index'
 import SearchBlog from '@/components/search/Blog'
 import SearchResource from '@/components/search/Resource'
+import SearchUser from '@/components/search/User'
 import SearchTag from '@/components/search/Tag'
 import Search from '@/components/search/Search'
 
@@ -200,6 +201,7 @@ const router = new VueRouter({
                 {path: 'blog', name: 'SearchBlog', component: SearchBlog},
                 {path: 'resource', name: 'SearchResource', component: SearchResource},
                 {path: 'tag', name: 'SearchTag', component: SearchTag},
+                {path: 'user', name: 'SearchUser', component: SearchUser}
             ]
         },
         {

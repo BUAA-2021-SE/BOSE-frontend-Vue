@@ -169,7 +169,17 @@ export default class Post {
     }
 
     static async search_resource(keyword, page, size) {
-        return service(`${url.titleSearch}/${keyword}/resource`, {
+        return service(`${url.titleSearch}/${keyword}/resource?page=${page}&size=${size}`, {
+            method: 'get',
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            },
+            responseType: 'json'
+        })
+    }
+
+    static async search_user(keyword, page, size) {
+        return service(`${url.titleSearch}/${keyword}/user?page=${page}&size=${size}`, {
             method: 'get',
             headers: {
                 'Content-Type': 'multipart/form-data'
