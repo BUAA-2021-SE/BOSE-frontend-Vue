@@ -2,6 +2,23 @@
 	<div class="container" width="80vw" min-width="1000px">
 		<div class=" mx-auto" width="80vw" min-width="1000px">
 			<v-row>
+				<v-card  elevation="2" :style="{'border-radius':'10px','background-color':'#00AEEC',}" >
+			<div class="d-flex" :style="{'margin-right':'80px'}">
+			<v-col cols="12" sm="6" md="12" class="d-flex justify-space-between" >
+			<div  v-for="(tag,index) in gTags" :key="index"  >
+          	<v-btn depressed outlined v-if="!tag.value" @click="searchTag(tag)"
+          	:style="{'border-radius':'20px','margin-right':'5px','background-color':'#FFFFFF','color':'#00AEEC'}">{{tag.key}}</v-btn>
+       			</div>
+			</v-col>
+			<v-card-title >
+				<div :style="{position:'absolute',right:'20px',color:'white'}" class="d-flex">
+					<v-icon class=" my-auto" @click="changeTags" :style="{color:'white','font-size':'18px'}">autorenew</v-icon>
+						<p class=" my-auto" @click="changeTags" :style="{'font-size':'8px'}">换一批</p></div>
+					</v-card-title>
+			</div>
+			
+					</v-card>
+					
 				<v-col cols="12" sm="12" md="7">
 					<v-card :style="{'border-radius':'20px'}">
 						<v-carousel  cycle hide-delimiter-background show-arrows-on-hover>
@@ -25,9 +42,9 @@
 					</v-card>
 					
 				</v-col>
-				<v-col cols="12" sm="12" md="5">
+				<v-col cols="12" sm="12" md="5" :style="{'padding-top':'0px','padding-bottom':'0px'}">
 					<v-row>
-						<v-col cols="12" sm="12" md="12">
+						<v-col cols="12" sm="12" md="12" :style="{'padding-top':'0px'}">
 							<v-row>
 								<v-col cols="12" sm="12" md="6">
 									<v-card v-if="recommendPosts1" :style="{'border-radius':'20px','height':'200px','max-height':'200px'}">
@@ -44,7 +61,7 @@
 
 									</v-card>
 								</v-col>
-								<v-col cols="12" sm="12" md="6">
+								<v-col cols="12" sm="12" md="6" >
 									<v-card v-if="recommendPosts2" :style="{'border-radius':'20px','height':'200px','max-height':'200px'}">
 										<v-img  :src="recommendPosts2.cover"
 											:style="{'min-width':'100%','min-height':'100%','max-height':'200px','border-radius':'20px'}" />
@@ -62,22 +79,15 @@
 								</v-col>
 							</v-row>
 						</v-col>
-						<v-col cols="12" sm="6" md="12"  ref="tagbtn">
-			<v-card outlined :style="{'margin-top':'20px','border-radius':'20px','border-color':'#00AEEC','border-width':'3px'}" >
-						
-			<v-col  cols="12" sm="6" md="12" class="d-flex justify-space-between" v-for="(gTags,index) in givenTags" :key="index" :style="{padding:'5px 10px 5px 10px'}">
-			<div  v-for="(tag,index) in gTags" :key="index"  >
-          	<v-btn depressed outlined v-if="!tag.value" @click="searchTag(tag)"
-          	:style="{'border-radius':'20px','margin-right':'5px','background-color':'#00AEEC','color':'white'}">{{tag.key}}</v-btn>
-       			</div>
-			</v-col>
-			<!-- <v-col  cols="12" sm="6" md="12" class="d-flex justify-space-between">
-			<div   class="tagbtn" v-for="(tag,index) in givenTags2" :key="index"   >
-          	<v-btn depressed outlined v-if="!tag.value" @click="searchTag(tag)"
-          :style="{'border-radius':'20px','margin-right':'5px','min-width':'80px','background-color':'#00AEEC','color':'white'}">{{tag.key}}</v-btn>
-       			</div>
-			</v-col> -->
-					</v-card>
+						<v-col cols="12" sm="6" md="12" :style="{'padding-bottom':'0px'}">
+							<v-card v-if="recommendPosts3" :style="{height:'138px'}">
+								<v-card-title>{{recommendPosts3.title}}</v-card-title>
+								<v-card-text>{{recommendPosts3.summary}}</v-card-text>
+							</v-card>
+							<v-card v-if="recommendPosts4" :style="{height:'138px'}">
+								<v-card-title>{{recommendPosts4.title}}</v-card-title>
+								<v-card-text>{{recommendPosts4.summary}}</v-card-text>
+							</v-card>
 						</v-col>
 					</v-row>
 				</v-col>
@@ -171,10 +181,16 @@
 		data() {
 			return {
 		recommendPosts: [],
+		tagcount:0,
 		recommendPosts1:{},
 		recommendPosts2:{},
+		recommendPosts3:{},
+		recommendPosts4:{},
 		givenTags:[],
+		gTags:[],
 		givenTags2:[],
+		h:[],
+		len:0,
 		givenTags1: [
         {'key':"后端",'value':0,'length':71},
         {'key':"前端",'value':0,'length':71},
@@ -263,7 +279,7 @@
 				}, 500)
 				}
 				// 这里可以添加修改时的方法
-				this.computeTags();
+				this.computeTagsWhileChanging();
 				this.windowWidth(val);
 			}
 		},
@@ -299,6 +315,20 @@
 						
 						this.recommendPosts1= res.data.items[5];
 						this.recommendPosts2= res.data.items[6];
+						if(res.data.items[7].title.length>18)
+						{ res.data.items[7].title=res.data.items[7].title.substring(0, 15) + '...' }
+					
+						if(res.data.items[8].title.length>18)
+						{ res.data.items[8].title=res.data.items[8].title.substring(0, 15) + '...' }
+
+						if(res.data.items[7].summary.length>18)
+						{ res.data.items[7].summary=res.data.items[7].summary.substring(0, 15) + '...' }
+					
+						if(res.data.items[8].summary.length>18)
+						{ res.data.items[8].summary=res.data.items[8].summary.substring(0, 15) + '...' }
+						
+						this.recommendPosts3= res.data.items[7];
+						this.recommendPosts4= res.data.items[8];
 					})
 			},
 			searchTag(tag){
@@ -307,6 +337,12 @@
 				name: "TagAll",
 				params: {tag: tag.key},
 			});
+			},
+			changeTags(){
+				this.computeTags();
+				this.tagcount=(this.tagcount+1);
+				this.gTags=this.givenTags[this.tagcount];
+				
 			},
 			windowWidth(value) {
            this.clientWidth = value;
@@ -327,31 +363,57 @@
 			computeTags(){
 				// const el = document.getElementById("tagbtn");
 				// let width=  this.$refs['tagbtn'].style.width;
-				let width=(this.clientWidth>1400?1400:this.clientWidth)/3;
-				// console.log(width);
-				let h=[];
-				this.givenTags2=[];
-				let len=0;
+				let width=(this.clientWidth>1300?1300:this.clientWidth)/1.15-80;
+				console.log(width);
 				// console.log(this.givenTags1.length);
 				for(let i = 0; i < this.givenTags1.length; i++){
 					// console.log(width,len,h,i)
-					if(len+this.givenTags1[i].length>=width){
+					if(this.len+this.givenTags1[i].length>=width){
 						// console.log(h);
-						this.givenTags2.push(h);
-						h=[];
-						len=0;
+						this.givenTags2.push(this.h);
+						this.h=[];
+						this.len=0;
 						// console.log("yyy");
-						len+=this.givenTags1[i].length;
-						h.push(this.givenTags1[i]);
+						this.len+=this.givenTags1[i].length;
+						this.h.push(this.givenTags1[i]);
 					}
 					else{
-						len+=this.givenTags1[i].length;
-						h.push(this.givenTags1[i]);
+						this.len+=this.givenTags1[i].length;
+						this.h.push(this.givenTags1[i]);
 					}
 			}
-			this.givenTags2.push(h);
-			this.givenTags=[];
 			this.givenTags=this.givenTags2;
+			this.gTags=this.givenTags[this.tagcount];
+			// console.log(this.givenTags2);
+			},
+			computeTagsWhileChanging(){
+				// const el = document.getElementById("tagbtn");
+				// let width=  this.$refs['tagbtn'].style.width;
+				let width=(this.clientWidth>1300?(1300):(this.clientWidth))/1.15-80;
+				console.log(width);
+				this.givenTags2=[];
+				this.len=0;
+				this.h=[];
+				this.tagcount=0;
+				// console.log(this.givenTags1.length);
+				for(let i = 0; i < this.givenTags1.length; i++){
+					// console.log(width,len,h,i)
+					if(this.len+this.givenTags1[i].length>=width){
+						// console.log(h);
+						this.givenTags2.push(this.h);
+						this.h=[];
+						this.len=0;
+						// console.log("yyy");
+						this.len+=this.givenTags1[i].length;
+						this.h.push(this.givenTags1[i]);
+					}
+					else{
+						this.len+=this.givenTags1[i].length;
+						this.h.push(this.givenTags1[i]);
+					}
+			}
+			this.givenTags=this.givenTags2;
+			this.gTags=this.givenTags[this.tagcount];
 			// console.log(this.givenTags2);
 			},
 		getHotPosts(page) {
@@ -375,13 +437,13 @@
 		created() {
 			this.getPosts(1);
 			this.windowWidth(document.documentElement.clientWidth);
-			this.computeTags();
+			this.computeTagsWhileChanging();
 			this.getHotPosts(1);
 			this.getSelectedPost();
-			this.getRecommendPosts(7);
+			this.getRecommendPosts(9);
 		},
 		mounted() {
-			this.computeTags();
+			this.computeTagsWhileChanging();
 			 window.onresize = () => {
     return (() => {
       this.clientWidth= `${document.documentElement.clientWidth}`;

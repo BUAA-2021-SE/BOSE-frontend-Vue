@@ -1,5 +1,5 @@
 <template>
-  <v-app-bar app color="#4cabeb" elevate-on-scroll>
+  <v-app-bar app color="#00AEEC" elevate-on-scroll>
     <router-link :to="{ name: 'Home' }">
       <div id="main" :style="{ width: '150px', height: '40px' }"></div>
     </router-link>
