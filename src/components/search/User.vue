@@ -21,15 +21,15 @@
         <div class="text-align-center">
           <h6 class="text-align-center">相关用户共{{ total }}个</h6>
         </div>
-        <v-col cols="12" sm="1" md="1"></v-col>
-        <v-col sm="10" md="10">
+        <v-col cols="12" sm="1" md="2"></v-col>
+        <v-col sm="10" md="8">
           <div v-for="(item,index) in items" :key="index">
             <following
                 :followings="item">
             </following>
           </div>
         </v-col>
-        <v-col cols="12" sm="1" md="1"></v-col>
+        <v-col cols="12" sm="1" md="2"></v-col>
         <v-pagination
             v-model="page"
             :length="pageTotal"

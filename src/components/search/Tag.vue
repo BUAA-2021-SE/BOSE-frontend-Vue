@@ -55,7 +55,7 @@
 <script>
 import Post from "@/api/post";
 import store from "@/store";
-import BlogItem from '@/components/base/BlogItem.vue'
+import BlogItem from '@/components/base/BlogItemForHome.vue'
 
 export default {
   name: 'SearchTag',

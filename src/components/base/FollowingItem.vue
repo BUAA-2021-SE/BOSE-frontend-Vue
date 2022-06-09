@@ -63,7 +63,7 @@
       </v-col>
     
         <v-col cols="12" md="2"></v-col>
-          <v-col cols="12" md="2" class="my-auto">
+          <v-col v-if="followings.current_user_to_user!=null" cols="12" md="2" class="my-auto">
            <v-btn depressed :style="{color: 'Gray',width:'100px'}" v-show="(followings.current_user_to_user&&followings.user_to_current_user)" @click="onUnFollowUser(followings.id)" >
                  <v-icon class="material-icons" >notes</v-icon>已互粉
             </v-btn>
