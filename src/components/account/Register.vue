@@ -14,6 +14,7 @@
                   type="user"
                   required
                   clearable
+                  counter="20"
                   dense
                   filled
                   :disabled="showIDCode"
@@ -35,8 +36,9 @@
 
                 <v-text-field
                   v-model="registerForm.password"
-                  label="密码"
+                  label="密码(8-16位)"
                   filled
+                  counter="16"
                   dense
                   :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
                   :type="showPassword ? 'text' : 'password'"
@@ -53,6 +55,7 @@
                   label="重复密码"
                   filled
                   dense
+                  counter="16"
                   required
                   autocomplete="new-password"
                   :append-icon="showPassword2 ? 'mdi-eye' : 'mdi-eye-off'"
@@ -69,6 +72,7 @@
                   label="验证码"
                   required
                   dense
+                  counter="8"
                   clearable
                   filled
                   :class="{ 'is-invalid': registerForm.idcodeError }"
@@ -135,11 +139,12 @@ export default {
     register() {
       this.registerForm.submitted = true; // 先更新状态
       this.registerForm.errors = 0;
-
+      this.registerForm.username=this.registerForm.username.trim();
       if (!this.registerForm.username) {
         this.registerForm.errors++;
         this.registerForm.usernameError = "用户名未填写";
-      } else {
+      }
+      else {
         this.registerForm.usernameError = null;
       }
 
@@ -156,14 +161,16 @@ export default {
       if (!this.registerForm.password) {
         this.registerForm.errors++;
         this.registerForm.passwordError = "密码未填写";
-      } else {
+      }
+      else {
         this.registerForm.passwordError = null;
       }
 
       if (!this.registerForm.password2) {
         this.registerForm.errors++;
         this.registerForm.password2Error = "需要再次填写密码";
-      } else {
+      }
+      else {
         this.registerForm.password2Error = null;
       }
 
@@ -224,7 +231,11 @@ export default {
       if (!this.registerForm.username) {
         this.registerForm.errors++;
         this.registerForm.usernameError = "用户名未填写";
-      } else {
+      }else if(this.registerForm.username.length>20){
+        this.registerForm.errors++;
+        this.registerForm.usernameError = "用户名长度不能超过20个字符";
+      } 
+      else {
         this.registerForm.usernameError = null;
       }
 
@@ -241,6 +252,9 @@ export default {
       if (!this.registerForm.password) {
         this.registerForm.errors++;
         this.registerForm.passwordError = "密码未填写";
+      }else if(this.registerForm.password.length>16||this.registerForm.password.length<8){
+        this.registerForm.errors++;
+        this.registerForm.passwordError = "密码长度不能超过16个字符且不能小于8个字符";
       } else {
         this.registerForm.passwordError = null;
       }
