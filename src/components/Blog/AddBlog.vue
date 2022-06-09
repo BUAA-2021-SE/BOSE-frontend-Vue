@@ -325,33 +325,33 @@ export default {
       this.postForm.summary = this.postForm.summary.trim()
       this.postForm.body = this.postForm.body.trim()
 
-      this.editForm.errors = 0;
-      if (!this.editForm.title) {
-        this.editForm.errors++
-        this.editForm.titleError = '请输入标题'
+      this.postForm.errors = 0;
+      if (!this.postForm.title) {
+        this.postForm.errors++
+        this.postForm.titleError = '请输入标题'
       } else {
-        this.editForm.titleError = null
+        this.postForm.titleError = null
       }
-      if (!this.editForm.body) {
-        this.editForm.errors++
-        this.editForm.bodyError = '正文不能为空捏'
+      if (!this.postForm.body) {
+        this.postForm.errors++
+        this.postForm.bodyError = '正文不能为空捏'
       } else {
-        this.editForm.bodyError = null
+        this.postForm.bodyError = null
       }
-      if (!this.editForm.summary) {
-        this.editForm.errors++
-        this.editForm.summaryError = '请输入摘要'
+      if (!this.postForm.summary) {
+        this.postForm.errors++
+        this.postForm.summaryError = '请输入摘要'
       } else {
-        this.editForm.summaryError = null
+        this.postForm.summaryError = null
       }
-      if (this.editForm.title.length > 20) {
+      if (this.postForm.title.length > 20) {
         this.$toasted.error("标题长度不能超过20个字符");
         return false;
-      } else if (this.editForm.summary.length > 100) {
+      } else if (this.postForm.summary.length > 100) {
         this.$toasted.error("摘要长度不能超过100个字符");
         return false;
       }
-      if (this.editForm.errors > 0) {
+      if (this.postForm.errors > 0) {
         // 表单验证没通过时，不继续往下执行，即不会通过 axios 调用后端API
         console.log("表单验证没通过")
         return false
