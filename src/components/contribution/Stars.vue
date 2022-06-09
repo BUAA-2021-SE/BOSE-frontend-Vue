@@ -16,7 +16,7 @@
     </div>
     <div v-if="stars.length > 0">
       <div v-show="!loadingProfile" v-for="(star,index) in stars" :key="index">
-        <star :star="star" @takeoff="takeoffStar(post)"></star>
+        <star :star="star" @takeoff="takeoffStar"></star>
       </div>
       <div
           v-if="stars.length > 0"
@@ -86,11 +86,11 @@ export default {
           })
     },
     takeoffStar(post) {
-      console.log("takeoffStar", post);
+      console.log("takeoff", post);
       Star.takeoffStar(post.id)
           .then((res) => {
             console.log(res);
-            this.getStarPosts();
+            this.getStarPosts(1);
           })
           .catch((err) => {
             console.log(err.response);
