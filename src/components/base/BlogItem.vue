@@ -2,15 +2,10 @@
   <div>
     <v-card outlined class="mx-auto" :style="{'border-radius':'20px'}">
       <v-row>
-        <v-col class="d-flex justify-center" cols="12" md="5">
-          <v-img
+        <v-col class="d-flex justify-center m-auto" cols="12" md="5" :style="{'height':'180px','width':'320px'}">
+          <img
               :src="post.cover"
-              class="my-auto"
-              contain
-              height="180"
-              max-width="240"
-              max-height="180"
-              :style="{'border-radius':'20px'}"
+              :style="{'border-radius':'20px','max-width':'320px','min-height':'100%','max-height':'180px'}"
           />
         </v-col>
         <v-col cols="12" md="7">

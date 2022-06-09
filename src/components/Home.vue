@@ -81,11 +81,19 @@
 						</v-col>
 						<v-col cols="12" sm="6" md="12" :style="{'padding-bottom':'0px'}">
 							<v-card v-if="recommendPosts3" :style="{height:'138px'}">
-								<v-card-title>{{recommendPosts3.title}}</v-card-title>
-								<v-card-text>{{recommendPosts3.summary}}</v-card-text>
+								<router-link :to="{ name: 'Post', params: { id: recommendPosts3.id } }">
+								<v-card-title :style="{color:'red'}">{{recommendPosts3.title}}</v-card-title>
+								</router-link>
+								<v-card-text :style="{'padding-top':'0px','padding-bottom':'5px'}">{{recommendPosts3.summary}}</v-card-text>
+								<div :style="{'margin-left':'20px'}">
+									<router-link :to="{name: 'TagAll' , params: {tag: recommendPosts3.tag1},}"><v-chip  v-if="recommendPosts3.tag1!='none'" small :style="{'background-color':'#00AEEC','color':'white','margin-right':'10px'}">{{recommendPosts3.tag1}}</v-chip></router-link>
+									<router-link :to="{name: 'TagAll' , params: {tag: recommendPosts3.tag1},}"><v-chip  v-if="recommendPosts3.tag2!='none'" small :style="{'background-color':'#00AEEC','color':'white','margin-right':'10px'}">{{recommendPosts3.tag2}}</v-chip></router-link>
+									<router-link :to="{name: 'TagAll' , params: {tag: recommendPosts3.tag1},}"><v-chip  v-if="recommendPosts3.tag3!='none'" small :style="{'background-color':'#00AEEC','color':'white','margin-right':'10px'}">{{recommendPosts3.tag3}}</v-chip></router-link>
+									<router-link :to="{name: 'TagAll' , params: {tag: recommendPosts3.tag1},}"><v-chip  v-if="recommendPosts3.tag4!='none'" small :style="{'background-color':'#00AEEC','color':'white','margin-right':'10px'}">{{recommendPosts3.tag4}}</v-chip></router-link>
+								</div>
 							</v-card>
 							<v-card v-if="recommendPosts4" :style="{height:'138px'}">
-								<v-card-title>{{recommendPosts4.title}}</v-card-title>
+								<v-card-title :style="{color:'red'}">{{recommendPosts4.title}}</v-card-title>
 								<v-card-text>{{recommendPosts4.summary}}</v-card-text>
 							</v-card>
 						</v-col>
@@ -315,17 +323,13 @@
 						
 						this.recommendPosts1= res.data.items[5];
 						this.recommendPosts2= res.data.items[6];
-						if(res.data.items[7].title.length>18)
-						{ res.data.items[7].title=res.data.items[7].title.substring(0, 15) + '...' }
-					
-						if(res.data.items[8].title.length>18)
-						{ res.data.items[8].title=res.data.items[8].title.substring(0, 15) + '...' }
+						
 
-						if(res.data.items[7].summary.length>18)
-						{ res.data.items[7].summary=res.data.items[7].summary.substring(0, 15) + '...' }
+						if(res.data.items[7].summary.length>40)
+						{ res.data.items[7].summary=res.data.items[7].summary.substring(0, 38) + '...' }
 					
-						if(res.data.items[8].summary.length>18)
-						{ res.data.items[8].summary=res.data.items[8].summary.substring(0, 15) + '...' }
+						if(res.data.items[8].summary.length>40)
+						{ res.data.items[8].summary=res.data.items[8].summary.substring(0, 38) + '...' }
 						
 						this.recommendPosts3= res.data.items[7];
 						this.recommendPosts4= res.data.items[8];

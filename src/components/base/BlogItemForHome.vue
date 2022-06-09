@@ -1,17 +1,12 @@
 <template>
   <div>
-    <v-card outlined class="mx-auto" :style="{'border-radius':'20px'}">
+    <v-card outlined class="mx-auto" :style="{'border-radius':'20px',height:'240px'}">
       <v-row>
-        <v-col class="d-flex justify-center" cols="12" md="5">
+        <v-col class="d-flex justify-center m-auto" cols="12" md="5" :style="{'height':'180px','width':'320px'}">
           <router-link v-if="!post.if_resource" :to="{ name: 'Post', params: { id: post.id } }">
-          <v-img
+         <img
               :src="post.cover"
-              class="my-auto"
-              contain
-              height="180"
-              max-width="240"
-              max-height="180"
-              :style="{'border-radius':'20px'}"
+              :style="{'border-radius':'20px','max-width':'320px','min-height':'100%','max-height':'180px'}"
           />
           </router-link>
            <v-img

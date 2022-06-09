@@ -74,7 +74,7 @@
       </v-expand-transition>
       <router-link v-if="sharedState.is_authenticated" :to="{ name: 'ReceivedComments' }">
         <v-btn text class="white--text" :style="{'font-weight': 'bold'}"> 消息
-          <span v-if="newMessage!=0" class="red--text ms-1">{{ newMessage }}</span>
+          <span v-if="newMessage!=0" id="newInfo" ><div :style="{'margin-top':'-3px'}">{{ newMessage }}</div></span>
         </v-btn>
       </router-link>
       <router-link v-else :to="{ name: 'Login' }">
@@ -240,7 +240,7 @@ export default {
           if (this.sharedState.is_authenticated) {
             this.queryUser();
           }
-        }, 15000);
+        }, 5000);
       },
       deep: true,
       immediate: true
@@ -432,14 +432,17 @@ a {
   margin-top: 35px;
 }
 
-div#newInfo {
+span#newInfo {
   background-color: #fe2d46;
-  width: 20px;
-  height: 20px;
-  bottom: 0px;
+  width: 14px;
+  height: 14px;
+  bottom: 2px;
+  position:absolute;
   border-radius: 10px;
-  font-size: 16px;
+  font-size: 13px;
   line-height: 20px;
+  z-index:2001;
+  left:60px;
   text-align: center;
   color: rgb(255, 255, 255);
 }
