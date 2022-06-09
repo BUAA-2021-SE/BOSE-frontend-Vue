@@ -42,7 +42,7 @@
           <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn @click="addFile" text>上传封面</v-btn>
-          <input type="file" ref="upload_input" style="display: none;" @change="select_file" accept=".png,.jpg,.jpeg">
+          <input type="file" ref="upload_input" style="display: none;" @change="select_file" accept=".png,.jpg,.jpeg,.webp">
           </v-card-actions>
           </v-card>
         </v-col>
