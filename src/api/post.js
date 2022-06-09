@@ -159,7 +159,7 @@ export default class Post {
     }
 
     static async search_tag(keyword, page, size) {
-        return service(`${url.rank}/${keyword}/0?page=${page}&size=${size}`, {
+        return service(`${url.titleSearch}/${keyword}/tag?page=${page}&size=${size}`, {
             method: 'get',
             headers: {
                 'Content-Type': 'multipart/form-data'
