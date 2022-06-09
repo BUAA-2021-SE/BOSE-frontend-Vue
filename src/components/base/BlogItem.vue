@@ -11,23 +11,26 @@
         <v-col cols="12" md="7">
           <router-link v-if="!post.if_resource" :to="{ name: 'Post', params: { id: post.id } }">
             <v-card-title>
-              <h3 v-if="post.title.length <12">{{ post.title }}</h3>
-              <h3 v-else>{{ post.title.substring(0, 9) + '...' }}</h3>
+              <h3 v-if="post.title.length <18">{{ post.title }}</h3>
+              <h3 v-else>{{ post.title.substring(0, 15) + '...' }}</h3>
               <v-btn v-if="post.status===-1" color="error" text small>被打回</v-btn>
               <v-btn v-if="post.status===1" color="error" text small>待审核</v-btn>
             </v-card-title>
           </router-link>
           <v-card-title v-else>
-            <h3 v-if="post.title.length <12">{{ post.title }}</h3>
-            <h3 v-else>{{ post.title.substring(0, 9) + '...' }}</h3>
+            <h3 v-if="post.title.length <18">{{ post.title }}</h3>
+            <h3 v-else>{{ post.title.substring(0, 15) + '...' }}</h3>
             <v-btn v-if="post.status===-1" color="error" text small>被打回</v-btn>
             <v-btn v-if="post.status===1" color="error" text small>待审核</v-btn>
           </v-card-title>
           <v-card-text>
             <router-link :to="{name:'ShowProfile',params:{id: post.author.id}}"><strong
                 v-html="post.author.name || post.author.username"></strong></router-link>
-            <div class="text--primary">
+           <div class="text--primary" v-if="post.summary.length <60">
               {{ post.summary }}
+            </div>
+             <div class="text--primary" v-else>
+              {{ post.summary.substring(0, 57) + '...'  }}
             </div>
             <div>
               <v-chip :style="{'background-color':'#00AEEC','color':'white'}" v-show="post.tag1!='none'" class="ma-2"

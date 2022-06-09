@@ -2,44 +2,46 @@
   <div>
     <v-card outlined class="mx-auto" :style="{'border-radius':'20px',height:'240px'}">
       <v-row>
-        <v-col class="d-flex justify-center m-auto" cols="12" md="5" :style="{'height':'180px','width':'320px'}">
+        <v-col class="d-flex justify-center m-auto" cols="12" md="4" >
+          <v-card :style="{'height':'180px','max-height':'180px','border-radius':'20px','margin-left':'50px','margin-top':'18px'}">
           <router-link v-if="!post.if_resource" :to="{ name: 'Post', params: { id: post.id } }">
-         <img
+         
+         <v-img
               :src="post.cover"
-              :style="{'border-radius':'20px','max-width':'320px','min-height':'100%','max-height':'180px'}"
+             :style="{'min-width':'100%','min-height':'100%','max-height':'180px','border-radius':'20px'}"
           />
           </router-link>
+          </v-card>
            <v-img
               v-if="post.if_resource"
               :src="post.cover"
-              class="my-auto"
-              contain
-              height="180"
-              max-width="240"
-              max-height="180"
-              :style="{'border-radius':'20px'}"
+               :style="{'min-width':'100%','min-height':'100%','max-height':'180px','border-radius':'20px'}"
           />
         </v-col>
+      <v-col cols="12" md="1"></v-col>
         <v-col cols="12" md="7">
           <router-link v-if="!post.if_resource" :to="{ name: 'Post', params: { id: post.id } }">
             <v-card-title>
-              <h3 v-if="post.title.length <12">{{ post.title }}</h3>
-              <h3 v-else>{{ post.title.substring(0, 9) + '...' }}</h3>
+              <h3 v-if="post.title.length <18">{{ post.title }}</h3>
+              <h3 v-else>{{ post.title.substring(0, 15) + '...' }}</h3>
               <v-btn v-if="post.status===-1" color="error" text small>被打回</v-btn>
               <v-btn v-if="post.status===1" color="error" text small>待审核</v-btn>
             </v-card-title>
           </router-link>
           <v-card-title v-else>
-            <h3 v-if="post.title.length <12">{{ post.title }}</h3>
-            <h3 v-else>{{ post.title.substring(0, 9) + '...' }}</h3>
+            <h3 v-if="post.title.length <18">{{ post.title }}</h3>
+            <h3 v-else>{{ post.title.substring(0, 15) + '...' }}</h3>
             <v-btn v-if="post.status===-1" color="error" text small>被打回</v-btn>
             <v-btn v-if="post.status===1" color="error" text small>待审核</v-btn>
           </v-card-title>
           <v-card-text>
             <router-link :to="{name:'ShowProfile',params:{id: post.author.id} }"><strong
                 v-html="post.author.name || post.author.username"></strong></router-link>
-            <div class="text--primary">
+            <div class="text--primary" v-if="post.summary.length <60">
               {{ post.summary }}
+            </div>
+             <div class="text--primary" v-else>
+              {{ post.summary.substring(0, 57) + '...'  }}
             </div>
             <div>
               <router-link :to="{name: 'TagAll' , params: {tag: post.tag1},}">

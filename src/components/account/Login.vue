@@ -82,9 +82,7 @@ export default {
     return {
       showPassword: false,
       sharedState: store.state,
-      alertVariant: "info",
-      alertMessage: "您已成功登录",
-      alertMessageReset: "密码成功重置",
+      
       loginForm: {
         username: "",
         password: "",

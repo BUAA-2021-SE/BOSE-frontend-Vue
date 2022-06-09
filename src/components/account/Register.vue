@@ -196,7 +196,7 @@ export default {
       Account.RegisterCheck(payload)
         .then((res) => {
           console.log(res);
-          this.$toasted.success("您已成功登录" ,{icon: "check",})
+          this.$toasted.success("您已成功注册" ,{icon: "check",})
           this.$router.push({ name: "Login" });
           store.setNewAction();
         })
