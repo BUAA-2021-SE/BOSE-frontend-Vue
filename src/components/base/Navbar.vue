@@ -240,9 +240,8 @@ export default {
           if (this.sharedState.is_authenticated) {
             this.queryUser();
           }
-        }, 5000);
+        }, 3000);
       },
-      deep: true,
       immediate: true
     }
   },
