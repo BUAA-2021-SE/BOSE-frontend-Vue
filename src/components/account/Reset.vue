@@ -213,7 +213,6 @@ export default {
 
       Account.Reset(payload)
           .then((res) => {
-            console.log(res.detail, "111");
             this.showIDCode = true;
           })
           .catch((error) => {

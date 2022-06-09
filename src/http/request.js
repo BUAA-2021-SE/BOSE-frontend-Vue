@@ -50,11 +50,7 @@ service.interceptors.response.use(function (response) {
                 break
             
             case 401:
-                Vue.toasted.error('身份验证未通过', {icon: 'check'})
-                router.replace({
-                    path: '/login',
-                    query: {redirect: router.currentRoute.path},
-                })
+                Vue.toasted.error('验证未通过', {icon: 'check'})
                 break
             // 453 没有博文编辑权限
             case 453:

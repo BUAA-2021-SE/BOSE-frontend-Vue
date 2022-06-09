@@ -1,8 +1,8 @@
 <template>
   <div class="mx-5">
     
-    <div class="text-center" v-show="loadingProfile">
-      <h3 v-show="loadingProfile">
+    <div class="text-center" v-if="loadingProfile">
+      <h3>
         博客加载中······
         <v-progress-circular
           class="center"
@@ -10,11 +10,10 @@
           color="primary"
           :size="40"
           :width="3"
-          v-show="loadingProfile"
         ></v-progress-circular>
       </h3>
     </div>
-    <v-container v-if="!loadingProfile" grid-list-xl>
+    <v-container v-else grid-list-xl>
       
       <!-- 目录 -->
       <!-- Sidebar -->
@@ -862,6 +861,8 @@ export default {
   data() {
     return {
       loadingProfile: true,
+      loadingPost:true,
+      loadingComments: true,
       showContent: false,
       ifContent: false,
       items: [
@@ -950,7 +951,8 @@ export default {
           ) {
             this.ifStarred = true;
           }
-          this.loadingProfile = false;
+          this.loadingPost = false;
+          if(!this.loadingPost&&!this.loadingComments) this.loadingProfile = false;
         })
         .catch((err) => {
           console.error(err);
@@ -994,7 +996,8 @@ export default {
         .then((res) => {
           this.comments = res.data;
           console.log(this.comments, "getComments");
-          this.loadingProfile = false;
+          this.loadingComments = false;
+          if(!this.loadingPost&&!this.loadingComments) this.loadingProfile = false;
         })
         .catch((err) => {
           console.error(err.response.data.detail, "errorMessage");

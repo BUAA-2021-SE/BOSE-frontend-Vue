@@ -35,6 +35,7 @@ export default {
             console.log("loginAction triggered");
         }
         this.state.is_authenticated = true;
+        this.state.is_reset = false;
         let str = window.localStorage.getItem('token').split('$$$');
         this.state.user_id = str[1];
         if(str[2]==='$$admin'){
