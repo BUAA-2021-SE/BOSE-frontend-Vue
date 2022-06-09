@@ -12,7 +12,7 @@
             <label for="name">Real Name</label>
             <input type="text" v-model="profileForm.name" class="form-control" id="name" placeholder="">
           </div> -->
-          <label for="name">Real Name</label>
+          <label for="name">昵称</label>
           <v-text-field
               v-model="profileForm.name"
               outlined
@@ -21,7 +21,7 @@
               placeholder=""
           ></v-text-field>
 
-          <label for="location">Location</label>
+          <label for="location">地点</label>
           <!-- <input type="text" v-model="profileForm.location" class="form-control" id="location" placeholder=""> -->
           <v-text-field
               v-model="profileForm.location"
@@ -32,7 +32,7 @@
           ></v-text-field>
 
 
-          <label for="about_me">About Me</label>
+          <label for="about_me">个性签名</label>
           <v-textarea
               v-model="profileForm.about_me"
               outlined
@@ -42,11 +42,11 @@
           <br/>
           <v-row class="col-md-12">
             <v-col class="col-md-2 text-left">
-              <button type="submit" class="btn btn-primary align-left">Submit</button>
+              <button type="submit" class="btn btn-primary align-left">提交</button>
             </v-col>
             <v-col class="col-md-8"/>
             <v-col class="col-md-2 text-right">
-              <button @click="returnProfile" class="btn btn-primary text-right">Cancel</button>
+              <button @click="returnProfile" class="btn btn-primary text-right">取消</button>
             </v-col>
           </v-row>
         </form>
