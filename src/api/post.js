@@ -241,7 +241,11 @@ export default class Post {
             headers: {
                 'Content-Type': 'multipart/form-data'
             },
-            data: data
+            data: data,
+            onUploadProgress: progressEvent => {
+                let persent = (progressEvent.loaded / progressEvent.total * 100 | 0)		//上传进度百分比
+                console.log(persent)
+            }
         })
     }
 

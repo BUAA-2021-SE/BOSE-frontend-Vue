@@ -35,7 +35,7 @@
               label="上传资源"
               @change="getFiles"
           ></v-file-input>
-
+          <v-progress-linear v-model="persent"></v-progress-linear>
           <div v-for="(item,index) in totalResource" :key="index">
             <span>{{ item.name }}</span>
             <v-btn text @click="deleteFile(item.id)"> 删除资源</v-btn>
@@ -122,7 +122,7 @@
 <script>
 import store from '@/store.js'
 import Post from '@/api/post'
-
+import service from '@/http/request.js'
 export default {
   name: 'EditBlog',
   data() {
@@ -186,7 +186,8 @@ export default {
       },
       uploadResource: [],
       totalResource: [],
-      select_file_data: ''
+      select_file_data: '',
+      persent:0
     }
   },
   methods: {
@@ -199,7 +200,7 @@ export default {
       let uploads = new FormData()
       if (this.select_file_data != "") {
         uploads.append("image", this.select_file_data)
-        Post.postCover(this.$route.params.id, uploads)
+        Post.postCover(this.$route.params.id,uploads)
             .then((res) => {
               console.log(res.data)
               this.loadingProfile = true;
@@ -286,8 +287,20 @@ export default {
       console.log("getFiles", this.uploadResource);
       const formData = new FormData();
       formData.append('resources', this.uploadResource[0]);
-      Post.postResource(this.$route.params.id, formData)
-          .then((res) => {
+      service(`/blog/upload_blog_resources/${this.$route.params.id}`, {
+            method: 'post',
+            responseType: 'json',
+            headers: {
+                'Content-Type': 'multipart/form-data',
+            },
+            data: formData,
+            onUploadProgress: progressEvent => {
+                let persent = (progressEvent.loaded / progressEvent.total * 100 | 0)		//上传进度百分比
+                console.log(persent)
+                this.persent = persent;
+            }
+        }) 
+        .then((res) => {
             console.log(res);
             this.showFiles();
             this.$toasted.success('已成功上传');
@@ -295,12 +308,14 @@ export default {
           })
           .catch((err) => {
             console.error(err);
+            this.persent = 0;
           })
     },
     deleteFile(id) {
       Post.deleteResource(id)
           .then((res) => {
             console.log(res);
+            this.persent = 0;
             this.showFiles();
             this.$toasted.success('已成功删除');
           })
