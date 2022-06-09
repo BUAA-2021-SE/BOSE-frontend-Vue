@@ -156,13 +156,13 @@
 								    'font-size': '14px','line-height': '24px','text-align':' center','color': '#fff'}">1</div>
 										</v-card>
 									</v-col>
-									<v-col cols="12" md="6" :style="{'padding':'5px 12px 5px 12px'}">
+									<v-col cols="12" md="6" :style="{'padding':'5px 12px 5px 12px'}" class="my-auto">
 									<router-link :to="{name: 'Post', params: {id: topHotPost.id} }">
-									<v-card-subtitle  :style="{'padding':'3px','font-size':'16px'}">{{topHotPost.title}}</v-card-subtitle></router-link>
+									<v-card-subtitle  :style="{'padding':'3px','font-size':'16px','font-weight':'bold'}">{{topHotPost.title}}</v-card-subtitle></router-link>
 									</v-col>
 									<v-col cols="12" md="12" v-for="(post,index) in hotPosts" :key="index"  class="d-flex justify-start" :style="{'padding':'5px 2px 5px 12px'}">
-									<div :style="{'color':'#FF9900','margin-left':'10px','width':'20px','font-size':'18px'}" v-show="index==0">{{index+2}}</div>
-									<div :style="{'color':'#FFCC00','margin-left':'10px','width':'20px','font-size':'18px'}" v-show="index==1">{{index+2}}</div>
+									<div :style="{'color':'#FF9900','margin-left':'10px','width':'20px','font-size':'18px','font-weight':'bold'}" v-show="index==0">{{index+2}}</div>
+									<div :style="{'color':'#FFCC00','margin-left':'10px','width':'20px','font-size':'18px','font-weight':'bold'}" v-show="index==1">{{index+2}}</div>
 									<div :style="{'color':'grey','margin-left':'10px','width':'20px','font-size':'18px'}" v-show="index!=0&&index!=1">{{index+2}}</div>
 										<router-link :to="{name: 'Post', params: {id: post.id} }">
 										<v-card-subtitle :style="{'margin-left':'20px','padding':'3px','font-size':'16px'}">{{post.title}}</v-card-subtitle>

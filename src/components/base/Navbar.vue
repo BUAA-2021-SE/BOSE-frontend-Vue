@@ -1,18 +1,19 @@
 <template>
   <v-app-bar app color="#00AEEC" elevate-on-scroll>
-    <router-link :to="{ name: 'Home' }">
-      <div id="main" :style="{ width: '150px', height: '40px' }"></div>
-    </router-link>
-
     <v-img
         :src="require('@/assets/logo.png')"
         class="mr-5"
         contain
-        height="48"
-        width="48"
-        max-width="48"
+        height="64"
+        width="64"
+        max-width="64"
         @click="$vuetify.goTo(0)"
     />
+    <router-link :to="{ name: 'Home' }">
+      <div id="main" :style="{ width: '150px', height: '40px' }"></div>
+    </router-link>
+
+    
 
     <router-link :to="{ name: 'Home' }">
       <v-btn text class="white--text" :style="{'font-weight': 'bold'}"> 主页</v-btn>
