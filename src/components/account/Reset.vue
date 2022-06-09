@@ -21,8 +21,8 @@
 
                 <v-text-field
                     v-model="resetForm.password"
-                    label="密码"
-
+                    label="密码(8-16位)"
+                    counter="16"
                     filled
                     clearable
                     required
@@ -37,6 +37,7 @@
                     v-model="resetForm.password2"
                     label="再次输入密码"
                     filled
+                    counter="16"
                     required
                     clearable
                     :append-icon="showPassword2 ? 'mdi-eye' : 'mdi-eye-off'"
@@ -50,6 +51,7 @@
                 <v-text-field
                     v-model="resetForm.idcode"
                     label="验证码"
+                    counter="8"
                     required
                     clearable
                     filled
@@ -189,6 +191,9 @@ export default {
       if (!this.resetForm.password) {
         this.resetForm.errors++
         this.resetForm.passwordError = '未填写密码'
+      }else if(this.resetForm.password.length>16||this.resetForm.password.length<8){
+        this.resetForm.errors++;
+        this.resetForm.passwordError = "密码长度不能超过16个字符且不能小于8个字符";
       } else {
         this.resetForm.passwordError = null
       }
