@@ -78,8 +78,7 @@
               >
                 <v-chip
                     v-show="item.is_read == false"
-                    :color="`${item.color} light-blue`"
-                    class="ml-0 mr-2 black--text"
+                    :style="{'background-color':'#00AEEC',color:'white'}"
                     label
                     small
                 >

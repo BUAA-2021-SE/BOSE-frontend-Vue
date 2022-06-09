@@ -1,13 +1,24 @@
 <template>
   <div>
-    <v-card outlined class="mx-auto" :style="{'border-radius':'20px'}">
+    <v-card outlined class="mx-auto" :style="{'border-radius':'20px',height:'260px'}">
       <v-row>
-        <v-col class="d-flex justify-center m-auto" cols="12" md="5" :style="{'height':'180px','width':'320px'}">
-          <img
+        <v-col class="d-flex justify-center m-auto" cols="12" md="4" >
+           <v-card :style="{'height':'180px','max-height':'180px','border-radius':'20px','margin-left':'50px','margin-top':'-12px'}">
+          <router-link v-if="!post.if_resource" :to="{ name: 'Post', params: { id: post.id } }">
+         
+         <v-img
               :src="post.cover"
-              :style="{'border-radius':'20px','max-width':'320px','min-height':'100%','max-height':'180px'}"
+             :style="{'min-width':'100%','min-height':'100%','max-height':'180px','border-radius':'20px'}"
+          />
+          </router-link>
+          </v-card>
+           <v-img
+              v-if="post.if_resource"
+              :src="post.cover"
+               :style="{'min-width':'100%','min-height':'100%','max-height':'180px','border-radius':'20px'}"
           />
         </v-col>
+        <v-col cols="12" md="1"></v-col>
         <v-col cols="12" md="7">
           <router-link v-if="!post.if_resource" :to="{ name: 'Post', params: { id: post.id } }">
             <v-card-title>

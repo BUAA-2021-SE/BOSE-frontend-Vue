@@ -20,11 +20,11 @@
 					</v-card>
 					
 				<v-col cols="12" sm="12" md="7">
-					<v-card :style="{'border-radius':'20px'}">
+					<v-card :style="{'border-radius':'20px','height':'500px','max-height':'500px',}">
 						<v-carousel  cycle hide-delimiter-background show-arrows-on-hover>
 							<v-carousel-item v-for="(post,index) in recommendPosts" :key="index">
 								<v-sheet height="100%">
-									<v-img :src="post.cover" :style="{'min-width':'100%','min-height':'80%',}" />
+									<v-img :src="post.cover" :style="{'min-width':'100%','min-height':'100%','max-height':'500px'}" />
 									<router-link :to="{ name: 'Post', params: { id: post.id } }">
 										<div class="mask white--text align-end">
 											<router-link :to="{ name: 'Post', params: { id: post.id } }">
@@ -87,14 +87,22 @@
 								<v-card-text :style="{'padding-top':'0px','padding-bottom':'5px'}">{{recommendPosts3.summary}}</v-card-text>
 								<div :style="{'margin-left':'20px'}">
 									<router-link :to="{name: 'TagAll' , params: {tag: recommendPosts3.tag1},}"><v-chip  v-if="recommendPosts3.tag1!='none'" small :style="{'background-color':'#00AEEC','color':'white','margin-right':'10px'}">{{recommendPosts3.tag1}}</v-chip></router-link>
-									<router-link :to="{name: 'TagAll' , params: {tag: recommendPosts3.tag1},}"><v-chip  v-if="recommendPosts3.tag2!='none'" small :style="{'background-color':'#00AEEC','color':'white','margin-right':'10px'}">{{recommendPosts3.tag2}}</v-chip></router-link>
-									<router-link :to="{name: 'TagAll' , params: {tag: recommendPosts3.tag1},}"><v-chip  v-if="recommendPosts3.tag3!='none'" small :style="{'background-color':'#00AEEC','color':'white','margin-right':'10px'}">{{recommendPosts3.tag3}}</v-chip></router-link>
-									<router-link :to="{name: 'TagAll' , params: {tag: recommendPosts3.tag1},}"><v-chip  v-if="recommendPosts3.tag4!='none'" small :style="{'background-color':'#00AEEC','color':'white','margin-right':'10px'}">{{recommendPosts3.tag4}}</v-chip></router-link>
+									<router-link :to="{name: 'TagAll' , params: {tag: recommendPosts3.tag2},}"><v-chip  v-if="recommendPosts3.tag2!='none'" small :style="{'background-color':'#00AEEC','color':'white','margin-right':'10px'}">{{recommendPosts3.tag2}}</v-chip></router-link>
+									<router-link :to="{name: 'TagAll' , params: {tag: recommendPosts3.tag3},}"><v-chip  v-if="recommendPosts3.tag3!='none'" small :style="{'background-color':'#00AEEC','color':'white','margin-right':'10px'}">{{recommendPosts3.tag3}}</v-chip></router-link>
+									<router-link :to="{name: 'TagAll' , params: {tag: recommendPosts3.tag4},}"><v-chip  v-if="recommendPosts3.tag4!='none'" small :style="{'background-color':'#00AEEC','color':'white','margin-right':'10px'}">{{recommendPosts3.tag4}}</v-chip></router-link>
 								</div>
 							</v-card>
 							<v-card v-if="recommendPosts4" :style="{height:'138px'}">
+								<router-link :to="{ name: 'Post', params: { id: recommendPosts4.id } }">
 								<v-card-title :style="{color:'red'}">{{recommendPosts4.title}}</v-card-title>
-								<v-card-text>{{recommendPosts4.summary}}</v-card-text>
+								</router-link>
+								<v-card-text :style="{'padding-top':'0px','padding-bottom':'5px'}">{{recommendPosts4.summary}}</v-card-text>
+								<div :style="{'margin-left':'20px'}">
+									<router-link :to="{name: 'TagAll' , params: {tag: recommendPosts4.tag1},}"><v-chip  v-if="recommendPosts4.tag1!='none'" small :style="{'background-color':'#00AEEC','color':'white','margin-right':'10px'}">{{recommendPosts4.tag1}}</v-chip></router-link>
+									<router-link :to="{name: 'TagAll' , params: {tag: recommendPosts4.tag2},}"><v-chip  v-if="recommendPosts4.tag2!='none'" small :style="{'background-color':'#00AEEC','color':'white','margin-right':'10px'}">{{recommendPosts4.tag2}}</v-chip></router-link>
+									<router-link :to="{name: 'TagAll' , params: {tag: recommendPosts4.tag3},}"><v-chip  v-if="recommendPosts4.tag3!='none'" small :style="{'background-color':'#00AEEC','color':'white','margin-right':'10px'}">{{recommendPosts4.tag3}}</v-chip></router-link>
+									<router-link :to="{name: 'TagAll' , params: {tag: recommendPosts4.tag4},}"><v-chip  v-if="recommendPosts4.tag4!='none'" small :style="{'background-color':'#00AEEC','color':'white','margin-right':'10px'}">{{recommendPosts4.tag4}}</v-chip></router-link>
+								</div>
 							</v-card>
 						</v-col>
 					</v-row>
@@ -121,9 +129,9 @@
 							</v-card> -->
 						</v-col>
 						<v-col cols="12" sm="12" md="12">
-							<v-card v-if="selectPost" :style="{'border-radius':'20px','height':'225px',}">
+							<v-card v-if="selectPost" :style="{'border-radius':'20px','height':'225px','max-height':'225px'}">
 								<v-img :src="selectPost.cover"
-									:style="{'min-width':'100%','min-height':'100%','border-radius':'20px'}" />
+									:style="{'min-width':'100%','min-height':'100%','max-height':'225px','border-radius':'20px'}" />
 								<router-link :to="{ name: 'Post', params: { id: selectPost.id } }">
 									<div class="mask2 white--text align-end">
 										<h5
@@ -429,8 +437,8 @@
 			this.topHotPost = res.data.items[0];
 			this.hotPosts.splice(0);
             for (let i=1; i<10;i++){
-				if(res.data.items[i].title.length>14)
-				{ res.data.items[i].title=res.data.items[i].title.substring(0, 11) + '...' }
+				if(res.data.items[i].title.length>17)
+				{ res.data.items[i].title=res.data.items[i].title.substring(0, 15) + '...' }
 				this.hotPosts.push(res.data.items[i]);
 			}
           })
