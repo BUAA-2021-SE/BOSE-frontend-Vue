@@ -58,8 +58,8 @@
                     class="spacer"
                     no-gutters
                 >
-                  <router-link :to="{ name: 'Post',params: { id:item.blog.id} }">
-                    <h4>{{ item.blog.title }}</h4>
+                  <router-link :to="{ name: 'Post',params: { id:item.blog.id} }" :style="{padding:'0px'}">
+                    <h4 :style="{color:'red'}">{{ item.blog.title }}</h4>
                   </router-link>
                 </v-row>
                 <v-row>
