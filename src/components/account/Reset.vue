@@ -154,6 +154,7 @@ export default {
       Account.ResetCheck(payload)
           .then((res) => {
             console.log(res);
+            this.$toasted.success("密码成功重置" ,{icon: "check",})
             this.$router.push('/login');
             store.setResetAction();
           })

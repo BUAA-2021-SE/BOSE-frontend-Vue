@@ -1,17 +1,5 @@
 <template>
   <div class="container my-auto" :style="{ padding: 0 }" height="50vh">
-    <alert
-      v-if="sharedState.is_new"
-      :variant="alertVariant"
-      :message="alertMessage"
-    >
-    </alert>
-    <alert
-      v-if="sharedState.is_reset"
-      :variant="alertVariant"
-      :message="alertMessageReset"
-    >
-    </alert>
     <br />
     <br />
     <div class="my-auto" width="80vw" height="50vh">

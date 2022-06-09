@@ -2,8 +2,8 @@
   <div>
   <v-card>
   <v-card-title class="d-flex justify-center">与{{user.name}}的聊天</v-card-title>
-  <v-container  :style="{'height':'500px','overflow':'scroll','overflow-x':'hidden','background-color':'#F4F4F4 ','border-color':'#000000','border-width':'2px'}">
-    <div v-for="(item,index) in items" :key="index" :style="{}">
+  <div class="container" ref="chatting" :style="{'height':'500px','overflow':'scroll','overflow-x':'hidden','background-color':'#F4F4F4 ','border-color':'#000000','border-width':'2px'}">
+    <div v-for="(item,index) in items" :key="index" >
       <div v-if="item.sender.id==user.id" class="text-left d-flex  justify-start" :style="{'margin-right':'30%',}">
         <div class="justify-start ">
           <div>
@@ -29,7 +29,7 @@
       </div>
       
     </div>
-  </v-container>
+  </div>
   <v-divider :style="{'margin-top':'0px','margin-bottom':'0px'}"></v-divider>
   <div :style="{'height':'116px'}">
   <textarea
@@ -58,6 +58,7 @@ export default {
       sharedState: store.state,
       items:[],
       chatForm:'',
+      item:{},
       user: {
         id:"",
         username: "",
@@ -73,7 +74,7 @@ export default {
         },
       },
     }
-  },
+  },       
   methods:{
     getChatList(){
       console.log("getMessageList");
@@ -81,6 +82,9 @@ export default {
       .then((res)=>{
         console.log(res);
         this.items = res.data;
+           let div = this.$refs.chatting
+           div.scrollTop = 20000;
+           console.log(div.scrollTop)
       })
       .catch((err)=>{
         console.error(err);
@@ -95,7 +99,8 @@ export default {
         console.log(res);
         this.chatForm = '';
         this.getChatList();
-        // this.$toasted
+           let div = this.$refs.chatting
+           div.scrollTop = 20000;
       })
       .catch((err)=>{
         console.log(err);
@@ -120,8 +125,11 @@ export default {
     },
     
   },
-  created() {
+  mounted(){
     this.getChatList();
+  },
+  created() {
+    
     this.getUserDetail(this.$route.params.id);
   },
   beforeRouteUpdate(to, from, next){
