@@ -18,21 +18,17 @@
                :style="{'min-width':'100%','min-height':'100%','max-height':'180px','border-radius':'20px'}"
           />
         </v-col>
-      <v-col cols="12" md="1"></v-col>
-        <v-col cols="12" md="7">
+     
+        <v-col cols="12" md="8">
           <router-link v-if="!post.if_resource" :to="{ name: 'Post', params: { id: post.id } }">
-            <v-card-title>
-              <h3 v-if="post.title.length <18">{{ post.title }}</h3>
-              <h3 v-else>{{ post.title.substring(0, 15) + '...' }}</h3>
-              <v-btn v-if="post.status===-1" color="error" text small>被打回</v-btn>
-              <v-btn v-if="post.status===1" color="error" text small>待审核</v-btn>
+            <v-card-title :style="{'margin-top':'4px'}">
+              <h3 >{{ post.title }}</h3>
+          
             </v-card-title>
           </router-link>
-          <v-card-title v-else>
-            <h3 v-if="post.title.length <18">{{ post.title }}</h3>
-            <h3 v-else>{{ post.title.substring(0, 15) + '...' }}</h3>
-            <v-btn v-if="post.status===-1" color="error" text small>被打回</v-btn>
-            <v-btn v-if="post.status===1" color="error" text small>待审核</v-btn>
+          <v-card-title v-else  :style="{'margin-top':'4px'}">
+            <h3 >{{ post.title }}</h3>
+ 
           </v-card-title>
           <v-card-text>
             <router-link :to="{name:'ShowProfile',params:{id: post.author.id} }"><strong

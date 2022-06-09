@@ -113,7 +113,7 @@
 						<blog :post="post" @delete="getPosts(1)">
 						</blog>
 					</v-col>
-					<span>共有博文{{ total }}篇</span>
+					
 							<v-pagination
 								v-model="page"
 								:length="pageTotal"

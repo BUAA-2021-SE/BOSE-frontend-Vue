@@ -63,9 +63,10 @@
                   }}
                 </v-alert>
               </v-form>
+              <v-card-actions>
               <v-btn class="info" @click="getIDCode">获取验证码</v-btn>
               <v-btn class="info" v-show="this.showIDCode" @click="reset">重置密码</v-btn>
-
+              </v-card-actions>
             </div>
             <div class="col-md-2">
               <div class="midLine"></div>
