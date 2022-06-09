@@ -139,16 +139,18 @@
 						<v-card-title>全站热门</v-card-title>
 							<v-row >
 								<v-row  :style="{'margin-left':'0px','margin-bottom':'10px'}">
-									<v-col cols="12" md="5" :style="{ position:'relative'}">
+									<v-col cols="12" md="6" :style="{ position:'relative'}" class="mx-auto">
+										<v-card :style="{'height':'90px','max-height':'90px','border-radius':'10px'}">
 										<router-link :to="{name: 'Post', params: {id: topHotPost.id} }">
-									<v-img :src="topHotPost.cover"  :style="{'max-height':'90px','max-width':'160px','margin-left':'5px','border-radius':'10px'}"/> 
+									<v-img :src="topHotPost.cover" :style="{'min-width':'100%','min-height':'100%','max-height':'90px','border-radius':'10px'}"/> 
 										</router-link>
 									<div class="sign" :style="{'background-color':'#fe2d46','position':'absolute','z-index':'1','width':'24px','height':'24px','top':'0px','border-radius': '10px 1px 10px 1px',
 								    'font-size': '14px','line-height': '24px','text-align':' center','color': '#fff'}">1</div>
+										</v-card>
 									</v-col>
-									<v-col cols="12" md="7" :style="{'padding':'5px 12px 5px 12px'}">
+									<v-col cols="12" md="6" :style="{'padding':'5px 12px 5px 12px'}">
 									<router-link :to="{name: 'Post', params: {id: topHotPost.id} }">
-									<v-card-subtitle  :style="{'margin-left':'20px','padding':'3px','font-size':'18px'}">{{topHotPost.title}}</v-card-subtitle></router-link>
+									<v-card-subtitle  :style="{'padding':'3px','font-size':'16px'}">{{topHotPost.title}}</v-card-subtitle></router-link>
 									</v-col>
 									<v-col cols="12" md="12" v-for="(post,index) in hotPosts" :key="index"  class="d-flex justify-start" :style="{'padding':'5px 2px 5px 12px'}">
 									<div :style="{'color':'#FF9900','margin-left':'10px','width':'20px','font-size':'18px'}" v-show="index==0">{{index+2}}</div>

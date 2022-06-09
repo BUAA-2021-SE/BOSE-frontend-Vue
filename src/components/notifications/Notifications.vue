@@ -1,55 +1,58 @@
 <template>
   <div class="container">
-    <v-row >
+    
+    <div class="row">
       <v-col cols="12" md="3">
-        <v-card>
+        <v-card outlined>
           <v-img
-              :aspect-ratio="16/16"
-              :src="user._links.avatar"
-              :max-height="360"
-              :max-width="360"
-          />
-          <v-card-title>
-            {{ user.name || user.username }}
+                  v-if="user._links.avatar"
+                  class="img-fluid w-80"
+                  :src="user._links.avatar"
+                  alt="Image Description"
+              />
+          <v-card-title><h3>
+            {{ user.name || user.username }}</h3>
           </v-card-title>
-          <v-card-text>{{ user.about_me }}</v-card-text>
-          <v-divider></v-divider>
+          <v-card-subtitle ><p>{{ user.about_me }}</p></v-card-subtitle>
+          <v-divider  class="mx-4"></v-divider>
+          <v-row class="justify-center">
           <v-btn :to="{name: 'ReceivedComments'}"
-                 block color="blue" outlined>
-            <v-icon color="green">mdi-comment</v-icon>
+               text class="d-flex justify-start">
+            <v-icon :style="{ color: '#00AEEC' ,'font-size': '20px','margin-top':'2px','margin-right':'3px'}">mdi-comment</v-icon>
             收到评论
             <span class="red--text ms-4" v-if="unread.unread_comments!=0">{{ unread.unread_comments }}</span>
           </v-btn>
           <v-btn :to="{name: 'MessageList'}"
-                 block color="blue" outlined>
-            <v-icon color="green">mdi-email</v-icon>
+                 text class="d-flex justify-start">
+            <v-icon :style="{ color: 'orange' ,'font-size': '20px','margin-top':'2px','margin-right':'3px'}">mdi-email</v-icon>
             私信交流
             <span class="red--text ms-4" v-if="unread.unread_messages!=0">{{ unread.unread_messages }}</span>
           </v-btn>
           <v-btn :to="{name: 'Likes'}"
-                 block color="blue" outlined>
-            <v-icon color="green">mdi-heart</v-icon>
+                 text class="d-flex justify-start">
+            <v-icon :style="{ color: 'red' ,'font-size': '20px','margin-top':'2px','margin-right':'3px'}">mdi-heart</v-icon>
             喜欢
             <span class="red--text ms-4" v-if="unread.unread_likes!=0">{{ unread.unread_likes }}</span>
           </v-btn>
           <v-btn :to="{name: 'FollowingPosts'}"
-                 block color="blue" outlined>
-            <v-icon color="green">mdi-access-point</v-icon>
+                  text class="d-flex justify-start">
+            <v-icon :style="{ color: 'green' ,'font-size': '20px','margin-top':'2px','margin-right':'3px'}">face_retouching_natural</v-icon>
             新增粉丝
             <span class="red--text ms-4" v-if="unread.unread_followings!=0">{{ unread.unread_followings }}</span>
           </v-btn>
           <v-btn :to="{name: 'History'}"
-                 block color="blue" outlined>
-            <v-icon color="green">mdi-history</v-icon>
+                 text class="d-flex justify-start">
+            <v-icon :style="{ color: 'pink' ,'font-size': '20px','margin-top':'2px','margin-right':'3px'}">mdi-history</v-icon>
             历史记录
           </v-btn>
+          </v-row>
         </v-card>
       </v-col>
       <v-col cols="12" md="9">
         <router-view></router-view>
       </v-col>
       
-    </v-row>
+    </div>
   </div>
 </template>
 
@@ -118,5 +121,15 @@ export default {
 </script>
 
 <style scoped>
-
+hr.mx-4.v-divider.theme--light{
+  margin-top:-10px;
+  
+}
+.v-btn {
+  text-transform: none;
+  font-size: 20;
+  width: 80%;
+  margin-top: -13px;
+  margin-bottom: 18px;
+}
 </style>

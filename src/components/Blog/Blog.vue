@@ -91,7 +91,7 @@
                    <v-icon :style="{'font-size':'20px',color:'#00AEEC'}">message</v-icon> {{ comments.length }}
                   </a>
                 </li>
-                <li><v-icon :style="{'font-size':'20px'}">visibility</v-icon>{{ post.views }} 次阅读</li>
+                <li class="my-auto"><v-icon :style="{'font-size':'20px','margin-bottom':'2px'}">visibility</v-icon> {{ post.views }} 次阅读</li>
               </ul>
               <div v-if="post.author && post.author.id == sharedState.user_id">
                 <v-btn
