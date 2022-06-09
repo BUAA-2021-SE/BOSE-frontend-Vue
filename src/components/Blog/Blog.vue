@@ -946,7 +946,6 @@ export default {
           console.log(this.sharedState.user_id);
           this.ifStarred = false;
           if (
-            this.post.stars_id &&
             this.post.stars_id.indexOf(this.sharedState.user_id) != -1
           ) {
             this.ifStarred = true;
@@ -1150,17 +1149,10 @@ export default {
     },
   },
   computed: {
-    content() {
-      return this.post.body;
-    },
     btnOutlineColor() {
-      if (this.sharedState.is_authenticated) {
-        if (
-          this.post.likers_id &&
-          this.post.likers_id.indexOf(this.sharedState.user_id) != -1
-        ) {
+      if (this.sharedState.is_authenticated && 
+      this.post.likers_id.indexOf(this.sharedState.user_id) != -1) {
           return true;
-        }
       }
       return false;
     },
