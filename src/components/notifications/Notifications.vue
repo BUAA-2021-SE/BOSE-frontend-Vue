@@ -18,31 +18,31 @@
           <v-row class="justify-center">
           <v-btn :to="{name: 'ReceivedComments'}"
                text class="d-flex justify-start">
-            <v-icon :style="{ color: '#00AEEC' ,'font-size': '20px','margin-top':'2px','margin-right':'3px'}">mdi-comment</v-icon>
+            <v-icon :style="{ color: '#00AEEC' ,'font-size': '20px','margin-top':'2px','margin-right':'3px'}">comment</v-icon>
             收到评论
             <span class="red--text ms-4" v-if="unread.unread_comments!=0">{{ unread.unread_comments }}</span>
           </v-btn>
           <v-btn :to="{name: 'MessageList'}"
                  text class="d-flex justify-start">
-            <v-icon :style="{ color: 'orange' ,'font-size': '20px','margin-top':'2px','margin-right':'3px'}">mdi-email</v-icon>
+            <v-icon :style="{ color: 'orange' ,'font-size': '20px','margin-top':'2px','margin-right':'3px'}">email</v-icon>
             私信交流
             <span class="red--text ms-4" v-if="unread.unread_messages!=0">{{ unread.unread_messages }}</span>
           </v-btn>
           <v-btn :to="{name: 'Likes'}"
                  text class="d-flex justify-start">
-            <v-icon :style="{ color: 'red' ,'font-size': '20px','margin-top':'2px','margin-right':'3px'}">mdi-heart</v-icon>
+            <v-icon :style="{ color: 'red' ,'font-size': '20px','margin-top':'2px','margin-right':'3px'}">favorite</v-icon>
             喜欢
             <span class="red--text ms-4" v-if="unread.unread_likes!=0">{{ unread.unread_likes }}</span>
           </v-btn>
           <v-btn :to="{name: 'FollowingPosts'}"
                   text class="d-flex justify-start">
-            <v-icon :style="{ color: 'green' ,'font-size': '20px','margin-top':'2px','margin-right':'3px'}">face_retouching_natural</v-icon>
+            <v-icon :style="{ color: 'green' ,'font-size': '20px','margin-top':'2px','margin-right':'3px'}" >face_retouching_natural</v-icon>
             新增粉丝
             <span class="red--text ms-4" v-if="unread.unread_followings!=0">{{ unread.unread_followings }}</span>
           </v-btn>
           <v-btn :to="{name: 'History'}"
                  text class="d-flex justify-start">
-            <v-icon :style="{ color: 'pink' ,'font-size': '20px','margin-top':'2px','margin-right':'3px'}">mdi-history</v-icon>
+            <v-icon :style="{ color: 'pink' ,'font-size': '20px','margin-top':'2px','margin-right':'3px'}">history</v-icon>
             历史记录
           </v-btn>
           </v-row>
