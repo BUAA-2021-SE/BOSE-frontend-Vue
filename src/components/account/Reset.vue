@@ -26,7 +26,7 @@
                     filled
                     clearable
                     required
-                    :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
+                    :append-icon="showPassword ? 'visibility' : 'visibility_off'"
                     :type="showPassword ? 'text' : 'password'"
                     @click:append="showPassword = !showPassword"
                     autocomplete="new-password"
@@ -40,7 +40,7 @@
                     counter="16"
                     required
                     clearable
-                    :append-icon="showPassword2 ? 'mdi-eye' : 'mdi-eye-off'"
+                    :append-icon="showPassword2 ? 'visibility' : 'visibility_off'"
                     :type="showPassword2 ? 'text' : 'password'"
                     @click:append="showPassword2 = !showPassword2"
                     autocomplete="new-password"

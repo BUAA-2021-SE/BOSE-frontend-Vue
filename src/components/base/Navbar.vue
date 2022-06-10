@@ -20,7 +20,7 @@
     </router-link>
     <v-spacer/>
     <v-text-field
-        append-icon="mdi-magnify"
+        append-icon="search"
         @click:append="searchBlog"
         @keyup.enter="searchBlog"
         flat
